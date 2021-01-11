@@ -1,6 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 * linguist-vendored
-*.cpp
-*.c
-*.cs
+*.cpp linguist-vendored=false
+*.c linguist-vendored=false
+*.cs linguist-vendored=false
