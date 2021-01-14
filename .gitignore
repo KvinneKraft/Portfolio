@@ -6,3 +6,8 @@ ThaDasher/.vs/ThaDasher/v15/Server/sqlite3/db.lock
 ThaDasher/.vs/ThaDasher/v15/Server/sqlite3/storage.ide
 ThaDasher/.vs/ThaDasher/v15/Server/sqlite3/storage.ide-wal
 *.cache
+*.lock
+DashlorisX/.vs/DashlorisX/v15/.suo
+*.ide
+*.ide-shm
+*.ide-wal
