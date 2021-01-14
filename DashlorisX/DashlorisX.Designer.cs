@@ -1,6 +1,6 @@
 ﻿namespace DashlorisX
 {
-    partial class Form1
+    partial class DashlorisX
     {
 	/// <summary>
 	/// Required designer variable.

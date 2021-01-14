@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// Author: Dashie
+// Version: 1.0
+//
+// <description>
+//
+
+using System;
 using System.Windows.Forms;
 
 namespace DashlorisX
 {
     static class Program
     {
-	/// <summary>
-	/// The main entry point for the application.
-	/// </summary>
 	[STAThread]
 	static void Main()
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
-	    Application.Run(new Form1());
+
+	    var loris = new DashlorisX();
+
+	    loris.ShowDialog();
 	}
     }
 }
