@@ -38,7 +38,7 @@ namespace ThaDasher
 		{
 		    var BAR_SIZE = new Size(TOP.Width, 24);
 		    var BAR_LOCA = new Point(0, 0);
-		    var BAR_COLA = Color.FromArgb(12, 12, 12);
+		    var BAR_COLA = Color.FromArgb(8, 8, 8);
 
 		    CONTROL.Image(TOP, BAR, BAR_SIZE, BAR_LOCA, null, BAR_COLA);
 
@@ -206,18 +206,18 @@ namespace ThaDasher
 			    {
 				HandleIntegerError();
 				return;
-			    };
+			    }
 
 			    if (b < a)
 			    {
 				print("The lowest port in a range of ports can not be lower than the end of the range.", Type.Error);
 				return;
-			    };
+			    }
 
 			    for (int k = a; k <= b; k += 1)
 			    {
 				ports.Add(k);
-			    };
+			    }
 
 			    mode = 1;
 			}
@@ -244,7 +244,7 @@ namespace ThaDasher
 				{
 				    HandleIntegerError();
 				    return;
-				};
+				}
 
 				ports.Add(c);
 			    }
@@ -268,7 +268,7 @@ namespace ThaDasher
 			    if (ports[ports.IndexOf(port)] == ports.Count / 2)
 			    {
 				print("Almost done!", Type.Info);
-			    };
+			    }
 
 			    var result = sock.BeginConnect(host, port, null, null);
 			    var succes = result.AsyncWaitHandle.WaitOne(175, true);
@@ -291,7 +291,7 @@ namespace ThaDasher
 			}
 
 			sock.Close();
-		    };
+		    }
 
 		    print("The scan has ended successfully!", Type.Success);
 		    print("Press YES to see all open ports and NUU to see all closed ports.", Type.Info);

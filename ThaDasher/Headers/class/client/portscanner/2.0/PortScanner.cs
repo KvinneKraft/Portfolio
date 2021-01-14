@@ -234,7 +234,6 @@ namespace ThaDasher
 
 				if (port < 1 || port > 65535)
 				{
-				    MessageBox.Show(port.ToString());
 				    portData.Add(-1);
 				    break;
 				}
@@ -257,13 +256,13 @@ namespace ThaDasher
 		    }
 
 		    else
-		    {
+		    {//Fix single ports, work on dashloris
 			var port = int.Parse(portdata.Replace(",", "").Replace(" ", ""));
 			portData.Add(port);
 		    }
 		}
 
-		catch
+		catch (Exception e)
 		{
 		    portData.Add(-1);
 		}
@@ -371,7 +370,7 @@ namespace ThaDasher
 
 		SetPort(portdata);
 
-		if (!portData.Contains(-1) && portData.Count > 1)
+		if (!portData.Contains(-1) && portData.Count > 0)
 		{
 		    StartScan();
 		}
@@ -651,6 +650,7 @@ namespace ThaDasher
 			    {
 				SCAN_PROGRESS.Stop();
 				SCAN_PROGRESS.Hide();
+				SCAN_PROGRESS.Show(PORT_T.Text);
 			    }
 			};
 

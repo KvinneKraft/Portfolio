@@ -89,7 +89,7 @@ namespace ThaDasher
 
 	    var BUTT_SIZE = new Size(150, 27);
 	    var BUTT_LOCA = new Point(0, 0);
-	    var BUTT_BCOL = Color.FromArgb(16, 16, 16);
+	    var BUTT_BCOL = Color.FromArgb(8, 8, 8);
 	    var BUTT_FCOL = Color.White;
 
 	    CONTROL.Button(VERSION_CONTAINER, VERSION_1, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "Version 1", Color.Empty);

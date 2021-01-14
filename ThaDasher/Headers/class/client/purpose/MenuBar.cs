@@ -14,7 +14,7 @@ namespace ThaDasher
 	{
 	    try
 	    {
-		CONTROL.MenuBar(TOP, (int)MENUBAR.STYLE.THIC, true, Color.FromArgb(12, 12, 12), Color.FromArgb(12, 12, 12));
+		CONTROL.MenuBar(TOP, (int)MENUBAR.STYLE.THIC, true, Color.FromArgb(8,8,8), Color.FromArgb(8,8,8));
 	    }
 
 	    catch

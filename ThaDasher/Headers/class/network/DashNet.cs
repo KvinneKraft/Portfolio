@@ -49,15 +49,16 @@ namespace ThaDasher
 	    }
 	}
 
-	readonly static public Dictionary<string, string> target_info = new Dictionary<string, string>();
+	static public string host = string.Empty;
+
+	static public int duration = 0;
+	static public int port = 0;
 
 	public void SendAttack(string shost, int sport, int sdura)
 	{
-	    target_info.Clear();
-
-	    target_info.Add("host", $"{shost}");
-	    target_info.Add("port", $"{sport}");
-	    target_info.Add("dura", $"{sdura}");
+	    host = shost;
+	    duration = sdura;
+	    port = sport;
 
 	    var m = SettingsContainer.CURRENT_METHOD.ToLower();
 
