@@ -1,0 +1,10 @@
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.csprojAssemblyReference.cache
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.Properties.Resources.resources
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.csproj.GenerateResource.cache
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.csproj.CoreCompileInputs.cache
+F:\Programming\Portfolio\DashlorisX\Application\DashlorisX.exe.config
+F:\Programming\Portfolio\DashlorisX\Application\DashlorisX.exe
+F:\Programming\Portfolio\DashlorisX\Application\DashlorisX.pdb
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.exe
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.pdb
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.DashlorisX.resources

@@ -28,10 +28,23 @@
 	/// </summary>
 	private void InitializeComponent()
 	{
-	    this.components = new System.ComponentModel.Container();
+	    this.SuspendLayout();
+	    // 
+	    // DashlorisX
+	    // 
+	    this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 	    this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-	    this.ClientSize = new System.Drawing.Size(800, 450);
-	    this.Text = "Form1";
+	    this.ClientSize = new System.Drawing.Size(334, 261);
+	    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+	    this.MaximizeBox = false;
+	    this.MaximumSize = new System.Drawing.Size(350, 300);
+	    this.MinimizeBox = false;
+	    this.MinimumSize = new System.Drawing.Size(350, 300);
+	    this.Name = "DashlorisX";
+	    this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+	    this.Text = "Dashloris-X";
+	    this.ResumeLayout(false);
+
 	}
 
 	#endregion
