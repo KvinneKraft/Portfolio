@@ -50,7 +50,7 @@ namespace DashlorisX
 	    try
 	    {
 
-		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Color.MidnightBlue);
+		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Color.FromArgb(6, 17, 33));
 		TOOL.Interactive(SLogo, Top);
 
 		CONTROL.Image(Bar, Logo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, BarCola);
