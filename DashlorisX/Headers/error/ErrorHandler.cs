@@ -24,6 +24,7 @@ namespace DashlorisX
 	    {
 		//Custom Dialog Soon
 		MessageBox.Show(error, title, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+		Environment.Exit(-1);
 	    }
 	}
 

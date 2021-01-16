@@ -44,7 +44,7 @@ namespace DashlorisX
 		BackColor = Color.MidnightBlue;
 		Icon = Resources.ICON;
 
-		Tools.Round(this, 4);
+		Tools.Round(this, 6);
 	    }
 
 	    catch (Exception E)
@@ -56,22 +56,26 @@ namespace DashlorisX
 	readonly PictureBox MainContainer = new PictureBox();
 	readonly PictureBox InnerMainContainer = new PictureBox();
 
-	readonly Label Duration_L = new Label();
-	readonly Label Bytes_L = new Label();
-	readonly Label Host_L = new Label();
-	readonly Label Port_L = new Label();
+	readonly static Label Duration_L = new Label();
+	readonly static Label Bytes_L = new Label();
+	readonly static Label Host_L = new Label();
+	readonly static Label Port_L = new Label();
 
-	readonly TextBox Duration_T = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
-	readonly TextBox Bytes_T = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
-	readonly TextBox Host_T = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
-	readonly TextBox Port_T = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
+	readonly List<Label> LabelObjects = new List<Label>() { Host_L, Bytes_L, Port_L, Duration_L };
+
+	readonly static TextBox Duration_T = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox Bytes_T = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox Host_T = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox Port_T = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
+
+	readonly List<TextBox> TextBoxObjects = new List<TextBox>() { Host_T, Bytes_T, Port_T, Duration_T };
 
 	private void InitializeMainField()
 	{
 	    try//Clean this up:
 	    {
-		var MCONTA_SIZE = new Size(Width - 20, 65);
-		var MCONTA_LOCA = new Point(10, MenuBar.Bar.Height + 10);
+		var MCONTA_SIZE = new Size(Width - 22, 65);
+		var MCONTA_LOCA = new Point(11, MenuBar.Bar.Height + 10);
 		var MCONTA_COLA = Color.FromArgb(16, 16, 16);
 
 		Controls.Image(this, MainContainer, MCONTA_SIZE, MCONTA_LOCA, null, MCONTA_COLA);
@@ -89,50 +93,62 @@ namespace DashlorisX
 
 		Controls.Image(MainContainer, InnerMainContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_COLA);
 
-		var LABEL_TEXT = "Host";
-		var LABEL_SIZE = Tools.GetFontSize(LABEL_TEXT, 11);
-		var LABEL_LOCA = new Point(0, 0);
+		var LabelTexts = new List<string>() { "Host", "Bytes", "Port", "Duration" };
+		var TextBoxWidths = new List<int>() { 145, 95 };
 
-		Controls.Label(InnerMainContainer, Host_L, LABEL_SIZE, LABEL_LOCA, InnerMainContainer.BackColor, Color.White, 1, 11, LABEL_TEXT);
-		
-		var TEXTBOX_SIZE = new Size(145, 20);
-		var TEXTBOX_LOCA = new Point(Host_L.Width + Host_L.Left, Host_L.Top);
-		var TEXTBOX_BCOL = Color.FromArgb(8, 8, 8);
+		for (int k1 = 0, tid = 0, h1 = 20; k1 < 2; k1 += 1)
+		{
+		    try
+		    {
+			int x1 = 0;
+			int y1 = 0;
 
-		Controls.TextBox(InnerMainContainer, Host_T, TEXTBOX_SIZE, TEXTBOX_LOCA, TEXTBOX_BCOL, Color.White, 1, 9, Color.Empty);
+			int w3 = 0;
+			int x3 = 0;
 
-		LABEL_TEXT = "Bytes";
-		LABEL_SIZE = Tools.GetFontSize(LABEL_TEXT, 11);
-		LABEL_LOCA = new Point(TEXTBOX_SIZE.Width + TEXTBOX_LOCA.X + 10, 0);
+			if (k1 >= 1)//When layer 1 is done
+			{
+			    y1 += LabelObjects[tid - 1].Height + LabelObjects[tid - 1].Top + 5;
+			}
 
-		Controls.Label(InnerMainContainer, Bytes_L, LABEL_SIZE, LABEL_LOCA, InnerMainContainer.BackColor, Color.White, 1, 11, LABEL_TEXT);
+			for (int k2 = 0; k2 < 2; k2 += 1)
+			{
+			    var LText = LabelTexts[tid];
+			    var LSize = Tools.GetFontSize(LText, 11);
+			    
+			    if (k2 > 0)
+			    {
+				x1 += w3 + x3 + 10;
+			    }
 
-		TEXTBOX_SIZE = new Size(InnerMainContainer.Width - Bytes_L.Left - Bytes_L.Width, TEXTBOX_SIZE.Height);
-		TEXTBOX_LOCA = new Point(Bytes_L.Width + Bytes_L.Left, Bytes_L.Top);
+			    var LLoca = new Point(x1, y1);
 
-		Controls.TextBox(InnerMainContainer, Bytes_T, TEXTBOX_SIZE, TEXTBOX_LOCA, TEXTBOX_BCOL, Color.White, 1, 9, Color.Empty);
+			    Controls.Label(InnerMainContainer, LabelObjects[tid], LSize, LLoca, InnerMainContainer.BackColor, Color.White, 1, 11, LText);
 
-		LABEL_TEXT = "Port";
-		LABEL_SIZE = Tools.GetFontSize(LABEL_TEXT, 11);
-		LABEL_LOCA = new Point(0, TEXTBOX_SIZE.Height + TEXTBOX_LOCA.Y + 5);
+			    var w2 = TextBoxWidths[k1];
 
-		Controls.Label(InnerMainContainer, Port_L, LABEL_SIZE, LABEL_LOCA, InnerMainContainer.BackColor, Color.White, 1, 11, LABEL_TEXT);
+			    if (k2 > 0)
+			    {
+				w2 = InnerMainContainer.Width - LLoca.X - LSize.Width;
+			    }
+			    
+			    var TLoca = new Point(LLoca.X + LSize.Width, y1);
+			    var TSize = new Size(w2, h1);
 
-		TEXTBOX_SIZE = new Size(95, TEXTBOX_SIZE.Height);
-		TEXTBOX_LOCA = new Point(Port_L.Width + Port_L.Left, Port_L.Top);
+			    x3 = TLoca.X;
+			    w3 = w2;
 
-		Controls.TextBox(InnerMainContainer, Port_T, TEXTBOX_SIZE, TEXTBOX_LOCA, TEXTBOX_BCOL, Color.White, 1, 9, Color.Empty);
+			    Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(8, 8, 8), Color.White, 1, 9, Color.Empty);
 
-		LABEL_TEXT = "Duration";
-		LABEL_SIZE = Tools.GetFontSize(LABEL_TEXT, 11);
-		LABEL_LOCA = new Point(TEXTBOX_SIZE.Width + TEXTBOX_LOCA.X + 10, Port_L.Top);
+			    tid += 1;
+			}
+		    }
 
-		Controls.Label(InnerMainContainer, Duration_L, LABEL_SIZE, LABEL_LOCA, InnerMainContainer.BackColor, Color.White, 1, 11, LABEL_TEXT);
-
-		TEXTBOX_SIZE = new Size(InnerMainContainer.Width - Duration_L.Left - Duration_L.Width, TEXTBOX_SIZE.Height);
-		TEXTBOX_LOCA = new Point(Duration_L.Width + Duration_L.Left, Duration_L.Top);
-
-		Controls.TextBox(InnerMainContainer, Duration_T, TEXTBOX_SIZE, TEXTBOX_LOCA, TEXTBOX_BCOL, Color.White, 1, 9, Color.Empty);
+		    catch (Exception E)
+		    {
+			MessageBox.Show($"{E.Message}\r\n|\r\n{E.StackTrace}");
+		    }
+		}
 	    }
 
 	    catch (Exception E)
@@ -181,7 +197,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		ErrorHandler.Utilize($"{E.StackTrace}\r\n----------------------\r\n{E.Message}", "Error Handler");
+		ErrorHandler.Utilize($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------", "Error Handler");
 	    }
 	}
     }
