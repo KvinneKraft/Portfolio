@@ -50,7 +50,7 @@ namespace DashlorisX
 	    try
 	    {
 
-		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Top.BackColor);
+		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Color.MidnightBlue);
 		TOOL.Interactive(SLogo, Top);
 
 		CONTROL.Image(Bar, Logo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, BarCola);
@@ -64,7 +64,7 @@ namespace DashlorisX
 
 	    var TITLE_TEXT = ("Dashloris-X");
 	    var TITLE_SIZE = TOOL.GetFontSize(TITLE_TEXT, 8);
-	    var TITLE_LOCA = new Point(Logo.Width + Logo.Left + 10, (Bar.Height - TITLE_SIZE.Height) / 2);
+	    var TITLE_LOCA = new Point(Logo.Width + Logo.Left + 5, (Bar.Height - TITLE_SIZE.Height) / 2);
 
 	    try
 	    {
@@ -91,7 +91,7 @@ namespace DashlorisX
 		CONTROL.Button(Bar, Minim, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
 		TOOL.Interactive(Minim, Top);
 
-		Minim.Click += (s, e) => Top.Hide();
+		Minim.Click += (s, e) => Top.SendToBack();
 	    }
 
 	    catch
@@ -99,8 +99,8 @@ namespace DashlorisX
 		throw new Exception("Buttons");
 	    }
 
-	    var RECT_SIZE = new Size(Bar.Width, Top.Height - Bar.Height + 1);
-	    var RECT_LOCA = new Point(0, Bar.Height + Bar.Top - 1);
+	    var RECT_SIZE = new Size(Bar.Width - 2, Top.Height - Bar.Height + 1);
+	    var RECT_LOCA = new Point(1, Bar.Height + Bar.Top - 3);
 
 	    try
 	    {
