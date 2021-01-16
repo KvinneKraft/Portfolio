@@ -56,25 +56,33 @@ namespace DashlorisX
 	readonly PictureBox MainContainer = new PictureBox();
 	readonly PictureBox InnerMainContainer = new PictureBox();
 
+	readonly List<Label> LabelObjects = new List<Label>()
+	{
+	    Host_L, Bytes_L,
+	    Port_L, Duration_L
+	};
+
 	readonly static Label Duration_L = new Label();
 	readonly static Label Bytes_L = new Label();
 	readonly static Label Host_L = new Label();
 	readonly static Label Port_L = new Label();
 
-	readonly List<Label> LabelObjects = new List<Label>() { Host_L, Bytes_L, Port_L, Duration_L };
+	readonly List<TextBox> TextBoxObjects = new List<TextBox>()
+	{
+	    Host_T, Bytes_T,
+	    Port_T, Duration_T
+	};
 
 	readonly static TextBox Duration_T = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
 	readonly static TextBox Bytes_T = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
 	readonly static TextBox Host_T = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
 	readonly static TextBox Port_T = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
 
-	readonly List<TextBox> TextBoxObjects = new List<TextBox>() { Host_T, Bytes_T, Port_T, Duration_T };
-
 	private void InitializeMainField()
 	{
-	    try//Clean this up:
+	    try
 	    {
-		var MCONTA_SIZE = new Size(Width - 22, 65);
+		var MCONTA_SIZE = new Size(Width - 22, 64);
 		var MCONTA_LOCA = new Point(11, MenuBar.Bar.Height + 10);
 		var MCONTA_COLA = Color.FromArgb(16, 16, 16);
 
@@ -87,8 +95,8 @@ namespace DashlorisX
 
 		Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_COLA);
 
-		var ICONTA_SIZE = new Size(MCONTA_SIZE.Width - 22, MCONTA_SIZE.Height - 20/*Measure it*/);
-		var ICONTA_LOCA = new Point(10, 10);
+		var ICONTA_SIZE = new Size(MCONTA_SIZE.Width - 22, MCONTA_SIZE.Height - 22/*Measure it*/);
+		var ICONTA_LOCA = new Point(11, 11);
 		var ICONTA_COLA = MCONTA_COLA;
 
 		Controls.Image(MainContainer, InnerMainContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_COLA);
@@ -106,7 +114,7 @@ namespace DashlorisX
 			int w3 = 0;
 			int x3 = 0;
 
-			if (k1 >= 1)//When layer 1 is done
+			if (k1 >= 1)
 			{
 			    y1 += LabelObjects[tid - 1].Height + LabelObjects[tid - 1].Top + 5;
 			}
@@ -116,21 +124,15 @@ namespace DashlorisX
 			    var LText = LabelTexts[tid];
 			    var LSize = Tools.GetFontSize(LText, 11);
 			    
-			    if (k2 > 0)
-			    {
-				x1 += w3 + x3 + 10;
-			    }
-
+			    if (k2 > 0) x1 += (w3 + x3 + 10);
+			
 			    var LLoca = new Point(x1, y1);
 
 			    Controls.Label(InnerMainContainer, LabelObjects[tid], LSize, LLoca, InnerMainContainer.BackColor, Color.White, 1, 11, LText);
 
-			    var w2 = TextBoxWidths[k1];
+			    int w2 = TextBoxWidths[k1];
 
-			    if (k2 > 0)
-			    {
-				w2 = InnerMainContainer.Width - LLoca.X - LSize.Width;
-			    }
+			    if (k2 > 0) w2 = (InnerMainContainer.Width - LLoca.X - LSize.Width);
 			    
 			    var TLoca = new Point(LLoca.X + LSize.Width, y1);
 			    var TSize = new Size(w2, h1);
