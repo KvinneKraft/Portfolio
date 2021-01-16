@@ -268,4 +268,18 @@ namespace DashlorisX
 	    }
 	}
     }
+
+    static class Program
+    {
+	[STAThread]
+	static void Main()
+	{
+	    Application.EnableVisualStyles();
+	    Application.SetCompatibleTextRenderingDefault(false);
+
+	    var loris = new DashlorisX();
+
+	    loris.ShowDialog();
+	}
+    }
 }
