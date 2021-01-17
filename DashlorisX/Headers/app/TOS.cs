@@ -1,0 +1,165 @@
+﻿// Author: Dashie
+// Version: 1.0
+//
+// <description>
+//
+
+using System;
+using System.IO;
+using System.Net;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+using DashlorisX.Properties;
+
+namespace DashlorisX
+{
+    public class TOS : Form
+    {
+	new readonly public DashControls Controls = new DashControls();
+
+	readonly public DashMenuBar MenuBar = new DashMenuBar();
+	readonly public DashTools Tools = new DashTools();
+
+	private void InitializeMenuBar()
+	{
+	    try
+	    {
+		var BAR_COLA = Color.FromArgb(8, 8, 8);
+		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	private void InitializeLayout()
+	{
+	    try
+	    {
+		BackColor = Color.FromArgb(6, 17, 33);
+		Tools.Round(this, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	
+	readonly public PictureBox MainContainer = new PictureBox();
+	readonly public PictureBox TextContainer = new PictureBox();
+
+	private static string GetText()
+	{
+	    return string.Format(
+		"(1) When using this application you automatically agree with the Terms of Services.\r\n\r\n" +
+		"(2) When using this application you automatically confirm you claim responsibility for any use if any.\r\n\r\n" +
+		"(3) When using this application you automatically confirm you are aware of the impact this application can have when used wrongly.\r\n\r\n" +
+		"(4) When using this application you automatically confirm you are aware of the laws corresponding to DDoS/DoS/Flood attacks in your country.\r\n\r\n" +
+		"(5) When using this application you automatically confirm I Dashie am not responsible for any harm inflicted upon any using this application or any of its sub-components.\r\n\r\n"
+	    );
+	}
+
+	readonly public TextBox TextBox = new TextBox() { Text = GetText() };
+
+	readonly public Button Agree = new Button();
+
+	private void InitializeTextBox()
+	{
+	    try
+	    {
+		var MCONT_SIZE = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height);
+		var MCONT_LOCA = new Point(10, MenuBar.Bar.Height + 10);
+		var MCONT_BCOL = Color.FromArgb(16, 16, 16);
+
+		Controls.Image(this, MainContainer, MCONT_SIZE, MCONT_LOCA, null, MCONT_BCOL);
+		Tools.Round(MainContainer, 4);
+
+		var MRECT_SIZE = new Size(MCONT_SIZE.Width - 2, MCONT_SIZE.Height - 2);
+		var MRECT_LOCA = new Point(1, 1);
+		var MRECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
+
+		var TCONT_SIZE = new Size(MCONT_SIZE.Width - 5, MCONT_SIZE.Height - 5);
+		var TCONT_LOCA = new Point(3, 3);
+		var TCONT_BCOL = MCONT_BCOL;
+
+		Controls.Image(MainContainer, TextContainer, TCONT_SIZE, TCONT_LOCA, null, TCONT_BCOL);
+		Tools.Round(TextContainer, 6);
+
+		var TBOX_SIZE = TCONT_SIZE;
+		var TBOX_LOCA = new Point(0, 0);
+		var TBOX_BCOL = MCONT_BCOL;
+		var TBOX_FCOL = Color.White;
+
+		Controls.TextBox(TextContainer, TextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 9, Color.Empty, READONLY:true, SCROLLBAR:true, MULTILINE:true, FIXEDSIZE:false);
+
+		var BUTT_SIZE = new Size(85, 26);
+		var BUTT_LOCA = new Point((TextBox.Width - BUTT_SIZE.Width) / 2, TextBox.Height - BUTT_SIZE.Height - 10);
+		var BUTT_BCOL = Color.MidnightBlue;
+		var BUTT_FCOL = Color.White;
+
+		Controls.Button(TextBox, Agree, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "I Agree", Color.Empty);
+
+		Agree.Click += (s, e) =>
+		{
+		    Close();
+		};
+
+		Tools.Round(Agree, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	public TOS()
+	{
+	    InitializeComponent();
+
+	    try
+	    {
+		InitializeMenuBar();
+		InitializeLayout();
+		InitializeTextBox();
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.Utilize($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------", "Error Handler");
+	    }
+	}
+
+	private void InitializeComponent()
+	{
+	    SuspendLayout();
+
+	    ClientSize = new Size(284, 261);
+	    MaximizeBox = false;
+
+	    MaximumSize = new Size(300, 300);
+	    MinimumSize = new Size(300, 300);
+
+	    StartPosition = FormStartPosition.CenterScreen;
+	    FormBorderStyle = FormBorderStyle.None;
+
+	    Text = "DashlorisX TOS";
+	    Tag = "DashlorisX TOS";
+	    Name = "TOS";
+
+	    Icon = Resources.ICON;
+
+	    ResumeLayout(false);
+
+	}
+    }
+}

@@ -8,3 +8,4 @@ F:\Programming\Portfolio\DashlorisX\Application\DashlorisX.pdb
 F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.exe
 F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.pdb
 F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.DashlorisX.resources
+F:\Programming\Portfolio\DashlorisX\obj\Release\DashlorisX.TOS.resources

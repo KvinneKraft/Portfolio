@@ -55,14 +55,19 @@
     <Compile Include="DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </Compile>
+    <Compile Include="Headers\app\TOS.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Headers\error\ErrorHandler.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
     <Compile Include="Headers\util\DashMenuBar.cs" />
     <Compile Include="Headers\util\DashTools.cs" />
-    <Compile Include="Properties\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="DashlorisX.resx">
       <DependentUpon>DashlorisX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Headers\app\TOS.resx">
+      <DependentUpon>TOS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

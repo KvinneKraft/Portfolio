@@ -62,7 +62,7 @@ namespace DashlorisX
 		throw new Exception("Logo");
 	    }
 
-	    var TITLE_TEXT = ("Dashloris-X");
+	    var TITLE_TEXT = ("Dashloris-X ToS");
 	    var TITLE_SIZE = TOOL.GetFontSize(TITLE_TEXT, 8);
 	    var TITLE_LOCA = new Point(Logo.Width + Logo.Left + 5, (Bar.Height - TITLE_SIZE.Height) / 2);
 
@@ -85,7 +85,7 @@ namespace DashlorisX
 		CONTROL.Button(Bar, Close, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
 		TOOL.Interactive(Close, Top);
 
-		Close.Click += (s, e) => Top.Close();
+		Close.Click += (s, e) => Environment.Exit(-1);
 		BUTTO_LOCA.X -= BUTTO_SIZE.Width;
 
 		CONTROL.Button(Bar, Minim, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
