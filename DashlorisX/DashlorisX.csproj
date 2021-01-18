@@ -61,6 +61,9 @@
     <Compile Include="Headers\app\dashlorisx\DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </Compile>
+    <Compile Include="Headers\app\dashlorisx\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Headers\app\pinger\DashPing.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -204,7 +204,7 @@ namespace DashlorisX
 		var BUTTO_BCOL = Color.FromArgb(23, 33, 51);//61, 13, 17);
 		var BUTTO_FCOL = Color.White;
 
-		var ButtonTexts = new List<string>() { "Launch", "Properties", "Online", "About" };
+		var ButtonTexts = new List<string>() { "Launch", "Settings", "Online", "About" };
 
 		var y = 0;
 
@@ -274,7 +274,7 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new DashPing().ShowDialog();
+	    new Settings().ShowDialog();
 	    Environment.Exit(-1);
 
 	    ShowToS();
