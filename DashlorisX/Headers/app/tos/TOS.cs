@@ -18,10 +18,10 @@ namespace DashlorisX
 {
     public class TOS : Form
     {
-	new readonly public DashControls Controls = new DashControls();
+	new readonly DashControls Controls = new DashControls();
 
-	readonly public DashMenuBar MenuBar = new DashMenuBar();
-	readonly public DashTools Tools = new DashTools();
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X TOS", minim:false);
+	readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
 	{
@@ -52,8 +52,8 @@ namespace DashlorisX
 	}
 
 	
-	readonly public PictureBox MainContainer = new PictureBox();
-	readonly public PictureBox TextContainer = new PictureBox();
+	readonly PictureBox MainContainer = new PictureBox();
+	readonly PictureBox TextContainer = new PictureBox();
 
 	private static string GetText()
 	{
@@ -66,9 +66,8 @@ namespace DashlorisX
 	    );
 	}
 
-	readonly public TextBox TextBox = new TextBox() { Text = GetText() };
-
-	readonly public Button Agree = new Button();
+	readonly TextBox TextBox = new TextBox() { Text = GetText() };
+	readonly Button Agree = new Button();
 
 	private void InitializeTextBox()
 	{
@@ -135,7 +134,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		ErrorHandler.Utilize($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------", "Error Handler");
+		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
 	}
 
@@ -159,7 +158,6 @@ namespace DashlorisX
 	    Icon = Resources.ICON;
 
 	    ResumeLayout(false);
-
 	}
     }
 }

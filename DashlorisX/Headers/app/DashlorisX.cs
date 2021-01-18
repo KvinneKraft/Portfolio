@@ -18,10 +18,9 @@ namespace DashlorisX
 {
     public partial class DashlorisX : Form
     {
-	new public readonly DashControls Controls = new DashControls();
-	public readonly DashTools Tools = new DashTools();
-
-	public static readonly DashMenuBar MenuBar = new DashMenuBar();
+	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X");
+	new readonly DashControls Controls = new DashControls();
+	readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
 	{
@@ -262,19 +261,26 @@ namespace DashlorisX
 	}
     }
 
-    static class Program
+    public static class Program
     {
+	private static void RunDashlorisX() =>
+	    Application.Run(new DashlorisX());
+
+	private static void ShowToS() =>
+	   new TOS().ShowDialog();
+
 	[STAThread]
-	static void Main()
+	public static void Main()
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new TOS().ShowDialog();
+	    new About().ShowDialog();
 
-	    var loris = new DashlorisX();
-	    
-	    Application.Run(loris);
+	    Environment.Exit(-1);
+
+	    ShowToS();
+	    RunDashlorisX();
 	}
     }
 }

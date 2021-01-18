@@ -28,6 +28,11 @@ namespace DashlorisX
 	    }
 	}
 
+	public static string GetFormat(Exception E)
+	{
+	    return ($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------");
+	}
+
 	public static void Utilize(string error, string title, bool thread = false)
 	{
 	    new Thread(() => {

@@ -18,6 +18,16 @@ namespace DashlorisX
 	readonly public DashControls CONTROL = new DashControls();
 	readonly public DashTools TOOL = new DashTools();
 
+	bool minim = true, close = true;
+
+	public DashMenuBar(string title, bool minim = true, bool close = true)
+	{
+	    this.minim = minim;
+	    this.close = close;
+
+	    Title.Text = (title);
+	}
+
 	readonly public PictureBox SLogo = new PictureBox();
 	readonly public PictureBox Logo = new PictureBox();
 	readonly public PictureBox Bar = new PictureBox();
@@ -49,7 +59,6 @@ namespace DashlorisX
 
 	    try
 	    {
-
 		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Color.FromArgb(6, 17, 33));
 		TOOL.Interactive(SLogo, Top);
 
@@ -62,7 +71,7 @@ namespace DashlorisX
 		throw new Exception("Logo");
 	    }
 
-	    var TITLE_TEXT = ("Dashloris-X ToS");
+	    var TITLE_TEXT = (Title.Text);
 	    var TITLE_SIZE = TOOL.GetFontSize(TITLE_TEXT, 8);
 	    var TITLE_LOCA = new Point(Logo.Width + Logo.Left + 5, (Bar.Height - TITLE_SIZE.Height) / 2);
 
@@ -82,16 +91,27 @@ namespace DashlorisX
 
 	    try
 	    {
-		CONTROL.Button(Bar, Close, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
-		TOOL.Interactive(Close, Top);
 
-		Close.Click += (s, e) => Environment.Exit(-1);
-		BUTTO_LOCA.X -= BUTTO_SIZE.Width;
+		if (close)
+		{
+		    CONTROL.Button(Bar, Close, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
+		    TOOL.Interactive(Close, Top);
 
-		CONTROL.Button(Bar, Minim, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
-		TOOL.Interactive(Minim, Top);
+		    Close.Click += (s, e) => Environment.Exit(-1);
+		}
 
-		Minim.Click += (s, e) => Top.SendToBack();
+		if (close && minim)
+		{
+		    BUTTO_LOCA.X -= BUTTO_SIZE.Width;
+		}
+
+		if (minim)
+		{
+		    CONTROL.Button(Bar, Minim, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
+		    TOOL.Interactive(Minim, Top);
+
+		    Minim.Click += (s, e) => Top.SendToBack();
+		}
 	    }
 
 	    catch
