@@ -20,7 +20,7 @@ namespace DashlorisX
     {
 	new readonly DashControls Controls = new DashControls();
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X TOS", minim:false);
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  TOS", minim:false);
 	readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
@@ -141,9 +141,6 @@ namespace DashlorisX
 	private void InitializeComponent()
 	{
 	    SuspendLayout();
-
-	    ClientSize = new Size(284, 261);
-	    MaximizeBox = false;
 
 	    MaximumSize = new Size(300, 300);
 	    MinimumSize = new Size(300, 300);

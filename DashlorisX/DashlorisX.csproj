@@ -52,11 +52,17 @@
     <Compile Include="Headers\app\about\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\app\DashlorisX.cs">
+    <Compile Include="Headers\app\dashlorisx\AttackLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\app\DashlorisX.Designer.cs">
+    <Compile Include="Headers\app\dashlorisx\DashlorisX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Headers\app\dashlorisx\DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Headers\app\pinger\DashPing.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\tos\TOS.cs">
       <SubType>Form</SubType>
@@ -69,7 +75,7 @@
     <EmbeddedResource Include="Headers\app\about\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Headers\app\DashlorisX.resx">
+    <EmbeddedResource Include="Headers\app\dashlorisx\DashlorisX.resx">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Headers\app\tos\TOS.resx">

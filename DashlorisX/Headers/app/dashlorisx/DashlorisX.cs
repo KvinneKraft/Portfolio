@@ -27,7 +27,6 @@ namespace DashlorisX
 	    try
 	    {
 		Color BAR_COLA = Color.FromArgb(8, 8, 8);
-
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 
@@ -256,7 +255,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		ErrorHandler.Utilize($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------", "Error Handler");
+		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
 	}
     }
@@ -275,8 +274,7 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new About().ShowDialog();
-
+	    new DashPing().ShowDialog();
 	    Environment.Exit(-1);
 
 	    ShowToS();
