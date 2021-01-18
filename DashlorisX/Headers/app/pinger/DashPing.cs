@@ -91,12 +91,6 @@ namespace DashlorisX
 		Controls.Image(this, HostContainer, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
 		Tools.Round(HostContainer, 6);
 
-		var RECT_SIZE = new Size(HostContainer.Width - 2, HostContainer.Height - 2);
-		var RECT_LOCA = new Point(1, 1);
-		var RECT_BCOL = Color.FromArgb(8, 8, 8);
-
-		Tools.PaintRectangle(HostContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
-
 		var LABEL_TEXT = string.Format("Host:");
 		var LABEL_SIZE = Tools.GetFontSize(LABEL_TEXT, 10);
 		var LABEL_LOCA = new Point(8, (HostContainer.Height - LABEL_SIZE.Height) / 2);
@@ -127,6 +121,12 @@ namespace DashlorisX
 
 		Controls.TextBox(HostContainer, PortTextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 10, Color.Empty);
 		Tools.Round(GetDeepToll(), 6);
+
+		var RECT_SIZE = new Size(HostContainer.Width - 2, HostContainer.Height - 2);
+		var RECT_LOCA = new Point(1, 1);
+		var RECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		Tools.PaintRectangle(HostContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 	    }
 
 	    catch (Exception E)
@@ -135,12 +135,27 @@ namespace DashlorisX
 	    }
 	}
 
+	readonly PictureBox InnerOptionContainer = new PictureBox();
 	readonly PictureBox OptionContainer = new PictureBox();
 	readonly PictureBox ICMPBox = new PictureBox();
 	readonly PictureBox TCPBox = new PictureBox();
 
 	readonly Label ICMPTitle = new Label();
 	readonly Label TCPTitle = new Label();
+
+	private bool IsOnline()
+	{
+	    try
+	    {
+
+		return true;
+	    }
+
+	    catch
+	    {
+		return false;
+	    }
+	}
 
 	readonly Button Check = new Button();
 
@@ -154,6 +169,36 @@ namespace DashlorisX
 
 		Controls.Image(this, OptionContainer, OCON_SIZE, OCON_LOCA, null, OCON_BCOL);
 		Tools.Round(OptionContainer, 6);
+
+		var BUTT_SIZE = new Size(90, 26);
+		var BUTT_LOCA = new Point(10, 10);
+		var BUTT_BCOL = Color.FromArgb(10, 10, 10);//23, 33, 51);
+		var BUTT_FCOL = Color.White;
+
+		Controls.Button(OptionContainer, Check, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 9, "Check", Color.Empty);
+		Tools.Round(Check, 8);
+
+		Check.Click += (s, e) =>
+		{
+		    if (!IsOnline())
+		    {
+			StatusLabel.Text = "Status: Online!";
+		    }
+
+		    else
+		    {
+			StatusLabel.Text = "Status: Offline!";
+		    }
+		};
+
+		var LABEL_BCOL = OptionContainer.BackColor;
+		var LABEL_FCOL = Color.White;
+
+		var ICMPL_TEXT = string.Format("ICMP:");
+		var ICMPL_SIZE = Tools.GetFontSize(ICMPL_TEXT, 10);
+		var ICMPL_LOCA = new Point(Check.Left + Check.Width + 10, (OptionContainer.Height - ICMPL_SIZE.Height) / 2);
+
+		Controls.Label(OptionContainer, ICMPTitle, ICMPL_SIZE, ICMPL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, ICMPL_TEXT);
 
 		var RECT_SIZE = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
 		var RECT_LOCA = new Point(1, 1);
