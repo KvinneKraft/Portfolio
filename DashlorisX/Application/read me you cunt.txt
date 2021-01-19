@@ -1,0 +1,11 @@
+// Dropdown menu class -> Integrate for method types and versions.
+/*
+* [TO-DOS]
+DashNet Class for IP and Port parsing Class thing
+Dropdown Menu Class
+Log Container Dialog Class
+GUI Pre-Setup Class
+Integrate Dropdown Menu for Methods / HTTP Versions
+Integrate DashNet Class for Pinger
+Upload Website
+*/

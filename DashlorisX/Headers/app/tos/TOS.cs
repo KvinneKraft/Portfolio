@@ -77,42 +77,82 @@ namespace DashlorisX
 		var MCONT_LOCA = new Point(10, MenuBar.Bar.Height + 10);
 		var MCONT_BCOL = Color.FromArgb(16, 16, 16);
 
-		Controls.Image(this, MainContainer, MCONT_SIZE, MCONT_LOCA, null, MCONT_BCOL);
-		Tools.Round(MainContainer, 4);
+		try
+		{
+		    Controls.Image(this, MainContainer, MCONT_SIZE, MCONT_LOCA, null, MCONT_BCOL);
+		    Tools.Round(MainContainer, 4);
+		}
 
-		var MRECT_SIZE = new Size(MCONT_SIZE.Width - 2, MCONT_SIZE.Height - 2);
-		var MRECT_LOCA = new Point(1, 1);
-		var MRECT_BCOL = Color.FromArgb(8, 8, 8);
-
-		Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
+		catch
+		{
+		    throw new Exception("Main Container");
+		}
 
 		var TCONT_SIZE = new Size(MCONT_SIZE.Width - 5, MCONT_SIZE.Height - 5);
 		var TCONT_LOCA = new Point(3, 3);
 		var TCONT_BCOL = MCONT_BCOL;
 
-		Controls.Image(MainContainer, TextContainer, TCONT_SIZE, TCONT_LOCA, null, TCONT_BCOL);
-		Tools.Round(TextContainer, 6);
+		try
+		{
+		    Controls.Image(MainContainer, TextContainer, TCONT_SIZE, TCONT_LOCA, null, TCONT_BCOL);
+		    Tools.Round(TextContainer, 6);
+		}
+		
+		catch
+		{
+		    throw new Exception("Text Container");
+		}
 
 		var TBOX_SIZE = TCONT_SIZE;
 		var TBOX_LOCA = new Point(0, 0);
 		var TBOX_BCOL = MCONT_BCOL;
 		var TBOX_FCOL = Color.White;
 
-		Controls.TextBox(TextContainer, TextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 9, Color.Empty, READONLY:true, SCROLLBAR:true, MULTILINE:true, FIXEDSIZE:false);
+		try
+		{
+		    Controls.TextBox(TextContainer, TextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 9, Color.Empty, READONLY: true, SCROLLBAR: true, MULTILINE: true, FIXEDSIZE: false);
+		}
+
+		catch
+		{
+		    throw new Exception("Text Box");
+		}
 
 		var BUTT_SIZE = new Size(85, 26);
 		var BUTT_LOCA = new Point((TextBox.Width - BUTT_SIZE.Width) / 2, TextBox.Height - BUTT_SIZE.Height - 10);
 		var BUTT_BCOL = Color.FromArgb(3, 18, 26);//MenuBar.Bar.BackColor;
 		var BUTT_FCOL = Color.White;
 
-		Controls.Button(TextBox, Agree, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "I Agree", Color.Empty);
-
-		Agree.Click += (s, e) =>
+		try
 		{
-		    Close();
-		};
+		    Controls.Button(TextBox, Agree, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "I Agree", Color.Empty);
 
-		Tools.Round(Agree, 6);
+		    Agree.Click += (s, e) =>
+		    {
+			Close();
+		    };
+
+		    Tools.Round(Agree, 6);
+		}
+
+		catch
+		{
+		    throw new Exception("Agree");
+		}
+
+		var MRECT_SIZE = new Size(MCONT_SIZE.Width - 2, MCONT_SIZE.Height - 2);
+		var MRECT_LOCA = new Point(1, 1);
+		var MRECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		try
+		{
+		    Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
+		}
+
+		catch
+		{
+		    throw new Exception("Main Container Rectangle");
+		}
 	    }
 
 	    catch (Exception E)

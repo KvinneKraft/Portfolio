@@ -68,7 +68,7 @@ namespace DashlorisX
 	    {
 		var CCON_SIZE = new Size(Width - 20, 70);
 		var CCON_LOCA = new Point(10, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
-		var CCON_BCOL = Color.FromArgb(16, 16, 16);
+		var CCON_BCOL = Color.FromArgb(9, 39, 66);//16, 16, 16);
 
 		try
 		{
@@ -149,18 +149,6 @@ namespace DashlorisX
 		{
 		    throw new Exception("Setting Controls");
 		}
-
-		// Dropdown menu class -> Integrate for method types and versions.
-		/*
-		 * [TO-DOS]
-    		    DashNet Class for IP and Port parsing
-		    Dropdown Menu Class 
-		    Integrate Dropdown Menu for Methods / HTTP Versions
-		    Log Container Dialog Class
-		    GUI Setup Class
-		    Upload Website
-		    Restyle DashlorisX.cs
-		 */
 	    }
 
 	    catch (Exception E)
@@ -172,22 +160,68 @@ namespace DashlorisX
 	readonly PictureBox InnerBottomBarContainer = new PictureBox();
 	readonly PictureBox BottomBar = new PictureBox();
 
-	readonly Button Cancel = new Button();
+	new readonly Button Close = new Button();
 	readonly Button Save = new Button();
 	readonly Button Help = new Button();
 
 	private void InitializeBottomBar()
 	{
-	    var
+	    var BCON_SIZE = new Size(Width, 44);
+	    var BCON_LOCA = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 11);
+	    var BCON_BCOL = MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		// Location Y: ConfigurationContainer.Top + ConfigurationContainer.Height + 10
+		Controls.Image(this, BottomBar, BCON_SIZE, BCON_LOCA, null, BCON_BCOL);
 	    }
 
-	    catch (Exception E)
+	    catch
 	    {
-		throw (E);
+		throw new Exception("Bottom Bar");
+	    }
+
+	    var BUTTON_BCOL = BottomBar.BackColor;
+	    var BUTTON_FCOL = Color.White;
+	    var BUTTON_SIZE = new Size(100, 32);
+
+	    var CLOSE_LOCA = new Point(BUTTON_SIZE.Width * 2 + 20, 0);
+	    var HELP_LOCA = new Point(BUTTON_SIZE.Width + 10, 0);
+	    var SAVE_LOCA = new Point(0, 0);
+
+	    try
+	    {
+		Controls.Button(InnerBottomBarContainer, Save, BUTTON_SIZE, SAVE_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Save", Color.Empty);
+		Controls.Button(InnerBottomBarContainer, Help, BUTTON_SIZE, HELP_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Help", Color.Empty);
+		Controls.Button(InnerBottomBarContainer, Close, BUTTON_SIZE, CLOSE_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Close", Color.Empty);
+
+		foreach (Control control in InnerBottomBarContainer.Controls)
+		{
+		    if (control is Button)
+		    {
+			Tools.Round(control, 8);
+		    }
+		}
+	    }
+
+	    catch 
+	    {
+		throw new Exception("Bottom Bar Buttons");
+	    }
+
+	    // Auto-Resize Inner Contaienr to button space. Last button.left + last button.width
+
+	    var ICON_SIZE = new Size(InnerBottomBarContainer.Controls[InnerBottomBarContainer.Controls.Count - 1].Left + BUTTON_SIZE.Width, BUTTON_SIZE.Height);
+	    var ICON_LOCA = new Point((BottomBar.Width - ICON_SIZE.Width) / 2, (BottomBar.Height - BUTTON_SIZE.Height) / 2);
+	    var ICON_BCOL = BCON_BCOL;
+
+	    try
+	    {
+		Controls.Image(BottomBar, InnerBottomBarContainer, ICON_SIZE, ICON_LOCA, null, ICON_BCOL);
+	    }
+
+	    catch 
+	    {
+		throw new Exception("Inner Bottom Bar Container");
 	    }
 	}
 
@@ -195,9 +229,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		// Resize to preferred size: BottomBar.Top + BottomBar.Height
-		var NEW_SIZE = new Size(Width, BottomBar.Top + BottomBar.Height + BottomBar.Bottom);
-		
+		var NEW_SIZE = new Size(Width, BottomBar.Top + BottomBar.Height);
 		Tools.Resize(this, NEW_SIZE);
 	    }
 

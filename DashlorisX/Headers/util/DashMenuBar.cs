@@ -18,9 +18,9 @@ namespace DashlorisX
 	readonly public DashControls CONTROL = new DashControls();
 	readonly public DashTools TOOL = new DashTools();
 
-	bool minim = true, close = true;
+	bool minim = true, close = true, hide = true;
 
-	public DashMenuBar(string title, bool minim = true, bool close = true)
+	public DashMenuBar(string title, bool minim = true, bool close = true, bool hide = true)
 	{
 	    this.minim = minim;
 	    this.close = close;
@@ -97,7 +97,18 @@ namespace DashlorisX
 		    CONTROL.Button(Bar, Close, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
 		    TOOL.Interactive(Close, Top);
 
-		    Close.Click += (s, e) => Environment.Exit(-1);
+		    Close.Click += (s, e) =>
+		    {
+			if (!hide)
+			{
+			    Environment.Exit(-1);
+			}
+
+			else
+			{
+			    Top.Close();
+			}
+		    };
 		}
 
 		if (close && minim)

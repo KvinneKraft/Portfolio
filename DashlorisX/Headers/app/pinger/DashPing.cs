@@ -21,7 +21,7 @@ namespace DashlorisX
     {
 	new readonly DashControls Controls = new DashControls();
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim:false);
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
 	readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
@@ -89,47 +89,70 @@ namespace DashlorisX
 		var CONT_LOCA = new Point(11, 8 + StatusLabel.Height + StatusLabel.Top);
 		var CONT_BCOL = Color.FromArgb(9, 39, 66); //ControlContainer.BackColor;
 
-		Controls.Image(this, HostContainer, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
-		Tools.Round(HostContainer, 6);
+		try
+		{
+		    Controls.Image(this, HostContainer, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
+		    Tools.Round(HostContainer, 6);
+		}
+
+		catch
+		{
+		    throw new Exception("Host Container");
+		}
 
 		var LABEL_BCOL = HostContainer.BackColor;
 		var LABEL_FCOL = Color.White;
+
+		var TEXTBOX_BCOL = Color.FromArgb(10, 10, 10);
+		var TEXTBOX_FCOL = Color.White;
 
 		var HOSLA_TEXT = string.Format("Host:");
 		var HOSLA_SIZE = Tools.GetFontSize(HOSLA_TEXT, 10);
 		var HOSLA_LOCA = new Point(8, (HostContainer.Height - HOSLA_SIZE.Height) / 2);
 
-		Controls.Label(HostContainer, HostLabel, HOSLA_SIZE, HOSLA_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, HOSLA_TEXT);
-
-		Control GetDeepToll() =>
-		    HostContainer.Controls[HostContainer.Controls.Count - 1];
-
-		var TBOX_BCOL = Color.FromArgb(10, 10, 10);
-		var TBOX_FCOL = Color.White;
-
 		var HTBOX_SIZE = new Size(150, 19);
 		var HTBOX_LOCA = new Point(HOSLA_SIZE.Width + HOSLA_LOCA.X, (HostContainer.Height - HTBOX_SIZE.Height) / 2);
-
-		Controls.TextBox(HostContainer, HostTextBox, HTBOX_SIZE, HTBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 8, Color.Empty);
-		Tools.Round(GetDeepToll(), 6);
 
 		var POLAB_TEXT = string.Format("Port:");
 		var POLAB_SIZE = Tools.GetFontSize(POLAB_TEXT, 10);
 		var POLAB_LOCA = new Point(HTBOX_LOCA.X + HTBOX_SIZE.Width + 5, (HostContainer.Height - POLAB_SIZE.Height) / 2);
 
-		Controls.Label(HostContainer, PortLabel, POLAB_SIZE, POLAB_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, POLAB_TEXT);
-
 		var POBOX_SIZE = new Size(HostContainer.Width - PortLabel.Left - PortLabel.Width - 10, HTBOX_SIZE.Height);
 		var POBOX_LOCA = new Point(PortLabel.Left + PortLabel.Width, HTBOX_LOCA.Y);
 
-		Controls.TextBox(HostContainer, PortTextBox, POBOX_SIZE, POBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 10, Color.Empty);
-		Tools.Round(GetDeepToll(), 6);
+		Control GetDeepToll() =>
+		    HostContainer.Controls[HostContainer.Controls.Count - 1];
+
+		try
+		{
+		    Controls.TextBox(HostContainer, PortTextBox, POBOX_SIZE, POBOX_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 10, Color.Empty);
+		    Tools.Round(GetDeepToll(), 6);
+
+		    Controls.TextBox(HostContainer, HostTextBox, HTBOX_SIZE, HTBOX_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		    Tools.Round(GetDeepToll(), 6);
+
+		    Controls.Label(HostContainer, HostLabel, HOSLA_SIZE, HOSLA_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, HOSLA_TEXT);
+		    Controls.Label(HostContainer, PortLabel, POLAB_SIZE, POLAB_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, POLAB_TEXT);
+		}
+
+		catch
+		{
+		    throw new Exception("Host Container Items");
+		}
 
 		var RECT_SIZE = new Size(HostContainer.Width - 2, HostContainer.Height - 2);
 		var RECT_LOCA = new Point(1, 1);
 		var RECT_BCOL = Color.FromArgb(8, 8, 8);
 
-		Tools.PaintRectangle(HostContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
+		try
+		{
+		    Tools.PaintRectangle(HostContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
+		}
+
+		catch
+		{
+		    throw new Exception("Host Container Rectangle");
+		}
 	    }
 
 	    catch (Exception E)
@@ -146,67 +169,7 @@ namespace DashlorisX
 	readonly Label ICMPTitle = new Label();
 	readonly Label TCPTitle = new Label();
 
-	private string GetHost()
-	{
-	    var r_host = HostTextBox.Text.ToLower();
-	    
-	    if (!IPAddress.TryParse(r_host, out IPAddress ham))
-	    {
-		if (!r_host.Contains("http://") && !r_host.Contains("https://"))
-		{
-		    r_host = "https://" + r_host;
-		}
-
-		if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
-		{
-		    MessageBox.Show("Invalid URL specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		    return string.Empty;
-		};
-
-		try
-		{
-		    r_host = Dns.GetHostAddresses(bacon.Host)[0].ToString();
-		}
-
-		catch
-		{
-		    MessageBox.Show("Invalid host specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		    return string.Empty;
-		}
-	    }
-
-	    else
-	    {
-		r_host = ham.ToString();
-
-		if (ham.AddressFamily != AddressFamily.InterNetwork)
-		{
-		    MessageBox.Show("Invalid IPv4 address specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		    return string.Empty;
-		}
-	    }
-
-	    if (r_host.Length < 7 || r_host == string.Empty)
-	    {
-		MessageBox.Show("No host was specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		return string.Empty;
-	    }
-
-	    return r_host;
-	}
-
-	private int GetPort()
-	{
-	    bool isInteger = int.TryParse(PortTextBox.Text, out int result);
-
-	    if (result < 1 || result > 65535 || !isInteger)
-	    {
-		MessageBox.Show("No or invalid integer was specified.  Retry!", "Port Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		result = -1;
-	    };
-
-	    return result;
-	}
+	readonly DashNet DashNet = new DashNet();
 
 	private int IsOnline()
 	{
@@ -221,8 +184,8 @@ namespace DashlorisX
 
 		var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtType);
 
-		string host = GetHost();
-		int port = GetPort();
+		string host = DashNet.GetIP(HostTextBox.Text);
+		int port = DashNet.GetPort(PortTextBox.Text);
 
 		if (host == string.Empty || port == -1)
 		{
@@ -262,40 +225,56 @@ namespace DashlorisX
 		var OCON_LOCA = new Point(11, HostContainer.Top + HostContainer.Height + 10);
 		var OCON_BCOL = HostContainer.BackColor;
 
-		Controls.Image(this, OptionContainer, OCON_SIZE, OCON_LOCA, null, OCON_BCOL);
-		Tools.Round(OptionContainer, 6);
+		try
+		{
+		    Controls.Image(this, OptionContainer, OCON_SIZE, OCON_LOCA, null, OCON_BCOL);
+		    Tools.Round(OptionContainer, 6);
+		}
+
+		catch
+		{
+		    throw new Exception("Option Container");
+		}
 
 		var BUTT_SIZE = new Size(90, 26);
 		var BUTT_LOCA = new Point(10, 10);
 		var BUTT_BCOL = Color.FromArgb(10, 10, 10);//23, 33, 51);
 		var BUTT_FCOL = Color.White;
 
-		Controls.Button(OptionContainer, Check, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 9, "Check", Color.Empty);
-		Tools.Round(Check, 8);
-
-		Check.Click += (s, e) =>
+		try
 		{
-		    StatusLabel.Text = "Status: Checking ....";
+		    Controls.Button(OptionContainer, Check, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 9, "Check", Color.Empty);
+		    Tools.Round(Check, 8);
 
-		    int isOnline = IsOnline();
-
-		    if (isOnline == 1)
+		    Check.Click += (s, e) =>
 		    {
-			StatusLabel.Text = "Status: Online!";
-			MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		    }
+			StatusLabel.Text = "Status: Checking ....";
 
-		    else if (isOnline == -1)
-		    {
-			StatusLabel.Text = "Status: Offline!";
-			MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		    }
+			int isOnline = IsOnline();
 
-		    else
-		    {
-			StatusLabel.Text = "Status: Unknown!";
-		    }
-		};
+			if (isOnline == 1)
+			{
+			    StatusLabel.Text = "Status: Online!";
+			    MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+
+			else if (isOnline == -1)
+			{
+			    StatusLabel.Text = "Status: Offline!";
+			    MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+
+			else
+			{
+			    StatusLabel.Text = "Status: Unknown!";
+			}
+		    };
+		}
+
+		catch
+		{
+		    throw new Exception("Check Event");
+		}
 
 		var LABEL_BCOL = OptionContainer.BackColor;
 		var LABEL_FCOL = Color.White;
@@ -308,52 +287,66 @@ namespace DashlorisX
 		var ICMPL_SIZE = Tools.GetFontSize(ICMPL_TEXT, 10);
 		var ICMPL_LOCA = new Point(Check.Left + Check.Width + 25, (OptionContainer.Height - ICMPL_SIZE.Height) / 2);
 
-		Controls.Label(OptionContainer, ICMPTitle, ICMPL_SIZE, ICMPL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, ICMPL_TEXT);
-
-		var ICMPB_LOCA = new Point(ICMPTitle.Left + ICMPTitle.Width + 2, PICTU_LOCA);
-
-		Controls.Image(OptionContainer, ICMPBox, PICTU_SIZE, ICMPB_LOCA, null, PICTU_BCOL);
-
-		ICMPBox.Click += (s, e) =>
-		{
-		    if (ICMPBox.BackColor != ToggleOn)
-		    {
-			ICMPBox.BackColor = ToggleOn;
-			TCPBox.BackColor = ToggleOf;
-		    };
-		};
-
 		var TCPL_TEXT = string.Format("TCP:");
 		var TCPL_SIZE = Tools.GetFontSize(TCPL_TEXT, 10);
 		var TCPL_LOCA = new Point(ICMPBox.Left + ICMPBox.Width + 10, (OptionContainer.Height - TCPL_SIZE.Height) / 2);
 
-		Controls.Label(OptionContainer, TCPTitle, TCPL_SIZE, TCPL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, TCPL_TEXT);
-
+		var ICMPB_LOCA = new Point(ICMPTitle.Left + ICMPTitle.Width + 2, PICTU_LOCA);
 		var TCPB_LOCA = new Point(TCPTitle.Left + TCPTitle.Width + 2, PICTU_LOCA);
 
-		Controls.Image(OptionContainer, TCPBox, PICTU_SIZE, TCPB_LOCA, null, ToggleOn/*PICTU_BCOL*/);
-
-		TCPBox.Click += (s, e) =>
+		try
 		{
-		    if (TCPBox.BackColor != ToggleOn)
+		    Controls.Label(OptionContainer, ICMPTitle, ICMPL_SIZE, ICMPL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, ICMPL_TEXT);
+		    Controls.Label(OptionContainer, TCPTitle, TCPL_SIZE, TCPL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, TCPL_TEXT);
+
+		    Controls.Image(OptionContainer, ICMPBox, PICTU_SIZE, ICMPB_LOCA, null, PICTU_BCOL);
+
+		    ICMPBox.Click += (s, e) =>
 		    {
-			ICMPBox.BackColor = ToggleOf;
-			TCPBox.BackColor = ToggleOn;
+			if (ICMPBox.BackColor != ToggleOn)
+			{
+			    ICMPBox.BackColor = ToggleOn;
+			    TCPBox.BackColor = ToggleOf;
+			};
 		    };
-		};
+		    
+		    Controls.Image(OptionContainer, TCPBox, PICTU_SIZE, TCPB_LOCA, null, ToggleOn);
+
+		    TCPBox.Click += (s, e) =>
+		    {
+			if (TCPBox.BackColor != ToggleOn)
+			{
+			    ICMPBox.BackColor = ToggleOf;
+			    TCPBox.BackColor = ToggleOn;
+			};
+		    };
+		}
+
+		catch
+		{
+		    throw new Exception("Option Container Controls");
+		}
 
 		var RECT_SIZE = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
 		var RECT_LOCA = new Point(1, 1);
 		var RECT_BCOL = Color.FromArgb(8, 8, 8);
 
-		Tools.PaintRectangle(OptionContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
-
-		foreach (Control control in OptionContainer.Controls)
+		try
 		{
-		    if (control is PictureBox)
+		    Tools.PaintRectangle(OptionContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
+
+		    foreach (Control control in OptionContainer.Controls)
 		    {
-			Tools.Round(control, 6);
+			if (control is PictureBox)
+			{
+			    Tools.Round(control, 6);
+			}
 		    }
+		}
+
+		catch
+		{
+		    throw new Exception("Option Container Rectangle");
 		}
 	    }
 
