@@ -27,7 +27,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(8, 8, 8);
+		var BAR_COLA = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 

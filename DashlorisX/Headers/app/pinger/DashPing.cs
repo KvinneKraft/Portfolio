@@ -28,7 +28,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(8, 8, 8);
+		var BAR_COLA = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 
@@ -275,18 +275,20 @@ namespace DashlorisX
 
 		Check.Click += (s, e) =>
 		{
+		    StatusLabel.Text = "Status: Checking ....";
+
 		    int isOnline = IsOnline();
 
 		    if (isOnline == 1)
 		    {
-			MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			StatusLabel.Text = "Status: Online!";
+			MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		    }
 
 		    else if (isOnline == -1)
 		    {
-			MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			StatusLabel.Text = "Status: Offline!";
+			MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		    }
 
 		    else

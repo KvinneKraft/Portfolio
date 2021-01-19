@@ -27,7 +27,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(8, 8, 8);
+		var BAR_COLA = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 
@@ -102,7 +102,7 @@ namespace DashlorisX
 
 		var BUTT_SIZE = new Size(85, 26);
 		var BUTT_LOCA = new Point((TextBox.Width - BUTT_SIZE.Width) / 2, TextBox.Height - BUTT_SIZE.Height - 10);
-		var BUTT_BCOL = Color.MidnightBlue;
+		var BUTT_BCOL = Color.FromArgb(3, 18, 26);//MenuBar.Bar.BackColor;
 		var BUTT_FCOL = Color.White;
 
 		Controls.Button(TextBox, Agree, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "I Agree", Color.Empty);

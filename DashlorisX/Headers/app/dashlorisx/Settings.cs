@@ -26,7 +26,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(8, 8, 8);
+		var BAR_COLA = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 
@@ -52,10 +52,10 @@ namespace DashlorisX
 
 	readonly PictureBox ConfigurationContainer = new PictureBox();
 
-	readonly TextBox UserAgentBox = new TextBox();
-	readonly TextBox MethodBox = new TextBox();
-	readonly TextBox CookieBox = new TextBox();
-	readonly TextBox HTTPvBox = new TextBox();
+	readonly TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
+	readonly TextBox MethodBox = new TextBox() { Text = "POST" };
+	readonly TextBox CookieBox = new TextBox() { Text = "Cookie=8f75a1acb808d4f709bc4d71b9ab0343" };
+	readonly TextBox HTTPvBox = new TextBox() { Text = "1.1" };
 
 	readonly Label UserAgentLabel = new Label();
 	readonly Label MethodLabel = new Label();
@@ -66,7 +66,101 @@ namespace DashlorisX
 	{
 	    try
 	    {
+		var CCON_SIZE = new Size(Width - 20, 70);
+		var CCON_LOCA = new Point(10, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
+		var CCON_BCOL = Color.FromArgb(16, 16, 16);
 
+		try
+		{
+		    Controls.Image(this, ConfigurationContainer, CCON_SIZE, CCON_LOCA, null, CCON_BCOL);
+		    Tools.Round(ConfigurationContainer, 6);
+		}
+
+		catch
+		{
+		    throw new Exception("Option Container");
+		}
+		
+		var LABEL_BCOL = ConfigurationContainer.BackColor;
+		var LABEL_FCOL = Color.White;
+
+		var HTTPVERSIONL_TEXT = string.Format("HTTP Version:");
+		var HTTPVERSIONL_SIZE = Tools.GetFontSize(HTTPVERSIONL_TEXT, 10);
+		var HTTPVERSIONL_LOCA = new Point(10, 11);
+
+		var TEXTBOX_BCOL = Color.FromArgb(10, 10, 10);
+		var TEXTBOX_FCOL = Color.White;
+
+		var HTTPVERSIONB_LOCA = new Point(HTTPVERSIONL_LOCA.X + HTTPVERSIONL_SIZE.Width, HTTPVERSIONL_LOCA.Y - 1);
+		var HTTPVERSIONB_SIZE = new Size(75, 20);
+
+		var USERAGENTL_TEXT = string.Format("User-Agent:");
+		var USERAGENTL_SIZE = Tools.GetFontSize(USERAGENTL_TEXT, 10);
+		var USERAGENTL_LOCA = new Point(HTTPVERSIONB_LOCA.X + HTTPVERSIONB_SIZE.Width + 10, HTTPVERSIONL_LOCA.Y); // HTTPBox.Left + HTTPBox.Width + 10
+
+		var USERAGENTB_LOCA = new Point(USERAGENTL_LOCA.X + USERAGENTL_SIZE.Width, USERAGENTL_LOCA.Y - 1);
+		var USERAGENTB_SIZE = new Size(CCON_SIZE.Width - USERAGENTL_LOCA.X - USERAGENTL_SIZE.Width - (USERAGENTB_LOCA.X - USERAGENTB_LOCA.X) - (HTTPVERSIONL_LOCA.X), 20);
+
+		var METHODL_TEXT = string.Format("Method:");
+		var METHODL_SIZE = Tools.GetFontSize(METHODL_TEXT, 10);
+		var METHODL_LOCA = new Point(HTTPVERSIONL_LOCA.X, HTTPVERSIONB_LOCA.Y + HTTPVERSIONB_SIZE.Height + 5);
+
+		var METHODB_LOCA = new Point(METHODL_LOCA.X + METHODL_SIZE.Width, METHODL_LOCA.Y - 1);
+		var METHODB_SIZE = new Size(75, 20);
+
+		var COOKIEL_TEXT = string.Format("Cookie:");
+		var COOKIEL_SIZE = Tools.GetFontSize(COOKIEL_TEXT, 10);
+		var COOKIEL_LOCA = new Point(METHODB_LOCA.X + METHODB_SIZE.Width + 10, METHODL_LOCA.Y);
+
+		var COOKIEB_LOCA = new Point(COOKIEL_LOCA.X + COOKIEL_SIZE.Width, COOKIEL_LOCA.Y - 1);
+		var COOKIEB_SIZE = new Size(CCON_SIZE.Width - COOKIEL_LOCA.X - COOKIEL_SIZE.Width - (COOKIEB_LOCA.X - COOKIEB_LOCA.X) - (METHODL_LOCA.X), 20);
+
+		try
+		{
+		    Controls.Label(ConfigurationContainer, HTTPvLabel, HTTPVERSIONL_SIZE, HTTPVERSIONL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, HTTPVERSIONL_TEXT);
+		    Controls.Label(ConfigurationContainer, UserAgentLabel, USERAGENTL_SIZE, USERAGENTL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, USERAGENTL_TEXT);
+		    Controls.Label(ConfigurationContainer, MethodLabel, METHODL_SIZE, METHODL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, METHODL_TEXT);
+		    Controls.Label(ConfigurationContainer, CookieLabel, COOKIEL_SIZE, COOKIEL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, COOKIEL_TEXT);
+
+		    Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVERSIONB_SIZE, HTTPVERSIONB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		    Controls.TextBox(ConfigurationContainer, UserAgentBox, USERAGENTB_SIZE, USERAGENTB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		    Controls.TextBox(ConfigurationContainer, MethodBox, METHODB_SIZE, METHODB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		    Controls.TextBox(ConfigurationContainer, CookieBox, COOKIEB_SIZE, COOKIEB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+
+		    foreach (Control controlo in ConfigurationContainer.Controls)
+		    {
+			if (controlo is PictureBox)
+			{
+			    ((TextBox)controlo.Controls[0]).TextAlign = HorizontalAlignment.Center;
+			    Tools.Round(controlo, 6);
+			}
+		    }
+
+		    Tools.Resize(ConfigurationContainer, new Size(CCON_SIZE.Width, COOKIEL_LOCA.Y + COOKIEL_SIZE.Height + USERAGENTB_LOCA.Y + 2));
+
+		    var RECT_SIZE = new Size(ConfigurationContainer.Width - 2, ConfigurationContainer.Height - 2);
+		    var RECT_LOCA = new Point(1, 1);
+		    var RECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		    Tools.PaintRectangle(ConfigurationContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
+		}
+
+		catch
+		{
+		    throw new Exception("Setting Controls");
+		}
+
+		// Dropdown menu class -> Integrate for method types and versions.
+		/*
+		 * [TO-DOS]
+    		    DashNet Class for IP and Port parsing
+		    Dropdown Menu Class 
+		    Integrate Dropdown Menu for Methods / HTTP Versions
+		    Log Container Dialog Class
+		    GUI Setup Class
+		    Upload Website
+		    Restyle DashlorisX.cs
+		 */
 	    }
 
 	    catch (Exception E)
@@ -84,6 +178,8 @@ namespace DashlorisX
 
 	private void InitializeBottomBar()
 	{
+	    var
+
 	    try
 	    {
 		// Location Y: ConfigurationContainer.Top + ConfigurationContainer.Height + 10
@@ -100,6 +196,9 @@ namespace DashlorisX
 	    try
 	    {
 		// Resize to preferred size: BottomBar.Top + BottomBar.Height
+		var NEW_SIZE = new Size(Width, BottomBar.Top + BottomBar.Height + BottomBar.Bottom);
+		
+		Tools.Resize(this, NEW_SIZE);
 	    }
 
 	    catch (Exception E)
@@ -131,8 +230,8 @@ namespace DashlorisX
 	{
 	    SuspendLayout();
 
-	    MaximumSize = new Size(300, 250);
-	    MinimumSize = new Size(300, 250);
+	    MaximumSize = new Size(450, 250);
+	    MinimumSize = new Size(450, 250);
 
 	    StartPosition = FormStartPosition.CenterScreen;
 	    FormBorderStyle = FormBorderStyle.None;

@@ -26,7 +26,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		Color BAR_COLA = Color.FromArgb(8, 8, 8);
+		Color BAR_COLA = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
 	    }
 
@@ -89,10 +89,10 @@ namespace DashlorisX
 	    {
 		var MCONTA_SIZE = new Size(Width - 22, 64);
 		var MCONTA_LOCA = new Point(11, MenuBar.Bar.Height + 10);
-		var MCONTA_COLA = Color.FromArgb(16, 16, 16);
+		var MCONTA_COLA = Color.FromArgb(9, 39, 66);
 
 		Controls.Image(this, MainContainer, MCONTA_SIZE, MCONTA_LOCA, null, MCONTA_COLA);
-		Tools.Round(MainContainer, 6);
+		Tools.Round(MainContainer, 8);
 
 		var MRECT_SIZE = new Size(MCONTA_SIZE.Width - 2, MCONTA_SIZE.Height - 2);
 		var MRECT_LOCA = new Point(1, 1);
@@ -109,7 +109,7 @@ namespace DashlorisX
 		var LabelTexts = new List<string>() { "Host:", "Bytes:", "Port:", "Duration:" };
 		var TextBoxWidths = new List<int>() { 145, 95 };
 
-		for (int k1 = 0, tid = 0, h1 = 20; k1 < 2; k1 += 1)
+		for (int k1 = 0, tid = 0, h1 = 19; k1 < 2; k1 += 1)
 		{
 		    int x1 = 0;
 		    int y1 = 0;
@@ -143,7 +143,7 @@ namespace DashlorisX
 			x3 = TLoca.X;
 			w3 = w2;
 
-			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(8, 8, 8), Color.White, 1, 9, Color.Empty);
+			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9, Color.Empty);
 			Tools.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 4);
 
 			tid += 1;
@@ -183,25 +183,19 @@ namespace DashlorisX
 	    {
 		var OCONTA_SIZE = new Size(Width - 20, 81);
 		var OCONTA_LOCA = new Point(10, MainContainer.Top + MainContainer.Height + 10);
-		var OCONTA_BCOL = Color.FromArgb(16, 16, 16);
+		var OCONTA_BCOL = Color.FromArgb(9, 39, 66);
 
 		Controls.Image(this, OptionContainer, OCONTA_SIZE, OCONTA_LOCA, null, OCONTA_BCOL);
-		Tools.Round(OptionContainer, 6);
+		Tools.Round(OptionContainer, 8);
 
-		var MRECT_SIZE = new Size(OCONTA_SIZE.Width - 2, OCONTA_SIZE.Height - 2);
-		var MRECT_LOCA = new Point(1, 1);
-		var MRECT_BCOL = Color.FromArgb(8, 8, 8);
-
-		Tools.PaintRectangle(OptionContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
-
-		var ICONTA_SIZE = new Size(OCONTA_SIZE.Width - 20, OCONTA_SIZE.Height - 20);
-		var ICONTA_LOCA = new Point(10, 10);
+		var ICONTA_SIZE = new Size(OCONTA_SIZE.Width - 28, OCONTA_SIZE.Height - 28);
+		var ICONTA_LOCA = new Point(14, 14);
 		var ICONTA_BCOL = OCONTA_BCOL;
 
 		Controls.Image(OptionContainer, InnerOptionContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_BCOL);
 
-		var BUTTO_SIZE = new Size((InnerOptionContainer.Width - 5) / 2, 28);
-		var BUTTO_BCOL = Color.FromArgb(23, 33, 51);//61, 13, 17);
+		var BUTTO_SIZE = new Size((InnerOptionContainer.Width - 8) / 2, 26);
+		var BUTTO_BCOL = Color.FromArgb(3, 18, 26);//11, 23, 43);//61, 13, 17);
 		var BUTTO_FCOL = Color.White;
 
 		var ButtonTexts = new List<string>() { "Launch", "Settings", "Online", "About" };
@@ -217,13 +211,22 @@ namespace DashlorisX
 			var BUTTO_LOCA = new Point(x, y);
 			
 			Controls.Button(InnerOptionContainer, ButtonObjects[p], BUTTO_SIZE, BUTTO_LOCA, BUTTO_BCOL, BUTTO_FCOL, 1, 10, ButtonTexts[p], Color.Empty);
-			Tools.Round(ButtonObjects[p], 6);
+			Tools.Round(ButtonObjects[p], 8);
 
-			x = BUTTO_SIZE.Width + ButtonObjects[p].Left + 5;
+			x = BUTTO_SIZE.Width + ButtonObjects[p].Left + 8;
 		    }
 
-		    y += BUTTO_SIZE.Height + ButtonObjects[p - 1].Top + 5;
+		    y += BUTTO_SIZE.Height + ButtonObjects[p - 1].Top + 8;
 		}
+
+		Tools.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
+		Tools.Resize(OptionContainer, new Size(OptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height + 28));
+
+		var MRECT_SIZE = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
+		var MRECT_LOCA = new Point(1, 1);
+		var MRECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		Tools.PaintRectangle(OptionContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
 	    }
 
 	    catch (Exception E)
@@ -232,7 +235,7 @@ namespace DashlorisX
 	    }
 	}
 
-	private void InitializeInterfa()
+	private void InitializeInterface()
 	{
 	    ReinitializeComponent();
 
@@ -250,7 +253,7 @@ namespace DashlorisX
 	    try
 	    {
 		InitializeMenuBar();
-		InitializeInterfa();
+		InitializeInterface();
 	    }
 
 	    catch (Exception E)
@@ -273,7 +276,7 @@ namespace DashlorisX
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
-
+	    
 	    new Settings().ShowDialog();
 	    Environment.Exit(-1);
 
