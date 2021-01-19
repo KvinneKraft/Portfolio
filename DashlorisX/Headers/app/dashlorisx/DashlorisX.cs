@@ -97,9 +97,9 @@ namespace DashlorisX
 		    Tools.Round(MainContainer, 8);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Main Container");
+		    throw (E);
 		}
 
 		var ICONTA_SIZE = new Size(MCONTA_SIZE.Width - 22, MCONTA_SIZE.Height - 21/*Measure it*/);
@@ -111,9 +111,9 @@ namespace DashlorisX
 		    Controls.Image(MainContainer, InnerMainContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_COLA);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Inner Main Container");
+		    throw (E);
 		}
 
 		try
@@ -163,9 +163,9 @@ namespace DashlorisX
 		    }
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Label/TextBox InnerMainContainer");
+		    throw (E);
 		}
 
 		var MRECT_SIZE = new Size(MCONTA_SIZE.Width - 2, MCONTA_SIZE.Height - 2);
@@ -177,9 +177,9 @@ namespace DashlorisX
 		    Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_COLA);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Rectangle Main Container");
+		    throw (E);
 		}
 	    }
 
@@ -223,9 +223,9 @@ namespace DashlorisX
 		    Tools.Round(OptionContainer, 8);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Option Container");
+		    throw (E);
 		}
 
 		var ICONTA_SIZE = new Size(OCONTA_SIZE.Width - 28, OCONTA_SIZE.Height - 28);
@@ -237,9 +237,9 @@ namespace DashlorisX
 		    Controls.Image(OptionContainer, InnerOptionContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Inner Option Container");
+		    throw (E);
 		}
 
 		var BUTTO_SIZE = new Size((InnerOptionContainer.Width - 8) / 2, 26);
@@ -273,9 +273,9 @@ namespace DashlorisX
 		    Tools.Resize(OptionContainer, new Size(OptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height + 28));
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Option Container Buttons");
+		    throw (E);
 		}
 
 		var MRECT_SIZE = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
@@ -287,9 +287,9 @@ namespace DashlorisX
 		    Tools.PaintRectangle(OptionContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Rectangle for APP");
+		    throw (E);
 		}
 	    }
 
@@ -312,9 +312,9 @@ namespace DashlorisX
 		Tools.PaintLine(this, MenuBar.Bar.BackColor, 2, new Point(0, Height - 1), new Point(Width, Height - 1));
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Initialization of Interface");
+		throw (E);
 	    }
 	}
 

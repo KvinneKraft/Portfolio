@@ -95,9 +95,9 @@ namespace DashlorisX
 		    Tools.Round(HostContainer, 6);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Host Container");
+		    throw (E);
 		}
 
 		var LABEL_BCOL = HostContainer.BackColor;
@@ -135,9 +135,9 @@ namespace DashlorisX
 		    Controls.Label(HostContainer, PortLabel, POLAB_SIZE, POLAB_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, POLAB_TEXT);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Host Container Items");
+		    throw (E);
 		}
 
 		var RECT_SIZE = new Size(HostContainer.Width - 2, HostContainer.Height - 2);
@@ -149,9 +149,9 @@ namespace DashlorisX
 		    Tools.PaintRectangle(HostContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Host Container Rectangle");
+		    throw (E);
 		}
 	    }
 
@@ -231,9 +231,9 @@ namespace DashlorisX
 		    Tools.Round(OptionContainer, 6);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Option Container");
+		    throw (E);
 		}
 
 		var BUTT_SIZE = new Size(90, 26);
@@ -271,9 +271,9 @@ namespace DashlorisX
 		    };
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Check Event");
+		    throw (E);
 		}
 
 		var LABEL_BCOL = OptionContainer.BackColor;
@@ -344,9 +344,9 @@ namespace DashlorisX
 		    }
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Option Container Rectangle");
+		    throw (E);
 		}
 	    }
 

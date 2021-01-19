@@ -74,23 +74,46 @@ namespace DashlorisX
 		var ICONT_LOCA = new Point(12, MenuBar.Bar.Height + 11);
 		var ICONT_BCOL = Color.FromArgb(16, 16, 16);
 
-		Controls.Image(this, InfoContainer, ICONT_SIZE, ICONT_LOCA, null, ICONT_BCOL);
-		Tools.Round(InfoContainer, 6);
+		try
+		{
+		    Controls.Image(this, InfoContainer, ICONT_SIZE, ICONT_LOCA, null, ICONT_BCOL);
+		    Tools.Round(InfoContainer, 6);
+		}
 
-		var ICREC_SIZE = new Size(ICONT_SIZE.Width - 4, ICONT_SIZE.Height - 4);
-		var ICREC_LOCA = new Point(2, 2);
-		var ICREC_BCOL = Color.FromArgb(8, 8, 8);
-
-		Tools.PaintRectangle(InfoContainer, 2, ICREC_SIZE, ICREC_LOCA, ICREC_BCOL);
+		catch (Exception E)
+		{
+		    throw (E);
+		}
 
 		var TEXT_SIZE = new Size(InfoContainer.Width - 4, InfoContainer.Height - 5);
 		var TEXT_LOCA = new Point(4, 3);
 		var TEXT_BCOL = InfoContainer.BackColor;
 		var TEXT_FCOL = Color.White;
 
-		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
+		try
+		{
+		    Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
+		    TextContainer.TextAlign = HorizontalAlignment.Center;
+		}
 
-		TextContainer.TextAlign = HorizontalAlignment.Center;
+		catch (Exception E)
+		{
+		    throw (E);
+		}
+	    
+		var ICREC_SIZE = new Size(ICONT_SIZE.Width - 4, ICONT_SIZE.Height - 4);
+		var ICREC_LOCA = new Point(2, 2);
+		var ICREC_BCOL = Color.FromArgb(8, 8, 8);
+
+		try
+		{
+		    Tools.PaintRectangle(InfoContainer, 2, ICREC_SIZE, ICREC_LOCA, ICREC_BCOL);
+		}
+
+		catch (Exception E)
+		{
+		    throw (E);
+		}
 	    }
 
 	    catch (Exception E)

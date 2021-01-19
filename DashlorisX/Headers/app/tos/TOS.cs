@@ -83,9 +83,9 @@ namespace DashlorisX
 		    Tools.Round(MainContainer, 4);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Main Container");
+		    throw (E);
 		}
 
 		var TCONT_SIZE = new Size(MCONT_SIZE.Width - 5, MCONT_SIZE.Height - 5);
@@ -97,10 +97,10 @@ namespace DashlorisX
 		    Controls.Image(MainContainer, TextContainer, TCONT_SIZE, TCONT_LOCA, null, TCONT_BCOL);
 		    Tools.Round(TextContainer, 6);
 		}
-		
-		catch
+
+		catch (Exception E)
 		{
-		    throw new Exception("Text Container");
+		    throw (E);
 		}
 
 		var TBOX_SIZE = TCONT_SIZE;
@@ -113,9 +113,9 @@ namespace DashlorisX
 		    Controls.TextBox(TextContainer, TextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 9, Color.Empty, READONLY: true, SCROLLBAR: true, MULTILINE: true, FIXEDSIZE: false);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Text Box");
+		    throw (E);
 		}
 
 		var BUTT_SIZE = new Size(85, 26);
@@ -135,9 +135,9 @@ namespace DashlorisX
 		    Tools.Round(Agree, 6);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Agree");
+		    throw (E);
 		}
 
 		var MRECT_SIZE = new Size(MCONT_SIZE.Width - 2, MCONT_SIZE.Height - 2);
@@ -149,9 +149,10 @@ namespace DashlorisX
 		    Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
 		}
 
-		catch
+
+		catch (Exception E)
 		{
-		    throw new Exception("Main Container Rectangle");
+		    throw (E);
 		}
 	    }
 

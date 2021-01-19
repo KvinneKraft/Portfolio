@@ -145,9 +145,9 @@ namespace DashlorisX
 		    Tools.PaintRectangle(ConfigurationContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Setting Controls");
+		    throw (E);
 		}
 	    }
 
@@ -175,9 +175,9 @@ namespace DashlorisX
 		Controls.Image(this, BottomBar, BCON_SIZE, BCON_LOCA, null, BCON_BCOL);
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Bottom Bar");
+		throw (E);
 	    }
 
 	    var BUTTON_BCOL = BottomBar.BackColor;
@@ -203,9 +203,9 @@ namespace DashlorisX
 		}
 	    }
 
-	    catch 
+	    catch (Exception E)
 	    {
-		throw new Exception("Bottom Bar Buttons");
+		throw (E);
 	    }
 
 	    // Auto-Resize Inner Contaienr to button space. Last button.left + last button.width
@@ -219,9 +219,9 @@ namespace DashlorisX
 		Controls.Image(BottomBar, InnerBottomBarContainer, ICON_SIZE, ICON_LOCA, null, ICON_BCOL);
 	    }
 
-	    catch 
+	    catch (Exception E)
 	    {
-		throw new Exception("Inner Bottom Bar Container");
+		throw (E);
 	    }
 	}
 

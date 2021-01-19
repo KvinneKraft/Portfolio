@@ -70,9 +70,9 @@ namespace DashlorisX
 		    Controls.Image(this, BottomBar, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Bottom Bar");
+		    throw (E);
 		}
 
 		var BCON_SIZE = new Size(180, 26);
@@ -84,9 +84,9 @@ namespace DashlorisX
 		    Controls.Image(BottomBar, BottomBarContainer, BCON_SIZE, BCON_LOCA, null, BCON_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Bottom Bar Container");
+		    throw (E);
 		}
 
 		var BUTTON_SIZE = new Size(85, 26);
@@ -113,9 +113,9 @@ namespace DashlorisX
 		    };
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Bottom Bar Container Buttons");
+		    throw (E);
 		}
 	    }
 
@@ -152,9 +152,9 @@ namespace DashlorisX
 		    Tools.Round(TextContainer, 6);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Text Container");
+		    throw (E);
 		}
 
 		var ICON_SIZE = new Size(CONT_SIZE.Width - 14, CONT_SIZE.Height - 14);
@@ -167,9 +167,9 @@ namespace DashlorisX
 		    Tools.Round(InnerTextContainer, 6);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Inner Text Container");
+		    throw (E);
 		}
 
 		var TBOX_SIZE = ICON_SIZE;
@@ -182,9 +182,9 @@ namespace DashlorisX
 		    Controls.TextBox(InnerTextContainer, TextLog, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Text Box Log");
+		    throw (E);
 		}
 
 		var RECT_SIZE = new Size(CONT_SIZE.Width - 4, CONT_SIZE.Height - 4);
@@ -196,9 +196,9 @@ namespace DashlorisX
 		    Tools.PaintRectangle(TextContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    throw new Exception("Text Container Rectangle");
+		    throw (E);
 		}
 	    }
 
