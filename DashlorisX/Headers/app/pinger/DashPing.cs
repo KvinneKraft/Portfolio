@@ -238,7 +238,7 @@ namespace DashlorisX
 
 		var BUTT_SIZE = new Size(90, 26);
 		var BUTT_LOCA = new Point(10, 10);
-		var BUTT_BCOL = Color.FromArgb(10, 10, 10);//23, 33, 51);
+		var BUTT_BCOL = Color.FromArgb(10, 10, 10);
 		var BUTT_FCOL = Color.White;
 
 		try
