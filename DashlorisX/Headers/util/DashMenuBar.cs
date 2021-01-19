@@ -120,7 +120,7 @@ namespace DashlorisX
 	    }
 
 	    var RECT_SIZE = new Size(Bar.Width - 2, Top.Height - Bar.Height + 1);
-	    var RECT_LOCA = new Point(1, Bar.Height + Bar.Top - 3);
+	    var RECT_LOCA = new Point(1, Bar.Height + Bar.Top - 2);
 
 	    try
 	    {
