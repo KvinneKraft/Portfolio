@@ -322,45 +322,4 @@ namespace DashlorisX
 	    return true;
 	}
     }
-
-    public class DropdownMenu : Form
-    {
-	new readonly DashControls Controls = new DashControls();
-
-	readonly DropDownMenu DropMenu = new DropDownMenu();
-	readonly DashTools Tools = new DashTools();
-
-	public DropdownMenu()
-	{
-	    Label HOVER = new Label();
-
-	    Controls.Label(this, HOVER, Tools.GetFontSize("Yessir", 10), new Point(50, 50), Color.Black, Color.White, 1, 10, "YESSIR");
-
-	    DropMenu.SetupMenu(this, new Point(HOVER.Left, HOVER.Top + HOVER.Height), Color.FromArgb(16, 16, 16), Color.FromArgb(8, 8, 8));
-
-	    DropMenu.AddItem(new Label(), "Option 1", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
-	    DropMenu.AddItem(new Label(), "Option 2", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
-	    DropMenu.AddItem(new Label(), "Option 3", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
-
-	    DropMenu.GetItem(0).Click += (s, e) =>
-	    {
-		DropMenu.RemoveItem();
-	    };
-
-	    DropMenu.GetItem(1).Click += (s, e) =>
-	    {
-		DropMenu.RemoveItem();
-	    };
-
-	    DropMenu.GetItem(2).Click += (s, e) =>
-	    {
-		DropMenu.RemoveItem();
-	    };
-
-	    HOVER.MouseHover += (s, e) =>
-	    {
-		DropMenu.Show();
-	    };
-	}
-    }
 }

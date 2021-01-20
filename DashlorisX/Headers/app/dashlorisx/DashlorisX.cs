@@ -261,7 +261,7 @@ namespace DashlorisX
 			    var BUTTO_LOCA = new Point(x, y);
 
 			    Controls.Button(InnerOptionContainer, ButtonObjects[p], BUTTO_SIZE, BUTTO_LOCA, BUTTO_BCOL, BUTTO_FCOL, 1, 10, ButtonTexts[p], Color.Empty);
-			    Tools.Round(ButtonObjects[p], 8);
+			    Tools.Round(ButtonObjects[p], 8);//Kulakov Created These Colours!
 
 			    x = BUTTO_SIZE.Width + ButtonObjects[p].Left + 8;
 			}
@@ -349,8 +349,8 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new DropdownMenu().ShowDialog();//Settings().ShowDialog();
-	    Environment.Exit(-1);
+	    new Settings().ShowDialog();
+	    //Environment.Exit(-1);
 
 	    ShowToS();
 	    RunDashlorisX();
