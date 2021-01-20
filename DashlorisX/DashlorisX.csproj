@@ -75,6 +75,7 @@
     <Compile Include="Headers\util\DashMenuBar.cs" />
     <Compile Include="Headers\util\DashNet.cs" />
     <Compile Include="Headers\util\DashTools.cs" />
+    <Compile Include="Headers\util\DropDownMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Headers\app\about\About.resx">
       <DependentUpon>About.cs</DependentUpon>

@@ -348,8 +348,8 @@ namespace DashlorisX
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
-	    
-	    new Settings().ShowDialog();
+
+	    new DropdownMenu().ShowDialog();//Settings().ShowDialog();
 	    Environment.Exit(-1);
 
 	    ShowToS();

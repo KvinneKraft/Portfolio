@@ -194,6 +194,11 @@ namespace DashlorisX
 		Controls.Button(InnerBottomBarContainer, Help, BUTTON_SIZE, HELP_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Help", Color.Empty);
 		Controls.Button(InnerBottomBarContainer, Close, BUTTON_SIZE, CLOSE_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Close", Color.Empty);
 
+		Close.Click += (s, e) =>
+		{
+		    Hide();
+		};
+
 		foreach (Control control in InnerBottomBarContainer.Controls)
 		{
 		    if (control is Button)
@@ -211,7 +216,7 @@ namespace DashlorisX
 	    // Auto-Resize Inner Contaienr to button space. Last button.left + last button.width
 
 	    var ICON_SIZE = new Size(InnerBottomBarContainer.Controls[InnerBottomBarContainer.Controls.Count - 1].Left + BUTTON_SIZE.Width, BUTTON_SIZE.Height);
-	    var ICON_LOCA = new Point((BottomBar.Width - ICON_SIZE.Width) / 2, (BottomBar.Height - BUTTON_SIZE.Height) / 2);
+	    var ICON_LOCA = new Point((BottomBar.Width - ICON_SIZE.Width) / 2, (BottomBar.Height - BUTTON_SIZE.Height) / 2 - 1);
 	    var ICON_BCOL = BCON_BCOL;
 
 	    try
