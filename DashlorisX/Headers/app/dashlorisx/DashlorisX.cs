@@ -350,7 +350,7 @@ namespace DashlorisX
 	    Application.SetCompatibleTextRenderingDefault(false);
 
 	    new Settings().ShowDialog();
-	    //Environment.Exit(-1);
+	    Environment.Exit(-1);
 
 	    ShowToS();
 	    RunDashlorisX();
