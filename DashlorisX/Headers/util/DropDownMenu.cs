@@ -18,7 +18,7 @@ namespace DashlorisX
 {
     public class DropDownMenu
     {
-	new readonly DashControls Controls = new DashControls();
+	readonly DashControls Controls = new DashControls();
 	readonly DashTools Tools = new DashTools();
 
 	public void Hide()
@@ -50,9 +50,7 @@ namespace DashlorisX
 	readonly public PictureBox ContentContainer = new PictureBox();
 	readonly public PictureBox Container = new PictureBox();
 
-	private Color ItemColor = Color.Empty;
-
-	public void SetupMenu(Control Top, Point MenuLocation, Color ItemColor, Color MenuColor, Color MenuBorderColor)
+	public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
 	{
 	    try
 	    {
@@ -72,7 +70,7 @@ namespace DashlorisX
 
 		var CContainerSize = new Size(MContainerSize.Width - 4, MContainerSize.Height - 4);
 		var CContainerLocation = new Point(2, 2);
-		var CContainerBackColor = MenuColor;
+		var CContainerBackColor = Color.White;//MenuColor;
 
 		try
 		{
@@ -98,8 +96,6 @@ namespace DashlorisX
 		    throw (E);
 		}
 
-		this.ItemColor = ItemColor;
-
 		Top.MouseEnter += (s, e) =>
 		{
 		    if (Container.Visible)
@@ -107,7 +103,7 @@ namespace DashlorisX
 			Hide();
 		    }
 		};
-
+		
 		Hide();
 	    }
 
@@ -117,9 +113,160 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly public Dictionary<int, Control> MenuItems = new Dictionary<int, Control>();
+	readonly public Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
+	
+	private int GetY()
+	{
+	    if (MenuItems.Count > 0)
+	    {
+		var Item = ContentContainer.Controls[ContentContainer.Controls.Count - 1];
+		return (Item.Top + Item.Height);
+	    }
 
-	// Check for size, if item size greater, resize!
+	    return 0;
+	}
+
+	public void AddItem(Label Object, string ItemName, Color ItemBColor, Color ItemFColor, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
+	{
+	    try
+	    {
+		if (ItemWidth == -2 || ItemHeight == -2)
+		{
+		    if (ItemWidth == -2)
+		    {
+			ItemWidth = ContentContainer.Width;
+		    }
+
+		    if (ItemHeight == -2)
+		    {
+			ItemHeight = Tools.GetFontSize(ItemName, ItemTextSize).Height + 6;
+		    }
+		}
+
+		var ItemSize = new Size(ItemWidth, ItemHeight);
+		var ItemLocation = new Point(0, GetY());
+		var ItemBackColor = ItemBColor;
+		var ItemForeColor = ItemFColor;
+
+		try
+		{
+		    Controls.Label(ContentContainer, Object, ItemSize, ItemLocation, ItemBackColor, ItemForeColor, 1, ItemTextSize, ItemName);
+
+		    Object.TextAlign = ContentAlignment.TopCenter;
+		}
+
+		catch (Exception E)
+		{
+		    throw (E);
+		}
+
+		int GetContentContainerWidth()
+		{
+		    int Width = ItemWidth;
+
+		    if (Width < ContentContainer.Width)
+		    {
+			Width = ContentContainer.Width;
+		    }
+
+		    return Width;
+		}
+
+		var CContainerSize = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
+		var MContainerSize = new Size(CContainerSize.Width + 4, CContainerSize.Height + 4);
+
+		try
+		{
+		    Tools.Resize(ContentContainer, CContainerSize);
+		    Tools.Resize(Container, MContainerSize);
+		}
+
+		catch (Exception E)
+		{
+		    throw (E);
+		}
+
+		if (Index == -2)
+		{
+		    Index = MenuItems.Count;
+		}
+
+		MenuItems.Add(Index, Object);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	public Label GetItem(int Index = -2)
+	{
+	    try
+	    {
+		if (Index == -2)
+		{
+		    Index = MenuItems.Count - 1;
+		}
+
+		if (MenuItems.Count - 1 < Index)
+		{
+		    return null;
+		}
+
+		return MenuItems[Index];
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	private void ReorganizeDropDownMenu()
+	{
+	    try
+	    {
+		var ItemLocation = new Point(0, 0);
+
+		for (int k = 0, y = ItemLocation.Y; k < MenuItems.Values.Count; k += 1)
+		{
+
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	public bool RemoveItem(int Index = -2)
+	{
+	    try
+	    {
+		if (MenuItems.Count < 1 || !MenuItems.ContainsKey(Index))
+		{
+		    return false;
+		}
+
+		if (Index == -2)
+		{
+		    Index = MenuItems.Count - 1;
+		}
+
+		MenuItems.Remove(Index);
+
+		ReorganizeDropDownMenu();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+
+	    return true;
+	}
     }
 
     public class DropdownMenu : Form
@@ -135,7 +282,26 @@ namespace DashlorisX
 
 	    Controls.Label(this, HOVER, Tools.GetFontSize("Yessir", 10), new Point(50, 50), Color.Black, Color.White, 1, 10, "YESSIR");
 
-	    DropMenu.SetupMenu(this, new Point(HOVER.Left, HOVER.Top + HOVER.Height), Color.FromArgb(8, 8, 8), Color.FromArgb(16, 16, 16), Color.FromArgb(8, 8, 8));
+	    DropMenu.SetupMenu(this, new Point(HOVER.Left, HOVER.Top + HOVER.Height), Color.FromArgb(16, 16, 16), Color.FromArgb(8, 8, 8));
+
+	    DropMenu.AddItem(new Label(), "Option 1", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
+	    DropMenu.AddItem(new Label(), "Option 2", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
+	    DropMenu.AddItem(new Label(), "Option 3", DropMenu.Container.BackColor, Color.White, ItemWidth: 100, ItemTextSize: 8);
+
+	    DropMenu.GetItem(0).Click += (s, e) =>
+	    {
+		MessageBox.Show("I am Option 1!");
+	    };
+
+	    DropMenu.GetItem(1).Click += (s, e) =>
+	    {
+		MessageBox.Show("I am Option 2!");
+	    };
+
+	    DropMenu.GetItem(2).Click += (s, e) =>
+	    {
+		MessageBox.Show("I am Option 3!");
+	    };
 
 	    HOVER.MouseHover += (s, e) =>
 	    {
