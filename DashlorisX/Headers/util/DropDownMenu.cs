@@ -190,7 +190,7 @@ namespace DashlorisX
 		{
 		    Index = MenuItems.Count;
 		}
-
+		
 		MenuItems.Add(Index, Object);
 	    }
 
@@ -223,15 +223,27 @@ namespace DashlorisX
 	    }
 	}
 
-	private void ReorganizeDropDownMenu()
+	private void ReloadDropDownMenu()
 	{
 	    try
 	    {
 		var ItemLocation = new Point(0, 0);
+		var MenuItems = new List<Label>();
 
-		for (int k = 0, y = ItemLocation.Y; k < MenuItems.Values.Count; k += 1)
+		foreach (Label MenuItem in this.MenuItems.Values)
 		{
+		    MenuItem.Location = ItemLocation;
+		    
+		    ItemLocation.Y += MenuItem.Height;
 
+		    MenuItems.Add(MenuItem);
+		}
+
+		this.MenuItems.Clear();
+
+		for (int k = 0; k < MenuItems.Count; k += 1)
+		{
+		    this.MenuItems.Add(k, MenuItems[k]);
 		}
 	    }
 
@@ -245,19 +257,61 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		if (MenuItems.Count < 1 || !MenuItems.ContainsKey(Index))
+		try
 		{
-		    return false;
+		    if (Index == -2)
+		    {
+			var Count = MenuItems.Count;
+
+			if (Count >= 1)
+			{
+			    Count -= 1;
+			}
+
+			Index = Count;
+		    }
+
+		    if (!MenuItems.ContainsKey(Index))
+		    {
+			return false;
+		    }
+
+		    ContentContainer.Controls.RemoveAt(Index);
+		    MenuItems.Remove(Index);
+
+		    ReloadDropDownMenu();
 		}
 
-		if (Index == -2)
+		catch (Exception E)
 		{
-		    Index = MenuItems.Count - 1;
+		    throw (E);
+		}
+		
+		int GetMenuHeight()
+		{
+		    var Height = 0;
+
+		    if (MenuItems.Count > 0)
+		    {
+			Height = MenuItems[MenuItems.Count - 1].Top + MenuItems[MenuItems.Count - 1].Height - 4;
+		    }
+
+		    return Height;
 		}
 
-		MenuItems.Remove(Index);
+		var CContainerSize = new Size(ContentContainer.Width, GetMenuHeight());
+		var MContainerSize = new Size(CContainerSize.Width + 4, CContainerSize.Height + 4);
 
-		ReorganizeDropDownMenu();
+		try
+		{
+		    Tools.Resize(ContentContainer, CContainerSize);
+		    Tools.Resize(Container, MContainerSize);
+		}
+
+		catch (Exception E)
+		{
+		    throw (E);
+		}
 	    }
 
 	    catch (Exception E)
@@ -290,17 +344,17 @@ namespace DashlorisX
 
 	    DropMenu.GetItem(0).Click += (s, e) =>
 	    {
-		MessageBox.Show("I am Option 1!");
+		DropMenu.RemoveItem();
 	    };
 
 	    DropMenu.GetItem(1).Click += (s, e) =>
 	    {
-		MessageBox.Show("I am Option 2!");
+		DropMenu.RemoveItem();
 	    };
 
 	    DropMenu.GetItem(2).Click += (s, e) =>
 	    {
-		MessageBox.Show("I am Option 3!");
+		DropMenu.RemoveItem();
 	    };
 
 	    HOVER.MouseHover += (s, e) =>
