@@ -53,14 +53,64 @@ namespace DashlorisX
 	readonly PictureBox ConfigurationContainer = new PictureBox();
 
 	readonly TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
-	readonly TextBox MethodBox = new TextBox() { Text = "POST" };
+	readonly TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
 	readonly TextBox CookieBox = new TextBox() { Text = "Cookie=8f75a1acb808d4f709bc4d71b9ab0343" };
-	readonly TextBox HTTPvBox = new TextBox() { Text = "1.1" };
+	readonly TextBox HTTPvBox = new TextBox() { Text = "1.1", ReadOnly = true };
 
 	readonly Label UserAgentLabel = new Label();
 	readonly Label MethodLabel = new Label();
 	readonly Label CookieLabel = new Label();
 	readonly Label HTTPvLabel = new Label();
+
+	readonly DropDownMenu MethodMenu = new DropDownMenu();
+	readonly DropDownMenu HTTPvMenu = new DropDownMenu();
+
+	private void InitializeDropdownMenus()
+	{
+	    var MenuBorderBColor = Color.FromArgb(10, 10, 10);
+	    var MenuBColor = Color.FromArgb(10, 10, 10);
+
+	    var MenuItemBColor = MenuBColor;
+	    var MenuItemFColor = Color.White;
+
+	    Point GetMenuLocation(TextBox Object) =>
+		(new Point(Object.Parent.Left + ConfigurationContainer.Left, Object.Parent.Top + Object.Parent.Height + ConfigurationContainer.Top));
+	    
+	    try
+	    {
+		HTTPvMenu.SetupMenu(this, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
+
+		HTTPvMenu.AddItem(new Label(), "1.0", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+		HTTPvMenu.AddItem(new Label(), "1.1", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+		HTTPvMenu.AddItem(new Label(), "1.2", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+
+		HTTPvMenu.Container.BringToFront();
+
+		HTTPvBox.Click += (s, e) =>
+		{
+		    HTTPvMenu.Show();
+		};
+	    
+		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
+
+		MethodMenu.AddItem(new Label(), "PUT", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+		MethodMenu.AddItem(new Label(), "POST", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+		MethodMenu.AddItem(new Label(), "GET", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+		MethodMenu.AddItem(new Label(), "HEAD", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
+
+		MethodMenu.Container.BringToFront();
+
+		MethodBox.Click += (s, e) =>
+		{
+		    MethodMenu.Show();
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
 
 	private void InitializeSettings()
 	{
@@ -147,6 +197,8 @@ namespace DashlorisX
 	    {
 		throw (E);
 	    }
+
+	    InitializeDropdownMenus();
 	}
 
 	readonly PictureBox InnerBottomBarContainer = new PictureBox();
