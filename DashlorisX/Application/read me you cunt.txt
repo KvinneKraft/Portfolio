@@ -1,7 +1,7 @@
 // Dropdown menu class -> Integrate for method types and versions.
 /*
 * [TO-DOS]
--Integrate Dropdown Menu for Methods / HTTP Versions
+- Hover Colors for Menu Items
 Log Container Dialog Class
 Upload Website
 */

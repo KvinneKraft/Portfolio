@@ -18,9 +18,10 @@ namespace DashlorisX
 {
     public partial class DashlorisX : Form
     {
-	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X");
 	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+
+	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X");
+	static readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
 	{

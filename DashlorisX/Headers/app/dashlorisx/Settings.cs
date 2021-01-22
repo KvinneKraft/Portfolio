@@ -50,11 +50,14 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox ConfigurationContainer = new PictureBox();
+	readonly PictureBox ConfigurationContainer = new PictureBox();//This shit hurts my eyes help.
+
+	readonly DropDownMenu MethodMenu = new DropDownMenu();
+	readonly DropDownMenu HTTPvMenu = new DropDownMenu();
 
 	readonly TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
-	readonly TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
 	readonly TextBox CookieBox = new TextBox() { Text = "Cookie=8f75a1acb808d4f709bc4d71b9ab0343" };
+	readonly TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
 	readonly TextBox HTTPvBox = new TextBox() { Text = "1.1", ReadOnly = true };
 
 	readonly Label UserAgentLabel = new Label();
@@ -62,48 +65,75 @@ namespace DashlorisX
 	readonly Label CookieLabel = new Label();
 	readonly Label HTTPvLabel = new Label();
 
-	readonly DropDownMenu MethodMenu = new DropDownMenu();
-	readonly DropDownMenu HTTPvMenu = new DropDownMenu();
-
 	private void InitializeDropdownMenus()
 	{
-	    var MenuBorderBColor = Color.FromArgb(10, 10, 10);
-	    var MenuBColor = Color.FromArgb(10, 10, 10);
+	    var MenuBorderBColor = MethodBox.BackColor;
+	    var MenuBColor = MethodBox.BackColor;
+
+	    Point GetMenuLocation(TextBox Object) =>
+		(new Point(Object.Parent.Left + ConfigurationContainer.Left + 1, Object.Parent.Top + Object.Parent.Height + ConfigurationContainer.Top - 5));
+
+	    try
+	    {
+		HTTPvMenu.SetupMenu(this, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
+		HTTPvMenu.Container.BringToFront();
+
+		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
+		MethodMenu.Container.BringToFront();
+		
+		ConfigurationContainer.MouseEnter += (s, e) =>
+		{
+		    if (MethodMenu.Container.Visible)
+		    {
+			MethodMenu.Hide();
+		    }
+
+		    if (HTTPvMenu.Container.Visible)
+		    {
+			HTTPvMenu.Hide();
+		    }
+		};
+
+		Tools.Round(MethodMenu.Container, 6);
+		Tools.Round(HTTPvMenu.Container, 6);
+
+		HTTPvBox.MouseEnter += (s, e) =>
+		{
+		    HTTPvMenu.Show();
+		    HTTPvBox.BringToFront();
+		};
+
+		MethodBox.MouseEnter += (s, e) =>
+		{
+		    MethodMenu.Show();
+		    MethodBox.BringToFront();
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 
 	    var MenuItemBColor = MenuBColor;
 	    var MenuItemFColor = Color.White;
 
-	    Point GetMenuLocation(TextBox Object) =>
-		(new Point(Object.Parent.Left + ConfigurationContainer.Left, Object.Parent.Top + Object.Parent.Height + ConfigurationContainer.Top));
-	    
+	    Label GetLabel() => new Label();
+
 	    try
 	    {
-		HTTPvMenu.SetupMenu(this, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
+		MethodMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
+		HTTPvMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
 
-		HTTPvMenu.AddItem(new Label(), "1.0", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-		HTTPvMenu.AddItem(new Label(), "1.1", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-		HTTPvMenu.AddItem(new Label(), "1.2", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-
-		HTTPvMenu.Container.BringToFront();
-
-		HTTPvBox.Click += (s, e) =>
+		foreach (string method in new string[] { "PUT", "POST", "GET", "HEAD" })
 		{
-		    HTTPvMenu.Show();
-		};
-	    
-		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
+		    MethodMenu.AddItem(GetLabel(), method, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:18);
+		}
 
-		MethodMenu.AddItem(new Label(), "PUT", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-		MethodMenu.AddItem(new Label(), "POST", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-		MethodMenu.AddItem(new Label(), "GET", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-		MethodMenu.AddItem(new Label(), "HEAD", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: 75, ItemHeight: 16);
-
-		MethodMenu.Container.BringToFront();
-
-		MethodBox.Click += (s, e) =>
+		foreach (string version in new string[] { "HTTP/1.0", "HTTP/1.1", "HTTP/1.2" })
 		{
-		    MethodMenu.Show();
-		};
+		    HTTPvMenu.AddItem(GetLabel(), version, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:18);
+		}
 	    }
 
 	    catch (Exception E)
@@ -211,7 +241,7 @@ namespace DashlorisX
 	private void InitializeBottomBar()
 	{
 	    var BContainerSize = new Size(Width, 44);
-	    var BContainerLocation = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 11);
+	    var BContainerLocation = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 26);
 	    var BContainerBColor = MenuBar.Bar.BackColor;
 
 	    try
@@ -256,9 +286,7 @@ namespace DashlorisX
 	    {
 		throw (E);
 	    }
-
-	    // Auto-Resize Inner Contaienr to button space. Last button.left + last button.width
-
+	    
 	    var IContainerSize = new Size(InnerBottomBarContainer.Controls[InnerBottomBarContainer.Controls.Count - 1].Left + ButtonSize.Width, ButtonSize.Height);
 	    var IContainerLocation = new Point((BottomBar.Width - IContainerSize.Width) / 2, (BottomBar.Height - ButtonSize.Height) / 2 - 1);
 	    var IContainerBColor = BContainerBColor;

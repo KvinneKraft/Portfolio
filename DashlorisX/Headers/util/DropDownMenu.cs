@@ -52,7 +52,7 @@ namespace DashlorisX
 
 	public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
 	{
-	    var MContainerSize = new Size(100, 0);
+	    var MContainerSize = new Size(10, 0);
 	    var MContainerLocation = MenuLocation;
 	    var MContainerBackColor = MenuColor;
 
@@ -141,7 +141,6 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.Label(ContentContainer, Object, ItemSize, ItemLocation, ItemBackColor, ItemForeColor, 1, ItemTextSize, ItemName);
-
 		Object.TextAlign = ContentAlignment.TopCenter;
 	    }
 
@@ -152,14 +151,12 @@ namespace DashlorisX
 
 	    int GetContentContainerWidth()
 	    {
-		int Width = ItemWidth;
-
-		if (Width < ContentContainer.Width)
+		if (ItemSize.Width > ContentContainer.Width)
 		{
-		    Width = ContentContainer.Width;
+		    return (ItemSize.Width);
 		}
 
-		return Width;
+		return (ContentContainer.Width);
 	    }
 
 	    var CContainerSize = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
