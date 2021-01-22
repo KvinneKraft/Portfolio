@@ -59,64 +59,56 @@ namespace DashlorisX
 
 	private void InitializeBottomBar()
 	{
+	    var CONT_SIZE = new Size(Width - 2, 28);
+	    var CONT_LOCA = new Point(1, Height - CONT_SIZE.Height);
+	    var CONT_BCOL = MenuBar.Bar.BackColor;
+
 	    try
 	    {
-		var CONT_SIZE = new Size(Width - 2, 28);
-		var CONT_LOCA = new Point(1, Height - CONT_SIZE.Height);
-		var CONT_BCOL = MenuBar.Bar.BackColor;
+		Controls.Image(this, BottomBar, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
+	    }
 
-		try
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+
+	    var BCON_SIZE = new Size(180, 26);
+	    var BCON_LOCA = new Point((CONT_SIZE.Width - BCON_SIZE.Width) / 2, (CONT_SIZE.Height - BCON_SIZE.Height) / 2);
+	    var BCON_BCOL = CONT_BCOL;
+
+	    try
+	    {
+		Controls.Image(BottomBar, BottomBarContainer, BCON_SIZE, BCON_LOCA, null, BCON_BCOL);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+
+	    var BUTTON_SIZE = new Size(85, 26);
+	    var BUTTON_BCOL = BCON_BCOL;
+	    var BUTTON_FCOL = Color.White;
+
+	    var CLOSE_LOCA = new Point(BUTTON_SIZE.Width + 10, 0);
+	    var CLEAR_LOCA = new Point(0, 0);
+
+	    try
+	    {
+		Controls.Button(BottomBarContainer, Clear, BUTTON_SIZE, CLEAR_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Clear", Color.Empty);
+
+		Clear.Click += (s, e) =>
 		{
-		    Controls.Image(this, BottomBar, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
-		}
+		    TextLog.Clear();
+		};
 
-		catch (Exception E)
+		Controls.Button(BottomBarContainer, Close, BUTTON_SIZE, CLOSE_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Close", Color.Empty);
+
+		Close.Click += (s, e) =>
 		{
-		    throw (E);
-		}
-
-		var BCON_SIZE = new Size(180, 26);
-		var BCON_LOCA = new Point((CONT_SIZE.Width - BCON_SIZE.Width) / 2, (CONT_SIZE.Height - BCON_SIZE.Height) / 2);
-		var BCON_BCOL = CONT_BCOL;
-
-		try
-		{
-		    Controls.Image(BottomBar, BottomBarContainer, BCON_SIZE, BCON_LOCA, null, BCON_BCOL);
-		}
-
-		catch (Exception E)
-		{
-		    throw (E);
-		}
-
-		var BUTTON_SIZE = new Size(85, 26);
-		var BUTTON_BCOL = BCON_BCOL;
-		var BUTTON_FCOL = Color.White;
-
-		var CLOSE_LOCA = new Point(BUTTON_SIZE.Width + 10, 0);
-		var CLEAR_LOCA = new Point(0, 0);
-
-		try
-		{
-		    Controls.Button(BottomBarContainer, Clear, BUTTON_SIZE, CLEAR_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Clear", Color.Empty);
-
-		    Clear.Click += (s, e) =>
-		    {
-			TextLog.Clear();
-		    };
-
-		    Controls.Button(BottomBarContainer, Close, BUTTON_SIZE, CLOSE_LOCA, BUTTON_BCOL, BUTTON_FCOL, 1, 10, "Close", Color.Empty);
-
-		    Close.Click += (s, e) =>
-		    {
-			Hide();
-		    };
-		}
-
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+		    Hide();
+		};
 	    }
 
 	    catch (Exception E)
@@ -140,66 +132,58 @@ namespace DashlorisX
 
 	private void InitializeMainContainer()
 	{
+	    var CONT_SIZE = new Size(Width - 22, Height - MenuBar.Bar.Height - BottomBar.Height - 21);
+	    var CONT_LOCA = new Point(11, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
+	    var CONT_BCOL = Color.FromArgb(16, 16, 16);
+
 	    try
 	    {
-		var CONT_SIZE = new Size(Width - 22, Height - MenuBar.Bar.Height - BottomBar.Height - 21);
-		var CONT_LOCA = new Point(11, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
-		var CONT_BCOL = Color.FromArgb(16, 16, 16);
+		Controls.Image(this, TextContainer, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
+		Tools.Round(TextContainer, 6);
+	    }
 
-		try
-		{
-		    Controls.Image(this, TextContainer, CONT_SIZE, CONT_LOCA, null, CONT_BCOL);
-		    Tools.Round(TextContainer, 6);
-		}
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+	    var ICON_SIZE = new Size(CONT_SIZE.Width - 14, CONT_SIZE.Height - 14);
+	    var ICON_LOCA = new Point(7, 7);
+	    var ICON_BCOL = CONT_BCOL;
 
-		var ICON_SIZE = new Size(CONT_SIZE.Width - 14, CONT_SIZE.Height - 14);
-		var ICON_LOCA = new Point(7, 7);
-		var ICON_BCOL = CONT_BCOL;
+	    try
+	    {
+		Controls.Image(TextContainer, InnerTextContainer, ICON_SIZE, ICON_LOCA, null, ICON_BCOL);
+		Tools.Round(InnerTextContainer, 6);
+	    }
 
-		try
-		{
-		    Controls.Image(TextContainer, InnerTextContainer, ICON_SIZE, ICON_LOCA, null, ICON_BCOL);
-		    Tools.Round(InnerTextContainer, 6);
-		}
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+	    var TBOX_SIZE = ICON_SIZE;
+	    var TBOX_LOCA = new Point(0, 0);
+	    var TBOX_BCOL = CONT_BCOL;
+	    var TBOX_FCOL = Color.White;
 
-		var TBOX_SIZE = ICON_SIZE;
-		var TBOX_LOCA = new Point(0, 0);
-		var TBOX_BCOL = CONT_BCOL;
-		var TBOX_FCOL = Color.White;
+	    try
+	    {
+		Controls.TextBox(InnerTextContainer, TextLog, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
+	    }
 
-		try
-		{
-		    Controls.TextBox(InnerTextContainer, TextLog, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
-		}
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+	    var RECT_SIZE = new Size(CONT_SIZE.Width - 4, CONT_SIZE.Height - 4);
+	    var RECT_LOCA = new Point(2, 2);
+	    var RECT_BCOL = Color.FromArgb(8, 8, 8);
 
-		var RECT_SIZE = new Size(CONT_SIZE.Width - 4, CONT_SIZE.Height - 4);
-		var RECT_LOCA = new Point(2, 2);
-		var RECT_BCOL = Color.FromArgb(8, 8, 8);
-
-		try
-		{
-		    Tools.PaintRectangle(TextContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
-		}
-
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+	    try
+	    {
+		Tools.PaintRectangle(TextContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 	    }
 
 	    catch (Exception E)

@@ -1,9 +1,9 @@
 // Dropdown menu class -> Integrate for method types and versions.
 /*
 * [TO-DOS]
-Lowercase Words for Variable Names
+-Lowercase Words for Variable Names
+-Fix Unecessary Catch Statement
+-Integrate Dropdown Menu for Methods / HTTP Versions
 Log Container Dialog Class
-Integrate Dropdown Menu for Methods / HTTP Versions
 Upload Website
-Fix Unecessary Catch Statement
 */

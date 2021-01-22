@@ -64,91 +64,83 @@ namespace DashlorisX
 
 	private void InitializeSettings()
 	{
+	    var CCON_SIZE = new Size(Width - 20, 70);
+	    var CCON_LOCA = new Point(10, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
+	    var CCON_BCOL = Color.FromArgb(9, 39, 66);//16, 16, 16);
+
 	    try
 	    {
-		var CCON_SIZE = new Size(Width - 20, 70);
-		var CCON_LOCA = new Point(10, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
-		var CCON_BCOL = Color.FromArgb(9, 39, 66);//16, 16, 16);
+		Controls.Image(this, ConfigurationContainer, CCON_SIZE, CCON_LOCA, null, CCON_BCOL);
+		Tools.Round(ConfigurationContainer, 6);
+	    }
 
-		try
+	    catch
+	    {
+		throw new Exception("Option Container");
+	    }
+
+	    var LABEL_BCOL = ConfigurationContainer.BackColor;
+	    var LABEL_FCOL = Color.White;
+
+	    var HTTPVERSIONL_TEXT = string.Format("HTTP Version:");
+	    var HTTPVERSIONL_SIZE = Tools.GetFontSize(HTTPVERSIONL_TEXT, 10);
+	    var HTTPVERSIONL_LOCA = new Point(10, 11);
+
+	    var TEXTBOX_BCOL = Color.FromArgb(10, 10, 10);
+	    var TEXTBOX_FCOL = Color.White;
+
+	    var HTTPVERSIONB_LOCA = new Point(HTTPVERSIONL_LOCA.X + HTTPVERSIONL_SIZE.Width, HTTPVERSIONL_LOCA.Y - 1);
+	    var HTTPVERSIONB_SIZE = new Size(75, 20);
+
+	    var USERAGENTL_TEXT = string.Format("User-Agent:");
+	    var USERAGENTL_SIZE = Tools.GetFontSize(USERAGENTL_TEXT, 10);
+	    var USERAGENTL_LOCA = new Point(HTTPVERSIONB_LOCA.X + HTTPVERSIONB_SIZE.Width + 10, HTTPVERSIONL_LOCA.Y); // HTTPBox.Left + HTTPBox.Width + 10
+
+	    var USERAGENTB_LOCA = new Point(USERAGENTL_LOCA.X + USERAGENTL_SIZE.Width, USERAGENTL_LOCA.Y - 1);
+	    var USERAGENTB_SIZE = new Size(CCON_SIZE.Width - USERAGENTL_LOCA.X - USERAGENTL_SIZE.Width - (USERAGENTB_LOCA.X - USERAGENTB_LOCA.X) - (HTTPVERSIONL_LOCA.X), 20);
+
+	    var METHODL_TEXT = string.Format("Method:");
+	    var METHODL_SIZE = Tools.GetFontSize(METHODL_TEXT, 10);
+	    var METHODL_LOCA = new Point(HTTPVERSIONL_LOCA.X, HTTPVERSIONB_LOCA.Y + HTTPVERSIONB_SIZE.Height + 5);
+
+	    var METHODB_LOCA = new Point(METHODL_LOCA.X + METHODL_SIZE.Width, METHODL_LOCA.Y - 1);
+	    var METHODB_SIZE = new Size(75, 20);
+
+	    var COOKIEL_TEXT = string.Format("Cookie:");
+	    var COOKIEL_SIZE = Tools.GetFontSize(COOKIEL_TEXT, 10);
+	    var COOKIEL_LOCA = new Point(METHODB_LOCA.X + METHODB_SIZE.Width + 10, METHODL_LOCA.Y);
+
+	    var COOKIEB_LOCA = new Point(COOKIEL_LOCA.X + COOKIEL_SIZE.Width, COOKIEL_LOCA.Y - 1);
+	    var COOKIEB_SIZE = new Size(CCON_SIZE.Width - COOKIEL_LOCA.X - COOKIEL_SIZE.Width - (COOKIEB_LOCA.X - COOKIEB_LOCA.X) - (METHODL_LOCA.X), 20);
+
+	    try
+	    {
+		Controls.Label(ConfigurationContainer, HTTPvLabel, HTTPVERSIONL_SIZE, HTTPVERSIONL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, HTTPVERSIONL_TEXT);
+		Controls.Label(ConfigurationContainer, UserAgentLabel, USERAGENTL_SIZE, USERAGENTL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, USERAGENTL_TEXT);
+		Controls.Label(ConfigurationContainer, MethodLabel, METHODL_SIZE, METHODL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, METHODL_TEXT);
+		Controls.Label(ConfigurationContainer, CookieLabel, COOKIEL_SIZE, COOKIEL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, COOKIEL_TEXT);
+
+		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVERSIONB_SIZE, HTTPVERSIONB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, UserAgentBox, USERAGENTB_SIZE, USERAGENTB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, MethodBox, METHODB_SIZE, METHODB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, CookieBox, COOKIEB_SIZE, COOKIEB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
+
+		foreach (Control controlo in ConfigurationContainer.Controls)
 		{
-		    Controls.Image(this, ConfigurationContainer, CCON_SIZE, CCON_LOCA, null, CCON_BCOL);
-		    Tools.Round(ConfigurationContainer, 6);
-		}
-
-		catch
-		{
-		    throw new Exception("Option Container");
-		}
-		
-		var LABEL_BCOL = ConfigurationContainer.BackColor;
-		var LABEL_FCOL = Color.White;
-
-		var HTTPVERSIONL_TEXT = string.Format("HTTP Version:");
-		var HTTPVERSIONL_SIZE = Tools.GetFontSize(HTTPVERSIONL_TEXT, 10);
-		var HTTPVERSIONL_LOCA = new Point(10, 11);
-
-		var TEXTBOX_BCOL = Color.FromArgb(10, 10, 10);
-		var TEXTBOX_FCOL = Color.White;
-
-		var HTTPVERSIONB_LOCA = new Point(HTTPVERSIONL_LOCA.X + HTTPVERSIONL_SIZE.Width, HTTPVERSIONL_LOCA.Y - 1);
-		var HTTPVERSIONB_SIZE = new Size(75, 20);
-
-		var USERAGENTL_TEXT = string.Format("User-Agent:");
-		var USERAGENTL_SIZE = Tools.GetFontSize(USERAGENTL_TEXT, 10);
-		var USERAGENTL_LOCA = new Point(HTTPVERSIONB_LOCA.X + HTTPVERSIONB_SIZE.Width + 10, HTTPVERSIONL_LOCA.Y); // HTTPBox.Left + HTTPBox.Width + 10
-
-		var USERAGENTB_LOCA = new Point(USERAGENTL_LOCA.X + USERAGENTL_SIZE.Width, USERAGENTL_LOCA.Y - 1);
-		var USERAGENTB_SIZE = new Size(CCON_SIZE.Width - USERAGENTL_LOCA.X - USERAGENTL_SIZE.Width - (USERAGENTB_LOCA.X - USERAGENTB_LOCA.X) - (HTTPVERSIONL_LOCA.X), 20);
-
-		var METHODL_TEXT = string.Format("Method:");
-		var METHODL_SIZE = Tools.GetFontSize(METHODL_TEXT, 10);
-		var METHODL_LOCA = new Point(HTTPVERSIONL_LOCA.X, HTTPVERSIONB_LOCA.Y + HTTPVERSIONB_SIZE.Height + 5);
-
-		var METHODB_LOCA = new Point(METHODL_LOCA.X + METHODL_SIZE.Width, METHODL_LOCA.Y - 1);
-		var METHODB_SIZE = new Size(75, 20);
-
-		var COOKIEL_TEXT = string.Format("Cookie:");
-		var COOKIEL_SIZE = Tools.GetFontSize(COOKIEL_TEXT, 10);
-		var COOKIEL_LOCA = new Point(METHODB_LOCA.X + METHODB_SIZE.Width + 10, METHODL_LOCA.Y);
-
-		var COOKIEB_LOCA = new Point(COOKIEL_LOCA.X + COOKIEL_SIZE.Width, COOKIEL_LOCA.Y - 1);
-		var COOKIEB_SIZE = new Size(CCON_SIZE.Width - COOKIEL_LOCA.X - COOKIEL_SIZE.Width - (COOKIEB_LOCA.X - COOKIEB_LOCA.X) - (METHODL_LOCA.X), 20);
-
-		try
-		{
-		    Controls.Label(ConfigurationContainer, HTTPvLabel, HTTPVERSIONL_SIZE, HTTPVERSIONL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, HTTPVERSIONL_TEXT);
-		    Controls.Label(ConfigurationContainer, UserAgentLabel, USERAGENTL_SIZE, USERAGENTL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, USERAGENTL_TEXT);
-		    Controls.Label(ConfigurationContainer, MethodLabel, METHODL_SIZE, METHODL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, METHODL_TEXT);
-		    Controls.Label(ConfigurationContainer, CookieLabel, COOKIEL_SIZE, COOKIEL_LOCA, LABEL_BCOL, LABEL_FCOL, 1, 10, COOKIEL_TEXT);
-
-		    Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVERSIONB_SIZE, HTTPVERSIONB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
-		    Controls.TextBox(ConfigurationContainer, UserAgentBox, USERAGENTB_SIZE, USERAGENTB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
-		    Controls.TextBox(ConfigurationContainer, MethodBox, METHODB_SIZE, METHODB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
-		    Controls.TextBox(ConfigurationContainer, CookieBox, COOKIEB_SIZE, COOKIEB_LOCA, TEXTBOX_BCOL, TEXTBOX_FCOL, 1, 8, Color.Empty);
-
-		    foreach (Control controlo in ConfigurationContainer.Controls)
+		    if (controlo is PictureBox)
 		    {
-			if (controlo is PictureBox)
-			{
-			    ((TextBox)controlo.Controls[0]).TextAlign = HorizontalAlignment.Center;
-			    Tools.Round(controlo, 6);
-			}
+			((TextBox)controlo.Controls[0]).TextAlign = HorizontalAlignment.Center;
+			Tools.Round(controlo, 6);
 		    }
-
-		    Tools.Resize(ConfigurationContainer, new Size(CCON_SIZE.Width, COOKIEL_LOCA.Y + COOKIEL_SIZE.Height + USERAGENTB_LOCA.Y + 2));
-
-		    var RECT_SIZE = new Size(ConfigurationContainer.Width - 2, ConfigurationContainer.Height - 2);
-		    var RECT_LOCA = new Point(1, 1);
-		    var RECT_BCOL = Color.FromArgb(8, 8, 8);
-
-		    Tools.PaintRectangle(ConfigurationContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 		}
 
-		catch (Exception E)
-		{
-		    throw (E);
-		}
+		Tools.Resize(ConfigurationContainer, new Size(CCON_SIZE.Width, COOKIEL_LOCA.Y + COOKIEL_SIZE.Height + USERAGENTB_LOCA.Y + 2));
+
+		var RECT_SIZE = new Size(ConfigurationContainer.Width - 2, ConfigurationContainer.Height - 2);
+		var RECT_LOCA = new Point(1, 1);
+		var RECT_BCOL = Color.FromArgb(8, 8, 8);
+
+		Tools.PaintRectangle(ConfigurationContainer, 2, RECT_SIZE, RECT_LOCA, RECT_BCOL);
 	    }
 
 	    catch (Exception E)
