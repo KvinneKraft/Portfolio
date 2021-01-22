@@ -53,30 +53,30 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox MainContainer = new PictureBox();
 	readonly PictureBox InnerMainContainer = new PictureBox();
+	readonly PictureBox MainContainer = new PictureBox();
 
 	readonly List<Label> LabelObjects = new List<Label>()
 	{
-	    Host_L, Bytes_L,
-	    Port_L, Duration_L
+	    HostLabel, BytesLabel,
+	    PortLabel, DurationLabel
 	};
 	
-	readonly static Label Duration_L = new Label();
-	readonly static Label Bytes_L = new Label();
-	readonly static Label Host_L = new Label();
-	readonly static Label Port_L = new Label();
+	readonly static Label DurationLabel = new Label();
+	readonly static Label BytesLabel = new Label();
+	readonly static Label HostLabel = new Label();
+	readonly static Label PortLabel = new Label();
 
 	readonly List<TextBox> TextBoxObjects = new List<TextBox>()
 	{
-	    Host_T, Bytes_T,
-	    Port_T, Duration_T
+	    HostTextBox, BytesTextBox,
+	    PortTextBox, DurationTextBox
 	};
 
-	readonly static TextBox Duration_T = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox Bytes_T = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox Host_T = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox Port_T = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox DurationTextBox = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox BytesTextBox = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
+	readonly static TextBox PortTextBox = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
 
 	public enum MainContainerObject
 	{

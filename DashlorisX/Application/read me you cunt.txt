@@ -1,7 +1,10 @@
-// Dropdown menu class -> Integrate for method types and versions.
-/*
-* [TO-DOS]
-- Hover Colors for Menu Items
-Log Container Dialog Class
-Upload Website
-*/
+[TO-DOS]
+-----------
+- Helper Dialog (Settings.cs)
+- Menu Item Click Events (Settings.cs)
+- Save Functionality (Settings.cs)
+- Make all settings (host, port, duration ect
+  universally accessible [public static])
+-----------
+> Log Container Dialog Class (LogDialog.cs)
+> Upload Website

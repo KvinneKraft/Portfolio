@@ -19,6 +19,7 @@ namespace DashlorisX
     public partial class Settings : Form
     {
 	new readonly DashControls Controls = new DashControls();
+
 	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings", minim:false);
 	readonly DashTools Tools = new DashTools();
 
@@ -125,14 +126,40 @@ namespace DashlorisX
 		MethodMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
 		HTTPvMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
 
-		foreach (string method in new string[] { "PUT", "POST", "GET", "HEAD" })
+		foreach (string method in new string[] { "POST", "PUT", "GET", "HEAD" })
 		{
-		    MethodMenu.AddItem(GetLabel(), method, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:18);
+		    MethodMenu.AddItem(GetLabel(), method, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:16);
 		}
 
 		foreach (string version in new string[] { "HTTP/1.0", "HTTP/1.1", "HTTP/1.2" })
 		{
-		    HTTPvMenu.AddItem(GetLabel(), version, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:18);
+		    HTTPvMenu.AddItem(GetLabel(), version, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:16);
+		}
+
+		void SetLabelColors(Label label)
+		{
+		    if (label.Text != " ")
+		    {
+			label.MouseEnter += (s, e) =>
+			{
+			    label.BackColor = Color.FromArgb(16, 16, 16);
+			};
+
+			label.MouseLeave += (s, e) =>
+			{
+			    label.BackColor = MenuItemBColor;
+			};
+		    }
+		}
+
+		foreach (Label label in HTTPvMenu.ContentContainer.Controls)
+		{
+		    SetLabelColors(label);
+		}
+
+		foreach (Label label in MethodMenu.ContentContainer.Controls)
+		{
+		    SetLabelColors(label);
 		}
 	    }
 
@@ -241,7 +268,7 @@ namespace DashlorisX
 	private void InitializeBottomBar()
 	{
 	    var BContainerSize = new Size(Width, 44);
-	    var BContainerLocation = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 26);
+	    var BContainerLocation = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 11);//26);
 	    var BContainerBColor = MenuBar.Bar.BackColor;
 
 	    try
