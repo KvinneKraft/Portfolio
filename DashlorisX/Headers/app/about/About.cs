@@ -27,8 +27,8 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
 	    }
 
 	    catch (Exception E)
@@ -68,13 +68,13 @@ namespace DashlorisX
 
 	private void InitializeInformation()
 	{
-	    var ICONT_SIZE = new Size(Width - 24, Height - MenuBar.Bar.Height - 24);
-	    var ICONT_LOCA = new Point(12, MenuBar.Bar.Height + 11);
-	    var ICONT_BCOL = Color.FromArgb(16, 16, 16);
+	    var IContainerSize = new Size(Width - 24, Height - MenuBar.Bar.Height - 24);
+	    var IContainerLocation = new Point(12, MenuBar.Bar.Height + 11);
+	    var IContainerBColor = Color.FromArgb(16, 16, 16);
 
 	    try
 	    {
-		Controls.Image(this, InfoContainer, ICONT_SIZE, ICONT_LOCA, null, ICONT_BCOL);
+		Controls.Image(this, InfoContainer, IContainerSize, IContainerLocation, null, IContainerBColor);
 		Tools.Round(InfoContainer, 6);
 	    }
 
@@ -99,7 +99,7 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var ICREC_SIZE = new Size(ICONT_SIZE.Width - 4, ICONT_SIZE.Height - 4);
+	    var ICREC_SIZE = new Size(IContainerSize.Width - 4, IContainerSize.Height - 4);
 	    var ICREC_LOCA = new Point(2, 2);
 	    var ICREC_BCOL = Color.FromArgb(8, 8, 8);
 

@@ -27,8 +27,8 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		var BAR_COLA = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
 	    }
 
 	    catch (Exception E)
@@ -71,13 +71,13 @@ namespace DashlorisX
 
 	private void InitializeTextBox()
 	{
-	    var MCONT_SIZE = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height);
-	    var MCONT_LOCA = new Point(10, MenuBar.Bar.Height + 10);
-	    var MCONT_BCOL = Color.FromArgb(16, 16, 16);
+	    var MContainerSize = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height);
+	    var MContainerLocation = new Point(10, MenuBar.Bar.Height + 10);
+	    var MContainerBColor = Color.FromArgb(16, 16, 16);
 
 	    try
 	    {
-		Controls.Image(this, MainContainer, MCONT_SIZE, MCONT_LOCA, null, MCONT_BCOL);
+		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
 		Tools.Round(MainContainer, 4);
 	    }
 
@@ -86,13 +86,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var TCONT_SIZE = new Size(MCONT_SIZE.Width - 5, MCONT_SIZE.Height - 5);
-	    var TCONT_LOCA = new Point(3, 3);
-	    var TCONT_BCOL = MCONT_BCOL;
+	    var TContainerSize = new Size(MContainerSize.Width - 5, MContainerSize.Height - 5);
+	    var TContainerLocation = new Point(3, 3);
+	    var TContainerBColor = MContainerBColor;
 
 	    try
 	    {
-		Controls.Image(MainContainer, TextContainer, TCONT_SIZE, TCONT_LOCA, null, TCONT_BCOL);
+		Controls.Image(MainContainer, TextContainer, TContainerSize, TContainerLocation, null, TContainerBColor);
 		Tools.Round(TextContainer, 6);
 	    }
 
@@ -101,14 +101,14 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var TBOX_SIZE = TCONT_SIZE;
-	    var TBOX_LOCA = new Point(0, 0);
-	    var TBOX_BCOL = MCONT_BCOL;
-	    var TBOX_FCOL = Color.White;
+	    var TextBoxSize = TContainerSize;
+	    var TextBoxLocation = new Point(0, 0);
+	    var TextBoxBColor = MContainerBColor;
+	    var TextBoxFColor = Color.White;
 
 	    try
 	    {
-		Controls.TextBox(TextContainer, TextBox, TBOX_SIZE, TBOX_LOCA, TBOX_BCOL, TBOX_FCOL, 1, 9, Color.Empty, READONLY: true, SCROLLBAR: true, MULTILINE: true, FIXEDSIZE: false);
+		Controls.TextBox(TextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty, READONLY: true, SCROLLBAR: true, MULTILINE: true, FIXEDSIZE: false);
 	    }
 
 	    catch (Exception E)
@@ -116,14 +116,14 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var BUTT_SIZE = new Size(85, 26);
-	    var BUTT_LOCA = new Point((TextBox.Width - BUTT_SIZE.Width) / 2, TextBox.Height - BUTT_SIZE.Height - 10);
-	    var BUTT_BCOL = Color.FromArgb(3, 18, 26);//MenuBar.Bar.BackColor;
-	    var BUTT_FCOL = Color.White;
+	    var ButtonSize = new Size(85, 26);
+	    var ButtonLocation = new Point((TextBox.Width - ButtonSize.Width) / 2, TextBox.Height - ButtonSize.Height - 10);
+	    var ButtonBColor = Color.FromArgb(3, 18, 26);//MenuBar.Bar.BackColor;
+	    var ButtonFColor = Color.White;
 
 	    try
 	    {
-		Controls.Button(TextBox, Agree, BUTT_SIZE, BUTT_LOCA, BUTT_BCOL, BUTT_FCOL, 1, 10, "I Agree", Color.Empty);
+		Controls.Button(TextBox, Agree, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 10, "I Agree", Color.Empty);
 
 		Agree.Click += (s, e) =>
 		{
@@ -138,13 +138,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var MRECT_SIZE = new Size(MCONT_SIZE.Width - 2, MCONT_SIZE.Height - 2);
-	    var MRECT_LOCA = new Point(1, 1);
-	    var MRECT_BCOL = Color.FromArgb(8, 8, 8);
+	    var MRectangleSize = new Size(MContainerSize.Width - 2, MContainerSize.Height - 2);
+	    var MRectangleLocation = new Point(1, 1);
+	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
 
 	    try
 	    {
-		Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
+		Tools.PaintRectangle(MainContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
 	    }
 
 

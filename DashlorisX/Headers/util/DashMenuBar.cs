@@ -41,11 +41,11 @@ namespace DashlorisX
 	{
 	    var BAR_SIZE = new Size(Top.Width, Height);
 	    var BAR_LOCA = new Point(0, 0);
-	    var BAR_COLA = BarCola;
+	    var MenuBarBColor = BarCola;
 
 	    try
 	    {
-		CONTROL.Image(Top, Bar, BAR_SIZE, BAR_LOCA, null, BAR_COLA);
+		CONTROL.Image(Top, Bar, BAR_SIZE, BAR_LOCA, null, MenuBarBColor);
 		TOOL.Interactive(Bar, Top);
 	    }
 
@@ -86,15 +86,15 @@ namespace DashlorisX
 		throw new Exception("Title");
 	    }
 
-	    var BUTTO_SIZE = new Size(65, Height);
-	    var BUTTO_LOCA = new Point(Bar.Width - BUTTO_SIZE.Width, 0);
+	    var ButtonSize = new Size(65, Height);
+	    var BUTTO_LOCA = new Point(Bar.Width - ButtonSize.Width, 0);
 
 	    try
 	    {
 
 		if (close)
 		{
-		    CONTROL.Button(Bar, Close, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
+		    CONTROL.Button(Bar, Close, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
 		    TOOL.Interactive(Close, Top);
 
 		    Close.Click += (s, e) =>
@@ -113,12 +113,12 @@ namespace DashlorisX
 
 		if (close && minim)
 		{
-		    BUTTO_LOCA.X -= BUTTO_SIZE.Width;
+		    BUTTO_LOCA.X -= ButtonSize.Width;
 		}
 
 		if (minim)
 		{
-		    CONTROL.Button(Bar, Minim, BUTTO_SIZE, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
+		    CONTROL.Button(Bar, Minim, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
 		    TOOL.Interactive(Minim, Top);
 
 		    Minim.Click += (s, e) => Top.SendToBack();
@@ -130,12 +130,12 @@ namespace DashlorisX
 		throw new Exception("Buttons");
 	    }
 
-	    var RECT_SIZE = new Size(Bar.Width - 2, Top.Height - Bar.Height + 1);
-	    var RECT_LOCA = new Point(1, Bar.Height + Bar.Top - 2);
+	    var RectangleSize = new Size(Bar.Width - 2, Top.Height - Bar.Height + 1);
+	    var RectangleLocation = new Point(1, Bar.Height + Bar.Top - 2);
 
 	    try
 	    {
-		TOOL.PaintRectangle(Top, 2, RECT_SIZE, RECT_LOCA, BorCola);
+		TOOL.PaintRectangle(Top, 2, RectangleSize, RectangleLocation, BorCola);
 	    }
 
 	    catch

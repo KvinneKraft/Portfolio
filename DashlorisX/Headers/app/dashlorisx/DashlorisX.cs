@@ -26,8 +26,8 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		Color BAR_COLA = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, BAR_COLA, BAR_COLA);
+		Color MenuBarBColor = Color.FromArgb(19, 36, 64);
+		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
 	    }
 
 	    catch (Exception E)
@@ -85,13 +85,13 @@ namespace DashlorisX
 
 	private void InitializeMainField()
 	{
-	    var MCONTA_SIZE = new Size(Width - 22, 64);
-	    var MCONTA_LOCA = new Point(11, MenuBar.Bar.Height + 10);
-	    var MCONTA_COLA = Color.FromArgb(9, 39, 66);
+	    var MContainerSize = new Size(Width - 22, 64);
+	    var MContainerLocation = new Point(11, MenuBar.Bar.Height + 10);
+	    var MContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
-		Controls.Image(this, MainContainer, MCONTA_SIZE, MCONTA_LOCA, null, MCONTA_COLA);
+		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
 		Tools.Round(MainContainer, 8);
 	    }
 
@@ -100,13 +100,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var ICONTA_SIZE = new Size(MCONTA_SIZE.Width - 22, MCONTA_SIZE.Height - 21/*Measure it*/);
-	    var ICONTA_LOCA = new Point(11, 11);
-	    var ICONTA_COLA = MCONTA_COLA;
+	    var IContainerSize = new Size(MContainerSize.Width - 22, MContainerSize.Height - 21/*Measure it*/);
+	    var IContainerLocation = new Point(11, 11);
+	    var IContainerBColor = MContainerBColor;
 
 	    try
 	    {
-		Controls.Image(MainContainer, InnerMainContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_COLA);
+		Controls.Image(MainContainer, InnerMainContainer, IContainerSize, IContainerLocation, null, IContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -166,13 +166,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var MRECT_SIZE = new Size(MCONTA_SIZE.Width - 2, MCONTA_SIZE.Height - 2);
-	    var MRECT_LOCA = new Point(1, 1);
-	    var MRECT_COLA = Color.FromArgb(8, 8, 8);
+	    var MRectangleSize = new Size(MContainerSize.Width - 2, MContainerSize.Height - 2);
+	    var MRectangleLocation = new Point(1, 1);
+	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
 
 	    try
 	    {
-		Tools.PaintRectangle(MainContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_COLA);
+		Tools.PaintRectangle(MainContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
 	    }
 
 	    catch (Exception E)
@@ -209,7 +209,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, OptionContainer, OCONTA_SIZE, OCONTA_LOCA, null, OCONTA_BCOL);
+		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, null, OContainerBColor);
 		Tools.Round(OptionContainer, 8);
 	    }
 
@@ -218,13 +218,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var IOptionContainerSize = new Size(OCONTA_SIZE.Width - 28, OCONTA_SIZE.Height - 28);
+	    var IOptionContainerSize = new Size(OContainerSize.Width - 28, OContainerSize.Height - 28);
 	    var IOptionContainerLocation = new Point(14, 14);
-	    var IOptionContainerBColor = OCONTA_BCOL;
+	    var IOptionContainerBColor = OContainerBColor;
 
 	    try
 	    {
-		Controls.Image(OptionContainer, InnerOptionContainer, ICONTA_SIZE, ICONTA_LOCA, null, ICONTA_BCOL);
+		Controls.Image(OptionContainer, InnerOptionContainer, IOptionContainerSize, IOptionContainerLocation, null, IOptionContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -232,9 +232,9 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var BUTTO_SIZE = new Size((InnerOptionContainer.Width - 8) / 2, 26);
-	    var BUTTO_BCOL = Color.FromArgb(3, 18, 26);//11, 23, 43);//61, 13, 17);
-	    var BUTTO_FCOL = Color.White;
+	    var ButtonSize = new Size((InnerOptionContainer.Width - 8) / 2, 26);
+	    var ButtonBColor = Color.FromArgb(3, 18, 26);//Kulakov Created These Colours!
+	    var ButtonFColor = Color.White;
 
 	    var ButtonTexts = new List<string>() { "Launch", "Settings", "Online", "About" };
 
@@ -250,13 +250,13 @@ namespace DashlorisX
 		    {
 			var BUTTO_LOCA = new Point(x, y);
 
-			Controls.Button(InnerOptionContainer, ButtonObjects[p], BUTTO_SIZE, BUTTO_LOCA, BUTTO_BCOL, BUTTO_FCOL, 1, 10, ButtonTexts[p], Color.Empty);
-			Tools.Round(ButtonObjects[p], 8);//Kulakov Created These Colours!
+			Controls.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p], Color.Empty);
+			Tools.Round(ButtonObjects[p], 8);
 
-			x = BUTTO_SIZE.Width + ButtonObjects[p].Left + 8;
+			x = ButtonSize.Width + ButtonObjects[p].Left + 8;
 		    }
 
-		    y += BUTTO_SIZE.Height + ButtonObjects[p - 1].Top + 8;
+		    y += ButtonSize.Height + ButtonObjects[p - 1].Top + 8;
 		}
 
 		Tools.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
@@ -268,13 +268,13 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var MRECT_SIZE = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
-	    var MRECT_LOCA = new Point(1, 1);
-	    var MRECT_BCOL = Color.FromArgb(8, 8, 8);
+	    var MRectangleSize = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
+	    var MRectangleLocation = new Point(1, 1);
+	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
 
 	    try
 	    {
-		Tools.PaintRectangle(OptionContainer, 2, MRECT_SIZE, MRECT_LOCA, MRECT_BCOL);
+		Tools.PaintRectangle(OptionContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
 	    }
 
 	    catch (Exception E)
