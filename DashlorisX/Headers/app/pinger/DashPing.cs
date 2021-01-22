@@ -115,15 +115,15 @@ namespace DashlorisX
 	    var PortLabelSize = Tools.GetFontSize(PortLabelText, 10);
 	    var PortLabelLocation = new Point(HostBoxLocation.X + HostBoxSize.Width + 5, (HostContainer.Height - PortLabelSize.Height) / 2);
 
-	    var PortBoxSize = new Size(HostContainer.Width - PortLabel.Left - PortLabel.Width - 10, HostBoxSize.Height);
-	    var PortBoxLocation = new Point(PortLabel.Left + PortLabel.Width, HostBoxLocation.Y);
+	    var PortBoxSize = new Size(HostContainer.Width - PortLabelLocation.X - PortLabelSize.Width - 10, HostBoxSize.Height);
+	    var PortBoxLocation = new Point(PortLabelLocation.X + PortLabelSize.Width, HostBoxLocation.Y);
 
 	    Control GetDeepToll() =>
 		HostContainer.Controls[HostContainer.Controls.Count - 1];
 
 	    try
 	    {
-		Controls.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 10, Color.Empty);
+		Controls.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
 		Tools.Round(GetDeepToll(), 6);
 
 		Controls.TextBox(HostContainer, HostTextBox, HostBoxSize, HostBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
@@ -228,7 +228,7 @@ namespace DashlorisX
 
 	    var ButtonSize = new Size(90, 26);
 	    var ButtonLocation = new Point(10, 10);
-	    var ButtonBColor = Color.FromArgb(10, 10, 10);
+	    var ButtonBColor = Color.FromArgb(3, 18, 26);//10, 10, 10);
 	    var ButtonFColor = Color.White;
 
 	    try
@@ -270,26 +270,26 @@ namespace DashlorisX
 	    var LabelFColor = Color.White;
 
 	    var ToggleBoxSize = new Size(18, 18);
-	    var ToggleBoxLocation = (OptionContainer.Height - ToggleBoxSize.Height) / 2 - 1;
 	    var ToggleBoxBColor = ToggleOf;
 
 	    var ICMPLabelText = string.Format("ICMP:");
 	    var ICMPLabelSize = Tools.GetFontSize(ICMPLabelText, 10);
 	    var ICMPLabelLocation = new Point(Check.Left + Check.Width + 25, (OptionContainer.Height - ICMPLabelSize.Height) / 2);
 
+	    var ICMPBoxLocation = new Point(ICMPLabelLocation.X + ICMPLabelSize.Width + 2, (OptionContainer.Height - ToggleBoxSize.Height) / 2 - 1);
+
 	    var TCPLabelText = string.Format("TCP:");
 	    var TCPLabelSize = Tools.GetFontSize(TCPLabelText, 10);
-	    var TCPLabelLocation = new Point(ICMPBox.Left + ICMPBox.Width + 10, (OptionContainer.Height - TCPLabelSize.Height) / 2);
+	    var TCPLabelLocation = new Point(ICMPBoxLocation.X + ToggleBoxSize.Width + 10, (OptionContainer.Height - TCPLabelSize.Height) / 2);
 
-	    var ICMPB_LOCA = new Point(ICMPTitle.Left + ICMPTitle.Width + 2, ToggleBoxLocation);
-	    var TCPB_LOCA = new Point(TCPTitle.Left + TCPTitle.Width + 2, ToggleBoxLocation);
+	    var TCPBoxLocation = new Point(TCPLabelLocation.X + TCPLabelSize.Width + 2, (OptionContainer.Height - ToggleBoxSize.Height) / 2 - 1);
 
 	    try
 	    {
 		Controls.Label(OptionContainer, ICMPTitle, ICMPLabelSize, ICMPLabelLocation, LabelBColor, LabelFColor, 1, 10, ICMPLabelText);
 		Controls.Label(OptionContainer, TCPTitle, TCPLabelSize, TCPLabelLocation, LabelBColor, LabelFColor, 1, 10, TCPLabelText);
 
-		Controls.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPB_LOCA, null, ToggleBoxBColor);
+		Controls.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPBoxLocation, null, ToggleBoxBColor);
 
 		ICMPBox.Click += (s, e) =>
 		{
@@ -300,7 +300,7 @@ namespace DashlorisX
 		    };
 		};
 
-		Controls.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPB_LOCA, null, ToggleOn);
+		Controls.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPBoxLocation, null, ToggleOn);
 
 		TCPBox.Click += (s, e) =>
 		{

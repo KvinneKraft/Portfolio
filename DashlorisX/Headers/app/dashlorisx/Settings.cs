@@ -304,7 +304,7 @@ namespace DashlorisX
 		{
 		    if (control is Button)
 		    {
-			Tools.Round(control, 8);
+			Tools.Round(control, 6);
 		    }
 		}
 	    }

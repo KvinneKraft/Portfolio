@@ -155,7 +155,7 @@ namespace DashlorisX
 			w3 = w2;
 
 			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9, Color.Empty);
-			Tools.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 4);
+			Tools.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 6);
 
 			tid += 1;
 		    }
@@ -182,16 +182,16 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox OptionContainer = new PictureBox();
 	readonly PictureBox InnerOptionContainer = new PictureBox();
+	readonly PictureBox OptionContainer = new PictureBox();
 
 	readonly List<Button> ButtonObjects = new List<Button>()
 	{
-	    Launch, Properties,
+	    Launch, Settings,
 	    Online, About
 	};
 
-	readonly static Button Properties = new Button();
+	readonly static Button Settings = new Button();
 	readonly static Button Online = new Button();
 	readonly static Button Launch = new Button();
 	readonly static Button About = new Button();
@@ -200,6 +200,50 @@ namespace DashlorisX
 	{
 	    Launch = 0, Properties = 1,
 	    Online = 2, About = 3
+	}
+
+	readonly Settings SettingsDialog = new Settings();
+	readonly DashPing PingDialog = new DashPing();
+	readonly About AboutDialog = new About();
+
+	private void SetupClickEvents()
+	{
+	    try
+	    {
+		ButtonObjects[0].Click += (s, e) =>
+		{
+		    // launch code
+		};
+
+		ButtonObjects[1].Click += (s, e) =>
+		{
+		    if (!SettingsDialog.Visible)
+		    {
+			SettingsDialog.ShowDialog();
+		    }
+		};
+
+		ButtonObjects[2].Click += (s, e) =>
+		{
+		    if (!PingDialog.Visible)
+		    {
+			PingDialog.ShowDialog();
+		    }
+		};
+
+		ButtonObjects[3].Click += (s, e) =>
+		{
+		    if (!AboutDialog.Visible)
+		    {
+			AboutDialog.ShowDialog();
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 	}
 
 	private void InitializeOptionField()
@@ -252,13 +296,15 @@ namespace DashlorisX
 			var BUTTO_LOCA = new Point(x, y);
 
 			Controls.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p], Color.Empty);
-			Tools.Round(ButtonObjects[p], 8);
+			Tools.Round(ButtonObjects[p], 6);
 
 			x = ButtonSize.Width + ButtonObjects[p].Left + 8;
 		    }
 
 		    y += ButtonSize.Height + ButtonObjects[p - 1].Top + 8;
 		}
+
+		SetupClickEvents();
 
 		Tools.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
 		Tools.Resize(OptionContainer, new Size(OptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height + 28));
@@ -335,7 +381,7 @@ namespace DashlorisX
 	    Application.SetCompatibleTextRenderingDefault(false);
 
 	    new Settings().ShowDialog();
-	    Environment.Exit(-1);
+	    //Environment.Exit(-1);
 
 	    ShowToS();
 	    RunDashlorisX();
