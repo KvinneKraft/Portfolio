@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Headers\app\dashlorisx\About.cs">
+    <Compile Include="Headers\app\about\About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\dashlorisx\AttackLog.cs">
@@ -61,7 +61,10 @@
     <Compile Include="Headers\app\dashlorisx\DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </Compile>
-    <Compile Include="Headers\app\dashlorisx\Settings.cs">
+    <Compile Include="Headers\app\settings\Confirmation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Headers\app\settings\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\pinger\DashPing.cs">
@@ -77,7 +80,7 @@
     <Compile Include="Headers\util\DashTools.cs" />
     <Compile Include="Headers\util\DropDownMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Headers\app\dashlorisx\About.resx">
+    <EmbeddedResource Include="Headers\app\about\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Headers\app\dashlorisx\DashlorisX.resx">

@@ -134,7 +134,7 @@ namespace DashlorisX
 	{
 	    var ContainerSize = new Size(Width - 22, Height - MenuBar.Bar.Height - BottomBar.Height - 21);
 	    var ContainerLocation = new Point(11, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
-	    var ContainerBColor = Color.FromArgb(16, 16, 16);
+	    var ContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
@@ -170,20 +170,6 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.TextBox(InnerTextContainer, TextLog, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-
-	    var RectangleSize = new Size(ContainerSize.Width - 4, ContainerSize.Height - 4);
-	    var RectangleLocation = new Point(2, 2);
-	    var RectangleBColor = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(TextContainer, 2, RectangleSize, RectangleLocation, RectangleBColor);
 	    }
 
 	    catch (Exception E)

@@ -188,6 +188,7 @@ namespace DashlorisX
 	    Online = 2, About = 3
 	}
 
+	readonly Confirmation ConfirmationDialog = new Confirmation();
 	readonly Settings SettingsDialog = new Settings();
 	readonly DashPing PingDialog = new DashPing();
 	readonly About AboutDialog = new About();
@@ -198,7 +199,10 @@ namespace DashlorisX
 	    {
 		ButtonObjects[0].Click += (s, e) =>
 		{
-		    // launch code
+		    if (!ConfirmationDialog.Visible)
+		    {
+			ConfirmationDialog.ShowDialog();
+		    }
 		};
 
 		ButtonObjects[1].Click += (s, e) =>
@@ -352,7 +356,7 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new AttackLog().ShowDialog();
+	    new Confirmation().ShowDialog();
 
 	    ShowToS();
 	    RunDashlorisX();

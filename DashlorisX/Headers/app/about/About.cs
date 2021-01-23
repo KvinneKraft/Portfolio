@@ -70,7 +70,7 @@ namespace DashlorisX
 	{
 	    var IContainerSize = new Size(Width - 24, Height - MenuBar.Bar.Height - 24);
 	    var IContainerLocation = new Point(12, MenuBar.Bar.Height + 11);
-	    var IContainerBColor = Color.FromArgb(16, 16, 16);
+	    var IContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
@@ -92,20 +92,6 @@ namespace DashlorisX
 	    {
 		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
 		//TextContainer.TextAlign = HorizontalAlignment.Center;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-
-	    var ICREC_SIZE = new Size(IContainerSize.Width - 4, IContainerSize.Height - 4);
-	    var ICREC_LOCA = new Point(2, 2);
-	    var ICREC_BCOL = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(InfoContainer, 2, ICREC_SIZE, ICREC_LOCA, ICREC_BCOL);
 	    }
 
 	    catch (Exception E)

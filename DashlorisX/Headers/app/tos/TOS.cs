@@ -79,12 +79,12 @@ namespace DashlorisX
 	{
 	    var MContainerSize = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height);
 	    var MContainerLocation = new Point(10, MenuBar.Bar.Height + 10);
-	    var MContainerBColor = Color.FromArgb(16, 16, 16);
+	    var MContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
 		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
-		Tools.Round(MainContainer, 4);
+		Tools.Round(MainContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -138,21 +138,6 @@ namespace DashlorisX
 
 		Tools.Round(Agree, 6);
 	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-
-	    var MRectangleSize = new Size(MContainerSize.Width - 2, MContainerSize.Height - 2);
-	    var MRectangleLocation = new Point(1, 1);
-	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(MainContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
-	    }
-
 
 	    catch (Exception E)
 	    {
