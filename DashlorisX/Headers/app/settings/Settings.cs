@@ -76,12 +76,12 @@ namespace DashlorisX
 
 	    try
 	    {
+		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
 		HTTPvMenu.SetupMenu(this, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
+
+		MethodMenu.Container.BringToFront();
 		HTTPvMenu.Container.BringToFront();
 
-		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
-		MethodMenu.Container.BringToFront();
-		
 		ConfigurationContainer.MouseEnter += (s, e) =>
 		{
 		    if (MethodMenu.Container.Visible)
@@ -195,28 +195,28 @@ namespace DashlorisX
 	    var TextBoxFColor = Color.White;
 
 	    var HTTPVButtonLocation = new Point(HTTPVLabelLocation.X + HTTPVLabelSize.Width, HTTPVLabelLocation.Y - 1);
-	    var HTTPVButtonSize = new Size(75, 20);
+	    var HTTPVButtonSize = new Size(75, 19);
 
 	    var UserAgentLabelText = string.Format("User-Agent:");
 	    var UserAgentLabelSize = Tools.GetFontSize(UserAgentLabelText, 10);
 	    var UserAgentLabelLocation = new Point(HTTPVButtonLocation.X + HTTPVButtonSize.Width + 10, HTTPVLabelLocation.Y); // HTTPBox.Left + HTTPBox.Width + 10
 
 	    var UserAgentButtonLocation = new Point(UserAgentLabelLocation.X + UserAgentLabelSize.Width, UserAgentLabelLocation.Y - 1);
-	    var UserAgentButtonSize = new Size(CContainerSize.Width - UserAgentLabelLocation.X - UserAgentLabelSize.Width - (UserAgentButtonLocation.X - UserAgentButtonLocation.X) - (HTTPVLabelLocation.X), 20);
+	    var UserAgentButtonSize = new Size(CContainerSize.Width - UserAgentLabelLocation.X - UserAgentLabelSize.Width - (UserAgentButtonLocation.X - UserAgentButtonLocation.X) - (HTTPVLabelLocation.X), 19);
 
 	    var MethodLabelText = string.Format("Method:");
 	    var MethodLabelSize = Tools.GetFontSize(MethodLabelText, 10);
 	    var MethodLabelLocation = new Point(HTTPVLabelLocation.X, HTTPVButtonLocation.Y + HTTPVButtonSize.Height + 5);
 
 	    var MethodButtonLocation = new Point(MethodLabelLocation.X + MethodLabelSize.Width, MethodLabelLocation.Y - 1);
-	    var MethodButtonSize = new Size(75, 20);
+	    var MethodButtonSize = new Size(75, 19);
 
 	    var CookieLabelText = string.Format("Cookie:");
 	    var CookieLabelSize = Tools.GetFontSize(CookieLabelText, 10);
 	    var CookieLabelLocation = new Point(MethodButtonLocation.X + MethodButtonSize.Width + 10, MethodLabelLocation.Y);
 
 	    var CookieButtonLocation = new Point(CookieLabelLocation.X + CookieLabelSize.Width, CookieLabelLocation.Y - 1);
-	    var CookieButtonSize = new Size(CContainerSize.Width - CookieLabelLocation.X - CookieLabelSize.Width - (CookieButtonLocation.X - CookieButtonLocation.X) - (MethodLabelLocation.X), 20);
+	    var CookieButtonSize = new Size(CContainerSize.Width - CookieLabelLocation.X - CookieLabelSize.Width - (CookieButtonLocation.X - CookieButtonLocation.X) - (MethodLabelLocation.X), 19);
 
 	    try
 	    {
@@ -225,10 +225,10 @@ namespace DashlorisX
 		Controls.Label(ConfigurationContainer, MethodLabel, MethodLabelSize, MethodLabelLocation, LabelBColor, LabelFColor, 1, 10, MethodLabelText);
 		Controls.Label(ConfigurationContainer, CookieLabel, CookieLabelSize, CookieLabelLocation, LabelBColor, LabelFColor, 1, 10, CookieLabelText);
 
-		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
 
 		foreach (Control controlo in ConfigurationContainer.Controls)
 		{
@@ -254,8 +254,6 @@ namespace DashlorisX
 	readonly PictureBox BottomBar = new PictureBox();
 
 	new readonly Button Close = new Button();
-
-	readonly Button Save = new Button();
 	readonly Button Help = new Button();
 
 	private void InitializeBottomBar()
@@ -278,15 +276,18 @@ namespace DashlorisX
 	    var ButtonFColor = Color.White;
 	    var ButtonSize = new Size(100, 32);
 
-	    var CloseLocation = new Point(ButtonSize.Width * 2 + 20, 0);
+	    var CloseLocation = new Point(0, 0);
 	    var HelpLocation = new Point(ButtonSize.Width + 10, 0);
-	    var SaveLocation = new Point(0, 0);
 
 	    try
 	    {
-		Controls.Button(InnerBottomBarContainer, Save, ButtonSize, SaveLocation, ButtonBColor, ButtonFColor, 1, 10, "Save", Color.Empty);
 		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 10, "Help", Color.Empty);
 		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Close", Color.Empty);
+
+		Help.Click += (s, e) =>
+		{
+
+		};
 
 		Close.Click += (s, e) =>
 		{
@@ -307,7 +308,7 @@ namespace DashlorisX
 		throw (E);
 	    }
 	    
-	    var IContainerSize = new Size(InnerBottomBarContainer.Controls[InnerBottomBarContainer.Controls.Count - 1].Left + ButtonSize.Width, ButtonSize.Height);
+	    var IContainerSize = new Size(210, ButtonSize.Height);
 	    var IContainerLocation = new Point((BottomBar.Width - IContainerSize.Width) / 2, (BottomBar.Height - ButtonSize.Height) / 2 - 1);
 	    var IContainerBColor = BContainerBColor;
 

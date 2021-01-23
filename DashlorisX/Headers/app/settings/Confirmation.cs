@@ -45,6 +45,14 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
+	readonly static DashNet DashNet = new DashNet();
+
+	public static bool ValidateConfiguration() =>
+    	( 
+	    DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text) && DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text) &&
+	    DashNet.ConfirmIP(DashlorisX.HostTextBox.Text) && DashNet.ConfirmPort(DashlorisX.PortTextBox.Text)
+	);
+
 	private void InitializeMenuBar()
 	{
 	    try
@@ -100,7 +108,10 @@ namespace DashlorisX
 
 		Accept.Click += (s, e) =>
 		{
-		    // Launch Attacc
+		    if (ValidateConfiguration())
+		    {
+
+		    }
 		};
 
 		Cancel.Click += (s, e) =>
