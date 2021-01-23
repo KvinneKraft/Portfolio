@@ -70,6 +70,9 @@ namespace DashlorisX
 	readonly PictureBox BottomContainer = new PictureBox();
 	readonly PictureBox BottomButtonContainer = new PictureBox();
 
+	readonly public PowerPoint PowPow = new PowerPoint();
+	readonly public AttackLog LogLog = new AttackLog();
+
 	readonly Button Cancel = new Button();
 	readonly Button Accept = new Button();
 
@@ -108,10 +111,21 @@ namespace DashlorisX
 
 		Accept.Click += (s, e) =>
 		{
+		    DashlorisX.Launch.Text = "Stop Flooding";
+
 		    if (ValidateConfiguration())
 		    {
+			new Thread(() =>
+			{
+			    PowPow.StartAttack();
+			})
 
+			{ IsBackground = true }.Start();
+
+			LogLog.Show();
 		    }
+
+		    Hide();
 		};
 
 		Cancel.Click += (s, e) =>

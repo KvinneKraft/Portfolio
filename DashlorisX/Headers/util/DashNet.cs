@@ -17,6 +17,11 @@ namespace DashlorisX
 {
     public class DashNet
     {
+	public bool ConfirmInteger(string value)
+	{
+	    return (GetInteger(value) != -1);
+	}
+
 	public int GetInteger(string value)
 	{
 	    try
@@ -28,11 +33,6 @@ namespace DashlorisX
 	    {
 		return -1;
 	    }
-	}
-
-	public bool ConfirmInteger(string value)
-	{
-	    return (GetInteger(value) != -1);
 	}
 
 	public bool ConfirmIP(string host)
@@ -55,7 +55,7 @@ namespace DashlorisX
 
 		    if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
 		    {
-			MessageBox.Show("Invalid URL specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			MessageBox.Show("The host specified is not an ipv4 and neither a valid http/https/www url.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			return string.Empty;
 		    };
 
@@ -66,7 +66,7 @@ namespace DashlorisX
 
 		    catch
 		    {
-			MessageBox.Show("Invalid host specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			MessageBox.Show("The domain specified does not resolve to a valid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			return string.Empty;
 		    }
 		}
@@ -77,14 +77,14 @@ namespace DashlorisX
 
 		    if (ham.AddressFamily != AddressFamily.InterNetwork)
 		    {
-			MessageBox.Show("Invalid IPv4 address specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			MessageBox.Show("The host specified resolved to an invalid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			return string.Empty;
 		    }
 		}
 
 		if (r_host.Length < 7 || r_host == string.Empty)
 		{
-		    MessageBox.Show("No host was specified.  Retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		    MessageBox.Show("The host specified is invalid.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		    return string.Empty;
 		}
 

@@ -106,7 +106,7 @@ namespace DashlorisX
 
 			else
 			{
-			    Top.Close();
+			    Top.Hide();//Close();
 			}
 		    };
 		}

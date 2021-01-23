@@ -61,6 +61,7 @@
     <Compile Include="Headers\app\dashlorisx\DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </Compile>
+    <Compile Include="Headers\app\dashlorisx\PowerPoint.cs" />
     <Compile Include="Headers\app\settings\Confirmation.cs">
       <SubType>Form</SubType>
     </Compile>

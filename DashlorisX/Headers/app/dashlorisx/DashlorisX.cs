@@ -171,16 +171,16 @@ namespace DashlorisX
 	readonly PictureBox InnerOptionContainer = new PictureBox();
 	readonly PictureBox OptionContainer = new PictureBox();
 
-	readonly List<Button> ButtonObjects = new List<Button>()
+	readonly static Button Settings = new Button();
+	readonly static Button Online = new Button();
+	readonly public static Button Launch = new Button();
+	readonly static Button About = new Button();
+
+	readonly public static List<Button> ButtonObjects = new List<Button>()
 	{
 	    Launch, Settings,
 	    Online, About
 	};
-
-	readonly static Button Settings = new Button();
-	readonly static Button Online = new Button();
-	readonly static Button Launch = new Button();
-	readonly static Button About = new Button();
 
 	public enum OptionContainerObject
 	{
@@ -199,9 +199,19 @@ namespace DashlorisX
 	    {
 		ButtonObjects[0].Click += (s, e) =>
 		{
-		    if (!ConfirmationDialog.Visible)
+		    var ButtonObject = ButtonObjects[0];
+
+		    if (ButtonObject.Text == "Launch")
 		    {
-			ConfirmationDialog.ShowDialog();
+			if (!ConfirmationDialog.Visible)
+			{
+			    ConfirmationDialog.ShowDialog();
+			}
+		    }
+
+		    else
+		    {
+			ConfirmationDialog.PowPow.StopAttack();
 		    }
 		};
 
@@ -273,6 +283,8 @@ namespace DashlorisX
 
 	    var ButtonTexts = new List<string>() { "Launch", "Settings", "Online", "About" };
 
+	    MessageBox.Show("");
+
 	    try
 	    {
 		var y = 0;
@@ -294,6 +306,8 @@ namespace DashlorisX
 		    y += ButtonSize.Height + ButtonObjects[p - 1].Top + 8;
 		}
 
+		MessageBox.Show("");
+
 		SetupClickEvents();
 
 		Tools.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
@@ -302,6 +316,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
+		MessageBox.Show(E.Message + E.StackTrace);
 		throw (E);
 	    }
 	}
@@ -356,7 +371,7 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new Confirmation().ShowDialog();
+	    //new Confirmation().ShowDialog();
 
 	    ShowToS();
 	    RunDashlorisX();
