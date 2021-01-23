@@ -93,7 +93,7 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
-		Tools.Round(MainContainer, 8);
+		Tools.Round(MainContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -166,20 +166,6 @@ namespace DashlorisX
 	    {
 		throw (E);
 	    }
-
-	    var MRectangleSize = new Size(MContainerSize.Width - 2, MContainerSize.Height - 2);
-	    var MRectangleLocation = new Point(1, 1);
-	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(MainContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
 	}
 
 	readonly PictureBox InnerOptionContainer = new PictureBox();
@@ -227,7 +213,7 @@ namespace DashlorisX
 		{
 		    if (!PingDialog.Visible)
 		    {
-			PingDialog.ShowDialog();
+			PingDialog.Show();
 		    }
 		};
 
@@ -255,7 +241,7 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, null, OContainerBColor);
-		Tools.Round(OptionContainer, 8);
+		Tools.Round(OptionContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -314,20 +300,6 @@ namespace DashlorisX
 	    {
 		throw (E);
 	    }
-
-	    var MRectangleSize = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
-	    var MRectangleLocation = new Point(1, 1);
-	    var MRectangleBColor = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(OptionContainer, 2, MRectangleSize, MRectangleLocation, MRectangleBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
 	}
 
 	private void InitializeInterface()
@@ -380,8 +352,7 @@ namespace DashlorisX
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
-	    new Settings().ShowDialog();
-	    //Environment.Exit(-1);
+	    new AttackLog().ShowDialog();
 
 	    ShowToS();
 	    RunDashlorisX();

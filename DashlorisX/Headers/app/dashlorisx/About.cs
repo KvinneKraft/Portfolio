@@ -58,8 +58,8 @@ namespace DashlorisX
 		"This application will allow you to stress-test any http(s) web server using a pile of settings making you able to customize each request to your liking.  I must say that some settings can cause your own network to crash, so therefore, I refuse to claim responsibility for any use of this piece of ware by you the user.\r\n\r\n" +
 		"For those who are curious, Dashloris-X is based on the Slowloris test method, the difference between my form of Slowloris and the original Slowloris attack method is the header customization and user-friendly configuration.\r\n\r\n" +
 		"You can read up on the original Slowloris DDoS here: [https://www.imperva.com/learn/ddos/slowloris/]\r\n\r\n" +
-		"The developer of this application is me Dashie, also known as KvinneKraft, you can find the source code of this piece of software here: [https://github.com/KvinneKraft/Portfolio/tree/main/DashlorisX]\r\n\r\n" +
-		"Blessed be )o("
+		"The developer of this application is me Dashie, also known as KvinneKraft, you can find the source code of this piece of software here:\r\nhttps://github.com/KvinneKraft/Portfolio/tree/main/DashlorisX\r\n\r\n" +
+		"Blessed be )o(\r\n\r\n#2WeekProject"
 	    );
 	}
 	
@@ -91,7 +91,7 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
-		TextContainer.TextAlign = HorizontalAlignment.Center;
+		//TextContainer.TextAlign = HorizontalAlignment.Center;
 	    }
 
 	    catch (Exception E)

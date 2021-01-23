@@ -152,14 +152,12 @@ namespace DashlorisX
 		    }
 		}
 
-		foreach (Label label in HTTPvMenu.ContentContainer.Controls)
+		foreach (var labelList in new Label.ControlCollection[] { HTTPvMenu.ContentContainer.Controls, MethodMenu.ContentContainer.Controls })
 		{
-		    SetLabelColors(label);
-		}
-
-		foreach (Label label in MethodMenu.ContentContainer.Controls)
-		{
-		    SetLabelColors(label);
+		    foreach (Label label in labelList)
+		    {
+			SetLabelColors(label);
+		    }
 		}
 	    }
 
@@ -242,12 +240,6 @@ namespace DashlorisX
 		}
 
 		Tools.Resize(ConfigurationContainer, new Size(CContainerSize.Width, CookieLabelLocation.Y + CookieLabelSize.Height + UserAgentButtonLocation.Y + 2));
-
-		var RectangleSize = new Size(ConfigurationContainer.Width - 2, ConfigurationContainer.Height - 2);
-		var RectangleLocation = new Point(1, 1);
-		var RectangleBColor = Color.FromArgb(8, 8, 8);
-
-		Tools.PaintRectangle(ConfigurationContainer, 2, RectangleSize, RectangleLocation, RectangleBColor);
 	    }
 
 	    catch (Exception E)
@@ -262,6 +254,7 @@ namespace DashlorisX
 	readonly PictureBox BottomBar = new PictureBox();
 
 	new readonly Button Close = new Button();
+
 	readonly Button Save = new Button();
 	readonly Button Help = new Button();
 

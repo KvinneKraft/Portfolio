@@ -137,20 +137,6 @@ namespace DashlorisX
 	    {
 		throw (E);
 	    }
-
-	    var RectangleSize = new Size(HostContainer.Width - 2, HostContainer.Height - 2);
-	    var RectangleLocation = new Point(1, 1);
-	    var RectangleBColor = Color.FromArgb(8, 8, 8);
-
-	    try
-	    {
-		Tools.PaintRectangle(HostContainer, 2, RectangleSize, RectangleLocation, RectangleBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
 	}
 
 	readonly PictureBox InnerOptionContainer = new PictureBox();
@@ -167,6 +153,8 @@ namespace DashlorisX
 	{
 	    try
 	    {
+		Thread.Sleep(1000);//Gotta make sure people see the status message....
+
 		var ProtType = ProtocolType.Tcp;
 
 		if (ICMPBox.BackColor == ToggleOn)
@@ -240,24 +228,29 @@ namespace DashlorisX
 		{
 		    StatusLabel.Text = "Status: Checking ....";
 
-		    int isOnline = IsOnline();
-
-		    if (isOnline == 1)
+		    new Thread(() =>
 		    {
-			StatusLabel.Text = "Status: Online!";
-			MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		    }
+			int isOnline = IsOnline();
 
-		    else if (isOnline == -1)
-		    {
-			StatusLabel.Text = "Status: Offline!";
-			MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		    }
+			if (isOnline == 1)
+			{
+			    StatusLabel.Text = "Status: Online!";
+			    //MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 
-		    else
-		    {
-			StatusLabel.Text = "Status: Unknown!";
-		    }
+			else if (isOnline == -1)
+			{
+			    StatusLabel.Text = "Status: Offline!";
+			    //MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+
+			else
+			{
+			    StatusLabel.Text = "Status: Unknown!";
+			}
+		    })
+
+		    { IsBackground = true }.Start();
 		};
 	    }
 
@@ -316,15 +309,9 @@ namespace DashlorisX
 	    {
 		throw new Exception("Option Container Controls");
 	    }
-
-	    var RectangleSize = new Size(OptionContainer.Width - 2, OptionContainer.Height - 2);
-	    var RectangleLocation = new Point(1, 1);
-	    var RectangleBColor = Color.FromArgb(8, 8, 8);
-
+	    
 	    try
 	    {
-		Tools.PaintRectangle(OptionContainer, 2, RectangleSize, RectangleLocation, RectangleBColor);
-
 		foreach (Control control in OptionContainer.Controls)
 		{
 		    if (control is PictureBox)

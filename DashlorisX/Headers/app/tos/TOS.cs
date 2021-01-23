@@ -28,7 +28,13 @@ namespace DashlorisX
 	    try
 	    {
 		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+
 		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+
+		MenuBar.Close.Click += (s, e) =>
+		{
+		    Environment.Exit(-1);
+		};
 	    }
 
 	    catch (Exception E)
