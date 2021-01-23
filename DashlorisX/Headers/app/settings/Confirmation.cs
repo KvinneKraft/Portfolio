@@ -70,7 +70,7 @@ namespace DashlorisX
 	    var BContainerSize = new Size(Width, 40);
 	    var BContainerLocation = new Point(0, Height - BContainerSize.Height);
 
-	    var BBContainerSize = new Size(210, 24);
+	    var BBContainerSize = new Size(210, 26);
 	    var BBContainerLocation = new Point((BContainerSize.Width - BBContainerSize.Width) / 2, (BContainerSize.Height - BBContainerSize.Height) / 2);
 
 	    var ContainerBColor = MenuBar.Bar.BackColor;
@@ -86,7 +86,7 @@ namespace DashlorisX
 		throw (E);
 	    }
 
-	    var ButtonSize = new Size(100, 24);
+	    var ButtonSize = new Size(100, 26);
 	    var ButtonBColor = ContainerBColor;
 	    var ButtonFColor = Color.White;
 
@@ -97,22 +97,27 @@ namespace DashlorisX
 	    {
 		Controls.Button(BottomButtonContainer, Accept, ButtonSize, AcceptLocation, ButtonBColor, ButtonFColor, 1, 10, "Accept", Color.Empty);
 		Controls.Button(BottomButtonContainer, Cancel, ButtonSize, CancelLocation, ButtonBColor, ButtonFColor, 1, 10, "Cancel", Color.Empty);
+
+		Accept.Click += (s, e) =>
+		{
+		    // Launch Attacc
+		};
+
+		Cancel.Click += (s, e) =>
+		{
+		    Hide();
+		};
+
+		foreach (Button button in BottomButtonContainer.Controls)
+		{
+		    Tools.Round(button, 6);
+		}
 	    }
 
 	    catch (Exception E)
 	    {
 		throw (E);
 	    }
-
-	    Cancel.Click += (s, e) =>
-	    {
-		Hide();
-	    };
-
-	    Accept.Click += (s, e) =>
-	    {
-		// Launch Attacc
-	    };
 	}
 
 	readonly PictureBox MainContainer = new PictureBox();
@@ -120,8 +125,8 @@ namespace DashlorisX
 
 	private void InitializeContainer()
 	{
-	    var MContainerSize = new Size(Width - 20, Height - BottomContainer.Height - MenuBar.Bar.Height - 20);
-	    var MContainerLocation = new Point(10, 10 + MenuBar.Bar.Height);
+	    var MContainerSize = new Size(Width - 22, Height - BottomContainer.Height - MenuBar.Bar.Height - 20);
+	    var MContainerLocation = new Point(11, 10 + MenuBar.Bar.Height);
 
 	    var TContainerSize = new Size(MContainerSize.Width - 8, MContainerSize.Height - 8);
 	    var TContainerLocation = new Point(4, 4);
@@ -131,14 +136,40 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, Color.Empty, FIXEDSIZE: false, MULTILINE: true);
+		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, Color.Empty, FIXEDSIZE: false, MULTILINE: true, SCROLLBAR:true, READONLY:true);
 		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, ContainerBColor);
+
+		Tools.Round(MainContainer, 6);
 	    }
 
 	    catch (Exception E)
 	    {
 		throw (E);
 	    }
+	}
+
+	private void InitializeEvents()
+	{
+	    VisibleChanged += (s, e) =>
+	    {
+		if (Visible)
+		{
+		    TextContainer.Text = string.Format(
+			$"\r\nCurrent Configuration:\r\n" +
+			$"-=====================-\r\n" +
+			$"$ Method: {Settings.MethodBox.Text}\r\n" +
+			$"$ HTTP Version: {Settings.HTTPvBox.Text}\r\n" +
+			$"$ User-Agent: {Settings.UserAgentBox.Text}\r\n" +
+			$"$ Cookie(s): {Settings.CookieBox.Text}\r\n" +
+			$"$ Host: {DashlorisX.HostTextBox.Text}\r\n" +
+			$"$ Port: {DashlorisX.PortTextBox.Text}\r\n" +
+			$"$ Duration: {DashlorisX.DurationTextBox.Text} seconds\r\n" +
+			$"$ Packet Size: {DashlorisX.BytesTextBox.Text} bytes\r\n" +
+			$"-=====================-\r\n" +
+			$"Click Accept to launch the attack!\r\n"
+		    );
+		}
+	    };
 	}
 
 	public Confirmation()
@@ -150,6 +181,7 @@ namespace DashlorisX
 		InitializeMenuBar();
 		InitializeBottomBar();
 		InitializeContainer();
+		InitializeEvents();
 	    }
 
 	    catch (Exception E)

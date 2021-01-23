@@ -73,10 +73,10 @@ namespace DashlorisX
 	    PortTextBox, DurationTextBox
 	};
 
-	readonly static TextBox DurationTextBox = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox BytesTextBox = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
-	readonly static TextBox PortTextBox = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
+	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
+	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
+	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
+	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
 
 	public enum MainContainerObject
 	{

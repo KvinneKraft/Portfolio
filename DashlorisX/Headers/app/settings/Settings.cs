@@ -56,10 +56,10 @@ namespace DashlorisX
 	readonly DropDownMenu MethodMenu = new DropDownMenu();
 	readonly DropDownMenu HTTPvMenu = new DropDownMenu();
 
-	readonly TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
-	readonly TextBox CookieBox = new TextBox() { Text = "Cookie=8f75a1acb808d4f709bc4d71b9ab0343" };
-	readonly TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
-	readonly TextBox HTTPvBox = new TextBox() { Text = "1.1", ReadOnly = true };
+	public readonly static TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
+	public readonly static TextBox CookieBox = new TextBox() { Text = "Cookie=cookie data man." };
+	public readonly static TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
+	public readonly static TextBox HTTPvBox = new TextBox() { Text = "1.1", ReadOnly = true };
 
 	readonly Label UserAgentLabel = new Label();
 	readonly Label MethodLabel = new Label();
