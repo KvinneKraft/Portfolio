@@ -101,7 +101,7 @@ namespace DashlorisX
 		    {
 			if (!hide)
 			{
-			    Environment.Exit(-1);
+			    Application.Exit();
 			}
 
 			else

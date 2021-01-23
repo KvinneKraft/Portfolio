@@ -20,7 +20,7 @@ namespace DashlorisX
     {
 	new readonly DashControls Controls = new DashControls();
 
-	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X");
+	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide:false);
 	static readonly DashTools Tools = new DashTools();
 
 	private void InitializeMenuBar()
@@ -171,9 +171,10 @@ namespace DashlorisX
 	readonly PictureBox InnerOptionContainer = new PictureBox();
 	readonly PictureBox OptionContainer = new PictureBox();
 
+	readonly public static Button Launch = new Button();
+
 	readonly static Button Settings = new Button();
 	readonly static Button Online = new Button();
-	readonly public static Button Launch = new Button();
 	readonly static Button About = new Button();
 
 	readonly public static List<Button> ButtonObjects = new List<Button>()
@@ -212,6 +213,13 @@ namespace DashlorisX
 		    else
 		    {
 			ConfirmationDialog.PowPow.StopAttack();
+
+			foreach (Thread worker in ConfirmationDialog.workers)
+			{
+			    worker.Abort();
+			}
+
+			ConfirmationDialog.workers.Clear();
 		    }
 		};
 
@@ -282,9 +290,7 @@ namespace DashlorisX
 	    var ButtonFColor = Color.White;
 
 	    var ButtonTexts = new List<string>() { "Launch", "Settings", "Online", "About" };
-
-	    MessageBox.Show("");
-
+	    
 	    try
 	    {
 		var y = 0;
@@ -305,8 +311,6 @@ namespace DashlorisX
 
 		    y += ButtonSize.Height + ButtonObjects[p - 1].Top + 8;
 		}
-
-		MessageBox.Show("");
 
 		SetupClickEvents();
 

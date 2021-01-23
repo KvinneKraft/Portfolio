@@ -22,6 +22,7 @@ namespace DashlorisX
     public class PowerPoint
     {
 	readonly private List<Thread> workers = new List<Thread>();
+	readonly private AttackLog LogLog = new AttackLog();
 
 	private void SendHeader()
 	{
@@ -30,12 +31,28 @@ namespace DashlorisX
 
 	public void StartAttack()
 	{
+	    // When receiving stop signal, abort current thread.
+	    // Thread.CurrentThread.Abort();
+	    // 
+	    // Start waiting thread, when showdialog, run launch code.
 
+	    LogLog.ShowDialog();
 	}
 
 	public void StopAttack()
 	{
+	    DashlorisX.Launch.Text = "Stopping ....";
 
+	    LogLog.Hide();
+
+	    foreach (Thread worker in workers)
+	    {
+		worker.Abort();
+	    }
+
+	    workers.Clear();
+
+	    DashlorisX.Launch.Text = "Launch";
 	}
     }
 }

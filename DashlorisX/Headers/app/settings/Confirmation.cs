@@ -71,10 +71,11 @@ namespace DashlorisX
 	readonly PictureBox BottomButtonContainer = new PictureBox();
 
 	readonly public PowerPoint PowPow = new PowerPoint();
-	readonly public AttackLog LogLog = new AttackLog();
 
 	readonly Button Cancel = new Button();
 	readonly Button Accept = new Button();
+
+	public readonly List<Thread> workers = new List<Thread>();
 
 	private void InitializeBottomBar()
 	{
@@ -115,14 +116,13 @@ namespace DashlorisX
 
 		    if (ValidateConfiguration())
 		    {
-			new Thread(() =>
+			workers.Add(new Thread(() => PowPow.StartAttack()));
+
+			foreach (Thread worker in workers)
 			{
-			    PowPow.StartAttack();
-			})
-
-			{ IsBackground = true }.Start();
-
-			LogLog.Show();
+			    worker.IsBackground = true;
+			    worker.Start();
+			}
 		    }
 
 		    Hide();
