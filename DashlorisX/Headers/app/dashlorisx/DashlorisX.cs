@@ -379,6 +379,8 @@ namespace DashlorisX
 
 	    ShowToS();
 	    RunDashlorisX();
+
+	    Application.Exit();
 	}
     }
 }
