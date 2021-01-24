@@ -23,6 +23,26 @@ namespace DashlorisX
 	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  About", minim:false);
 	readonly DashTools Tools = new DashTools();
 
+	private void InitializeComponent()
+	{
+	    SuspendLayout();
+
+	    MaximumSize = new Size(300, 250);
+	    MinimumSize = new Size(300, 250);
+
+	    StartPosition = FormStartPosition.CenterScreen;
+	    FormBorderStyle = FormBorderStyle.None;
+
+	    Text = "DashlorisX Info";
+	    Tag = "DashlorisX Info";
+	    Name = "About";
+
+	    Icon = Resources.ICON;
+	    MaximizeBox = false;
+
+	    ResumeLayout(false);
+	}
+
 	private void InitializeMenuBar()
 	{
 	    try
@@ -115,26 +135,6 @@ namespace DashlorisX
 	    {
 		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
-	}
-
-	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(300, 250);
-	    MinimumSize = new Size(300, 250);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Info";
-	    Tag = "DashlorisX Info";
-	    Name = "About";
-
-	    Icon = Resources.ICON;
-	    MaximizeBox = false;
-
-	    ResumeLayout(false);
 	}
     }
 }

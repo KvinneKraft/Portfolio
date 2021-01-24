@@ -24,6 +24,25 @@ namespace DashlorisX
 	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
 	readonly DashTools Tools = new DashTools();
 
+	private void InitializeComponent()
+	{
+	    SuspendLayout();
+
+	    MaximumSize = new Size(350, 225);
+	    MinimumSize = new Size(350, 225);
+
+	    StartPosition = FormStartPosition.CenterScreen;
+	    FormBorderStyle = FormBorderStyle.None;
+
+	    Text = "DashlorisX Dash Ping";
+	    Tag = "DashlorisX Dash Ping";
+	    Name = "Dash Ping";
+
+	    Icon = Resources.ICON;
+
+	    ResumeLayout(false);
+	}
+
 	private void InitializeMenuBar()
 	{
 	    try
@@ -347,25 +366,6 @@ namespace DashlorisX
 	    {
 		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
-	}
-
-	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(350, 225);
-	    MinimumSize = new Size(350, 225);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Dash Ping";
-	    Tag = "DashlorisX Dash Ping";
-	    Name = "Dash Ping";
-
-	    Icon = Resources.ICON;
-
-	    ResumeLayout(false);
 	}
     }
 }

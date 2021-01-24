@@ -23,6 +23,29 @@ namespace DashlorisX
 	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide:false);
 	static readonly DashTools Tools = new DashTools();
 
+	public static class Program
+	{
+	    private static void RunDashlorisX() =>
+		Application.Run(new DashlorisX());
+
+	    private static void ShowToS() =>
+	       new TOS().ShowDialog();
+
+	    [STAThread]
+	    public static void Main()
+	    {
+		Application.EnableVisualStyles();
+		Application.SetCompatibleTextRenderingDefault(false);
+
+		//new Confirmation().ShowDialog();
+
+		ShowToS();
+		RunDashlorisX();
+
+		Application.Exit();
+	    }
+	}
+
 	private void InitializeMenuBar()
 	{
 	    try
@@ -358,29 +381,6 @@ namespace DashlorisX
 	    {
 		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
-	}
-    }
-
-    public static class Program
-    {
-	private static void RunDashlorisX() =>
-	    Application.Run(new DashlorisX());
-
-	private static void ShowToS() =>
-	   new TOS().ShowDialog();
-
-	[STAThread]
-	public static void Main()
-	{
-	    Application.EnableVisualStyles();
-	    Application.SetCompatibleTextRenderingDefault(false);
-
-	    //new Confirmation().ShowDialog();
-
-	    ShowToS();
-	    RunDashlorisX();
-
-	    Application.Exit();
 	}
     }
 }

@@ -23,6 +23,34 @@ namespace DashlorisX
 	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  Attack Log", minim: false);
 	readonly DashTools Tools = new DashTools();
 
+	private void InitializeComponent()
+	{
+	    SuspendLayout();
+
+	    MaximumSize = new Size(325, 250);
+	    MinimumSize = new Size(325, 250);
+
+	    StartPosition = FormStartPosition.CenterScreen;
+	    FormBorderStyle = FormBorderStyle.None;
+
+	    Text = "DashlorisX Attack Log";
+	    Tag = "DashlorisX Attack Log";
+	    Name = "Attack Log";
+
+	    Icon = Resources.ICON;
+
+	    VisibleChanged += (s, e) =>
+	    {
+		if (Visible)
+		{
+		    TextLog.Clear();
+		    TextLog.Text = GetFormat();
+		}
+	    };
+
+	    ResumeLayout(false);
+	}
+
 	private void InitializeMenuBar()
 	{
 	    try
@@ -194,34 +222,6 @@ namespace DashlorisX
 	    {
 		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
-	}
-
-	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(325, 250);
-	    MinimumSize = new Size(325, 250);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Attack Log";
-	    Tag = "DashlorisX Attack Log";
-	    Name = "Attack Log";
-
-	    Icon = Resources.ICON;
-
-	    VisibleChanged += (s, e) =>
-	    {
-		if (Visible)
-		{
-		    TextLog.Clear();
-		    TextLog.Text = GetFormat();
-		}
-	    };
-
-	    ResumeLayout(false);
 	}
     }
 }

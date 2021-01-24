@@ -18,6 +18,9 @@ namespace DashlorisX
 	public readonly DashControls Control = new DashControls();
 	public readonly DashTools Tool = new DashTools();
 
+	public static string GetFormat(Exception E) =>
+	    ($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------");
+
 	private class Dialog : Form
 	{
 	    public Dialog(string error, string title)
@@ -26,11 +29,6 @@ namespace DashlorisX
 		MessageBox.Show(error, title, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 		Environment.Exit(-1);
 	    }
-	}
-
-	public static string GetFormat(Exception E)
-	{
-	    return ($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------");
 	}
 
 	public static void Utilize(string error, string title, bool thread = false)
