@@ -105,16 +105,41 @@ namespace DashlorisX
 	    PortTextBox, DurationTextBox
 	};
 
-	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500", TextAlign = HorizontalAlignment.Center };
-	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024", TextAlign = HorizontalAlignment.Center };
-	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk", TextAlign = HorizontalAlignment.Center };
-	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535", TextAlign = HorizontalAlignment.Center };
+	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500" };
+	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
+	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk" };
+	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535"};
 
-	public enum MainContainerObject
+	public static bool BlockDomains = true;
+
+	private void SetupKeyEvents()
 	{
-	    Host = 0, Bytes = 1,
-	    Port = 2, Duration = 3
-	};
+	    try
+	    {
+		HostTextBox.KeyDown += (s, e) =>
+		{
+		    if (e.KeyCode == Keys.F4)
+		    {
+			if (BlockDomains)
+			{
+			    MessageBox.Show("You have turned the special setting on, this means you are now able to target blacklisted domains such as *.gov and *.edu.  Not recommended, but yea, freedom!", "Special Setting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+
+			else
+			{
+			    MessageBox.Show("You have turned the special setting off, this means you are now no longer able to target blacklisted domains.  I recommend this.", "Special Setting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+
+			BlockDomains = !BlockDomains;
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
 
 	private void InitializeMainField()
 	{
@@ -192,6 +217,19 @@ namespace DashlorisX
 			tid += 1;
 		    }
 		}
+
+		foreach (Control c1 in InnerMainContainer.Controls)
+		{
+		    if (c1.Controls.Count > 0 && c1 is PictureBox)
+		    {
+			foreach (TextBox c2 in c1.Controls)
+			{
+			    c2.TextAlign = HorizontalAlignment.Center;
+			}
+		    }
+		}
+
+		SetupKeyEvents();
 	    }
 
 	    catch (Exception E)
@@ -224,6 +262,7 @@ namespace DashlorisX
 	readonly Confirmation ConfirmationDialog = new Confirmation();
 	readonly Settings SettingsDialog = new Settings();
 	readonly DashPing PingDialog = new DashPing();
+	readonly DashNet DashNet = new DashNet();
 	readonly About AboutDialog = new About();
 
 	private void SetupClickEvents()
@@ -352,7 +391,6 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		MessageBox.Show(E.Message + E.StackTrace);
 		throw (E);
 	    }
 	}

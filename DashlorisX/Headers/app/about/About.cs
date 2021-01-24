@@ -74,12 +74,12 @@ namespace DashlorisX
 	private static string GetText()
 	{
 	    return string.Format(
-		"\r\nHey there, thank you for using this application, this application was originally made for personal use only, until I realized its usability for other people like you.\r\n\r\n" +
-		"This application will allow you to stress-test any http(s) web server using a pile of settings making you able to customize each request to your liking.  I must say that some settings can cause your own network to crash, so therefore, I refuse to claim responsibility for any use of this piece of ware by you the user.\r\n\r\n" +
-		"For those who are curious, Dashloris-X is based on the Slowloris test method, the difference between my form of Slowloris and the original Slowloris attack method is the header customization and user-friendly configuration.\r\n\r\n" +
-		"You can read up on the original Slowloris DDoS here: [https://www.imperva.com/learn/ddos/slowloris/]\r\n\r\n" +
-		"The developer of this application is me Dashie, also known as KvinneKraft, you can find the source code of this piece of software here:\r\nhttps://github.com/KvinneKraft/Portfolio/tree/main/DashlorisX\r\n\r\n" +
-		"Blessed be )o(\r\n\r\n#2WeekProject"
+		$"\r\nHeyo {Environment.UserName}!\r\n\r\nthank you for using this application, this application was originally made for personal use only, until I realized its potential.\r\n\r\n" +
+		$"This application will allow you to stress-test any type of web server using a pile of settings, making you able to customize each request to your liking.\r\n\r\nI must say that some settings can cause your own network to crash, so therefore, I refuse to claim responsibility for any use of this piece of ware by you the user.\r\n\r\n" +
+		$"The Dashloris-X method is based on the Slowloris method, the difference between my form, Dashloris-X, and the original Slowloris attack method, is the header customization and user-friendly configuration that comes with this application.\r\n\r\n" +
+		$"You can read up on the original Slowloris DDoS method here: https://www.imperva.com/learn/ddos/slowloris/ \r\n\r\n" +
+		$"The developer of this application is me Dashie, also known as KvinneKraft, you can find the source code of this piece of software over here: https://github.com/KvinneKraft/Portfolio/tree/main/DashlorisX \r\n\r\n" +
+		$"#2WeekProject\r\nBlessed be )o("
 	    );
 	}
 	
@@ -110,8 +110,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 8, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
-		//TextContainer.TextAlign = HorizontalAlignment.Center;
+		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 9, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
 	    }
 
 	    catch (Exception E)

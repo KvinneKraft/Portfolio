@@ -47,11 +47,27 @@ namespace DashlorisX
 
 	readonly static DashNet DashNet = new DashNet();
 
-	public static bool ValidateConfiguration() =>
-    	( 
-	    DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text) && DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text) &&
-	    DashNet.ConfirmIP(DashlorisX.HostTextBox.Text) && DashNet.ConfirmPort(DashlorisX.PortTextBox.Text)
-	);
+	public static bool ValidateConfiguration()
+	{
+	    if (DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text) && DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text))
+	    {
+		if (DashNet.ConfirmIP(DashlorisX.HostTextBox.Text) && DashNet.ConfirmPort(DashlorisX.PortTextBox.Text))
+		{
+		    if (DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text))
+		    {
+			return false;
+		    }
+
+		    return true;
+		}
+
+		return false;
+	    }
+
+	    MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+	    return false;
+	}
 
 	private void InitializeMenuBar()
 	{
@@ -112,11 +128,17 @@ namespace DashlorisX
 
 		Accept.Click += (s, e) =>
 		{
-		    DashlorisX.Launch.Text = "Stop Flooding";
-
 		    if (ValidateConfiguration())
 		    {
-			workers.Add(new Thread(() => PowPow.StartAttack()));
+			DashlorisX.Launch.Text = "Stop Flooding";
+
+			workers.Add(
+			    new Thread(() =>
+			    {
+				PowPow.StartAttack();
+				workers.Clear();
+			    }
+			));
 
 			foreach (Thread worker in workers)
 			{
@@ -124,7 +146,7 @@ namespace DashlorisX
 			    worker.Start();
 			}
 		    }
-
+		    
 		    Hide();
 		};
 

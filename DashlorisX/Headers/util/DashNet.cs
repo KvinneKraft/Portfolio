@@ -17,6 +17,18 @@ namespace DashlorisX
 {
     public class DashNet
     {
+	public bool IsAllowedDomain(string url)
+	{
+	    bool IsValid = (!url.Contains(".gov") && !url.Contains(".edu") && !url.Contains(".govt"));
+
+	    if (!IsValid)
+	    {
+		MessageBox.Show("The domain specified is blacklisted!", "Domain Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+	    }
+
+	    return IsValid;
+	}
+
 	public bool ConfirmInteger(string value)
 	{
 	    return (GetInteger(value) != -1);
@@ -99,7 +111,7 @@ namespace DashlorisX
 
 	public bool ConfirmPort(string port)
 	{
-	    return (GetPort(port) == -1);
+	    return (GetPort(port) != -1);
 	}
 
 	public int GetPort(string port)

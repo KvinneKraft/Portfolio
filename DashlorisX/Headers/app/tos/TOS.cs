@@ -87,7 +87,8 @@ namespace DashlorisX
 		"(2) When using this application you automatically confirm you claim responsibility for any use if any.\r\n\r\n" +
 		"(3) When using this application you automatically confirm you are aware of the impact this application can have when used wrongly.\r\n\r\n" +
 		"(4) When using this application you automatically confirm you are aware of the laws corresponding to DDoS/DoS/Flood attacks in your country.\r\n\r\n" +
-		"(5) When using this application you automatically confirm I Dashie am not responsible for any harm inflicted upon any using this application or any of its sub-components.\r\n\r\n"
+		"(5) When using this application you automatically confirm I Dashie am not responsible for any harm inflicted upon any using this application or any of its sub-components.\r\n\r\n" + 
+		"For your information, there are certain domains that are blacklisted.  If you wish to still use these domains then you will have to toggle the corresponding mode on.  You can find it by pressing F1 when you put your cursor inside of the host input box.  Keep in mind, this is not recommended, but hey, your responsibility.  *hats off*"
 	    );
 	}
 

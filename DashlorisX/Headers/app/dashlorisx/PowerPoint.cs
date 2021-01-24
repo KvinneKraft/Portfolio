@@ -34,9 +34,10 @@ namespace DashlorisX
 	    // When receiving stop signal, abort current thread.
 	    // Thread.CurrentThread.Abort();
 	    // 
-	    // Start waiting thread, when showdialog, run launch code.
-
+	    // Start waiting thread, when showdialog, run launch code.+
+	    
 	    LogLog.ShowDialog();
+	    StopAttack();
 	}
 
 	public void StopAttack()
