@@ -78,7 +78,7 @@ namespace DashlorisX
 	public readonly static TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
 	public readonly static TextBox CookieBox = new TextBox() { Text = "Cookie=cookie data man." };
 	public readonly static TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
-	public readonly static TextBox HTTPvBox = new TextBox() { Text = "1.1", ReadOnly = true };
+	public readonly static TextBox HTTPvBox = new TextBox() { Text = "HTTP/1.1", ReadOnly = true };
 
 	readonly Label UserAgentLabel = new Label();
 	readonly Label MethodLabel = new Label();
@@ -156,7 +156,6 @@ namespace DashlorisX
 	    try
 	    {
 		MethodMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
-		HTTPvMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
 
 		foreach (string method in new string[] { "POST", "PUT", "GET", "HEAD" })
 		{
@@ -170,6 +169,8 @@ namespace DashlorisX
 		    };
 		}
 
+		HTTPvMenu.AddItem(GetLabel(), " ", MenuItemBColor, MenuItemFColor, ItemTextSize: 7, ItemWidth: HTTPvBox.Width + 1, ItemHeight: 5);
+
 		foreach (string version in new string[] { "HTTP/1.0", "HTTP/1.1", "HTTP/1.2" })
 		{
 		    HTTPvMenu.AddItem(GetLabel(), version, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:16);
@@ -182,27 +183,22 @@ namespace DashlorisX
 		    };
 		}
 
-		void SetLabelColors(Label label)
-		{
-		    if (label.Text != " ")
-		    {
-			label.MouseEnter += (s, e) =>
-			{
-			    label.BackColor = Color.FromArgb(16, 16, 16);
-			};
-
-			label.MouseLeave += (s, e) =>
-			{
-			    label.BackColor = MenuItemBColor;
-			};
-		    }
-		}
-
 		foreach (var labelList in new Control.ControlCollection[] { HTTPvMenu.ContentContainer.Controls, MethodMenu.ContentContainer.Controls })
 		{
 		    foreach (Label label in labelList)
 		    {
-			SetLabelColors(label);
+			if (label.Text != " ")
+			{
+			    label.MouseEnter += (s, e) =>
+			    {
+				label.BackColor = Color.FromArgb(16, 16, 16);
+			    };
+
+			    label.MouseLeave += (s, e) =>
+			    {
+				label.BackColor = MenuItemBColor;
+			    };
+			}
 		    }
 		}
 	    }

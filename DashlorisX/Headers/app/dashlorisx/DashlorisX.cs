@@ -36,9 +36,7 @@ namespace DashlorisX
 	    {
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
-
-		//new Confirmation().ShowDialog();
-
+		
 		ShowToS();
 		RunDashlorisX();
 
