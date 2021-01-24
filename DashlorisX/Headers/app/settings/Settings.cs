@@ -139,6 +139,19 @@ namespace DashlorisX
 	    var MenuItemFColor = Color.White;
 
 	    Label GetLabel() => new Label();
+	    
+	    int GetID(int id)
+	    {
+		switch (id)
+		{
+		    case 0:
+			return MethodMenu.ContentContainer.Controls.Count - 1;
+		    case 1:
+			return HTTPvMenu.ContentContainer.Controls.Count - 1;
+		    default:
+			return -1;
+		}
+	    }
 
 	    try
 	    {
@@ -148,11 +161,25 @@ namespace DashlorisX
 		foreach (string method in new string[] { "POST", "PUT", "GET", "HEAD" })
 		{
 		    MethodMenu.AddItem(GetLabel(), method, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:16);
+
+		    var label = MethodMenu.GetItem(GetID(0));
+
+		    label.Click += (s, e) =>
+		    {
+			MethodBox.Text = method;
+		    };
 		}
 
 		foreach (string version in new string[] { "HTTP/1.0", "HTTP/1.1", "HTTP/1.2" })
 		{
 		    HTTPvMenu.AddItem(GetLabel(), version, MenuItemBColor, MenuItemFColor, ItemTextSize: 8, ItemWidth: HTTPvBox.Width + 1, ItemHeight:16);
+
+		    var label = HTTPvMenu.GetItem(GetID(1));
+
+		    label.Click += (s, e) =>
+		    {
+			HTTPvBox.Text = version;
+		    };
 		}
 
 		void SetLabelColors(Label label)
@@ -171,7 +198,7 @@ namespace DashlorisX
 		    }
 		}
 
-		foreach (var labelList in new Label.ControlCollection[] { HTTPvMenu.ContentContainer.Controls, MethodMenu.ContentContainer.Controls })
+		foreach (var labelList in new Control.ControlCollection[] { HTTPvMenu.ContentContainer.Controls, MethodMenu.ContentContainer.Controls })
 		{
 		    foreach (Label label in labelList)
 		    {

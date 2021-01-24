@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -26,13 +27,12 @@ namespace DashlorisX
 	public static class Program
 	{
 	    private static void RunDashlorisX() =>
-		Application.Run(new DashlorisX());
+		new DashlorisX().ShowDialog();
 
 	    private static void ShowToS() =>
 	       new TOS().ShowDialog();
 
-	    [STAThread]
-	    public static void Main()
+	    [STAThread] public static void Main()
 	    {
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
@@ -41,6 +41,17 @@ namespace DashlorisX
 
 		ShowToS();
 		RunDashlorisX();
+
+		var Threads = Process.GetCurrentProcess().Threads;
+		var currentThread = Thread.CurrentThread;
+
+		foreach (Thread thread in Threads)
+		{
+		    if (thread != currentThread)
+		    {
+			thread.Abort();
+		    }
+		}
 
 		Application.Exit();
 	    }
