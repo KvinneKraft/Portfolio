@@ -71,6 +71,9 @@
     <Compile Include="Headers\app\pinger\DashPing.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Headers\app\settings\SettingsInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Headers\app\tos\TOS.cs">
       <SubType>Form</SubType>
     </Compile>

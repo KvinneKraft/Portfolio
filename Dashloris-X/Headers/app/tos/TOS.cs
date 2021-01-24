@@ -82,7 +82,8 @@ namespace DashlorisX
 
 	private static string GetText()
 	{
-	    return string.Format(
+	    return string.Format
+	    (
 		"(1) When using this application you automatically agree with the Terms of Services.\r\n\r\n" +
 		"(2) When using this application you automatically confirm you claim responsibility for any use if any.\r\n\r\n" +
 		"(3) When using this application you automatically confirm you are aware of the impact this application can have when used wrongly.\r\n\r\n" +

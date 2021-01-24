@@ -150,10 +150,10 @@ namespace DashlorisX
 
 	private static string GetFormat()
 	{
-	    return string.Format(
-		"(+)>  Please make sure you have the consent of the server administrator, I am not responsible for any damage caused by this application.\r\n" +
-		"(+)>  MAKE THE WORLD BURN!"
-	    );
+	    return string.Format
+	    (
+		"(+)>  Please make sure you have the consent of the server administrator, I am not responsible for any damage caused by this application.\r\n\r\n"	  
+    	    );
 	}
 
 	readonly public TextBox TextLog = new TextBox() { Text = GetFormat() };

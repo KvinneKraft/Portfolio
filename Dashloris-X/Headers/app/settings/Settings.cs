@@ -298,6 +298,8 @@ namespace DashlorisX
 	new readonly Button Close = new Button();
 	readonly Button Help = new Button();
 
+	readonly SettingsInfo SettingsInfoDialog = new SettingsInfo();
+
 	private void InitializeBottomBar()
 	{
 	    var BContainerSize = new Size(Width, 44);
@@ -328,7 +330,10 @@ namespace DashlorisX
 
 		Help.Click += (s, e) =>
 		{
-
+		    if (!SettingsInfoDialog.Visible)
+		    {
+			SettingsInfoDialog.ShowDialog();
+		    }
 		};
 
 		Close.Click += (s, e) =>

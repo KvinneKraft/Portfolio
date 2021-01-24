@@ -73,7 +73,8 @@ namespace DashlorisX
 
 	private static string GetText()
 	{
-	    return string.Format(
+	    return string.Format
+	    (
 		$"\r\nHeyo {Environment.UserName}!\r\n\r\nthank you for using this application, this application was originally made for personal use only, until I realized its potential.\r\n\r\n" +
 		$"This application will allow you to stress-test any type of web server using a pile of settings, making you able to customize each request to your liking.\r\n\r\nI must say that some settings can cause your own network to crash, so therefore, I refuse to claim responsibility for any use of this piece of ware by you the user.\r\n\r\n" +
 		$"The Dashloris-X method is based on the Slowloris method, the difference between my form, Dashloris-X, and the original Slowloris attack method, is the header customization and user-friendly configuration that comes with this application.\r\n\r\n" +
