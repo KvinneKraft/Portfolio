@@ -30,7 +30,7 @@ namespace DashlorisX
 	    MaximumSize = new Size(450, 250);
 	    MinimumSize = new Size(450, 250);
 
-	    StartPosition = FormStartPosition.CenterScreen;
+	    StartPosition = FormStartPosition.CenterParent;
 	    FormBorderStyle = FormBorderStyle.None;
 
 	    Text = "DashlorisX Settings";
