@@ -205,6 +205,9 @@ namespace DashlorisX
 		throw (E);
 	    }
 	}
+	
+	new void Hide() =>
+	    Invoke(new MethodInvoker(delegate () { Visible = false; }));
 
 	public AttackLog()
 	{
