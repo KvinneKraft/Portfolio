@@ -74,7 +74,7 @@ namespace DashlorisX
 
 	private void SendHeader(Socket longSock)
 	{   
-	    try//Multi thread this
+	    try
 	    {
 		var result = longSock.BeginConnect(host, DashNet.GetInteger(port), null, null);
 		var success = result.AsyncWaitHandle.WaitOne(500, true);
@@ -117,9 +117,13 @@ namespace DashlorisX
 	private Socket GetSocket() =>
 	    new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-	void LogSend(string text)
-	{
+	void LogSend(string text) =>
 	    LogLog.TextLog.AppendText($"{text}\r\n");
+
+	void StartWorker()
+	{
+	    workers[workers.Count - 1].IsBackground = true;
+	    workers[workers.Count - 1].Start();
 	}
 
 	public void StartAttack()
@@ -151,17 +155,14 @@ namespace DashlorisX
 			}
 		    }));
 
-		    workers[workers.Count - 1].IsBackground = true;
-		    workers[workers.Count - 1].Start();
+		    StartWorker();
 		}
 	    }));
 
-	    workers[workers.Count - 1].IsBackground = true;
-	    workers[workers.Count - 1].Start();
-	    
-	    LogSend("Sending waves and waves of requests ....");
-
+	    StartWorker();
 	    StartTimer();
+
+	    LogSend("Sending waves and waves of requests ....");
 
 	    LogLog.ShowDialog();
 	}
@@ -170,7 +171,7 @@ namespace DashlorisX
 	{
 	    DashlorisX.Launch.Text = "Stopping ....";
 
-	    LogSend("Stop signal received, stopping ....");
+	    LogSend($"Stop signal received, stopping {workers.Count} bots ....");
 
 	    try//10.0.2.15
 	    {
