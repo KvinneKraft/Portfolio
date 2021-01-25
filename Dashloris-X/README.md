@@ -25,7 +25,7 @@
 
 >This application is unique in its own type of way.  And all of that within
 >just 2 weeks.
-#
+
 ## Screenshots of Dashloris-X
 ### Main Panel:
 ![Main GUI](Screenshots/main-gui.png)
