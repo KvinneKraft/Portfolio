@@ -172,7 +172,7 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		Thread.Sleep(1000);//Gotta make sure people see the status message....
+		Thread.Sleep(1000);
 
 		var ProtType = ProtocolType.Tcp;
 
@@ -245,10 +245,10 @@ namespace DashlorisX
 
 		Check.Click += (s, e) =>
 		{
-		    StatusLabel.Text = "Status: Checking ....";
-
 		    if (StatusLabel.Text != "Status: Checking ....")
 		    {
+			StatusLabel.Text = "Status: Checking ....";
+
 			new Thread(() =>
 			{
 			    int isOnline = IsOnline();
