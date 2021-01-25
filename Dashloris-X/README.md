@@ -1,6 +1,7 @@
 # Dashloris-X
-#
-## About Dashloris-X
+## Download the Dashloris-X
+
+## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated
 >to the information that I want to share about this application
 >within the application already, I still feel like I have to
@@ -25,14 +26,14 @@
 >This application is unique in its own type of way.  And all of that within
 >just 2 weeks.
 #
-## Screenshots
+## Screenshots of Dashloris-X
 ### Main Panel:
 ![Main GUI](Screenshots/main-gui.png)
 ### Settings GUI:
 ![Settings GUI](Screenshots/settings-gui.png)
 ### Ping GUI:
 ![Ping GUI](Screenshots/ping-gui.png)
-#
+
 >Please keep in mind that there is a lot more to come but also
 >know that the above screenshots only show a small part of the 
 >entire application, there is a lot to go through.  
