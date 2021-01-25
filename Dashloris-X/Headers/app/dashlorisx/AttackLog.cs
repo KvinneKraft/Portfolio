@@ -39,15 +39,6 @@ namespace DashlorisX
 
 	    Icon = Resources.ICON;
 
-	    VisibleChanged += (s, e) =>
-	    {
-		if (Visible)
-		{
-		    TextLog.Clear();
-		    TextLog.Text = GetFormat();
-		}
-	    };
-
 	    ResumeLayout(false);
 	}
 

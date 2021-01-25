@@ -52,7 +52,7 @@ namespace DashlorisX
 	    }
 
 	    catch (Exception E)
-	    {
+	    { 
 		throw (E);
 	    }
 	}

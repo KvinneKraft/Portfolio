@@ -132,26 +132,16 @@ namespace DashlorisX
 		    {
 			DashlorisX.Launch.Text = "Stop Flooding";
 
-			var Instance = this;
+			Hide();
 
-			workers.Add(
-			    new Thread(() =>
-			    {
-				PowPow.StartAttack();
-				PowPow.StopAttack();
-
-				workers.Clear();
-			    }
-			));
-
-			foreach (Thread worker in workers)
-			{
-			    worker.IsBackground = true;
-			    worker.Start();
-			}
+			PowPow.StartAttack();
+			PowPow.StopAttack();
 		    }
-		    
-		    Hide();
+
+		    else
+		    {
+			Hide();
+		    }
 		};
 
 		Cancel.Click += (s, e) =>

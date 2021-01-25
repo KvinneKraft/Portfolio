@@ -247,29 +247,30 @@ namespace DashlorisX
 		{
 		    StatusLabel.Text = "Status: Checking ....";
 
-		    new Thread(() =>
+		    if (StatusLabel.Text != "Status: Checking ....")
 		    {
-			int isOnline = IsOnline();
-
-			if (isOnline == 1)
+			new Thread(() =>
 			{
-			    StatusLabel.Text = "Status: Online!";
-			    //MessageBox.Show("The server is online!  Click OK to exit this dialog.", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
+			    int isOnline = IsOnline();
 
-			else if (isOnline == -1)
-			{
-			    StatusLabel.Text = "Status: Offline!";
-			    //MessageBox.Show("The server, unfortunately, is offline!  You may want to specify a different port (80 or so).", "Ping Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
+			    if (isOnline == 1)
+			    {
+				StatusLabel.Text = "Status: Online!";
+			    }
 
-			else
-			{
-			    StatusLabel.Text = "Status: Unknown!";
-			}
-		    })
+			    else if (isOnline == -1)
+			    {
+				StatusLabel.Text = "Status: Offline!";
+			    }
 
-		    { IsBackground = true }.Start();
+			    else
+			    {
+				StatusLabel.Text = "Status: Unknown!";
+			    }
+			})
+
+			{ IsBackground = true }.Start();
+		    }
 		};
 	    }
 
