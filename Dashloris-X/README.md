@@ -17,7 +17,7 @@
 >This application will allow you to test web-servers their bandwidth using a more
 >advanced version of Slowloris, going by the name of Dashloris-X. Dashloris-X has a lot of customization that comes with it and a lot of other features I have not yet seen present among other variants of the original Slowloris.
 
->Not only did I take my time to fully custom code all of the interfaces and a lot of the classes but, I also made sure all code the is ready for update whenever.  I both took in mind the potential destined future of my application and the distinctiveness I wanted to present to the user.  
+>Not only did I take my time to fully custom code all of the interfaces and a lot of the classes but, I also made sure all the code is ready for update whenever my Dash senses tingle.  I both took in mind the potential destined future of my application and the distinctiveness I wanted to present to the user.  
 
 >This application is unique in its own type of way.  And all of that within just 2 weeks.  My back has severe pains now, but it is worth it, ahaha.
 ##
