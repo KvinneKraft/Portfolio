@@ -1,2 +1,2 @@
 # Dashloris-X
-![Main GUI](/Screenshots/main-gui.png)
+![Main GUI](Screenshots/main-gui.png)
