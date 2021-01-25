@@ -4,7 +4,7 @@
 
 >As of now my precious website is undergoing maintenance but she should be available to everyone, very soon!  If you can not wait and still want to check it out then you can head over to the Application folder and select one of the raw versions in there.  
 
->Or eh, click [Dashloris-X.exe](Application/1.0/Dashloris-X.exe)Here for version 1.0.
+>Or eh, click [Me Dashloris-X.exe](Application/1.0/Dashloris-X.exe?raw=true) for version 1.0.
 
 ## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated
