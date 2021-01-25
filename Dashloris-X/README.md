@@ -1,5 +1,9 @@
 # Dashloris-X
 ## Download the Dashloris-X
+>Any of the available downloads can be found at my website: https://pugpawz.com/
+> As of now the website is undergoing maintenance but it should
+>be available to everyone, very soon!  If you can not wait and still want to check it out then you
+>can head over to the Application folder and select one of the raw versions in there.
 
 ## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated
