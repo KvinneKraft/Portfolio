@@ -1,4 +1,3 @@
-# Dashloris-X
 ## Download the Dashloris-X
 >Any of the available downloads can be found at my website: https://pugpawz.com/
 
