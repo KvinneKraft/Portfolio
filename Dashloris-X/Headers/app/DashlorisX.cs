@@ -35,7 +35,7 @@ namespace DashlorisX
 	    [STAThread] public static void Main()
 	    {
 		Application.EnableVisualStyles();
-		Application.SetCompatibleTextRenderingDefault(false);
+		Application.SetCompatibleTextRenderingDefault(true);
 		
 		ShowToS();
 		RunDashlorisX();
