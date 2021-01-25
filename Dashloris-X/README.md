@@ -3,6 +3,9 @@
 
 >As of now my precious website is undergoing maintenance but she should be available to everyone, very soon!  If you can not wait and still want to check the Dashloris-X release out then you can head over to the Application folder and select one of the raw versions in there or, if you are atleast as lazy as me, eh, click [Me Dashloris-X.exe](Application/1.0/Dashloris-X.exe?raw=true) for version 1.0.
 ##
+## Requirements
+> You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
+##
 ## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated
 >to the information that I want to share about this application
