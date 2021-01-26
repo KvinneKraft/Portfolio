@@ -24,13 +24,12 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		MenuBar.Recolor(MenuBarBColor);
-
 		InnerTextContainer.BackColor = ContainerBColor;
 		TextContainer.BackColor = ContainerBColor;
 		TextBox.BackColor = ContainerBColor;
 
 		BackColor = AppBColor;
+		MenuBar.Recolor(MenuBarBColor);
 
 		BottomContainer.BackColor = ContainerBColor;
 		BottomClose.BackColor = ContainerBColor;
@@ -55,7 +54,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
 
 	    ShowDialog();
@@ -78,6 +77,7 @@ namespace DashlorisX
 		Text = AppTitle;
 		Name = AppTitle;
 
+		Tool.Round(this, 6);
 		ResumeLayout(false);
 	    }
 
@@ -129,7 +129,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Close");
+		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 10, "Close");
+		Tool.Round(BottomClose, 6);
 
 		BottomClose.Click += (s, e) =>
 		{
@@ -150,8 +151,8 @@ namespace DashlorisX
 
 	private void InitializeContainer()
 	{
-	    var TContainerSize = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height - BottomContainer.Height);
-	    var TContainerLocation = new Point(10, MenuBar.Bar.Height + 10);
+	    var TContainerSize = new Size(Width - 22, Height - 22 - MenuBar.Bar.Height - BottomContainer.Height);
+	    var TContainerLocation = new Point(11, MenuBar.Bar.Height + 11);
 	    var TContainerBColor = Color.FromArgb(6, 17, 33);
 
 	    var IContainerSize = new Size(TContainerSize.Width - 10, TContainerSize.Height - 10);
@@ -162,6 +163,9 @@ namespace DashlorisX
 	    {
 		Control.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBColor);
 		Control.Image(this, TextContainer, TContainerSize, TContainerLocation, TContainerBColor);
+
+		Tool.Round(InnerTextContainer, 10);
+		Tool.Round(TextContainer, 6);
 	    }
 
 	    catch (Exception E)
