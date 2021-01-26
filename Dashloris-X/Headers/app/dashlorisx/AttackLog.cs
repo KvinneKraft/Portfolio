@@ -73,7 +73,7 @@ namespace DashlorisX
 	readonly PictureBox BottomBarContainer = new PictureBox();
 	readonly PictureBox BottomBar = new PictureBox();
 
-	new readonly Button Close = new Button();// Close
+	new readonly Button Stop = new Button();// Close
 	readonly Button Clear = new Button();// Clear
 
 	private void InitializeBottomBar()
@@ -122,9 +122,9 @@ namespace DashlorisX
 		    TextLog.Clear();
 		};
 
-		Controls.Button(BottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Close");
+		Controls.Button(BottomBarContainer, Stop, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Stop");
 
-		Close.Click += (s, e) =>
+		Stop.Click += (s, e) =>
 		{
 		    Hide();
 		};
