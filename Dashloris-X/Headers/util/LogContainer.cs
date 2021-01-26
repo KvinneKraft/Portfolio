@@ -108,12 +108,33 @@ namespace DashlorisX
 
 	private void InitializeBottomBar()
 	{
-	    var BContainerSize = new Size(Width, 30);
+	    var BContainerSize = new Size(Width, 26);
 	    var BContainerLocation = new Point(0, Height - BContainerSize.Height);
+	    var BContainerBColor = MenuBar.Bar.BackColor;
 
 	    try
 	    {
+		Control.Image(this, BottomContainer, BContainerSize, BContainerLocation, BContainerBColor);
+	    }
 
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+
+	    var ButtonSize = new Size(100, 26);
+	    var ButtonLocation = new Point((BContainerSize.Width - ButtonSize.Width) / 2, 0);
+	    var ButtonFColor = Color.White;
+	    var ButtonBColor = MenuBar.Bar.BackColor;
+
+	    try
+	    {
+		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Close");
+
+		BottomClose.Click += (s, e) =>
+		{
+		    Hide();
+		};
 	    }
 
 	    catch (Exception E)
@@ -129,9 +150,33 @@ namespace DashlorisX
 
 	private void InitializeContainer()
 	{
+	    var TContainerSize = new Size(Width - 20, Height - 20 - MenuBar.Bar.Height - BottomContainer.Height);
+	    var TContainerLocation = new Point(10, MenuBar.Bar.Height + 10);
+	    var TContainerBColor = Color.FromArgb(6, 17, 33);
+
+	    var IContainerSize = new Size(TContainerSize.Width - 10, TContainerSize.Height - 10);
+	    var IContainerLocation = new Point(5, 5);
+	    var IContainerBColor = TContainerBColor;
+
 	    try
 	    {
+		Control.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBColor);
+		Control.Image(this, TextContainer, TContainerSize, TContainerLocation, TContainerBColor);
+	    }
 
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+
+	    var TextBoxSize = IContainerSize;
+	    var TextBoxLocation = new Point(0, 0);
+	    var TextBoxBColor = TContainerBColor;
+	    var TextBoxFColor = Color.White;
+
+	    try
+	    {
+		Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
 	    }
 
 	    catch (Exception E)
