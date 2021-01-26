@@ -77,10 +77,11 @@ namespace DashlorisX
 			Object.Select();
 		    };
 
-		    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize("HTTP", FontSize).Height);
-		    var RelocatedLocation = new Point(5, (TextBoxContainer.Height - ObjectSize.Height) / 2);
+		    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize("http", FontSize).Height);
+		    var RelocatedLocation = new Point(5, (ObjectSize.Height - ResizedSize.Height) / 2 + 1);
 
 		    Object.Location = RelocatedLocation;
+
 		    Tool.Resize(Object, ResizedSize);
 
 		    TextBoxContainers.Add(Object, TextBoxContainer);
@@ -113,7 +114,7 @@ namespace DashlorisX
 	    {
 		Tool.Resize(Object, ObjectSize);
 
-		ObjectLocation = CalculateCenter(Top, Object, ObjectLocation);
+		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
 
 		Object.BackColor = ObjectBColor;
 		Object.ForeColor = ObjectFColor;
@@ -191,6 +192,7 @@ namespace DashlorisX
 		Object.TabStop = TabStop;
 
 		Object.BorderStyle = BorderStyle.None;
+		Object.Image = ObjectImage;
 
 		Top.Controls.Add(Object);
 	    }
