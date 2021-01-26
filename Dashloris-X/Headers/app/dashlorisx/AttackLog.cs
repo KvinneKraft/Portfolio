@@ -73,8 +73,8 @@ namespace DashlorisX
 	readonly PictureBox BottomBarContainer = new PictureBox();
 	readonly PictureBox BottomBar = new PictureBox();
 
-	new readonly Button Stop = new Button();// Close
 	readonly Button Clear = new Button();// Clear
+	readonly Button Stop = new Button();// Close
 
 	private void InitializeBottomBar()
 	{
