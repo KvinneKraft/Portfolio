@@ -55,7 +55,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -110,7 +110,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var ButtonSize = new Size(100, 26);
@@ -156,7 +156,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -184,7 +184,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 

@@ -69,7 +69,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -85,7 +85,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -141,7 +141,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -159,7 +159,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var IContainerSize = new Size(MContainerSize.Width - 22, MContainerSize.Height - 21/*Measure it*/);
@@ -173,7 +173,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    try
@@ -238,7 +238,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -325,7 +325,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -343,7 +343,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var IOptionContainerSize = new Size(OContainerSize.Width - 28, OContainerSize.Height - 28);
@@ -357,7 +357,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var ButtonSize = new Size((InnerOptionContainer.Width - 8) / 2, 26);
@@ -395,7 +395,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -414,7 +414,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 

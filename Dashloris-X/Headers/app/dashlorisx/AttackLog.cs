@@ -52,7 +52,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -66,7 +66,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -89,7 +89,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var BContainerSize = new Size(180, 26);
@@ -103,7 +103,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var ButtonSize = new Size(85, 26);
@@ -132,7 +132,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -163,7 +163,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var IContainerSize = new Size(ContainerSize.Width - 14, ContainerSize.Height - 14);
@@ -178,7 +178,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var TextBoxSize = IContainerSize;
@@ -193,7 +193,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 	

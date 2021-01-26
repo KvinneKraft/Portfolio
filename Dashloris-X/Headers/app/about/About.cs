@@ -53,7 +53,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    { 
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 	 
@@ -67,7 +67,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -101,7 +101,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var TEXT_SIZE = new Size(InfoContainer.Width - 4, InfoContainer.Height - 5);
@@ -116,7 +116,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 

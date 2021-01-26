@@ -52,7 +52,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -66,7 +66,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -132,7 +132,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var MenuItemBColor = MenuBColor;
@@ -205,7 +205,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -286,7 +286,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    InitializeDropdownMenus();
@@ -313,7 +313,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    var ButtonBColor = BottomBar.BackColor;
@@ -352,7 +352,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	    
 	    var IContainerSize = new Size(210, ButtonSize.Height);
@@ -366,7 +366,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -380,7 +380,7 @@ namespace DashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
