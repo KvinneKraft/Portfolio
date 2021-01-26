@@ -19,8 +19,6 @@ namespace DashlorisX
     public class SettingsInfo : Form
     {
 	new readonly DashControls Controls = new DashControls();
-
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings Information", minim:false);
 	readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
@@ -44,7 +42,9 @@ namespace DashlorisX
 	    Tools.Round(this, 6);
 	    ResumeLayout(false);
 	}
-	
+
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings Information", minim: false);
+
 	private void InitializeMenuBar()
 	{
 	    try

@@ -20,8 +20,6 @@ namespace DashlorisX
     public class DashPing : Form
     {
 	new readonly DashControls Controls = new DashControls();
-
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
 	readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
@@ -42,6 +40,8 @@ namespace DashlorisX
 
 	    ResumeLayout(false);
 	}
+
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
 
 	private void InitializeMenuBar()
 	{

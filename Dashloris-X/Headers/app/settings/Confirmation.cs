@@ -19,8 +19,6 @@ namespace DashlorisX
     public class Confirmation : Form
     {
 	new readonly DashControls Controls = new DashControls();
-
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Confirm Configuration", minim:false);
 	readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
@@ -45,6 +43,31 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
+	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Confirm Configuration", minim: false);
+
+	private void InitializeMenuBar()
+	{
+	    try
+	    {
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+	public readonly List<Thread> workers = new List<Thread>();
+	public readonly PowerPoint PowPow = new PowerPoint();
+
+	readonly PictureBox BottomButtonContainer = new PictureBox();
+	readonly PictureBox BottomContainer = new PictureBox();
+
+	readonly Button Cancel = new Button();
+	readonly Button Accept = new Button();
+  
 	readonly static DashNet DashNet = new DashNet();
 
 	public static bool ValidateConfiguration()
@@ -68,30 +91,6 @@ namespace DashlorisX
 
 	    return false;
 	}
-
-	private void InitializeMenuBar()
-	{
-	    try
-	    {
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-	}
-
-	readonly PictureBox BottomContainer = new PictureBox();
-	readonly PictureBox BottomButtonContainer = new PictureBox();
-
-	readonly public PowerPoint PowPow = new PowerPoint();
-
-	readonly Button Cancel = new Button();
-	readonly Button Accept = new Button();
-
-	public readonly List<Thread> workers = new List<Thread>();
 
 	private void InitializeBottomBar()
 	{

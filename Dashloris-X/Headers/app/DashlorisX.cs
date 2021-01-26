@@ -20,17 +20,19 @@ namespace DashlorisX
     public partial class DashlorisX : Form
     {
 	new readonly DashControls Controls = new DashControls();
-
-	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide:false);
 	static readonly DashTools Tools = new DashTools();
 
 	public static class Program
 	{
-	    private static void RunDashlorisX() =>
+	    private static void RunDashlorisX()
+	    {
 		new DashlorisX().ShowDialog();
+	    }
 
-	    private static void ShowToS() =>
-	       new TOS().ShowDialog();
+	    private static void ShowToS()
+	    {
+		new TOS().ShowDialog();
+	    }
 
 	    [STAThread] public static void Main()
 	    {
@@ -54,6 +56,8 @@ namespace DashlorisX
 		Application.Exit();
 	    }
 	}
+
+	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide: false);
 
 	private void InitializeMenuBar()
 	{
