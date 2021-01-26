@@ -38,6 +38,14 @@ namespace DashlorisX
 
 	    Icon = Resources.ICON;
 
+	    VisibleChanged += (s, e) =>
+	    {
+		if (Visible)
+		{
+		    HostTextBox.Text = DashlorisX.HostTextBox.Text;
+		}
+	    };
+
 	    ResumeLayout(false);
 	}
 
