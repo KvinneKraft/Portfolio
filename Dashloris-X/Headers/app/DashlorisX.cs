@@ -286,7 +286,7 @@ namespace DashlorisX
 
 		    else
 		    {
-			ConfirmationDialog.PowPow.StopAttack();
+			Confirmation.PowPow.StopAttack();
 		    }
 		};
 

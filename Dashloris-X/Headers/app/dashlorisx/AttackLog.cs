@@ -73,8 +73,8 @@ namespace DashlorisX
 	readonly PictureBox BottomBarContainer = new PictureBox();
 	readonly PictureBox BottomBar = new PictureBox();
 
+	public readonly Button Stop = new Button();// Close
 	readonly Button Clear = new Button();// Clear
-	readonly Button Stop = new Button();// Close
 
 	private void InitializeBottomBar()
 	{
@@ -126,7 +126,12 @@ namespace DashlorisX
 
 		Stop.Click += (s, e) =>
 		{
-		    Hide();
+		    if (Stop.Text != "Stopping ....")
+		    {
+			Stop.Text = "Stopping ....";
+
+			Confirmation.PowPow.StopAttack();
+		    }
 		};
 	    }
 

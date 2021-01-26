@@ -91,7 +91,7 @@ namespace DashlorisX
 	    return false;
 	}
 
-	public PowerPoint PowPow = new PowerPoint();
+	public static PowerPoint PowPow = new PowerPoint();
 
 	private void InitializeBottomBar()
 	{
