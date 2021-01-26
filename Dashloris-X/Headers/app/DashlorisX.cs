@@ -24,7 +24,7 @@ namespace DashlorisX
 
 	public static class Program
 	{
-	    private static void RunDashlorisX()
+	    private static void DashlorisX()
 	    {
 		new DashlorisX().ShowDialog();
 	    }
@@ -40,7 +40,7 @@ namespace DashlorisX
 		Application.SetCompatibleTextRenderingDefault(true);
 		
 		ShowToS();
-		RunDashlorisX();
+		DashlorisX();
 
 		var Threads = Process.GetCurrentProcess().Threads;
 		var currentThread = Thread.CurrentThread;
@@ -92,11 +92,10 @@ namespace DashlorisX
 	readonly PictureBox InnerMainContainer = new PictureBox();
 	readonly PictureBox MainContainer = new PictureBox();
 
-	readonly List<Label> LabelObjects = new List<Label>()
-	{
-	    HostLabel, BytesLabel,
-	    PortLabel, DurationLabel
-	};
+	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500" };
+	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
+	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk" };
+	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535" };
 	
 	readonly static Label DurationLabel = new Label();
 	readonly static Label BytesLabel = new Label();
@@ -109,10 +108,11 @@ namespace DashlorisX
 	    PortTextBox, DurationTextBox
 	};
 
-	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500" };
-	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
-	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk" };
-	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535"};
+	readonly List<Label> LabelObjects = new List<Label>()
+	{
+	    HostLabel, BytesLabel,
+	    PortLabel, DurationLabel
+	};
 
 	public static bool BlockDomains = true;
 
