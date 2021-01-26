@@ -41,8 +41,10 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		Tool.Resize(this.Title, Tool.GetFontSize(Title, this.Title.Height));
+		Tool.Resize(this.Title, Tool.GetFontSize(Title, 8));
+
 		this.Title.Text = Title;
+		this.Title.Location = new Point(this.Title.Left, (Bar.Height - this.Title.Height) / 2);
 	    }
 
 	    catch (Exception E)
@@ -59,12 +61,12 @@ namespace DashlorisX
 		Minim.BackColor = Color;
 		Title.BackColor = Color;
 
-		var RectangleSize = new Size(Bar.Width - 2, Bar.Parent.Height - Bar.Height + 1);
-		var RectangleLocation = new Point(1, Bar.Height + Bar.Top - 2);
+		var RectangleSize = new Size(Bar.Width - 1, Bar.Parent.Height - Bar.Height + 1);
+		var RectangleLocation = new Point(0, Bar.Height + Bar.Top - 2);
 
 		Tool.PaintRectangle(Bar.Parent, 2, RectangleSize, RectangleLocation, Color);
 
-		SLogo.BackColor = Color;
+		SLogo.BackColor = Bar.Parent.BackColor;
 		Logo.BackColor = Color;
 		Bar.BackColor = Color;
 	    }
