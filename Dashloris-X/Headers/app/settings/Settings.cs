@@ -325,8 +325,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Close");
-		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 10, "Help");
+		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 11, "Close");
+		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 11, "Help");
 
 		Help.Click += (s, e) =>
 		{
