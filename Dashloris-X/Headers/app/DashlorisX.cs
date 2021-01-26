@@ -42,8 +42,6 @@ namespace DashlorisX
 		Color CColor = Color.FromArgb(16, 16, 16);
 		Color BColor = Color.FromArgb(8, 8, 8);
 
-		new LogContainer(new Size(250, 250), "App Title").Show("Some text.", "A title", BColor, CColor, Color.White);
-
 		Environment.Exit(-1);
 
 		ShowToS();
