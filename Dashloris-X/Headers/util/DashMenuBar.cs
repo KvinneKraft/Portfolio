@@ -15,8 +15,8 @@ namespace DashlorisX
 {
     public class DashMenuBar
     {
-	readonly public DashControls CONTROL = new DashControls();
-	readonly public DashTools TOOL = new DashTools();
+	readonly public DashControls Control = new DashControls();
+	readonly public DashTools Tool = new DashTools();
 
 	bool minim = true, close = true, hide = true;
 
@@ -37,65 +37,103 @@ namespace DashlorisX
 	readonly public Button Close = new Button();
 	readonly public Button Minim = new Button();
 
+	public void UpdateTitle(string Title)
+	{
+	    try
+	    {
+		Tool.Resize(this.Title, Tool.GetFontSize(Title, this.Title.Height));
+		this.Title.Text = Title;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void Recolor(Color Color)
+	{
+	    try
+	    {
+		Close.BackColor = Color;
+		Minim.BackColor = Color;
+		Title.BackColor = Color;
+
+		var RectangleSize = new Size(Bar.Width - 2, Bar.Parent.Height - Bar.Height + 1);
+		var RectangleLocation = new Point(1, Bar.Height + Bar.Top - 2);
+
+		Tool.PaintRectangle(Bar.Parent, 2, RectangleSize, RectangleLocation, Color);
+
+		SLogo.BackColor = Color;
+		Logo.BackColor = Color;
+		Bar.BackColor = Color;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
 	public void Add(Form Top, int Height, Color BarCola, Color BorCola)
 	{
-	    var BAR_SIZE = new Size(Top.Width, Height);
-	    var BAR_LOCA = new Point(0, 0);
+	    var MenuBarSize = new Size(Top.Width, Height);
+	    var MenuBarLocation = new Point(0, 0);
 	    var MenuBarBColor = BarCola;
 
 	    try
 	    {
-		CONTROL.Image(Top, Bar, BAR_SIZE, BAR_LOCA, MenuBarBColor);
-		TOOL.Interactive(Bar, Top);
+		Control.Image(Top, Bar, MenuBarSize, MenuBarLocation, MenuBarBColor);
+		Tool.Interactive(Bar, Top);
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Menu Bar");
+		throw ErrorHandler.GetException(E);
 	    }
 
-	    var LOGO_SIZE = new Size(38, 32);
-	    var LOGO_LOCA = new Point(5, 5);
+	    var LogoSize = new Size(38, 32);
+	    var LogoLocation = new Point(5, 5);
 
 	    try
 	    {
-		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Color.FromArgb(6, 17, 33), ObjectImage: Properties.Resources.LOGO);
-		TOOL.Interactive(SLogo, Top);
+		Control.Image(Top, SLogo, LogoSize, LogoLocation, Color.FromArgb(6, 17, 33), ObjectImage: Properties.Resources.LOGO);
+		Control.Image(Bar, Logo, LogoSize, LogoLocation, BarCola, ObjectImage: Properties.Resources.LOGO);
 
-		CONTROL.Image(Bar, Logo, LOGO_SIZE, LOGO_LOCA, BarCola, ObjectImage: Properties.Resources.LOGO);
-		TOOL.Interactive(Logo, Top);
+		Tool.Interactive(SLogo, Top);
+		Tool.Interactive(Logo, Top);
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Logo");
+		throw ErrorHandler.GetException(E);
 	    }
 
-	    var TITLE_TEXT = (Title.Text);
-	    var TITLE_SIZE = TOOL.GetFontSize(TITLE_TEXT, 8);
-	    var TITLE_LOCA = new Point(Logo.Width + Logo.Left + 5, (Bar.Height - TITLE_SIZE.Height) / 2);
+	    var TitleText = (Title.Text);
+	    var TitleSize = Tool.GetFontSize(TitleText, 8);
+	    var TitleLocation = new Point(Logo.Width + Logo.Left + 5, (Bar.Height - TitleSize.Height) / 2);
 
 	    try
 	    {
-		CONTROL.Label(Bar, Title, TITLE_SIZE, TITLE_LOCA, BarCola, Color.White, 1, 8, TITLE_TEXT);
-		TOOL.Interactive(Title, Top);
+		Control.Label(Bar, Title, TitleSize, TitleLocation, BarCola, Color.White, 1, 8, TitleText);
+		Tool.Interactive(Title, Top);
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Title");
+		throw ErrorHandler.GetException(E);
 	    }
 
 	    var ButtonSize = new Size(65, Height);
-	    var BUTTO_LOCA = new Point(Bar.Width - ButtonSize.Width, 0);
+	    var ButtonLocation = new Point(Bar.Width - ButtonSize.Width, 0);
 
 	    try
 	    {
 
 		if (close)
 		{
-		    CONTROL.Button(Bar, Close, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, "X");
-		    TOOL.Interactive(Close, Top);
+		    Control.Button(Bar, Close, ButtonSize, ButtonLocation, BarCola, Color.White, 1, 10, "X");
+		    Tool.Interactive(Close, Top);
 
 		    Close.Click += (s, e) =>
 		    {
@@ -113,21 +151,21 @@ namespace DashlorisX
 
 		if (close && minim)
 		{
-		    BUTTO_LOCA.X -= ButtonSize.Width;
+		    ButtonLocation.X -= ButtonSize.Width;
 		}
 
 		if (minim)
 		{
-		    CONTROL.Button(Bar, Minim, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, "-");
-		    TOOL.Interactive(Minim, Top);
+		    Control.Button(Bar, Minim, ButtonSize, ButtonLocation, BarCola, Color.White, 1, 10, "-");
+		    Tool.Interactive(Minim, Top);
 
 		    Minim.Click += (s, e) => Top.SendToBack();
 		}
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Buttons");
+		throw ErrorHandler.GetException(E);
 	    }
 
 	    var RectangleSize = new Size(Bar.Width - 2, Top.Height - Bar.Height + 1);
@@ -135,12 +173,12 @@ namespace DashlorisX
 
 	    try
 	    {
-		TOOL.PaintRectangle(Top, 2, RectangleSize, RectangleLocation, BorCola);
+		Tool.PaintRectangle(Top, 2, RectangleSize, RectangleLocation, BorCola);
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		throw new Exception("Rectangle");
+		throw ErrorHandler.GetException(E);
 	    }
 	}
     }
