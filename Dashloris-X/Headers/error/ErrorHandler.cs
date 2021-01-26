@@ -18,17 +18,23 @@ namespace DashlorisX
 	public readonly DashControls Control = new DashControls();
 	public readonly DashTools Tool = new DashTools();
 
-	public static string GetFormat(Exception E) =>
-	    ($"----------------------\r\n{E.StackTrace}\r\n----------------------\r\n{E.Message}\r\n----------------------\r\n{E.Source}\r\n----------------------");
-
-	private class Dialog : Form
+	public static string GetFormat(Exception E)
 	{
-	    public Dialog(string error, string title)
-	    {
-		//Custom Dialog Soon
-		MessageBox.Show(error, title, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-		Environment.Exit(-1);
-	    }
+	    return string.Format
+	    (
+		$"----------------------\r\n" +
+		$"{E.StackTrace}\r\n" + 
+		$"----------------------\r\n" + 
+		$"{E.Message}\r\n" + 
+		$"----------------------\r\n" + 
+		$"{E.Source}\r\n" + 
+		$"----------------------\r\n"
+	    );
+	}
+
+	public static Exception GetException(Exception E)
+	{
+	    return new Exception(GetFormat(E));
 	}
 
 	public static void Utilize(string error, string title, bool thread = false)
@@ -38,6 +44,16 @@ namespace DashlorisX
 	    })
 
 	    { IsBackground = thread }.Start();
+	}
+
+	private class Dialog : Form
+	{
+	    public Dialog(string error, string title)
+	    {
+		//Custom Dialog Soon
+		MessageBox.Show(error, title, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+		Environment.Exit(-1);
+	    }
 	}
     }
 }
