@@ -143,7 +143,7 @@ namespace DashlorisX
 	{
 	    return string.Format
 	    (
-		"(+)>  Please make sure you have the consent of the server administrator, I am not responsible for any damage caused by this application.\r\n\r\n"	  
+		"(+)>  When stopping the flood, please wait at least 10 seconds before sending another wave, because it may take a minute to take down every single connection estabilished.\r\n\r\n"	  
     	    );
 	}
 

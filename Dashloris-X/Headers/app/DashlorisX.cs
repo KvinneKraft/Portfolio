@@ -37,20 +37,14 @@ namespace DashlorisX
 	    [STAThread] public static void Main()
 	    {
 		Application.EnableVisualStyles();
-		Application.SetCompatibleTextRenderingDefault(true);
-
-		Color CColor = Color.FromArgb(16, 16, 16);
-		Color BColor = Color.FromArgb(8, 8, 8);
-
-		Environment.Exit(-1);
+		Application.SetCompatibleTextRenderingDefault(false);
 
 		ShowToS();
 		DashlorisX();
-
-		var Threads = Process.GetCurrentProcess().Threads;
+		
 		var currentThread = Thread.CurrentThread;
 
-		foreach (Thread thread in Threads)
+		foreach (Thread thread in Process.GetCurrentProcess().Threads)
 		{
 		    if (thread != currentThread)
 		    {
@@ -99,8 +93,8 @@ namespace DashlorisX
 
 	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500" };
 	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
-	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://www.google.co.uk" };
-	public readonly static TextBox PortTextBox = new TextBox() { Text = "65535" };
+	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://pugpawz.com" };
+	public readonly static TextBox PortTextBox = new TextBox() { Text = "80" };
 	
 	readonly static Label DurationLabel = new Label();
 	readonly static Label BytesLabel = new Label();
@@ -293,13 +287,6 @@ namespace DashlorisX
 		    else
 		    {
 			ConfirmationDialog.PowPow.StopAttack();
-
-			foreach (Thread worker in ConfirmationDialog.workers)
-			{
-			    worker.Abort();
-			}
-
-			ConfirmationDialog.workers.Clear();
 		    }
 		};
 

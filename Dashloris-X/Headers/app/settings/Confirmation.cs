@@ -59,16 +59,15 @@ namespace DashlorisX
 	    }
 	}
 
-	public readonly List<Thread> workers = new List<Thread>();
-	public readonly PowerPoint PowPow = new PowerPoint();
-
 	readonly PictureBox BottomButtonContainer = new PictureBox();
 	readonly PictureBox BottomContainer = new PictureBox();
+
+	//public readonly List<Thread> DashBots = new List<Thread>();
 
 	readonly Button Cancel = new Button();
 	readonly Button Accept = new Button();
   
-	readonly static DashNet DashNet = new DashNet();
+	static readonly DashNet DashNet = new DashNet();
 
 	public static bool ValidateConfiguration()
 	{
@@ -91,6 +90,8 @@ namespace DashlorisX
 
 	    return false;
 	}
+
+	public PowerPoint PowPow = new PowerPoint();
 
 	private void InitializeBottomBar()
 	{
@@ -129,7 +130,7 @@ namespace DashlorisX
 		{
 		    if (ValidateConfiguration())
 		    {
-			DashlorisX.Launch.Text = "Stop Flooding";
+			DashlorisX.Launch.Text = "Flooding ....";
 
 			Hide();
 
