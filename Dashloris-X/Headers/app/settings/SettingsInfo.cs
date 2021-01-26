@@ -75,7 +75,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(BottomBar, Close, CloseSize, CloseLocation, CloseBColor, CloseFColor, 1, 10, "Close", Color.Empty);
+		Controls.Button(BottomBar, Close, CloseSize, CloseLocation, CloseBColor, CloseFColor, 1, 10, "Close");
 		Tools.Round(Close, 6);
 
 		Close.Click += (s, e) =>
@@ -83,7 +83,7 @@ namespace DashlorisX
 		    Hide();
 		};
 
-		Controls.Image(this, BottomBar, BottomBarSize, BottomBarLocation, null, BottomBarBColor);
+		Controls.Image(this, BottomBar, BottomBarSize, BottomBarLocation, BottomBarBColor);
 	    }
 
 	    catch (Exception E)
@@ -132,8 +132,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(MainTextContainer, InnerTextContainer, TContainerSize, TContainerLocation, null, TContainerBColor);
-		Controls.Image(this, MainTextContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
+		Controls.Image(MainTextContainer, InnerTextContainer, TContainerSize, TContainerLocation, TContainerBColor);
+		Controls.Image(this, MainTextContainer, MContainerSize, MContainerLocation, MContainerBColor);
 
 		Tools.Round(InnerTextContainer, 8);
 		Tools.Round(MainTextContainer, 6);
@@ -151,7 +151,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(InnerTextContainer, TextLog, TextLogSize, TextLogLocation, TextLogBColor, TextLogFColor, 1, 8, Color.Empty, READONLY:true, SCROLLBAR:true, FIXEDSIZE:false, MULTILINE:true);
+		Controls.TextBox(InnerTextContainer, TextLog, TextLogSize, TextLogLocation, TextLogBColor, TextLogFColor, 1, 8, ReadOnly:true, ScrollBar:true, FixedSize:false, Multiline:true);
 	    }
 
 	    catch (Exception E)

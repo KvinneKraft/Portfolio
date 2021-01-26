@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Headers\error\ErrorHandler.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
+    <Compile Include="Headers\util\DashControls2.cs" />
     <Compile Include="Headers\util\DashMenuBar.cs" />
     <Compile Include="Headers\util\DashNet.cs" />
     <Compile Include="Headers\util\DashTools.cs" />

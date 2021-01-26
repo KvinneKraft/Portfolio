@@ -217,7 +217,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, ConfigurationContainer, CContainerSize, CContainerLocation, null, CContainerBColor);
+		Controls.Image(this, ConfigurationContainer, CContainerSize, CContainerLocation, CContainerBColor);
 		Tools.Round(ConfigurationContainer, 6);
 	    }
 
@@ -267,10 +267,10 @@ namespace DashlorisX
 		Controls.Label(ConfigurationContainer, MethodLabel, MethodLabelSize, MethodLabelLocation, LabelBColor, LabelFColor, 1, 10, MethodLabelText);
 		Controls.Label(ConfigurationContainer, CookieLabel, CookieLabelSize, CookieLabelLocation, LabelBColor, LabelFColor, 1, 10, CookieLabelText);
 
-		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
-		Controls.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
+		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Controls.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Controls.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Controls.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
 
 		foreach (Control controlo in ConfigurationContainer.Controls)
 		{
@@ -308,7 +308,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, BottomBar, BContainerSize, BContainerLocation, null, BContainerBColor);
+		Controls.Image(this, BottomBar, BContainerSize, BContainerLocation, BContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -325,8 +325,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 10, "Help", Color.Empty);
-		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Close", Color.Empty);
+		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Close");
+		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 10, "Help");
 
 		Help.Click += (s, e) =>
 		{
@@ -361,7 +361,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(BottomBar, InnerBottomBarContainer, IContainerSize, IContainerLocation, null, IContainerBColor);
+		Controls.Image(BottomBar, InnerBottomBarContainer, IContainerSize, IContainerLocation, IContainerBColor);
 	    }
 
 	    catch (Exception E)

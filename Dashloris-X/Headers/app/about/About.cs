@@ -95,7 +95,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, InfoContainer, IContainerSize, IContainerLocation, null, IContainerBColor);
+		Controls.Image(this, InfoContainer, IContainerSize, IContainerLocation, IContainerBColor);
 		Tools.Round(InfoContainer, 6);
 	    }
 
@@ -111,7 +111,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 9, Color.Empty, READONLY: true, MULTILINE: true, SCROLLBAR: true, FIXEDSIZE: false);
+		Controls.TextBox(InfoContainer, TextContainer, TEXT_SIZE, TEXT_LOCA, TEXT_BCOL, TEXT_FCOL, 1, 9, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 	    }
 
 	    catch (Exception E)

@@ -104,7 +104,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
+		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, MContainerBColor);
 		Tools.Round(MainContainer, 6);
 	    }
 
@@ -119,7 +119,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(MainContainer, TextContainer, TContainerSize, TContainerLocation, null, TContainerBColor);
+		Controls.Image(MainContainer, TextContainer, TContainerSize, TContainerLocation, TContainerBColor);
 		Tools.Round(TextContainer, 6);
 	    }
 
@@ -135,7 +135,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(TextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty, READONLY: true, SCROLLBAR: true, MULTILINE: true, FIXEDSIZE: false);
+		Controls.TextBox(TextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9, ReadOnly: true, ScrollBar: true, Multiline: true, FixedSize: false);
 	    }
 
 	    catch (Exception E)
@@ -150,7 +150,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(TextBox, Agree, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 10, "I Agree", Color.Empty);
+		Controls.Button(TextBox, Agree, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 10, "I Agree");
 
 		Agree.Click += (s, e) =>
 		{

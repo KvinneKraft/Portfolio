@@ -108,7 +108,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, HostContainer, ContainerSize, ContainerLocation, null, ContainerBColor);
+		Controls.Image(this, HostContainer, ContainerSize, ContainerLocation, ContainerBColor);
 		Tools.Round(HostContainer, 6);
 	    }
 
@@ -142,10 +142,10 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9, Color.Empty);
+		Controls.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9);
 		Tools.Round(GetDeepToll(), 6);
 
-		Controls.TextBox(HostContainer, HostTextBox, HostBoxSize, HostBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, Color.Empty);
+		Controls.TextBox(HostContainer, HostTextBox, HostBoxSize, HostBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8);
 		Tools.Round(GetDeepToll(), 6);
 
 		Controls.Label(HostContainer, HostLabel, HostLabelSize, HostLabelLocation, LabelBColor, LabelFColor, 1, 10, HostLabelText);
@@ -224,7 +224,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, null, OContainerBColor);
+		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
 		Tools.Round(OptionContainer, 6);
 	    }
 
@@ -240,7 +240,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(OptionContainer, Check, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Check", Color.Empty);
+		Controls.Button(OptionContainer, Check, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Check");
 		Tools.Round(Check, 8);
 
 		Check.Click += (s, e) =>
@@ -302,7 +302,7 @@ namespace DashlorisX
 		Controls.Label(OptionContainer, ICMPTitle, ICMPLabelSize, ICMPLabelLocation, LabelBColor, LabelFColor, 1, 10, ICMPLabelText);
 		Controls.Label(OptionContainer, TCPTitle, TCPLabelSize, TCPLabelLocation, LabelBColor, LabelFColor, 1, 10, TCPLabelText);
 
-		Controls.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPBoxLocation, null, ToggleBoxBColor);
+		Controls.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPBoxLocation, ToggleBoxBColor);
 
 		ICMPBox.Click += (s, e) =>
 		{
@@ -313,7 +313,7 @@ namespace DashlorisX
 		    };
 		};
 
-		Controls.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPBoxLocation, null, ToggleOn);
+		Controls.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPBoxLocation, ToggleOn);
 
 		TCPBox.Click += (s, e) =>
 		{

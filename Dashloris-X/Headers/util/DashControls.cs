@@ -136,7 +136,7 @@ namespace DashlorisX
 	    }
 	}
 
-	public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBColor, Color ObjectFColor, int FontTypeID, int FontSize, string LabelText, bool TabStop)
+	public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBColor, Color ObjectFColor, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
 	{
 	    try
 	    {

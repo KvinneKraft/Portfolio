@@ -45,7 +45,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		CONTROL.Image(Top, Bar, BAR_SIZE, BAR_LOCA, null, MenuBarBColor);
+		CONTROL.Image(Top, Bar, BAR_SIZE, BAR_LOCA, MenuBarBColor);
 		TOOL.Interactive(Bar, Top);
 	    }
 
@@ -59,10 +59,10 @@ namespace DashlorisX
 
 	    try
 	    {
-		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, Color.FromArgb(6, 17, 33));
+		CONTROL.Image(Top, SLogo, LOGO_SIZE, LOGO_LOCA, Color.FromArgb(6, 17, 33), ObjectImage: Properties.Resources.LOGO);
 		TOOL.Interactive(SLogo, Top);
 
-		CONTROL.Image(Bar, Logo, LOGO_SIZE, LOGO_LOCA, Properties.Resources.LOGO, BarCola);
+		CONTROL.Image(Bar, Logo, LOGO_SIZE, LOGO_LOCA, BarCola, ObjectImage: Properties.Resources.LOGO);
 		TOOL.Interactive(Logo, Top);
 	    }
 
@@ -94,7 +94,7 @@ namespace DashlorisX
 
 		if (close)
 		{
-		    CONTROL.Button(Bar, Close, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("X"), Color.Empty);
+		    CONTROL.Button(Bar, Close, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, "X");
 		    TOOL.Interactive(Close, Top);
 
 		    Close.Click += (s, e) =>
@@ -118,7 +118,7 @@ namespace DashlorisX
 
 		if (minim)
 		{
-		    CONTROL.Button(Bar, Minim, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, ("-"), Color.Empty);
+		    CONTROL.Button(Bar, Minim, ButtonSize, BUTTO_LOCA, BarCola, Color.White, 1, 10, "-");
 		    TOOL.Interactive(Minim, Top);
 
 		    Minim.Click += (s, e) => Top.SendToBack();

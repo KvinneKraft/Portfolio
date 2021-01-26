@@ -104,8 +104,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(BottomContainer, BottomButtonContainer, BBContainerSize, BBContainerLocation, null, ContainerBColor);
-		Controls.Image(this, BottomContainer, BContainerSize, BContainerLocation, null, ContainerBColor);
+		Controls.Image(BottomContainer, BottomButtonContainer, BBContainerSize, BBContainerLocation, ContainerBColor);
+		Controls.Image(this, BottomContainer, BContainerSize, BContainerLocation, ContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -122,8 +122,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(BottomButtonContainer, Accept, ButtonSize, AcceptLocation, ButtonBColor, ButtonFColor, 1, 10, "Accept", Color.Empty);
-		Controls.Button(BottomButtonContainer, Cancel, ButtonSize, CancelLocation, ButtonBColor, ButtonFColor, 1, 10, "Cancel", Color.Empty);
+		Controls.Button(BottomButtonContainer, Accept, ButtonSize, AcceptLocation, ButtonBColor, ButtonFColor, 1, 10, "Accept");
+		Controls.Button(BottomButtonContainer, Cancel, ButtonSize, CancelLocation, ButtonBColor, ButtonFColor, 1, 10, "Cancel");
 
 		Accept.Click += (s, e) =>
 		{
@@ -176,8 +176,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, Color.Empty, FIXEDSIZE: false, MULTILINE: true, SCROLLBAR:true, READONLY:true);
-		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, ContainerBColor);
+		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, FixedSize: false, Multiline: true, ScrollBar:true, ReadOnly:true);
+		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, ContainerBColor);
 
 		Tools.Round(MainContainer, 6);
 	    }

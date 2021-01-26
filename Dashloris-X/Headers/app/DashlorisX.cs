@@ -153,7 +153,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, null, MContainerBColor);
+		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, MContainerBColor);
 		Tools.Round(MainContainer, 6);
 	    }
 
@@ -168,7 +168,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(MainContainer, InnerMainContainer, IContainerSize, IContainerLocation, null, IContainerBColor);
+		Controls.Image(MainContainer, InnerMainContainer, IContainerSize, IContainerLocation, IContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -215,7 +215,7 @@ namespace DashlorisX
 			x3 = TLoca.X;
 			w3 = w2;
 
-			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9, Color.Empty);
+			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9);
 			Tools.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 6);
 
 			tid += 1;
@@ -337,7 +337,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, null, OContainerBColor);
+		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
 		Tools.Round(OptionContainer, 6);
 	    }
 
@@ -352,7 +352,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(OptionContainer, InnerOptionContainer, IOptionContainerSize, IOptionContainerLocation, null, IOptionContainerBColor);
+		Controls.Image(OptionContainer, InnerOptionContainer, IOptionContainerSize, IOptionContainerLocation, IOptionContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -378,7 +378,7 @@ namespace DashlorisX
 		    {
 			var BUTTO_LOCA = new Point(x, y);
 
-			Controls.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p], Color.Empty);
+			Controls.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p]);
 			Tools.Round(ButtonObjects[p], 6);
 
 			x = ButtonSize.Width + ButtonObjects[p].Left + 8;

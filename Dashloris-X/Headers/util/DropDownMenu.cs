@@ -58,7 +58,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(Top, Container, MContainerSize, MContainerLocation, null, MContainerBackColor);
+		Controls.Image(Top, Container, MContainerSize, MContainerLocation, MContainerBackColor);
 	    }
 
 	    catch (Exception E)
@@ -72,7 +72,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(Container, ContentContainer, CContainerSize, CContainerLocation, null, CContainerBackColor);
+		Controls.Image(Container, ContentContainer, CContainerSize, CContainerLocation, CContainerBackColor);
 	    }
 
 	    catch (Exception E)
