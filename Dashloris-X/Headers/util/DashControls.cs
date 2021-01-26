@@ -22,6 +22,21 @@ namespace DashlorisX
     {
 	readonly DashTools Tool = new DashTools();
 
+	private Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
+	{
+	    if (ObjectLocation.X == -2)
+	    {
+		ObjectLocation.X = (Top.Width - Object.Width) / 2;
+	    }
+
+	    if (ObjectLocation.Y == -2)
+	    {
+		ObjectLocation.Y = (Top.Height - Object.Height) / 2;
+	    }
+
+	    return ObjectLocation;
+	}
+
 	public readonly Dictionary<TextBox, PictureBox> TextBoxContainers = new Dictionary<TextBox, PictureBox>(); 
 
 	public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBColor, Color ObjectFColor, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
@@ -30,15 +45,7 @@ namespace DashlorisX
 	    {
 		Tool.Resize(Object, ObjectSize);
 
-		if (ObjectLocation.X == -2)
-		{
-		    ObjectLocation.X = (Top.Width - Object.Width) / 2;
-		}
-
-		if (ObjectLocation.Y == -2)
-		{
-		    ObjectLocation.Y = (Top.Height - Object.Height) / 2;
-		}
+		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
 
 		Object.BackColor = ObjectBColor;
 		Object.ForeColor = ObjectFColor;
@@ -100,11 +107,27 @@ namespace DashlorisX
 	    }
 	}
 
-	public void Button()
+	public void Button(Control Top, Button Object, Size ObjectSize, Point ObjectLocation, Color ObjectBColor, Color ObjectFColor, int FontTypeID, int FontSize, string ButtonText, bool TabStop = false)
 	{
 	    try
 	    {
+		Tool.Resize(Object, ObjectSize);
 
+		ObjectLocation = CalculateCenter(Top, Object, ObjectLocation);
+
+		Object.BackColor = ObjectBColor;
+		Object.ForeColor = ObjectFColor;
+
+		Object.Font = Tool.GetFont(FontTypeID, FontSize);
+		Object.Text = ButtonText;
+
+		Object.FlatAppearance.BorderColor = ObjectBColor;
+		Object.FlatAppearance.BorderSize = 0;
+
+		Object.FlatStyle = FlatStyle.Flat;
+		Object.TabStop = TabStop;
+
+		Top.Controls.Add(Object);
 	    }
 
 	    catch (Exception E)
@@ -113,11 +136,31 @@ namespace DashlorisX
 	    }
 	}
 
-	public void Label()
+	public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBColor, Color ObjectFColor, int FontTypeID, int FontSize, string LabelText, bool TabStop)
 	{
 	    try
 	    {
+		if (ObjectSize == Size.Empty)
+		{
+		    ObjectSize = Tool.GetFontSize(LabelText, FontSize);
+		}
 
+		Tool.Resize(Object, ObjectSize);
+
+		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+		Object.BackColor = ObjectBColor;
+		Object.ForeColor = ObjectFColor;
+
+		Object.Font = Tool.GetFont(FontTypeID, FontSize);
+		Object.Text = LabelText;
+
+		Object.BorderStyle = BorderStyle.None;
+		Object.FlatStyle = FlatStyle.Flat;
+
+		Object.TabStop = TabStop;
+
+		Top.Controls.Add(Object);
 	    }
 
 	    catch (Exception E)
@@ -126,11 +169,30 @@ namespace DashlorisX
 	    }
 	}
 
-	public void Image()
+	public void Image(Control Top, PictureBox Object, Size ObjectSize, Point ObjectLocation, Color BackColor, Image ObjectImage = null, bool TabStop = false)
 	{
 	    try
 	    {
+		if (ObjectSize == Size.Empty)
+		{
+		    if (ObjectImage == null)
+		    {
+			throw new Exception("No image specified.");
+		    }
 
+		    ObjectSize = ObjectImage.Size;
+		}
+
+		Tool.Resize(Object, ObjectSize);
+
+		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+		Object.BackColor = BackColor;
+		Object.TabStop = TabStop;
+
+		Object.BorderStyle = BorderStyle.None;
+
+		Top.Controls.Add(Object);
 	    }
 
 	    catch (Exception E)
