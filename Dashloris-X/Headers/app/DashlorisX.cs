@@ -19,8 +19,8 @@ namespace DashlorisX
 {
     public partial class DashlorisX : Form
     {
-	new readonly DashControls Controls = new DashControls();
-	static readonly DashTools Tools = new DashTools();
+	new private readonly DashControls Controls = new DashControls();
+	private readonly static DashTools Tools = new DashTools();
 
 	public static class Program
 	{
@@ -46,7 +46,7 @@ namespace DashlorisX
 	    }
 	}
 
-	static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide: false);
+	private static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide: false);
 
 	private void InitializeMenuBar()
 	{
@@ -78,26 +78,26 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox InnerMainContainer = new PictureBox();
-	readonly PictureBox MainContainer = new PictureBox();
+	private readonly PictureBox InnerMainContainer = new PictureBox();
+	private readonly PictureBox MainContainer = new PictureBox();
 
 	public readonly static TextBox DurationTextBox = new TextBox() { Text = "4500" };
 	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
 	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://pugpawz.com" };
 	public readonly static TextBox PortTextBox = new TextBox() { Text = "80" };
 
-	readonly List<TextBox> TextBoxObjects = new List<TextBox>()
+	private readonly List<TextBox> TextBoxObjects = new List<TextBox>()
 	{
 	    HostTextBox, BytesTextBox,
 	    PortTextBox, DurationTextBox
 	};
 
-	readonly static Label DurationLabel = new Label();
-	readonly static Label BytesLabel = new Label();
-	readonly static Label HostLabel = new Label();
-	readonly static Label PortLabel = new Label();
+	private readonly static Label DurationLabel = new Label();
+	private readonly static Label BytesLabel = new Label();
+	private readonly static Label HostLabel = new Label();
+	private readonly static Label PortLabel = new Label();
 
-	readonly List<Label> LabelObjects = new List<Label>()
+	private readonly List<Label> LabelObjects = new List<Label>()
 	{
 	    HostLabel, BytesLabel,
 	    PortLabel, DurationLabel
@@ -231,16 +231,16 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox InnerOptionContainer = new PictureBox();
-	readonly PictureBox OptionContainer = new PictureBox();
+	private readonly PictureBox InnerOptionContainer = new PictureBox();
+	private readonly PictureBox OptionContainer = new PictureBox();
 
-	readonly public static Button Launch = new Button();
+	public readonly static Button Launch = new Button();
 
-	readonly static Button Settings = new Button();
-	readonly static Button Online = new Button();
-	readonly static Button About = new Button();
+	private readonly static Button Settings = new Button();
+	private readonly static Button Online = new Button();
+	private readonly static Button About = new Button();
 
-	readonly public static List<Button> ButtonObjects = new List<Button>()
+	public readonly static List<Button> ButtonObjects = new List<Button>()
 	{
 	    Launch, Settings,
 	    Online, About

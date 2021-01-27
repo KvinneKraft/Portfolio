@@ -16,85 +16,8 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public class SettingsInfo : Form
+    public class SettingsInfo
     {
-	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
-
-	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(300, 250);
-	    MinimumSize = new Size(300, 250);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    BackColor = Color.FromArgb(6, 17, 33);
-
-	    Text = "DashlorisX Settings Info";
-	    Tag = "DashlorisX Settings Info";
-	    Name = "Settings Information";
-
-	    Icon = Resources.ICON;
-
-	    Tools.Round(this, 6);
-	    ResumeLayout(false);
-	}
-
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings Information", minim: false);
-
-	private void InitializeMenuBar()
-	{
-	    try
-	    {
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	readonly PictureBox BottomBar = new PictureBox();
-	new readonly Button Close = new Button();
-
-	private void InitializeBottomBar()
-	{
-	    var BottomBarSize = new Size(Width, 28);
-	    var BottomBarLocation = new Point(0, Height - BottomBarSize.Height);
-	    var BottomBarBColor = MenuBar.Bar.BackColor;
-
-	    var CloseSize = new Size(100, 27);
-	    var CloseLocation = new Point((BottomBarSize.Width - CloseSize.Width) / 2, 0);
-	    var CloseBColor = BottomBarBColor;
-	    var CloseFColor = Color.White;
-
-	    try
-	    {
-		Controls.Button(BottomBar, Close, CloseSize, CloseLocation, CloseBColor, CloseFColor, 1, 10, "Close");
-		Tools.Round(Close, 6);
-
-		Close.Click += (s, e) =>
-		{
-		    Hide();
-		};
-
-		Controls.Image(this, BottomBar, BottomBarSize, BottomBarLocation, BottomBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	readonly PictureBox InnerTextContainer = new PictureBox();
-	readonly PictureBox MainTextContainer = new PictureBox();
-
 	private static string GetText()
 	{
 	    return string.Format
@@ -118,57 +41,28 @@ namespace DashlorisX
 	    );
 	}
 
-	readonly TextBox TextLog = new TextBox() { Text = GetText() };
+	public LogContainer InfoContainer = null;
 
-	private void InitializeContainer()
+	public void Show()
 	{
-	    var MContainerSize = new Size(Width - 20, Height - 20 - BottomBar.Height - MenuBar.Bar.Height);
-	    var MContainerLocation = new Point(10, MenuBar.Bar.Height + 10);
-	    var MContainerBColor = Color.FromArgb(9, 39, 66);
-
-	    var TContainerSize = new Size(MContainerSize.Width - 8, MContainerSize.Height - 8);
-	    var TContainerLocation = new Point(4, 4);
-	    var TContainerBColor = MContainerBColor;
-
 	    try
 	    {
-		Controls.Image(MainTextContainer, InnerTextContainer, TContainerSize, TContainerLocation, TContainerBColor);
-		Controls.Image(this, MainTextContainer, MContainerSize, MContainerLocation, MContainerBColor);
+		if (InfoContainer == null)
+		{
+		    var InfoContainerTitle = string.Format("Dashloris-X   Settings Information");
+		    var InfoContainerSize = new Size(350, 250);
 
-		Tools.Round(InnerTextContainer, 8);
-		Tools.Round(MainTextContainer, 6);
-	    }
+		    InfoContainer = new LogContainer(InfoContainerSize, InfoContainerTitle);
+		}
 
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
+		var InfoContainerBColor = InfoContainer.TextContainer.BackColor;
+		var InfoMenuBarBColor = InfoContainer.MenuBar.Bar.BackColor;
+		var InfoBackColor = InfoContainer.BackColor;
 
-	    var TextLogSize = TContainerSize;
-	    var TextLogLocation = new Point(0, 0);
-	    var TextLogBColor = TContainerBColor;
-	    var TextLogFColor = Color.White;
+		var InfoTitle = string.Format("Dashloris-X   Settings Information");
+		var InfoText = GetText();
 
-	    try
-	    {
-		Controls.TextBox(InnerTextContainer, TextLog, TextLogSize, TextLogLocation, TextLogBColor, TextLogFColor, 1, 8, ReadOnly:true, ScrollBar:true, FixedSize:false, Multiline:true);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	public SettingsInfo()
-	{
-	    InitializeComponent();
-
-	    try
-	    {
-		InitializeMenuBar();
-		InitializeBottomBar();
-		InitializeContainer();
+		InfoContainer.Show(InfoText, InfoTitle, InfoMenuBarBColor, InfoContainerBColor, InfoBackColor);
 	    }
 
 	    catch (Exception E)

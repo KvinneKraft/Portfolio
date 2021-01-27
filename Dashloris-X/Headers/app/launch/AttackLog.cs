@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public class AttackLog : Form
     {
-	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	new private readonly DashControls Controls = new DashControls();
+	private readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
 	{
@@ -43,7 +43,7 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  Attack Log", minim: false);
+	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  Attack Log", minim: false);
 
 	private void InitializeMenuBar()
 	{
@@ -59,11 +59,11 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox BottomBarContainer = new PictureBox();
-	readonly PictureBox BottomBar = new PictureBox();
+	private readonly PictureBox BottomBarContainer = new PictureBox();
+	private readonly PictureBox BottomBar = new PictureBox();
 
+	private readonly Button Clear = new Button();// Clear
 	public readonly Button Stop = new Button();// Close
-	readonly Button Clear = new Button();// Clear
 
 	private void InitializeBottomBar()
 	{
@@ -130,8 +130,8 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox InnerTextContainer = new PictureBox();
-	readonly PictureBox TextContainer = new PictureBox();
+	private readonly PictureBox InnerTextContainer = new PictureBox();
+	private readonly PictureBox TextContainer = new PictureBox();
 
 	private static string GetFormat()
 	{
@@ -141,7 +141,7 @@ namespace DashlorisX
     	    );
 	}
 
-	readonly public TextBox TextLog = new TextBox() { Text = GetFormat() };
+	public readonly TextBox TextLog = new TextBox() { Text = GetFormat() };
 
 	private void InitializeMainContainer()
 	{
@@ -190,9 +190,20 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-	
-	new void Hide() =>
-	    Invoke(new MethodInvoker(delegate () { Visible = false; }));
+
+	new void Hide()
+	{
+	    Invoke
+	    (
+		new MethodInvoker
+		(
+		    delegate () 
+		    {
+			Visible = false;
+		    }
+		)
+	    );
+	}
 
 	public AttackLog()
 	{

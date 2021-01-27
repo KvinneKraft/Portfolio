@@ -19,8 +19,8 @@ namespace DashlorisX
 {
     public class IsOnline : Form
     {
-	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	private new readonly DashControls Controls = new DashControls();
+	private readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
 	{
@@ -52,7 +52,7 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
+	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
 
 	private void InitializeMenuBar()
 	{
@@ -68,7 +68,7 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly Label StatusLabel = new Label() { TextAlign = ContentAlignment.MiddleCenter };
+	private readonly Label StatusLabel = new Label() { TextAlign = ContentAlignment.MiddleCenter };
 
 	private void InitializeStatusContainer()
 	{
@@ -89,13 +89,13 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox HostContainer = new PictureBox();
+	private readonly PictureBox HostContainer = new PictureBox();
 
-	readonly TextBox HostTextBox = new TextBox() { TextAlign = HorizontalAlignment.Center, Text = "https://pugpawz.com/" };
-	readonly TextBox PortTextBox = new TextBox() { TextAlign = HorizontalAlignment.Center, Text = "65535" };
+	private readonly TextBox HostTextBox = new TextBox() { TextAlign = HorizontalAlignment.Center, Text = "https://pugpawz.com/" };
+	private readonly TextBox PortTextBox = new TextBox() { TextAlign = HorizontalAlignment.Center, Text = "65535" };
 
-	readonly Label HostLabel = new Label();
-	readonly Label PortLabel = new Label();
+	private readonly Label HostLabel = new Label();
+	private readonly Label PortLabel = new Label();
 
 	private void InitializeHostContainer()
 	{
@@ -155,15 +155,15 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox InnerOptionContainer = new PictureBox();
-	readonly PictureBox OptionContainer = new PictureBox();
-	readonly PictureBox ICMPBox = new PictureBox();
-	readonly PictureBox TCPBox = new PictureBox();
+	private readonly PictureBox InnerOptionContainer = new PictureBox();
+	private readonly PictureBox OptionContainer = new PictureBox();
+	private readonly PictureBox ICMPBox = new PictureBox();
+	private readonly PictureBox TCPBox = new PictureBox();
 
-	readonly Label ICMPTitle = new Label();
-	readonly Label TCPTitle = new Label();
+	private readonly Label ICMPTitle = new Label();
+	private readonly Label TCPTitle = new Label();
 
-	readonly DashNet DashNet = new DashNet();
+	private readonly DashNet DashNet = new DashNet();
 
 	private int GetStatus()
 	{
@@ -208,10 +208,10 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly Button Check = new Button();
+	private readonly Button Check = new Button();
 
-	readonly Color ToggleOn = Color.Green;
-	readonly Color ToggleOf = Color.FromArgb(8, 8, 8);
+	private readonly Color ToggleOn = Color.Green;
+	private readonly Color ToggleOf = Color.FromArgb(8, 8, 8);
 
 	private void InitializeOptionContainer()
 	{

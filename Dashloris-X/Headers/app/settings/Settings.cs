@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public partial class Settings : Form
     {
-	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	new private readonly DashControls Controls = new DashControls();
+	private readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
 	{
@@ -43,7 +43,7 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings", minim: false);
+	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings", minim: false);
 
 	private void InitializeMenuBar()
 	{
@@ -58,21 +58,21 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-	
-	readonly PictureBox ConfigurationContainer = new PictureBox();//This shit hurts my eyes help.
 
-	readonly DropDownMenu MethodMenu = new DropDownMenu();
-	readonly DropDownMenu HTTPvMenu = new DropDownMenu();
+	private readonly PictureBox ConfigurationContainer = new PictureBox();//This shit hurts my eyes help.
+
+	private readonly DropDownMenu MethodMenu = new DropDownMenu();
+	private readonly DropDownMenu HTTPvMenu = new DropDownMenu();
 
 	public readonly static TextBox UserAgentBox = new TextBox() { Text = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36" };
 	public readonly static TextBox CookieBox = new TextBox() { Text = "Cookie=cookie data man." };
 	public readonly static TextBox MethodBox = new TextBox() { Text = "POST", ReadOnly = true };
 	public readonly static TextBox HTTPvBox = new TextBox() { Text = "HTTP/1.1", ReadOnly = true };
 
-	readonly Label UserAgentLabel = new Label();
-	readonly Label MethodLabel = new Label();
-	readonly Label CookieLabel = new Label();
-	readonly Label HTTPvLabel = new Label();
+	private readonly Label UserAgentLabel = new Label();
+	private readonly Label MethodLabel = new Label();
+	private readonly Label CookieLabel = new Label();
+	private readonly Label HTTPvLabel = new Label();
 
 	private void InitializeDropdownMenus()
 	{
@@ -133,12 +133,9 @@ namespace DashlorisX
 	    {
 		switch (id)
 		{
-		    case 0:
-			return MethodMenu.ContentContainer.Controls.Count - 1;
-		    case 1:
-			return HTTPvMenu.ContentContainer.Controls.Count - 1;
-		    default:
-			return -1;
+		    case 0: return MethodMenu.ContentContainer.Controls.Count - 1;
+		    case 1: return HTTPvMenu.ContentContainer.Controls.Count - 1;
+		    default: return -1;
 		}
 	    }
 
@@ -281,13 +278,13 @@ namespace DashlorisX
 	    InitializeDropdownMenus();
 	}
 
-	readonly PictureBox InnerBottomBarContainer = new PictureBox();
-	readonly PictureBox BottomBar = new PictureBox();
+	private readonly PictureBox InnerBottomBarContainer = new PictureBox();
+	private readonly PictureBox BottomBar = new PictureBox();
 
-	new readonly Button Close = new Button();
-	readonly Button Help = new Button();
+	new private readonly Button Close = new Button();
+	private readonly Button Help = new Button();
 
-	readonly SettingsInfo SettingsInfoDialog = new SettingsInfo();
+	private readonly SettingsInfo SettingsInfoDialog = new SettingsInfo();
 
 	private void InitializeBottomBar()
 	{
@@ -319,9 +316,9 @@ namespace DashlorisX
 
 		Help.Click += (s, e) =>
 		{
-		    if (!SettingsInfoDialog.Visible)
+		    if (SettingsInfoDialog.InfoContainer == null || !SettingsInfoDialog.InfoContainer.Visible)
 		    {
-			SettingsInfoDialog.ShowDialog();
+			SettingsInfoDialog.Show();
 		    }
 		};
 
