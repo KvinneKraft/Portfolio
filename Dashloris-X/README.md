@@ -1,7 +1,7 @@
 ## Download the The Dashloris-X
->Any of the available downloads can be found at my website: https://pugpawz.com/
+>I would recommend checking the information section first before download The Dashloris.
 
->~As of now my precious website is undergoing maintenance but she should be available to everyone, very soon!~  If you can not wait and still want to check the Dashloris-X release out then you can head over to the Application folder and select one of the raw versions in there or, if you are atleast as lazy as me, eh, click [Me Dashloris-X.exe](Application/1.0/Dashloris-X.exe?raw=true) for version 1.0.
+>You can find releases [Here] on my GitHub but also [Here](https://pugpawz.com) on my website.
 ##
 ## Future of The Dashloris-X
 >To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction, is what I consider it to be.
