@@ -67,26 +67,38 @@ namespace DashlorisX
 
 	private static readonly DashNet DashNet = new DashNet();
 
-	public static bool ValidateConfiguration()
+	private static bool ConfirmBytes(string Value)
 	{
-	    if (DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text) && DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text))
+	    if (!DashNet.ConfirmInteger(Value))
 	    {
-		if (DashNet.ConfirmIP(DashlorisX.HostTextBox.Text) && DashNet.ConfirmPort(DashlorisX.PortTextBox.Text))
-		{
-		    if (DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text))
-		    {
-			return false;
-		    }
-
-		    return true;
-		}
-
+		MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		return false;
 	    }
 
-	    MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+	    return true;
+	}
 
-	    return false;
+	public static bool ValidateConfiguration()
+	{
+	    var Results = new List<bool>()
+	    {
+		(DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text)),
+
+		DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text),
+		DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text),
+		DashNet.ConfirmPort(DashlorisX.PortTextBox.Text),
+		DashNet.ConfirmIP(DashlorisX.HostTextBox.Text),
+	    };
+	    
+	    foreach (bool Result in Results)
+	    {
+		if (!Result)
+		{
+		    return false;
+		}
+	    }
+
+	    return true;
 	}
 
 	public static PowerPoint PowPow = new PowerPoint();
