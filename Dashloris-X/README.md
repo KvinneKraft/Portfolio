@@ -1,7 +1,7 @@
 ## Download the The Dashloris-X
 >I would recommend checking the information section first before download The Dashloris.
 
->You can find releases [Here] on my GitHub but also [Here](https://pugpawz.com) on my website.
+>You can find all (including unstable) builds [Here](https://github.com/KvinneKraft/Portfolio/tree/main/Dashloris-X/Application) on my GitHub but also [Here](https://pugpawz.com) on my website.  Please know that some versions may contain bugs, if you do find any, please reach out to me at KvinneKraft@protonmail.com about the matter, I want to squash them all and throw salt on them lil bastards (It is worth mentioning that, I would never do such a thing to a living being).
 ##
 ## Future of The Dashloris-X
 >To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction, is what I consider it to be.
@@ -29,13 +29,3 @@
 > You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
 
 > You will also need Windows x64 bit.
-##
-## Some Notes
->Please keep in mind that there is a lot more to come but also
->know that the above screenshots only show a small part of the 
->entire application, there is a lot to go through.  
-
->Future updates await much functionality, I will need people their 
->feedback in order to improve this piece of software.  If you yourself
->feel like you have found something wrong or perhaps have a decent
->suggestion, please contact me at KvinneKraft@protonmail.com.
