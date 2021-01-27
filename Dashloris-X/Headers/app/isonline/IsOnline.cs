@@ -29,6 +29,9 @@ namespace DashlorisX
 	    MaximumSize = new Size(350, 225);
 	    MinimumSize = new Size(350, 225);
 
+	    BackColor = Color.FromArgb(6, 17, 33);
+	    Tools.Round(this, 6);
+
 	    StartPosition = FormStartPosition.CenterScreen;
 	    FormBorderStyle = FormBorderStyle.None;
 
@@ -57,20 +60,6 @@ namespace DashlorisX
 	    {
 		var MenuBarBColor = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private void InitializeLayout()
-	{
-	    try
-	    {
-		BackColor = Color.FromArgb(6, 17, 33);
-		Tools.Round(this, 6);
 	    }
 
 	    catch (Exception E)
@@ -362,7 +351,6 @@ namespace DashlorisX
 	    try
 	    {
 		InitializeMenuBar();
-		InitializeLayout();
 		InitializeStatusContainer();
 		InitializeHostContainer();
 		InitializeOptionContainer();

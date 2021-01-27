@@ -28,6 +28,8 @@ namespace DashlorisX
 	    MaximumSize = new Size(300, 250);
 	    MinimumSize = new Size(300, 250);
 
+	    MaximizeBox = false;
+
 	    StartPosition = FormStartPosition.CenterParent;
 	    FormBorderStyle = FormBorderStyle.None;
 
@@ -35,8 +37,10 @@ namespace DashlorisX
 	    Tag = "DashlorisX Info";
 	    Name = "About";
 
+	    BackColor = Color.FromArgb(6, 17, 33);
 	    Icon = Resources.ICON;
-	    MaximizeBox = false;
+
+	    Tools.Round(this, 6);
 
 	    ResumeLayout(false);
 	}
@@ -57,20 +61,6 @@ namespace DashlorisX
 	    }
 	}
 	 
-	private void InitializeLayout()
-	{
-	    try
-	    {
-		BackColor = Color.FromArgb(6, 17, 33);
-		Tools.Round(this, 6);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 	private static string GetText()
 	{
 	    return string.Format
@@ -127,7 +117,6 @@ namespace DashlorisX
 	    try
 	    {
 		InitializeMenuBar();
-		InitializeLayout();
 		InitializeInformation();
 	    }
 

@@ -28,6 +28,9 @@ namespace DashlorisX
 	    MaximumSize = new Size(450, 250);
 	    MinimumSize = new Size(450, 250);
 
+	    BackColor = Color.FromArgb(6, 17, 33);
+	    Tools.Round(this, 6);
+
 	    StartPosition = FormStartPosition.CenterParent;
 	    FormBorderStyle = FormBorderStyle.None;
 
@@ -55,21 +58,7 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	private void InitializeLayout()
-	{
-	    try
-	    {
-		BackColor = Color.FromArgb(6, 17, 33);
-		Tools.Round(this, 6);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
+	
 	readonly PictureBox ConfigurationContainer = new PictureBox();//This shit hurts my eyes help.
 
 	readonly DropDownMenu MethodMenu = new DropDownMenu();
@@ -391,7 +380,6 @@ namespace DashlorisX
 	    try
 	    {
 		InitializeMenuBar();
-		InitializeLayout();
 		InitializeSettings();
 		InitializeBottomBar();
 		ReinitializeApp();

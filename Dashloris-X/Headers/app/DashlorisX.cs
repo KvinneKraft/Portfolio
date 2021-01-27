@@ -31,7 +31,7 @@ namespace DashlorisX
 
 	    private static void ShowToS()
 	    {
-		new TOS().ShowDialog();
+		new TOS().Show();
 	    }
 
 	    [STAThread] public static void Main()
@@ -42,16 +42,6 @@ namespace DashlorisX
 		ShowToS();
 		DashlorisX();
 		
-		var currentThread = Thread.CurrentThread;
-
-		foreach (Thread thread in Process.GetCurrentProcess().Threads)
-		{
-		    if (thread != currentThread)
-		    {
-			thread.Abort();
-		    }
-		}
-
 		Application.Exit();
 	    }
 	}
