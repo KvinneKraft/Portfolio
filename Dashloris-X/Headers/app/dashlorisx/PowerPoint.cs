@@ -43,6 +43,7 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
 	private void SetKeepAlive(bool Enable)
 	{
 	    KeepAlive = (Enable);
