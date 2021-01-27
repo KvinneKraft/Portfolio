@@ -16,6 +16,10 @@ Dashloris-X/obj/Release/DashlorisX.pdb
 Dashloris-X/obj/Release/DashlorisX.Properties.Resources.resources
 Dashloris-X/obj/Release/*.*
 Dashloris-X/obj/*
+Dashloris-X/bin/*
+Dashloris-X/bin
+Dashloris-X/bin/
+Dashloris-X/bin/*.*
 Dashloris-X/obj/Release/*
 Dashloris-X/obj/Release/DashlorisX.exe
 *.config
