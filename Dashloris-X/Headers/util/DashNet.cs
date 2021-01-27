@@ -17,6 +17,24 @@ namespace DashlorisX
 {
     public class DashNet
     {
+	public bool IsOnline(string url, int port = 80, int timeout = 500)
+	{
+	    try
+	    {
+		var stocking = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+		var resu = stocking.BeginConnect(url, port, null, null);
+		var succ = resu.AsyncWaitHandle.WaitOne(timeout, true);
+
+		return stocking.Connected;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public bool IsAllowedDomain(string url)
 	{
 	    bool IsValid = (!url.Contains(".gov") && !url.Contains(".edu") && !url.Contains(".govt"));
