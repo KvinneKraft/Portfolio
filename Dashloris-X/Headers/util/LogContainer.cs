@@ -17,8 +17,8 @@ namespace DashlorisX
 {
     public class LogContainer : Form
     {
-	readonly DashControls Control = new DashControls();
-	readonly DashTools Tool = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	private void ColorApp(Color MenuBarBColor, Color ContainerBColor, Color AppBColor)
 	{
@@ -40,6 +40,20 @@ namespace DashlorisX
 	    {
 		throw (ErrorHandler.GetException(E));
 	    }
+	}
+
+	public void Send(string Message)
+	{
+	    MenuBar.Bar.Parent.Invoke
+	    (
+		new MethodInvoker
+		(
+		    delegate () 
+		    {
+			Visible = false;
+		    }
+		)
+	    );
 	}
 
 	public void Show(string Message, string Title, Color MenuBarBColor, Color ContainerBColor, Color AppBColor, bool ShowDialog = true)
