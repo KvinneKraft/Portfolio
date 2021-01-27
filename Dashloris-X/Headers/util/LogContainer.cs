@@ -29,10 +29,11 @@ namespace DashlorisX
 		TextBox.BackColor = ContainerBColor;
 
 		BackColor = AppBColor;
+
 		MenuBar.Recolor(MenuBarBColor);
 
-		BottomContainer.BackColor = ContainerBColor;
-		BottomClose.BackColor = ContainerBColor;
+		BottomContainer.BackColor = MenuBarBColor;
+		BottomClose.BackColor = MenuBarBColor;
 	    }
 
 	    catch (Exception E)
@@ -41,7 +42,7 @@ namespace DashlorisX
 	    }
 	}
 
-	public void Show(string Message, string Title, Color MenuBarBColor, Color ContainerBColor, Color AppBColor)
+	public void Show(string Message, string Title, Color MenuBarBColor, Color ContainerBColor, Color AppBColor, bool ShowDialog = true)
 	{
 	    try
 	    {
@@ -50,14 +51,22 @@ namespace DashlorisX
 		MenuBar.UpdateTitle(Title);
 
 		TextBox.Text = Message;
+
+		if (ShowDialog)
+		{
+		    this.ShowDialog();
+		}
+
+		else
+		{
+		    Show();
+		}
 	    }
 
 	    catch (Exception E)
 	    {
 		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Error Handler");
 	    }
-
-	    ShowDialog();
 	}
 
 	private void InitializeComponent(Size AppSize, string AppTitle, FormStartPosition AppStartPosition = FormStartPosition.CenterScreen)
@@ -68,6 +77,8 @@ namespace DashlorisX
 
 		FormBorderStyle = FormBorderStyle.None;
 		StartPosition = AppStartPosition;
+
+		BackColor = Color.FromArgb(6, 17, 33);
 
 		MaximumSize = AppSize;
 		MinimumSize = AppSize;
@@ -87,7 +98,7 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly DashMenuBar MenuBar = new DashMenuBar(string.Empty, minim:false);
+	public readonly DashMenuBar MenuBar = new DashMenuBar(string.Empty, minim:false);
 
 	private void InitializeMenuBar()
 	{
@@ -103,12 +114,12 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox BottomContainer = new PictureBox();
-	readonly Button BottomClose = new Button();
+	public readonly PictureBox BottomContainer = new PictureBox();
+	public readonly Button BottomClose = new Button();
 
 	private void InitializeBottomBar()
 	{
-	    var BContainerSize = new Size(Width, 26);
+	    var BContainerSize = new Size(Width, 34);
 	    var BContainerLocation = new Point(0, Height - BContainerSize.Height);
 	    var BContainerBColor = MenuBar.Bar.BackColor;
 
@@ -122,7 +133,7 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 
-	    var ButtonSize = new Size(100, 26);
+	    var ButtonSize = new Size(100, BContainerSize.Height);
 	    var ButtonLocation = new Point((BContainerSize.Width - ButtonSize.Width) / 2, 0);
 	    var ButtonFColor = Color.White;
 	    var ButtonBColor = MenuBar.Bar.BackColor;
@@ -144,16 +155,16 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox InnerTextContainer = new PictureBox();
-	readonly PictureBox TextContainer = new PictureBox();
+	public readonly PictureBox InnerTextContainer = new PictureBox();
+	public readonly PictureBox TextContainer = new PictureBox();
 
-	readonly TextBox TextBox = new TextBox();
+	public readonly TextBox TextBox = new TextBox();
 
 	private void InitializeContainer()
 	{
 	    var TContainerSize = new Size(Width - 22, Height - 22 - MenuBar.Bar.Height - BottomContainer.Height);
 	    var TContainerLocation = new Point(11, MenuBar.Bar.Height + 11);
-	    var TContainerBColor = Color.FromArgb(6, 17, 33);
+	    var TContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    var IContainerSize = new Size(TContainerSize.Width - 10, TContainerSize.Height - 10);
 	    var IContainerLocation = new Point(5, 5);
