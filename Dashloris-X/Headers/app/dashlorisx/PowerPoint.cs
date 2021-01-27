@@ -34,7 +34,8 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		return (new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { Ttl = 255 });
+		return (new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+		    { LingerState = new LingerOption(true, 0), Ttl = 255, SendTimeout = 0, ReceiveTimeout = 0, NoDelay = true });
 	    }
 
 	    catch (Exception E)
@@ -267,28 +268,22 @@ namespace DashlorisX
 			}
 		    }
 
-		    int alive = 0, dead = 0;
-
 		    foreach (var DashBot in DashBots)
 		    {
-			if (DashBot.IsAlive)
+			if (KeepAlive)
 			{
 			    DashBot.Join();
-			    alive += 1;
-			}
-
-			else
-			{
-			    DashBot.Abort();
-			    dead += 1;
 			}
 		    }
 
-		    MessageBox.Show($"Alive Bots: {alive}; Dead Bots: {dead}; Stockings:{Stockings.Count};");
-
 		    foreach (var Stocking in Stockings)
 		    {
-			Stocking.Close();
+			if (Stocking.Connected)
+			{
+			    Stocking.Close();
+			}
+
+			Stocking.Dispose();
 		    }
 		})
 
