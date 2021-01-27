@@ -95,17 +95,17 @@ namespace DashlorisX
 	public readonly static TextBox BytesTextBox = new TextBox() { Text = "1024" };
 	public readonly static TextBox HostTextBox = new TextBox() { Text = "https://pugpawz.com" };
 	public readonly static TextBox PortTextBox = new TextBox() { Text = "80" };
-	
-	readonly static Label DurationLabel = new Label();
-	readonly static Label BytesLabel = new Label();
-	readonly static Label HostLabel = new Label();
-	readonly static Label PortLabel = new Label();
 
 	readonly List<TextBox> TextBoxObjects = new List<TextBox>()
 	{
 	    HostTextBox, BytesTextBox,
 	    PortTextBox, DurationTextBox
 	};
+
+	readonly static Label DurationLabel = new Label();
+	readonly static Label BytesLabel = new Label();
+	readonly static Label HostLabel = new Label();
+	readonly static Label PortLabel = new Label();
 
 	readonly List<Label> LabelObjects = new List<Label>()
 	{
@@ -255,12 +255,6 @@ namespace DashlorisX
 	    Launch, Settings,
 	    Online, About
 	};
-
-	public enum OptionContainerObject
-	{
-	    Launch = 0, Properties = 1,
-	    Online = 2, About = 3
-	}
 
 	readonly Confirmation ConfirmationDialog = new Confirmation();
 	readonly Settings SettingsDialog = new Settings();
