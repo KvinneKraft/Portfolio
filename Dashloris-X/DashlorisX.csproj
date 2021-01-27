@@ -56,7 +56,7 @@
     <Compile Include="Headers\app\about\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\app\dashlorisx\AttackLog.cs">
+    <Compile Include="Headers\app\launch\AttackLog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\DashlorisX.cs">
@@ -65,14 +65,14 @@
     <Compile Include="Headers\app\DashlorisX.Designer.cs">
       <DependentUpon>DashlorisX.cs</DependentUpon>
     </Compile>
-    <Compile Include="Headers\app\dashlorisx\PowerPoint.cs" />
+    <Compile Include="Headers\app\launch\PowerPoint.cs" />
     <Compile Include="Headers\app\settings\Confirmation.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\settings\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\app\pinger\DashPing.cs">
+    <Compile Include="Headers\app\isonline\IsOnline.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\settings\SettingsInfo.cs">

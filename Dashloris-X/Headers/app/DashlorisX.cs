@@ -264,7 +264,7 @@ namespace DashlorisX
 
 	readonly Confirmation ConfirmationDialog = new Confirmation();
 	readonly Settings SettingsDialog = new Settings();
-	readonly DashPing PingDialog = new DashPing();
+	readonly IsOnline IsOnlineDialog = new IsOnline();
 	readonly DashNet DashNet = new DashNet();
 	readonly About AboutDialog = new About();
 
@@ -300,9 +300,9 @@ namespace DashlorisX
 
 		ButtonObjects[2].Click += (s, e) =>
 		{
-		    if (!PingDialog.Visible)
+		    if (!IsOnlineDialog.Visible)
 		    {
-			PingDialog.Show();
+			IsOnlineDialog.Show();
 		    }
 		};
 

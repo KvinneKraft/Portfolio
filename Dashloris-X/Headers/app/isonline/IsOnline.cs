@@ -17,7 +17,7 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public class DashPing : Form
+    public class IsOnline : Form
     {
 	new readonly DashControls Controls = new DashControls();
 	readonly DashTools Tools = new DashTools();
@@ -176,7 +176,7 @@ namespace DashlorisX
 
 	readonly DashNet DashNet = new DashNet();
 
-	private int IsOnline()
+	private int GetStatus()
 	{
 	    try
 	    {
@@ -259,7 +259,7 @@ namespace DashlorisX
 
 			new Thread(() =>
 			{
-			    int isOnline = IsOnline();
+			    int isOnline = GetStatus();
 
 			    if (isOnline == 1)
 			    {
@@ -355,7 +355,7 @@ namespace DashlorisX
 	    }
 	}
 
-	public DashPing()
+	public IsOnline()
 	{
 	    InitializeComponent();
 
