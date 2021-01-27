@@ -10,6 +10,7 @@
 ##
 ## Requirements
 > You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
+> You will also need Windows x64 bit.
 ##
 ## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated to the information that I want to share about this application within the application already, I still feel like I have to address a few things.  This application was made for personal use only until I discovered the use others may see within its shadow.  Therefore I present to you the official (long postponed) Dashloris-X!  
