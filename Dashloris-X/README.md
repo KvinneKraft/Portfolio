@@ -8,10 +8,13 @@
 
 >But to get to the point, the future of Dashloris-X is uncertain, just like anything else in life, but, I do have a lot of things planned for this piece of software.  The expansion it will face is far beyond my ordinary standards.  I also have plenty of other designs to work on, which means you will come across a lot on my page very soon!
 ##
-## Requirements
-> You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
-
-> You will also need Windows x64 bit.
+## Screenshots of Dashloris-X
+### Main Panel:
+![Main GUI](Screenshots/main-gui.png)
+### Settings GUI:
+![Settings GUI](Screenshots/settings-gui.png)
+### Ping GUI:
+![Ping GUI](Screenshots/ping-gui.png)
 ##
 ## Information about Dashloris-X
 >Hey there, even though there is a special dialog dedicated to the information that I want to share about this application within the application already, I still feel like I have to address a few things.  This application was made for personal use only until I discovered the use others may see within its shadow.  Therefore I present to you the official (long postponed) Dashloris-X!  
@@ -22,14 +25,12 @@
 
 >This application is unique in its own type of way.  And all of that within just 2 weeks.  My back has severe pains now, but it is worth it, ahaha.
 ##
-## Screenshots of Dashloris-X
-### Main Panel:
-![Main GUI](Screenshots/main-gui.png)
-### Settings GUI:
-![Settings GUI](Screenshots/settings-gui.png)
-### Ping GUI:
-![Ping GUI](Screenshots/ping-gui.png)
+## The Requirements
+> You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
+
+> You will also need Windows x64 bit.
 ##
+## Notes
 >Please keep in mind that there is a lot more to come but also
 >know that the above screenshots only show a small part of the 
 >entire application, there is a lot to go through.  
