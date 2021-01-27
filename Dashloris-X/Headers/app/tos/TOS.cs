@@ -43,6 +43,13 @@ namespace DashlorisX
 		    var ToSContainerSize = new Size(325, 250);
 
 		    ToSContainer = new LogContainer(ToSContainerSize, ToSContainerTitle);
+
+		    ToSContainer.MenuBar.Close.Click += (s, e) =>
+		    {
+			Application.Exit();
+		    };
+
+		    ToSContainer.BottomClose.Text = "I Fully Agree";
 		}
 
 		var ToSContainerBColor = ToSContainer.TextContainer.BackColor;

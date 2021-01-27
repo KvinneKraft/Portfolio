@@ -246,11 +246,11 @@ namespace DashlorisX
 	    Online, About
 	};
 
-	readonly Confirmation ConfirmationDialog = new Confirmation();
-	readonly Settings SettingsDialog = new Settings();
-	readonly IsOnline IsOnlineDialog = new IsOnline();
-	readonly DashNet DashNet = new DashNet();
-	readonly About AboutDialog = new About();
+	private readonly DashlorisXInfo DashlorisXInfoDialog = new DashlorisXInfo();
+	private readonly Confirmation ConfirmationDialog = new Confirmation();
+	private readonly Settings SettingsDialog = new Settings();
+	private readonly IsOnline IsOnlineDialog = new IsOnline();
+	private readonly DashNet DashNet = new DashNet();
 
 	private void SetupClickEvents()
 	{
@@ -292,9 +292,9 @@ namespace DashlorisX
 
 		ButtonObjects[3].Click += (s, e) =>
 		{
-		    if (!AboutDialog.Visible)
+		    if (DashlorisXInfoDialog.InfoContainer == null || !DashlorisXInfoDialog.InfoContainer.Visible)
 		    {
-			AboutDialog.ShowDialog();
+			DashlorisXInfoDialog.Show();
 		    }
 		};
 	    }
