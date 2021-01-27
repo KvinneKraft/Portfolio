@@ -1,9 +1,0 @@
-F:\Programming\Portfolio\DashlorisX\bin\Debug\DashlorisX.exe.config
-F:\Programming\Portfolio\DashlorisX\bin\Debug\DashlorisX.exe
-F:\Programming\Portfolio\DashlorisX\bin\Debug\DashlorisX.pdb
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.csprojAssemblyReference.cache
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.Properties.Resources.resources
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.csproj.GenerateResource.cache
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.csproj.CoreCompileInputs.cache
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.exe
-F:\Programming\Portfolio\DashlorisX\obj\Debug\DashlorisX.pdb

@@ -47,8 +47,8 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly public PictureBox ContentContainer = new PictureBox();
-	readonly public PictureBox Container = new PictureBox();
+	public readonly PictureBox ContentContainer = new PictureBox();
+	public readonly PictureBox Container = new PictureBox();
 
 	public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
 	{
@@ -105,7 +105,7 @@ namespace DashlorisX
 	    Hide();
 	}
 
-	readonly public Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
+	public readonly Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
 	
 	private int GetY()
 	{

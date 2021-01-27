@@ -146,7 +146,7 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly public ReadOnlyForm ROF = new ReadOnlyForm();
+	public readonly ReadOnlyForm ROF = new ReadOnlyForm();
 
 	public void Round(Control CON, int RAD)
 	{

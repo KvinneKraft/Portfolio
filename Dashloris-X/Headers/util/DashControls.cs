@@ -20,7 +20,7 @@ namespace DashlorisX
 {
     public class DashControls
     {
-	readonly DashTools Tool = new DashTools();
+	private readonly DashTools Tool = new DashTools();
 
 	private Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 	{

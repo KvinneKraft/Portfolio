@@ -15,8 +15,8 @@ namespace DashlorisX
 {
     public class DashMenuBar
     {
-	readonly public DashControls Control = new DashControls();
-	readonly public DashTools Tool = new DashTools();
+	public readonly DashControls Control = new DashControls();
+	public readonly DashTools Tool = new DashTools();
 
 	bool minim = true, close = true, hide = true;
 
@@ -28,14 +28,14 @@ namespace DashlorisX
 	    Title.Text = (title);
 	}
 
-	readonly public PictureBox SLogo = new PictureBox();
-	readonly public PictureBox Logo = new PictureBox();
-	readonly public PictureBox Bar = new PictureBox();
+	public readonly PictureBox SLogo = new PictureBox();
+	public readonly PictureBox Logo = new PictureBox();
+	public readonly PictureBox Bar = new PictureBox();
 
-	readonly public Label Title = new Label();
+	public readonly Label Title = new Label();
 
-	readonly public Button Close = new Button();
-	readonly public Button Minim = new Button();
+	public readonly Button Close = new Button();
+	public readonly Button Minim = new Button();
 
 	public void UpdateTitle(string Title)
 	{

@@ -21,8 +21,8 @@ namespace DashlorisX
 { 
     public class PowerPoint
     {
-	readonly AttackLog LogLog = new AttackLog();
-	readonly DashNet DashNet = new DashNet();
+	private readonly AttackLog LogLog = new AttackLog();
+	private readonly DashNet DashNet = new DashNet();
 
 	private void LogSend(string text) =>
 	    LogLog.TextLog.AppendText($"{text}\r\n");
@@ -119,7 +119,7 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly Dictionary<string, int> Statistics = new Dictionary<string, int>() { { "Bots", 0 }, { "Connections", 0 } };
+	private readonly Dictionary<string, int> Statistics = new Dictionary<string, int>() { { "Bots", 0 }, { "Connections", 0 } };
 
 	private void UpdateStatistics(string Key, int Value)
 	{

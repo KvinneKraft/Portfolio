@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public class Confirmation : Form
     {
-	new readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	private new readonly DashControls Controls = new DashControls();
+	private readonly DashTools Tools = new DashTools();
 
 	private void InitializeComponent()
 	{
@@ -43,7 +43,7 @@ namespace DashlorisX
 	    ResumeLayout(false);
 	}
 
-	readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Confirm Configuration", minim: false);
+	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Confirm Configuration", minim: false);
 
 	private void InitializeMenuBar()
 	{
@@ -59,15 +59,13 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox BottomButtonContainer = new PictureBox();
-	readonly PictureBox BottomContainer = new PictureBox();
+	private readonly PictureBox BottomButtonContainer = new PictureBox();
+	private readonly PictureBox BottomContainer = new PictureBox();
 
-	//public readonly List<Thread> DashBots = new List<Thread>();
+	private readonly Button Cancel = new Button();
+	private readonly Button Accept = new Button();
 
-	readonly Button Cancel = new Button();
-	readonly Button Accept = new Button();
-  
-	static readonly DashNet DashNet = new DashNet();
+	private static readonly DashNet DashNet = new DashNet();
 
 	public static bool ValidateConfiguration()
 	{
@@ -161,8 +159,8 @@ namespace DashlorisX
 	    }
 	}
 
-	readonly PictureBox MainContainer = new PictureBox();
-	readonly TextBox TextContainer = new TextBox();
+	private readonly PictureBox MainContainer = new PictureBox();
+	private readonly TextBox TextContainer = new TextBox();
 
 	private void InitializeContainer()
 	{
