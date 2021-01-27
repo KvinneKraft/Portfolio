@@ -26,6 +26,6 @@
 >This application is unique in its own type of way.  And all of that within just 2 weeks.  My back has severe pains now, but it is worth it, ahaha.
 ##
 ## The Requirements
-> You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
+> You will need The .NET Framework version 4.7 or above, you can find The .NET Framework version 4.7 [Here](https://dotnet.microsoft.com/download/dotnet-framework/net47).
 
-> You will also need Windows x64 bit.
+> You will also need Windows x64 bit, which you can find [Here](https://www.microsoft.com/en-us/windows) if you do not have it already.
