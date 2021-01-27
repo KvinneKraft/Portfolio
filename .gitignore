@@ -18,3 +18,4 @@ Dashloris-X/obj/Release/*.*
 Dashloris-X/obj/*
 Dashloris-X/obj/Release/*
 Dashloris-X/obj/Release/DashlorisX.exe
+*.config
