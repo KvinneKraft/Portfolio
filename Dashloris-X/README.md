@@ -3,6 +3,11 @@
 
 >~As of now my precious website is undergoing maintenance but she should be available to everyone, very soon!~  If you can not wait and still want to check the Dashloris-X release out then you can head over to the Application folder and select one of the raw versions in there or, if you are atleast as lazy as me, eh, click [Me Dashloris-X.exe](Application/1.0/Dashloris-X.exe?raw=true) for version 1.0.
 ##
+## Future of Dashloris-X
+>To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction, is what I consider it to be.
+
+>But to get to the point, the future of Dashloris-X is uncertain, just like anything else in life, but, I do have a lot of things planned for this piece of software.  The expansion it will face is far beyond my ordinary standards.  I also have plenty of other designs to work on, which means you will come across a lot on my page very soon!
+##
 ## Requirements
 > You will need [The .NET Framework 4.7](https://dotnet.microsoft.com/download/dotnet-framework/net47) or above.
 ##
