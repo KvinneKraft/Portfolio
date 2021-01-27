@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 
 using DashlorisX.Properties;
+using System.Security.Principal;
 
 namespace DashlorisX
 {
@@ -34,10 +35,21 @@ namespace DashlorisX
 		new TOS().Show();
 	    }
 
+	    private static bool IsAdministrator()
+	    {
+		return new WindowsPrincipal(WindowsIdentity.GetCurrent())
+		    .IsInRole(WindowsBuiltInRole.Administrator);
+	    }
+
 	    [STAThread] public static void Main()
 	    {
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
+
+		if (!IsAdministrator())
+		{
+		    // Display Custom Dialog;
+		}
 
 		ShowToS();
 		DashlorisX();
