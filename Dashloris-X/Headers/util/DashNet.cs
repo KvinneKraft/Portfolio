@@ -17,6 +17,17 @@ namespace DashlorisX
 {
     public class DashNet
     {
+	public bool ConfirmBytes(string Value)
+	{
+	    if (!ConfirmInteger(Value))
+	    {
+		MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		return false;
+	    }
+
+	    return true;
+	}
+
 	public bool IsOnline(string url, int port = 80, int timeout = 500)
 	{
 	    try
