@@ -26,20 +26,28 @@ namespace DashlorisX
 
 	private void InitializeComponent()
 	{
-	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
-	    var AppBColor = Color.FromArgb(6, 17, 33);
-	    var AppTitle = string.Format("Dashloris-X   Dash Ping");
-	    var AppSize = new Size(350, 225);
-
-	    DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, ShowDialog:false);
-
-	    DashDialog.VisibleChanged += (s, e) =>
+	    try
 	    {
-		if (DashDialog.Visible)
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+		var AppTitle = string.Format("Dashloris-X   Dash Ping");
+		var AppSize = new Size(350, 225);
+
+		DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, ShowDialog: false);
+
+		DashDialog.VisibleChanged += (s, e) =>
 		{
-		    HostTextBox.Text = DashlorisX.HostTextBox.Text;
-		}
-	    };
+		    if (DashDialog.Visible)
+		    {
+			HostTextBox.Text = DashlorisX.HostTextBox.Text;
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	private readonly Label StatusLabel = new Label() { TextAlign = ContentAlignment.MiddleCenter };
