@@ -16,41 +16,23 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public class AttackLog : Form
+    public class AttackLog 
     {
-	new private readonly DashControls Controls = new DashControls();
+	private readonly DashControls Controls = new DashControls();
 	private readonly DashTools Tools = new DashTools();
 
+	public readonly DashDialog DashDialog = new DashDialog();
+
 	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(325, 250);
-	    MinimumSize = new Size(325, 250);
-
-	    BackColor = Color.FromArgb(6, 17, 33);
-	    Tools.Round(this, 6);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Attack Log";
-	    Tag = "DashlorisX Attack Log";
-	    Name = "Attack Log";
-
-	    Icon = Resources.ICON;
-
-	    ResumeLayout(false);
-	}
-
-	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X  Attack Log", minim: false);
-
-	private void InitializeMenuBar()
 	{
 	    try
 	    {
 		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+		var AppTitle = string.Format("Dashloris-X   Attack Log");
+		var AppSize = new Size(325, 250);
+
+		DashDialog.JustInitialize(AppSize, AppTitle, AppBColor, MenuBarBColor);
 	    }
 
 	    catch (Exception E)
@@ -67,13 +49,13 @@ namespace DashlorisX
 
 	private void InitializeBottomBar()
 	{
-	    var ContainerSize = new Size(Width - 2, 28);
-	    var ContainerLocation = new Point(1, Height - ContainerSize.Height);
-	    var ContainerBColor = MenuBar.Bar.BackColor;
+	    var ContainerSize = new Size(DashDialog.Width - 2, 28);
+	    var ContainerLocation = new Point(1, DashDialog.Height - ContainerSize.Height);
+	    var ContainerBColor = DashDialog.MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Controls.Image(this, BottomBar, ContainerSize, ContainerLocation, ContainerBColor);
+		Controls.Image(DashDialog, BottomBar, ContainerSize, ContainerLocation, ContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -145,13 +127,13 @@ namespace DashlorisX
 
 	private void InitializeMainContainer()
 	{
-	    var ContainerSize = new Size(Width - 22, Height - MenuBar.Bar.Height - BottomBar.Height - 21);
-	    var ContainerLocation = new Point(11, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
+	    var ContainerSize = new Size(DashDialog.Width - 22, DashDialog.Height - DashDialog.MenuBar.Bar.Height - BottomBar.Height - 21);
+	    var ContainerLocation = new Point(11, DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Bar.Top + 10);
 	    var ContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
-		Controls.Image(this, TextContainer, ContainerSize, ContainerLocation, ContainerBColor);
+		Controls.Image(DashDialog, TextContainer, ContainerSize, ContainerLocation, ContainerBColor);
 		Tools.Round(TextContainer, 6);
 	    }
 
@@ -191,29 +173,36 @@ namespace DashlorisX
 	    }
 	}
 
-	new void Hide()
+	public void Hide()
 	{
-	    Invoke
+	    DashDialog.Invoke
 	    (
 		new MethodInvoker
 		(
 		    delegate () 
 		    {
-			Visible = false;
+			DashDialog.Visible = false;
 		    }
 		)
 	    );
 	}
 
-	public AttackLog()
-	{
-	    InitializeComponent();
+	private bool DoInitialize = true;
 
+	public void Show()
+	{
 	    try
 	    {
-		InitializeMenuBar();
-		InitializeBottomBar();
-		InitializeMainContainer();
+		if (DoInitialize)
+		{
+		    InitializeComponent();
+		    InitializeBottomBar();
+		    InitializeMainContainer();
+
+		    DoInitialize = false;
+		}
+
+		DashDialog.ShowAsIs(ShowDialog:true);
 	    }
 
 	    catch (Exception E)

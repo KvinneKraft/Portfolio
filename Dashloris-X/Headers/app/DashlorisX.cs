@@ -1,7 +1,7 @@
 ﻿// Author: Dashie
 // Version: 1.0
 //
-// <description>
+// You know it is Dash Code if it is Dash Code man, whatchu on about?
 //
 
 using System;

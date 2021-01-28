@@ -307,12 +307,13 @@ namespace DashlorisX
 		LogSend("Starting Dash Bots ...."); // Display amount of specified bots
 
 		SetKeepAlive(true);
+
 		StartDashBots();
 		StartDashTimer();
 
 		LogSend("Sending waves and waves of Dashloris-X Requests ....");
 
-		LogLog.ShowDialog();
+		LogLog.Show();
 	    }
 
 	    catch (Exception E)
@@ -330,7 +331,8 @@ namespace DashlorisX
 
 	    SafeTimer.Elapsed += (s, e) =>
 	    {
-		DashlorisX.Launch.Text = string.Format("Launch"); ;
+		DashlorisX.Launch.Text = string.Format("Launch");
+
 		LogLog.Stop.Text = string.Format("Stop");
 		LogLog.Hide();
 	    };
