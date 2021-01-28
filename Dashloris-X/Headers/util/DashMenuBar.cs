@@ -99,7 +99,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Control.Image(Top, SLogo, LogoSize, LogoLocation, Color.FromArgb(6, 17, 33), ObjectImage: Properties.Resources.LOGO);
+		Control.Image(Top, SLogo, LogoSize, LogoLocation, Top.BackColor/*Color.FromArgb(6, 17, 33)*/, ObjectImage: Properties.Resources.LOGO);
 		Control.Image(Bar, Logo, LogoSize, LogoLocation, BarCola, ObjectImage: Properties.Resources.LOGO);
 
 		Tool.Interactive(SLogo, Top);
