@@ -76,6 +76,7 @@
     <Compile Include="Headers\app\settings\SettingsInfo.cs" />
     <Compile Include="Headers\app\tos\TOS.cs" />
     <Compile Include="Headers\error\ErrorHandler.cs" />
+    <Compile Include="Headers\util\DashBox.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
     <Compile Include="Headers\util\DashDialog.cs">
       <SubType>Form</SubType>
