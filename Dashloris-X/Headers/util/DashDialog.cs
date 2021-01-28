@@ -97,5 +97,18 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
+	public void ShowAsIs(bool ShowDialog = true)
+	{
+	    if (ShowDialog)
+	    {
+		this.ShowDialog();
+	    }
+
+	    else
+	    {
+		Show();
+	    }
+	}
     }
 }

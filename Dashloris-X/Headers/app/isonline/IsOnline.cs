@@ -331,11 +331,13 @@ namespace DashlorisX
 		    InitializeHostContainer();
 		    InitializeOptionContainer();
 
+		    Tools.Resize(DashDialog, new Size(DashDialog.Width, OptionContainer.Top + OptionContainer.Height + 14));
+		    Tools.PaintLine(DashDialog, DashDialog.MenuBar.Bar.BackColor, 2, new Point(0, DashDialog.Height - 2), new Point(DashDialog.Width, DashDialog.Height - 2));
+
 		    DoInitialize = false;
 		}
 
-		Tools.Resize(DashDialog, new Size(DashDialog.Width, OptionContainer.Top + OptionContainer.Height + 14));
-		Tools.PaintLine(DashDialog, DashDialog.MenuBar.Bar.BackColor, 2, new Point(0, DashDialog.Height - 2), new Point(DashDialog.Width, DashDialog.Height -2));
+		DashDialog.ShowAsIs(ShowDialog:false);
 	    }
 
 	    catch (Exception E)
