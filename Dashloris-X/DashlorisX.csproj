@@ -73,14 +73,13 @@
     <Compile Include="Headers\app\isonline\IsOnline.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\app\settings\SettingsInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Headers\app\tos\TOS.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Headers\app\settings\SettingsInfo.cs" />
+    <Compile Include="Headers\app\tos\TOS.cs" />
     <Compile Include="Headers\error\ErrorHandler.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
+    <Compile Include="Headers\util\DashDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Headers\util\DashMenuBar.cs" />
     <Compile Include="Headers\util\DashNet.cs" />
     <Compile Include="Headers\util\DashTools.cs" />
