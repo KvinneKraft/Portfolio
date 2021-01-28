@@ -328,7 +328,7 @@ namespace DashlorisX
 
 	private bool DoInitialize = true;
 
-	public void Show()//IsOnline()
+	public void Show()
 	{
 	    try
 	    {
