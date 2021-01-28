@@ -33,7 +33,7 @@ namespace DashlorisX
 		var AppTitle = string.Format("Dashloris-X   Dash Ping");
 		var AppSize = new Size(350, 225);
 
-		DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, ShowDialog: false);
+		DashDialog.JustInitialize(AppSize, AppTitle, AppBColor, MenuBarBColor);
 
 		DashDialog.VisibleChanged += (s, e) =>
 		{
@@ -344,8 +344,8 @@ namespace DashlorisX
 
 		    DoInitialize = false;
 		}
-
-		DashDialog.ShowAsIs(ShowDialog:false);
+		
+		DashDialog.ShowAsIs(ShowDialog: false);
 	    }
 
 	    catch (Exception E)
