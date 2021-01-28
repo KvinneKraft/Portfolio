@@ -17,55 +17,31 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public class IsOnline : Form
+    public class IsOnline
     {
-	private new readonly DashControls Controls = new DashControls();
+	private readonly DashControls Controls = new DashControls();
 	private readonly DashTools Tools = new DashTools();
+
+	public readonly DashDialog DashDialog = new DashDialog();
 
 	private void InitializeComponent()
 	{
-	    SuspendLayout();
+	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
+	    var AppBColor = Color.FromArgb(6, 17, 33);
+	    var AppTitle = string.Format("Dashloris-X   Dash Ping");
+	    var AppSize = new Size(350, 225);
 
-	    MaximumSize = new Size(350, 225);
-	    MinimumSize = new Size(350, 225);
+	    DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, ShowDialog:false);
 
-	    BackColor = Color.FromArgb(6, 17, 33);
-	    Tools.Round(this, 6);
-
-	    StartPosition = FormStartPosition.CenterScreen;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Dash Ping";
-	    Tag = "DashlorisX Dash Ping";
-	    Name = "Dash Ping";
-
-	    Icon = Resources.ICON;
-
-	    VisibleChanged += (s, e) =>
+	    DashDialog.VisibleChanged += (s, e) =>
 	    {
-		if (Visible)
+		if (DashDialog.Visible)
 		{
 		    HostTextBox.Text = DashlorisX.HostTextBox.Text;
 		}
 	    };
 
-	    ResumeLayout(false);
-	}
-
-	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Pinger", minim: false);
-
-	private void InitializeMenuBar()
-	{
-	    try
-	    {
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
+	    DashDialog.ResumeLayout(false);
 	}
 
 	private readonly Label StatusLabel = new Label() { TextAlign = ContentAlignment.MiddleCenter };
@@ -75,12 +51,12 @@ namespace DashlorisX
 	    try
 	    {
 		var StatusText = string.Format("Status: Offline");
-		var StatusSize = new Size(Width - 8, 24);
-		var StatusLocation = new Point(4, 10 + MenuBar.Bar.Height);
-		var StatusBColor = BackColor;
+		var StatusSize = new Size(DashDialog.Width - 8, 24);
+		var StatusLocation = new Point(4, 10 + DashDialog.MenuBar.Bar.Height);
+		var StatusBColor = DashDialog.BackColor;
 		var StatusFColor = Color.White;
 
-		Controls.Label(this, StatusLabel, StatusSize, StatusLocation, StatusBColor, StatusFColor, 1, 12, StatusText);
+		Controls.Label(DashDialog, StatusLabel, StatusSize, StatusLocation, StatusBColor, StatusFColor, 1, 12, StatusText);
 	    }
 
 	    catch (Exception E)
@@ -99,13 +75,13 @@ namespace DashlorisX
 
 	private void InitializeHostContainer()
 	{
-	    var ContainerSize = new Size(Width - 22, 40);
+	    var ContainerSize = new Size(DashDialog.Width - 22, 40);
 	    var ContainerLocation = new Point(11, 8 + StatusLabel.Height + StatusLabel.Top);
-	    var ContainerBColor = Color.FromArgb(9, 39, 66); //ControlContainer.BackColor;
+	    var ContainerBColor = Color.FromArgb(9, 39, 66);
 
 	    try
 	    {
-		Controls.Image(this, HostContainer, ContainerSize, ContainerLocation, ContainerBColor);
+		Controls.Image(DashDialog, HostContainer, ContainerSize, ContainerLocation, ContainerBColor);
 		Tools.Round(HostContainer, 6);
 	    }
 
@@ -215,13 +191,13 @@ namespace DashlorisX
 
 	private void InitializeOptionContainer()
 	{
-	    var OContainerSize = new Size(Width - 22, 46);
+	    var OContainerSize = new Size(DashDialog.Width - 22, 46);
 	    var OContainerLocation = new Point(11, HostContainer.Top + HostContainer.Height + 10);
 	    var OContainerBColor = HostContainer.BackColor;
 
 	    try
 	    {
-		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
+		Controls.Image(DashDialog, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
 		Tools.Round(OptionContainer, 6);
 	    }
 
@@ -344,19 +320,24 @@ namespace DashlorisX
 	    }
 	}
 
-	public IsOnline()
-	{
-	    InitializeComponent();
+	private bool DoInitialize = true;
 
+	public void Show()//IsOnline()
+	{
 	    try
 	    {
-		InitializeMenuBar();
-		InitializeStatusContainer();
-		InitializeHostContainer();
-		InitializeOptionContainer();
+		if (DoInitialize)
+		{
+		    InitializeComponent();
+		    InitializeStatusContainer();
+		    InitializeHostContainer();
+		    InitializeOptionContainer();
 
-		Tools.Resize(this, new Size(Width, OptionContainer.Top + OptionContainer.Height + 14));
-		Tools.PaintLine(this, MenuBar.Bar.BackColor, 2, new Point(0, Height - 2), new Point(Width, Height -2));
+		    DoInitialize = false;
+		}
+
+		Tools.Resize(DashDialog, new Size(DashDialog.Width, OptionContainer.Top + OptionContainer.Height + 14));
+		Tools.PaintLine(DashDialog, DashDialog.MenuBar.Bar.BackColor, 2, new Point(0, DashDialog.Height - 2), new Point(DashDialog.Width, DashDialog.Height -2));
 	    }
 
 	    catch (Exception E)

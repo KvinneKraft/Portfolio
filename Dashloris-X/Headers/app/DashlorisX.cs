@@ -46,8 +46,6 @@ namespace DashlorisX
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 
-		new DashDialog().Show(new Size(350, 350), "Dashie", Color.AliceBlue, Color.Aqua);
-
 		if (!IsAdministrator())
 		{
 		    // Display Custom Dialog;
@@ -282,7 +280,7 @@ namespace DashlorisX
 
 		ButtonObjects[2].Click += (s, e) =>
 		{
-		    if (!IsOnlineDialog.Visible)
+		    if (!IsOnlineDialog.DashDialog.Visible)
 		    {
 			IsOnlineDialog.Show();
 		    }
