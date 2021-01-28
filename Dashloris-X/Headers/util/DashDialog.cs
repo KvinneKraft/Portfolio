@@ -67,6 +67,20 @@ namespace DashlorisX
 	    }
 	}
 
+	private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	{
+	    try
+	    {
+		InitializeComponent(AppSize, AppTitle, AppBColor, StartPosition: StartPosition, FormBorderStyle: FormBorderStyle);
+		InitializeMenuBar(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBColor);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	
 	private bool DoInitialize = true;
 
 	public void Show(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
@@ -75,9 +89,7 @@ namespace DashlorisX
 	    {
 		if (DoInitialize)
 		{
-		    InitializeComponent(AppSize, AppTitle, AppBColor, StartPosition:StartPosition, FormBorderStyle:FormBorderStyle);
-		    InitializeMenuBar(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBColor);
-
+		    DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, ShowDialog, MenuBarMinim, MenuBarClose, CloseHideApp);
 		    DoInitialize = false;
 		}
 
@@ -98,16 +110,37 @@ namespace DashlorisX
 	    }
 	}
 
-	public void ShowAsIs(bool ShowDialog = true)
+	public void JustInitialize(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
-	    if (ShowDialog)
+	    try
 	    {
-		this.ShowDialog();
+		DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, ShowDialog, MenuBarMinim, MenuBarClose, CloseHideApp);
 	    }
 
-	    else
+	    catch (Exception E)
 	    {
-		Show();
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void ShowAsIs(bool ShowDialog = true)
+	{
+	    try
+	    {
+		if (ShowDialog)
+		{
+		    this.ShowDialog();
+		}
+
+		else
+		{
+		    Show();
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
     }

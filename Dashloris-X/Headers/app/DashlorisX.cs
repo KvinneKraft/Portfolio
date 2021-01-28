@@ -260,7 +260,7 @@ namespace DashlorisX
 		    {
 			if (!ConfirmationDialog.DashDialog.Visible)
 			{
-			    ConfirmationDialog.DashDialog.ShowDialog();
+			    ConfirmationDialog.Show();
 			}
 		    }
 

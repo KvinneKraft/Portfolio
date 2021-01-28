@@ -25,12 +25,20 @@ namespace DashlorisX
 
 	private void InitializeComponent()
 	{
-	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
-	    var AppBColor = Color.FromArgb(6, 17, 33);
-	    var AppTitle = string.Format("Dashloris-X   Confirm Configuration");
-	    var AppSize = new Size(300, 250);
+	    try
+	    {
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+		var AppTitle = string.Format("Dashloris-X   Confirm Configuration");
+		var AppSize = new Size(300, 250);
 
-	    DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition:FormStartPosition.CenterParent);
+		DashDialog.JustInitialize(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition: FormStartPosition.CenterParent);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	private readonly PictureBox BottomButtonContainer = new PictureBox();
@@ -41,25 +49,14 @@ namespace DashlorisX
 
 	private static readonly DashNet DashNet = new DashNet();
 
-	private static bool ConfirmBytes(string Value)
-	{
-	    if (!DashNet.ConfirmInteger(Value))
-	    {
-		MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-		return false;
-	    }
-
-	    return true;
-	}
-
 	public static bool ValidateConfiguration()
 	{
 	    var Results = new List<bool>()
 	    {
-		(DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text)),
+		DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text),
 
 		DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text),
-		DashNet.ConfirmInteger(DashlorisX.BytesTextBox.Text),
+		DashNet.ConfirmBytes(DashlorisX.BytesTextBox.Text),
 		DashNet.ConfirmPort(DashlorisX.PortTextBox.Text),
 		DashNet.ConfirmIP(DashlorisX.HostTextBox.Text),
 	    };
@@ -116,14 +113,15 @@ namespace DashlorisX
 		    {
 			DashlorisX.Launch.Text = "Flooding ....";
 
-			DashDialog.Hide();
-
 			PowPow.StartAttack();
 			PowPow.StopAttack();
+
+			DashDialog.Hide();
 		    }
 
 		    else
 		    {
+			MessageBox.Show("!");
 			DashDialog.Hide();
 		    }
 		};
@@ -197,14 +195,24 @@ namespace DashlorisX
 	    };
 	}
 
-	public Confirmation()
+	private bool DoInitialize = true;
+
+	public void Show()
 	{
 	    try
 	    {
-		InitializeComponent();
-		InitializeBottomBar();
-		InitializeContainer();
-		InitializeEvents();
+		if (DoInitialize)
+		{
+		    InitializeComponent();
+		    InitializeBottomBar();
+		    InitializeContainer();
+		    InitializeEvents();
+
+		    DoInitialize = false;
+		}
+		
+		DashDialog.ShowAsIs(ShowDialog:true);
+		MessageBox.Show("!");
 	    }
 
 	    catch (Exception E)
