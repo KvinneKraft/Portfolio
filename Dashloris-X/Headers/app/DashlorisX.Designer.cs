@@ -1,4 +1,7 @@
-﻿namespace DashlorisX
+﻿using DashlorisX.Properties;
+using System.Drawing;
+
+namespace DashlorisX
 {
     partial class DashlorisX
     {
@@ -43,6 +46,10 @@
 	    this.Name = "DashlorisX";
 	    this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 	    this.Text = "Dashloris-X";
+			this.BackColor = Color.FromArgb(6, 17, 33);//MidnightBlue;
+		this.Icon = Resources.ICON;
+
+		Tools.Round(this, 6);
 	    this.ResumeLayout(false);
 
 	}

@@ -11,10 +11,10 @@ using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Security.Principal;
 using System.Collections.Generic;
 
 using DashlorisX.Properties;
-using System.Security.Principal;
 
 namespace DashlorisX
 {
@@ -46,6 +46,8 @@ namespace DashlorisX
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 
+		new DashDialog().Show(new Size(350, 350), "Dashie", Color.AliceBlue, Color.Aqua);
+
 		if (!IsAdministrator())
 		{
 		    // Display Custom Dialog;
@@ -66,22 +68,6 @@ namespace DashlorisX
 	    {
 		Color MenuBarBColor = Color.FromArgb(19, 36, 64);
 		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private void ReinitializeComponent()
-	{
-	    try
-	    {
-		BackColor = Color.FromArgb(6, 17, 33);//MidnightBlue;
-		Icon = Resources.ICON;
-
-		Tools.Round(this, 6);
 	    }
 
 	    catch (Exception E)
@@ -391,8 +377,6 @@ namespace DashlorisX
 	{
 	    try
 	    {
-		ReinitializeComponent();
-
 		InitializeMainField();
 		InitializeOptionField();
 
