@@ -53,8 +53,6 @@ namespace DashlorisX
 	{
 	    var Results = new List<bool>()
 	    {
-		DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text),
-
 		DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text),
 		DashNet.ConfirmBytes(DashlorisX.BytesTextBox.Text),
 		DashNet.ConfirmPort(DashlorisX.PortTextBox.Text),
@@ -67,6 +65,11 @@ namespace DashlorisX
 		{
 		    return false;
 		}
+	    }
+
+	    if (DashlorisX.BlockDomains && !DashNet.IsAllowedDomain(DashlorisX.HostTextBox.Text))
+	    {
+		return false;
 	    }
 
 	    return true;
@@ -121,7 +124,6 @@ namespace DashlorisX
 
 		    else
 		    {
-			MessageBox.Show("!");
 			DashDialog.Hide();
 		    }
 		};
