@@ -80,6 +80,8 @@ namespace DashlorisX
 		{
 		    Control.Image(UpperTextContainer, InnerTextContainer, ITContainerSize, ITContainerLocation, BackColor);
 		    Control.Image(DashDialog, UpperTextContainer, UTContainerSize, UTContainerLocation, BackColor);
+
+		    Tool.Round(UpperTextContainer, 6);
 		}
 
 		catch (Exception E)
@@ -110,7 +112,7 @@ namespace DashlorisX
 	    public void DoInitializeBottomBar(DashDialog DashDialog, Color BackColor, Color ForeColor, Buttons Buttons)
 	    {
 		var BOContainerSize = new Size(DashDialog.Width, 30);
-		var BOContainerLocation = new Point(0, 0);
+		var BOContainerLocation = new Point(0, DashDialog.Height - BOContainerSize.Height);
 
 		try
 		{
@@ -188,16 +190,48 @@ namespace DashlorisX
 			return text;
 		    }
 		    
-		    for (int k = 1; k <= 2; k += 1)
+		    void SetButtonClickEvent(int id)
 		    {
-			Control.Button(BottomBarButtonContainer, GetButtonObject(k), ButtonSize, Button1Location, BackColor, ForeColor, 1, 10, GetButtonText(k));
-
-			GetButtonObject(k).Click += (s, e) =>
+			GetButtonObject(id).Click += (s, e) =>
 			{
-			    ClickedValue = k - 1;
+			    ClickedValue = id;
 			    DashDialog.Close();
 			};
 		    }
+
+		    for (int k = 1, x = 0; k <= 2; k += 1, x += ButtonSize.Width + 10)
+		    {
+			Control.Button(BottomBarButtonContainer, GetButtonObject(k), ButtonSize, new Point(x, 0), BackColor, ForeColor, 1, 10, GetButtonText(k));
+			SetButtonClickEvent(k);
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+
+		int GetTotalWidth()
+		{
+		    int Count = BottomBarButtonContainer.Controls.Count;
+		    int Width = 0;
+
+		    if (Count > 1)
+		    {
+			Width += 10;
+		    }
+
+		    Width += ButtonSize.Width * Count;
+
+		    return Width;
+		}
+
+		var BUContainerSize = new Size(GetTotalWidth(), ButtonSize.Height);
+		var BUContainerLocation = new Point((BOContainerSize.Width - BUContainerSize.Width) / 2, (BOContainerSize.Height - BUContainerSize.Height) / 2);
+
+		try
+		{
+		    Control.Image(BottomBarContainer, BottomBarButtonContainer, BUContainerSize, BUContainerLocation, BackColor);
 		}
 
 		catch (Exception E)
@@ -208,7 +242,7 @@ namespace DashlorisX
 
 	    public Size GetAppSize()
 	    {
-		return new Size(200, 250);// Get Size
+		return new Size(250, 250);// Get Size
 	    }
 	}
     }
