@@ -23,8 +23,6 @@ namespace DashlorisX
 	private new readonly DashControls Controls = new DashControls();
 	private readonly DashTools Tools = new DashTools();
 
-	private bool DoInitialize = true;
-
 	private void InitializeComponent(Size AppSize, string AppTitle, Color AppBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None)
 	{
 	    try
@@ -53,7 +51,7 @@ namespace DashlorisX
 	    }
 	}
 
-	private DashMenuBar MenuBar = null;
+	public DashMenuBar MenuBar = null;
 
 	private void InitializeMenuBar(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBColor)
 	{
@@ -69,6 +67,8 @@ namespace DashlorisX
 	    }
 	}
 
+	private bool DoInitialize = true;
+
 	public void Show(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
@@ -77,6 +77,8 @@ namespace DashlorisX
 		{
 		    InitializeComponent(AppSize, AppTitle, AppBColor, StartPosition:StartPosition, FormBorderStyle:FormBorderStyle);
 		    InitializeMenuBar(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBColor);
+
+		    DoInitialize = false;
 		}
 
 		if (ShowDialog)
@@ -95,7 +97,5 @@ namespace DashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	// Add Bottom Bar method thing
     }
 }
