@@ -22,6 +22,7 @@ namespace DashlorisX
 	{
 	    return string.Format
 	    (
+		$"An error has occurred and has prevented the application from functioning any further, safely.  Please send the following to KvinneKraft@protonmail.com if you wish to help me fix this.\r\n" +
 		$"----------------------\r\n" +
 		$"{E.StackTrace}\r\n" + 
 		$"----------------------\r\n" + 
