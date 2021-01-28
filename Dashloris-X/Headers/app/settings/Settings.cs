@@ -16,41 +16,23 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public partial class Settings : Form
+    public partial class Settings
     {
-	new private readonly DashControls Controls = new DashControls();
+	private readonly DashControls Controls = new DashControls();
 	private readonly DashTools Tools = new DashTools();
 
+	public readonly DashDialog DashDialog = new DashDialog();
+
 	private void InitializeComponent()
-	{
-	    SuspendLayout();
-
-	    MaximumSize = new Size(450, 250);
-	    MinimumSize = new Size(450, 250);
-
-	    BackColor = Color.FromArgb(6, 17, 33);
-	    Tools.Round(this, 6);
-
-	    StartPosition = FormStartPosition.CenterParent;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Settings";
-	    Tag = "DashlorisX Settings";
-	    Name = "Settings";
-
-	    Icon = Resources.ICON;
-
-	    ResumeLayout(false);
-	}
-
-	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Settings", minim: false);
-
-	private void InitializeMenuBar()
 	{
 	    try
 	    {
 		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+		var AppTitle = string.Format("Dashloris-X   Settings");
+		var AppSize = new Size(450, 250);
+
+		DashDialog.JustInitialize(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition:FormStartPosition.CenterParent);
 	    }
 
 	    catch (Exception E)
@@ -84,8 +66,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		MethodMenu.SetupMenu(this, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
-		HTTPvMenu.SetupMenu(this, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
+		MethodMenu.SetupMenu(DashDialog, GetMenuLocation(MethodBox), MenuBColor, MenuBorderBColor);
+		HTTPvMenu.SetupMenu(DashDialog, GetMenuLocation(HTTPvBox), MenuBColor, MenuBorderBColor);
 
 		MethodMenu.Container.BringToFront();
 		HTTPvMenu.Container.BringToFront();
@@ -197,13 +179,13 @@ namespace DashlorisX
 
 	private void InitializeSettings()
 	{
-	    var CContainerSize = new Size(Width - 20, 70);
-	    var CContainerLocation = new Point(10, MenuBar.Bar.Height + MenuBar.Bar.Top + 10);
+	    var CContainerSize = new Size(DashDialog.Width - 20, 70);
+	    var CContainerLocation = new Point(10, DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Bar.Top + 10);
 	    var CContainerBColor = Color.FromArgb(9, 39, 66);//16, 16, 16);
 
 	    try
 	    {
-		Controls.Image(this, ConfigurationContainer, CContainerSize, CContainerLocation, CContainerBColor);
+		Controls.Image(DashDialog, ConfigurationContainer, CContainerSize, CContainerLocation, CContainerBColor);
 		Tools.Round(ConfigurationContainer, 6);
 	    }
 
@@ -281,20 +263,20 @@ namespace DashlorisX
 	private readonly PictureBox InnerBottomBarContainer = new PictureBox();
 	private readonly PictureBox BottomBar = new PictureBox();
 
-	new private readonly Button Close = new Button();
+	private readonly Button Close = new Button();
 	private readonly Button Help = new Button();
 
 	private readonly SettingsInfo SettingsInfoDialog = new SettingsInfo();
 
 	private void InitializeBottomBar()
 	{
-	    var BContainerSize = new Size(Width, 44);
+	    var BContainerSize = new Size(DashDialog.Width, 44);
 	    var BContainerLocation = new Point(0, ConfigurationContainer.Top + ConfigurationContainer.Height + 11);//26);
-	    var BContainerBColor = MenuBar.Bar.BackColor;
+	    var BContainerBColor = DashDialog.MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Controls.Image(this, BottomBar, BContainerSize, BContainerLocation, BContainerBColor);
+		Controls.Image(DashDialog, BottomBar, BContainerSize, BContainerLocation, BContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -324,7 +306,7 @@ namespace DashlorisX
 
 		Close.Click += (s, e) =>
 		{
-		    Hide();
+		    DashDialog.Hide();
 		};
 
 		foreach (Control control in InnerBottomBarContainer.Controls)
@@ -356,30 +338,24 @@ namespace DashlorisX
 	    }
 	}
 
-	private void ReinitializeApp()
+	private bool DoInitialize = true;
+
+	public void Show()
 	{
 	    try
 	    {
-		var NEW_SIZE = new Size(Width, BottomBar.Top + BottomBar.Height);
-		Tools.Resize(this, NEW_SIZE);
-	    }
+		if (DoInitialize)
+		{
+		    InitializeComponent();
+		    InitializeSettings();
+		    InitializeBottomBar();
 
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
+		    Tools.Resize(DashDialog, new Size(DashDialog.Width, BottomBar.Top + BottomBar.Height));
 
-	public Settings()
-	{
-	    InitializeComponent();
+		    DoInitialize = false;
+		}
 
-	    try
-	    {
-		InitializeMenuBar();
-		InitializeSettings();
-		InitializeBottomBar();
-		ReinitializeApp();
+		DashDialog.ShowAsIs(ShowDialog:true);
 	    }
 
 	    catch (Exception E)

@@ -272,9 +272,9 @@ namespace DashlorisX
 
 		ButtonObjects[1].Click += (s, e) =>
 		{
-		    if (!SettingsDialog.Visible)
+		    if (!SettingsDialog.DashDialog.Visible)
 		    {
-			SettingsDialog.ShowDialog();
+			SettingsDialog.Show();
 		    }
 		};
 
