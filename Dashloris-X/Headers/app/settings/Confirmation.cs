@@ -16,47 +16,21 @@ using DashlorisX.Properties;
 
 namespace DashlorisX
 {
-    public class Confirmation : Form
+    public class Confirmation
     {
-	private new readonly DashControls Controls = new DashControls();
+	private readonly DashControls Controls = new DashControls();
 	private readonly DashTools Tools = new DashTools();
+
+	public DashDialog DashDialog = new DashDialog();
 
 	private void InitializeComponent()
 	{
-	    SuspendLayout();
+	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
+	    var AppBColor = Color.FromArgb(6, 17, 33);
+	    var AppTitle = string.Format("Dashloris-X   Confirm Configuration");
+	    var AppSize = new Size(300, 250);
 
-	    MaximumSize = new Size(300, 250);
-	    MinimumSize = new Size(300, 250);
-
-	    StartPosition = FormStartPosition.CenterParent;
-	    FormBorderStyle = FormBorderStyle.None;
-
-	    Text = "DashlorisX Confirm Configuration";
-	    Tag = "DashlorisX Confirm Configuration";
-	    Name = "Settings";
-
-	    Icon = Resources.ICON;
-
-	    BackColor = Color.FromArgb(6, 17, 33);//MidnightBlue;
-
-	    Tools.Round(this, 6);
-	    ResumeLayout(false);
-	}
-
-	private readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X   Confirm Configuration", minim: false);
-
-	private void InitializeMenuBar()
-	{
-	    try
-	    {
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
+	    DashDialog.Show(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition:FormStartPosition.CenterParent);
 	}
 
 	private readonly PictureBox BottomButtonContainer = new PictureBox();
@@ -105,18 +79,18 @@ namespace DashlorisX
 
 	private void InitializeBottomBar()
 	{
-	    var BContainerSize = new Size(Width, 40);
-	    var BContainerLocation = new Point(0, Height - BContainerSize.Height);
+	    var BContainerSize = new Size(DashDialog.Width, 40);
+	    var BContainerLocation = new Point(0, DashDialog.Height - BContainerSize.Height);
 
 	    var BBContainerSize = new Size(210, 26);
 	    var BBContainerLocation = new Point((BContainerSize.Width - BBContainerSize.Width) / 2, (BContainerSize.Height - BBContainerSize.Height) / 2);
 
-	    var ContainerBColor = MenuBar.Bar.BackColor;
+	    var ContainerBColor = DashDialog.MenuBar.Bar.BackColor;
 
 	    try
 	    {
 		Controls.Image(BottomContainer, BottomButtonContainer, BBContainerSize, BBContainerLocation, ContainerBColor);
-		Controls.Image(this, BottomContainer, BContainerSize, BContainerLocation, ContainerBColor);
+		Controls.Image(DashDialog, BottomContainer, BContainerSize, BContainerLocation, ContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -142,7 +116,7 @@ namespace DashlorisX
 		    {
 			DashlorisX.Launch.Text = "Flooding ....";
 
-			Hide();
+			DashDialog.Hide();
 
 			PowPow.StartAttack();
 			PowPow.StopAttack();
@@ -150,13 +124,13 @@ namespace DashlorisX
 
 		    else
 		    {
-			Hide();
+			DashDialog.Hide();
 		    }
 		};
 
 		Cancel.Click += (s, e) =>
 		{
-		    Hide();
+		    DashDialog.Hide();
 		};
 
 		foreach (Button button in BottomButtonContainer.Controls)
@@ -176,8 +150,8 @@ namespace DashlorisX
 
 	private void InitializeContainer()
 	{
-	    var MContainerSize = new Size(Width - 22, Height - BottomContainer.Height - MenuBar.Bar.Height - 20);
-	    var MContainerLocation = new Point(11, 10 + MenuBar.Bar.Height);
+	    var MContainerSize = new Size(DashDialog.Width - 22, DashDialog.Height - BottomContainer.Height - DashDialog.MenuBar.Bar.Height - 20);
+	    var MContainerLocation = new Point(11, 10 + DashDialog.MenuBar.Bar.Height);
 
 	    var TContainerSize = new Size(MContainerSize.Width - 8, MContainerSize.Height - 8);
 	    var TContainerLocation = new Point(4, 4);
@@ -188,7 +162,7 @@ namespace DashlorisX
 	    try
 	    {
 		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, FixedSize: false, Multiline: true, ScrollBar:true, ReadOnly:true);
-		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, ContainerBColor);
+		Controls.Image(DashDialog, MainContainer, MContainerSize, MContainerLocation, ContainerBColor);
 
 		Tools.Round(MainContainer, 6);
 	    }
@@ -201,9 +175,9 @@ namespace DashlorisX
 
 	private void InitializeEvents()
 	{
-	    VisibleChanged += (s, e) =>
+	    DashDialog.VisibleChanged += (s, e) =>
 	    {
-		if (Visible)
+		if (DashDialog.Visible)
 		{
 		    TextContainer.Text = string.Format(
 			$"\r\nCurrent Configuration:\r\n" +
@@ -225,11 +199,9 @@ namespace DashlorisX
 
 	public Confirmation()
 	{
-	    InitializeComponent();
-
 	    try
 	    {
-		InitializeMenuBar();
+		InitializeComponent();
 		InitializeBottomBar();
 		InitializeContainer();
 		InitializeEvents();

@@ -258,9 +258,9 @@ namespace DashlorisX
 
 		    if (ButtonObject.Text == "Launch")
 		    {
-			if (!ConfirmationDialog.Visible)
+			if (!ConfirmationDialog.DashDialog.Visible)
 			{
-			    ConfirmationDialog.ShowDialog();
+			    ConfirmationDialog.DashDialog.ShowDialog();
 			}
 		    }
 
