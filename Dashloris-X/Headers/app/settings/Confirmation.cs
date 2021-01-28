@@ -214,7 +214,6 @@ namespace DashlorisX
 		}
 		
 		DashDialog.ShowAsIs(ShowDialog:true);
-		MessageBox.Show("!");
 	    }
 
 	    catch (Exception E)

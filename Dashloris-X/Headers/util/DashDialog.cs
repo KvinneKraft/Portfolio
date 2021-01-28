@@ -67,7 +67,7 @@ namespace DashlorisX
 	    }
 	}
 
-	private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
 	    {
@@ -89,19 +89,11 @@ namespace DashlorisX
 	    {
 		if (DoInitialize)
 		{
-		    DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, ShowDialog, MenuBarMinim, MenuBarClose, CloseHideApp);
+		    DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp);
 		    DoInitialize = false;
 		}
 
-		if (ShowDialog)
-		{
-		    this.ShowDialog();
-		}
-
-		else
-		{
-		    Show();
-		}
+		ShowAsIs(ShowDialog);
 	    }
 
 	    catch (Exception E)
@@ -110,11 +102,11 @@ namespace DashlorisX
 	    }
 	}
 
-	public void JustInitialize(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	public void JustInitialize(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
 	    {
-		DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, ShowDialog, MenuBarMinim, MenuBarClose, CloseHideApp);
+		DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle,  MenuBarMinim:MenuBarMinim, MenuBarClose:MenuBarClose, CloseHideApp:CloseHideApp);
 	    }
 
 	    catch (Exception E)
