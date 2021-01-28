@@ -46,6 +46,13 @@ namespace DashlorisX
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 
+		while (true)
+		{
+		    int d = new DashBox().Show("Test Code", "Yes", Color.FromArgb(8, 8, 8), Color.FromArgb(32, 32, 32), Color.ForestGreen, Color.White, DashBox.Buttons.OKCancel);
+
+		    MessageBox.Show(d.ToString());
+		}
+
 		if (!IsAdministrator())
 		{
 		    // Display Custom Dialog;
