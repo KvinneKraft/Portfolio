@@ -40,8 +40,6 @@ namespace DashlorisX
 		    HostTextBox.Text = DashlorisX.HostTextBox.Text;
 		}
 	    };
-
-	    DashDialog.ResumeLayout(false);
 	}
 
 	private readonly Label StatusLabel = new Label() { TextAlign = ContentAlignment.MiddleCenter };
