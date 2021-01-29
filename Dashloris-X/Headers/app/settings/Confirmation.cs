@@ -179,7 +179,8 @@ namespace DashlorisX
 	    {
 		if (DashDialog.Visible)
 		{
-		    TextContainer.Text = string.Format(
+		    TextContainer.Text = string.Format
+		    (
 			$"\r\nCurrent Configuration:\r\n" +
 			$"-=====================-\r\n" +
 			$"$ Method: {Settings.MethodBox.Text}\r\n" +
