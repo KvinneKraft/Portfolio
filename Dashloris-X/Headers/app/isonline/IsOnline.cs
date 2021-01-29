@@ -19,8 +19,8 @@ namespace DashlorisX
 {
     public class IsOnline
     {
-	private readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	public readonly DashDialog DashDialog = new DashDialog();
 
@@ -62,7 +62,7 @@ namespace DashlorisX
 		var StatusBColor = DashDialog.BackColor;
 		var StatusFColor = Color.White;
 
-		Controls.Label(DashDialog, StatusLabel, StatusSize, StatusLocation, StatusBColor, StatusFColor, 1, 12, StatusText);
+		Control.Label(DashDialog, StatusLabel, StatusSize, StatusLocation, StatusBColor, StatusFColor, 1, 12, StatusText);
 	    }
 
 	    catch (Exception E)
@@ -87,8 +87,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, HostContainer, ContainerSize, ContainerLocation, ContainerBColor);
-		Tools.Round(HostContainer, 6);
+		Control.Image(DashDialog, HostContainer, ContainerSize, ContainerLocation, ContainerBColor);
+		Tool.Round(HostContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -103,14 +103,14 @@ namespace DashlorisX
 	    var TextBoxFColor = Color.White;
 
 	    var HostLabelText = string.Format("Host:");
-	    var HostLabelSize = Tools.GetFontSize(HostLabelText, 10);
+	    var HostLabelSize = Tool.GetFontSize(HostLabelText, 10);
 	    var HostLabelLocation = new Point(8, (HostContainer.Height - HostLabelSize.Height) / 2);
 
 	    var HostBoxSize = new Size(150, 19);
 	    var HostBoxLocation = new Point(HostLabelSize.Width + HostLabelLocation.X, (HostContainer.Height - HostBoxSize.Height) / 2);
 
 	    var PortLabelText = string.Format("Port:");
-	    var PortLabelSize = Tools.GetFontSize(PortLabelText, 10);
+	    var PortLabelSize = Tool.GetFontSize(PortLabelText, 10);
 	    var PortLabelLocation = new Point(HostBoxLocation.X + HostBoxSize.Width + 5, (HostContainer.Height - PortLabelSize.Height) / 2);
 
 	    var PortBoxSize = new Size(HostContainer.Width - PortLabelLocation.X - PortLabelSize.Width - 10, HostBoxSize.Height);
@@ -121,14 +121,14 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9);
-		Tools.Round(GetDeepToll(), 6);
+		Control.TextBox(HostContainer, PortTextBox, PortBoxSize, PortBoxLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Tool.Round(GetDeepToll(), 6);
 
-		Controls.TextBox(HostContainer, HostTextBox, HostBoxSize, HostBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8);
-		Tools.Round(GetDeepToll(), 6);
+		Control.TextBox(HostContainer, HostTextBox, HostBoxSize, HostBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8);
+		Tool.Round(GetDeepToll(), 6);
 
-		Controls.Label(HostContainer, HostLabel, HostLabelSize, HostLabelLocation, LabelBColor, LabelFColor, 1, 10, HostLabelText);
-		Controls.Label(HostContainer, PortLabel, PortLabelSize, PortLabelLocation, LabelBColor, LabelFColor, 1, 10, PortLabelText);
+		Control.Label(HostContainer, HostLabel, HostLabelSize, HostLabelLocation, LabelBColor, LabelFColor, 1, 10, HostLabelText);
+		Control.Label(HostContainer, PortLabel, PortLabelSize, PortLabelLocation, LabelBColor, LabelFColor, 1, 10, PortLabelText);
 	    }
 
 	    catch (Exception E)
@@ -203,8 +203,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
-		Tools.Round(OptionContainer, 6);
+		Control.Image(DashDialog, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
+		Tool.Round(OptionContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -219,8 +219,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(OptionContainer, Check, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Check");
-		Tools.Round(Check, 8);
+		Control.Button(OptionContainer, Check, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 9, "Check");
+		Tool.Round(Check, 8);
 
 		Check.Click += (s, e) =>
 		{
@@ -265,23 +265,23 @@ namespace DashlorisX
 	    var ToggleBoxBColor = ToggleOf;
 
 	    var ICMPLabelText = string.Format("ICMP:");
-	    var ICMPLabelSize = Tools.GetFontSize(ICMPLabelText, 10);
+	    var ICMPLabelSize = Tool.GetFontSize(ICMPLabelText, 10);
 	    var ICMPLabelLocation = new Point(Check.Left + Check.Width + 25, (OptionContainer.Height - ICMPLabelSize.Height) / 2);
 
 	    var ICMPBoxLocation = new Point(ICMPLabelLocation.X + ICMPLabelSize.Width + 2, (OptionContainer.Height - ToggleBoxSize.Height) / 2 - 1);
 
 	    var TCPLabelText = string.Format("TCP:");
-	    var TCPLabelSize = Tools.GetFontSize(TCPLabelText, 10);
+	    var TCPLabelSize = Tool.GetFontSize(TCPLabelText, 10);
 	    var TCPLabelLocation = new Point(ICMPBoxLocation.X + ToggleBoxSize.Width + 10, (OptionContainer.Height - TCPLabelSize.Height) / 2);
 
 	    var TCPBoxLocation = new Point(TCPLabelLocation.X + TCPLabelSize.Width + 2, (OptionContainer.Height - ToggleBoxSize.Height) / 2 - 1);
 
 	    try
 	    {
-		Controls.Label(OptionContainer, ICMPTitle, ICMPLabelSize, ICMPLabelLocation, LabelBColor, LabelFColor, 1, 10, ICMPLabelText);
-		Controls.Label(OptionContainer, TCPTitle, TCPLabelSize, TCPLabelLocation, LabelBColor, LabelFColor, 1, 10, TCPLabelText);
+		Control.Label(OptionContainer, ICMPTitle, ICMPLabelSize, ICMPLabelLocation, LabelBColor, LabelFColor, 1, 10, ICMPLabelText);
+		Control.Label(OptionContainer, TCPTitle, TCPLabelSize, TCPLabelLocation, LabelBColor, LabelFColor, 1, 10, TCPLabelText);
 
-		Controls.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPBoxLocation, ToggleBoxBColor);
+		Control.Image(OptionContainer, ICMPBox, ToggleBoxSize, ICMPBoxLocation, ToggleBoxBColor);
 
 		ICMPBox.Click += (s, e) =>
 		{
@@ -292,7 +292,7 @@ namespace DashlorisX
 		    };
 		};
 
-		Controls.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPBoxLocation, ToggleOn);
+		Control.Image(OptionContainer, TCPBox, ToggleBoxSize, TCPBoxLocation, ToggleOn);
 
 		TCPBox.Click += (s, e) =>
 		{
@@ -315,7 +315,7 @@ namespace DashlorisX
 		{
 		    if (control is PictureBox)
 		    {
-			Tools.Round(control, 6);
+			Tool.Round(control, 6);
 		    }
 		}
 	    }
@@ -339,8 +339,8 @@ namespace DashlorisX
 		    InitializeHostContainer();
 		    InitializeOptionContainer();
 
-		    Tools.Resize(DashDialog, new Size(DashDialog.Width, OptionContainer.Top + OptionContainer.Height + 14));
-		    Tools.PaintLine(DashDialog, DashDialog.MenuBar.Bar.BackColor, 2, new Point(0, DashDialog.Height - 2), new Point(DashDialog.Width, DashDialog.Height - 2));
+		    Tool.Resize(DashDialog, new Size(DashDialog.Width, OptionContainer.Top + OptionContainer.Height + 14));
+		    Tool.PaintLine(DashDialog, DashDialog.MenuBar.Bar.BackColor, 2, new Point(0, DashDialog.Height - 2), new Point(DashDialog.Width, DashDialog.Height - 2));
 
 		    DoInitialize = false;
 		}

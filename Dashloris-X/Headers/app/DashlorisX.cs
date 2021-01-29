@@ -20,8 +20,8 @@ namespace DashlorisX
 {
     public partial class DashlorisX : Form
     {
-	new private readonly DashControls Controls = new DashControls();
-	private readonly static DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly static DashTools Tool = new DashTools();
 
 	public static class Program
 	{
@@ -34,22 +34,13 @@ namespace DashlorisX
 	    {
 		new TOS().Show();
 	    }
-
-	    private static bool IsAdministrator()
-	    {
-		return new WindowsPrincipal(WindowsIdentity.GetCurrent())
-		    .IsInRole(WindowsBuiltInRole.Administrator);
-	    }
-
+	    
 	    [STAThread] public static void Main()
 	    {
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 
-		if (!IsAdministrator())
-		{
-		    // Display Custom Dialog;
-		}
+
 
 		ShowToS();
 		DashlorisX();
@@ -138,8 +129,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, MainContainer, MContainerSize, MContainerLocation, MContainerBColor);
-		Tools.Round(MainContainer, 6);
+		Control.Image(this, MainContainer, MContainerSize, MContainerLocation, MContainerBColor);
+		Tool.Round(MainContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -153,7 +144,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(MainContainer, InnerMainContainer, IContainerSize, IContainerLocation, IContainerBColor);
+		Control.Image(MainContainer, InnerMainContainer, IContainerSize, IContainerLocation, IContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -182,13 +173,13 @@ namespace DashlorisX
 		    for (int k2 = 0; k2 < 2; k2 += 1)
 		    {
 			var LText = LabelTexts[tid];
-			var LSize = Tools.GetFontSize(LText, 11);
+			var LSize = Tool.GetFontSize(LText, 11);
 
 			if (k2 > 0) x1 += (w3 + x3 + 10);
 
 			var LLoca = new Point(x1, y1);
 
-			Controls.Label(InnerMainContainer, LabelObjects[tid], LSize, LLoca, InnerMainContainer.BackColor, Color.White, 1, 11, LText);
+			Control.Label(InnerMainContainer, LabelObjects[tid], LSize, LLoca, InnerMainContainer.BackColor, Color.White, 1, 11, LText);
 
 			int w2 = TextBoxWidths[k1];
 
@@ -200,8 +191,8 @@ namespace DashlorisX
 			x3 = TLoca.X;
 			w3 = w2;
 
-			Controls.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9);
-			Tools.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 6);
+			Control.TextBox(InnerMainContainer, TextBoxObjects[tid], TSize, TLoca, Color.FromArgb(10, 10, 10), Color.White, 1, 9);
+			Tool.Round(InnerMainContainer.Controls[InnerMainContainer.Controls.Count - 1], 6);
 
 			tid += 1;
 		    }
@@ -309,8 +300,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(this, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
-		Tools.Round(OptionContainer, 6);
+		Control.Image(this, OptionContainer, OContainerSize, OContainerLocation, OContainerBColor);
+		Tool.Round(OptionContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -324,7 +315,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(OptionContainer, InnerOptionContainer, IOptionContainerSize, IOptionContainerLocation, IOptionContainerBColor);
+		Control.Image(OptionContainer, InnerOptionContainer, IOptionContainerSize, IOptionContainerLocation, IOptionContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -350,8 +341,8 @@ namespace DashlorisX
 		    {
 			var BUTTO_LOCA = new Point(x, y);
 
-			Controls.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p]);
-			Tools.Round(ButtonObjects[p], 6);
+			Control.Button(InnerOptionContainer, ButtonObjects[p], ButtonSize, BUTTO_LOCA, ButtonBColor, ButtonFColor, 1, 10, ButtonTexts[p]);
+			Tool.Round(ButtonObjects[p], 6);
 
 			x = ButtonSize.Width + ButtonObjects[p].Left + 8;
 		    }
@@ -361,8 +352,8 @@ namespace DashlorisX
 
 		SetupClickEvents();
 
-		Tools.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
-		Tools.Resize(OptionContainer, new Size(OptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height + 28));
+		Tool.Resize(InnerOptionContainer, new Size(InnerOptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height));
+		Tool.Resize(OptionContainer, new Size(OptionContainer.Width, ButtonObjects[ButtonObjects.Count - 1].Top + ButtonObjects[ButtonObjects.Count - 1].Height + 28));
 	    }
 
 	    catch (Exception E)
@@ -378,8 +369,8 @@ namespace DashlorisX
 		InitializeMainField();
 		InitializeOptionField();
 
-		Tools.Resize(this, new Size(Width, OptionContainer.Top + OptionContainer.Height + 11));
-		Tools.PaintLine(this, MenuBar.Bar.BackColor, 2, new Point(0, Height - 1), new Point(Width, Height - 1));
+		Tool.Resize(this, new Size(Width, OptionContainer.Top + OptionContainer.Height + 11));
+		Tool.PaintLine(this, MenuBar.Bar.BackColor, 2, new Point(0, Height - 1), new Point(Width, Height - 1));
 	    }
 
 	    catch (Exception E)

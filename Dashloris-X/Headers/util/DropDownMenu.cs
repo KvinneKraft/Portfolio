@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public class DropDownMenu
     {
-	readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	readonly DashControls Control = new DashControls();
+	readonly DashTools Tool = new DashTools();
 
 	public void Hide()
 	{
@@ -58,7 +58,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(Top, Container, MContainerSize, MContainerLocation, MContainerBackColor);
+		Control.Image(Top, Container, MContainerSize, MContainerLocation, MContainerBackColor);
 	    }
 
 	    catch (Exception E)
@@ -72,7 +72,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(Container, ContentContainer, CContainerSize, CContainerLocation, CContainerBackColor);
+		Control.Image(Container, ContentContainer, CContainerSize, CContainerLocation, CContainerBackColor);
 	    }
 
 	    catch (Exception E)
@@ -86,7 +86,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Tools.PaintRectangle(Container, 2, CRectangleSize, CRectangleLocation, CRectangleBackColor);
+		Tool.PaintRectangle(Container, 2, CRectangleSize, CRectangleLocation, CRectangleBackColor);
 	    }
 
 	    catch (Exception E)
@@ -129,7 +129,7 @@ namespace DashlorisX
 
 		if (ItemHeight == -2)
 		{
-		    ItemHeight = Tools.GetFontSize(ItemName, ItemTextSize).Height + 6;
+		    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
 		}
 	    }
 
@@ -140,7 +140,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Label(ContentContainer, Object, ItemSize, ItemLocation, ItemBackColor, ItemForeColor, 1, ItemTextSize, ItemName);
+		Control.Label(ContentContainer, Object, ItemSize, ItemLocation, ItemBackColor, ItemForeColor, 1, ItemTextSize, ItemName);
 		Object.TextAlign = ContentAlignment.TopCenter;
 	    }
 
@@ -164,8 +164,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Tools.Resize(ContentContainer, CContainerSize);
-		Tools.Resize(Container, MContainerSize);
+		Tool.Resize(ContentContainer, CContainerSize);
+		Tool.Resize(Container, MContainerSize);
 	    }
 
 	    catch (Exception E)
@@ -283,8 +283,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Tools.Resize(ContentContainer, CContainerSize);
-		Tools.Resize(Container, MContainerSize);
+		Tool.Resize(ContentContainer, CContainerSize);
+		Tool.Resize(Container, MContainerSize);
 	    }
 
 	    catch (Exception E)

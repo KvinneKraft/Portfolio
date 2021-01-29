@@ -49,7 +49,7 @@ namespace DashlorisX
 			this.BackColor = Color.FromArgb(6, 17, 33);//MidnightBlue;
 		this.Icon = Resources.ICON;
 
-		Tools.Round(this, 6);
+		Tool.Round(this, 6);
 	    this.ResumeLayout(false);
 
 	}

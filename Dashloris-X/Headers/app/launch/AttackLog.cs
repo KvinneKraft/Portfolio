@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public class AttackLog 
     {
-	private readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	public readonly DashDialog DashDialog = new DashDialog();
 
@@ -55,7 +55,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, BottomBar, ContainerSize, ContainerLocation, ContainerBColor);
+		Control.Image(DashDialog, BottomBar, ContainerSize, ContainerLocation, ContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -69,7 +69,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(BottomBar, BottomBarContainer, BContainerSize, BContainerLocation, BContainerBColor);
+		Control.Image(BottomBar, BottomBarContainer, BContainerSize, BContainerLocation, BContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -86,14 +86,14 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(BottomBarContainer, Clear, ButtonSize, ClearLocation, ButtonBColor, ButtonFColor, 1, 10, "Clear");
+		Control.Button(BottomBarContainer, Clear, ButtonSize, ClearLocation, ButtonBColor, ButtonFColor, 1, 10, "Clear");
 
 		Clear.Click += (s, e) =>
 		{
 		    TextLog.Clear();
 		};
 
-		Controls.Button(BottomBarContainer, Stop, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Stop");
+		Control.Button(BottomBarContainer, Stop, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 10, "Stop");
 
 		Stop.Click += (s, e) =>
 		{
@@ -133,8 +133,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, TextContainer, ContainerSize, ContainerLocation, ContainerBColor);
-		Tools.Round(TextContainer, 6);
+		Control.Image(DashDialog, TextContainer, ContainerSize, ContainerLocation, ContainerBColor);
+		Tool.Round(TextContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -148,8 +148,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBColor);
-		Tools.Round(InnerTextContainer, 6);
+		Control.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBColor);
+		Tool.Round(InnerTextContainer, 6);
 	    }
 
 	    catch (Exception E)
@@ -164,7 +164,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(InnerTextContainer, TextLog, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+		Control.TextBox(InnerTextContainer, TextLog, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 	    }
 
 	    catch (Exception E)

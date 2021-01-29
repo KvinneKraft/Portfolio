@@ -20,8 +20,8 @@ namespace DashlorisX
 {
     public class DashDialog : Form
     {
-	private new readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	private void InitializeComponent(Size AppSize, string AppTitle, Color AppBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None)
 	{
@@ -42,7 +42,7 @@ namespace DashlorisX
 
 		BackColor = AppBColor;
 
-		Tools.Round(this, 6);
+		Tool.Round(this, 6);
 	    }
 
 	    catch (Exception E)

@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public partial class Settings
     {
-	private readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	public readonly DashDialog DashDialog = new DashDialog();
 
@@ -85,8 +85,8 @@ namespace DashlorisX
 		    }
 		};
 
-		Tools.Round(MethodMenu.Container, 6);
-		Tools.Round(HTTPvMenu.Container, 6);
+		Tool.Round(MethodMenu.Container, 6);
+		Tool.Round(HTTPvMenu.Container, 6);
 
 		HTTPvBox.MouseEnter += (s, e) =>
 		{
@@ -185,8 +185,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, ConfigurationContainer, CContainerSize, CContainerLocation, CContainerBColor);
-		Tools.Round(ConfigurationContainer, 6);
+		Control.Image(DashDialog, ConfigurationContainer, CContainerSize, CContainerLocation, CContainerBColor);
+		Tool.Round(ConfigurationContainer, 6);
 	    }
 
 	    catch
@@ -198,7 +198,7 @@ namespace DashlorisX
 	    var LabelFColor = Color.White;
 
 	    var HTTPVLabelText = string.Format("HTTP Version:");
-	    var HTTPVLabelSize = Tools.GetFontSize(HTTPVLabelText, 10);
+	    var HTTPVLabelSize = Tool.GetFontSize(HTTPVLabelText, 10);
 	    var HTTPVLabelLocation = new Point(10, 11);
 
 	    var TextBoxBColor = Color.FromArgb(10, 10, 10);
@@ -208,21 +208,21 @@ namespace DashlorisX
 	    var HTTPVButtonSize = new Size(75, 19);
 
 	    var UserAgentLabelText = string.Format("User-Agent:");
-	    var UserAgentLabelSize = Tools.GetFontSize(UserAgentLabelText, 10);
+	    var UserAgentLabelSize = Tool.GetFontSize(UserAgentLabelText, 10);
 	    var UserAgentLabelLocation = new Point(HTTPVButtonLocation.X + HTTPVButtonSize.Width + 10, HTTPVLabelLocation.Y); // HTTPBox.Left + HTTPBox.Width + 10
 
 	    var UserAgentButtonLocation = new Point(UserAgentLabelLocation.X + UserAgentLabelSize.Width, UserAgentLabelLocation.Y - 1);
 	    var UserAgentButtonSize = new Size(CContainerSize.Width - UserAgentLabelLocation.X - UserAgentLabelSize.Width - (UserAgentButtonLocation.X - UserAgentButtonLocation.X) - (HTTPVLabelLocation.X), 19);
 
 	    var MethodLabelText = string.Format("Method:");
-	    var MethodLabelSize = Tools.GetFontSize(MethodLabelText, 10);
+	    var MethodLabelSize = Tool.GetFontSize(MethodLabelText, 10);
 	    var MethodLabelLocation = new Point(HTTPVLabelLocation.X, HTTPVButtonLocation.Y + HTTPVButtonSize.Height + 5);
 
 	    var MethodButtonLocation = new Point(MethodLabelLocation.X + MethodLabelSize.Width, MethodLabelLocation.Y - 1);
 	    var MethodButtonSize = new Size(75, 19);
 
 	    var CookieLabelText = string.Format("Cookie:");
-	    var CookieLabelSize = Tools.GetFontSize(CookieLabelText, 10);
+	    var CookieLabelSize = Tool.GetFontSize(CookieLabelText, 10);
 	    var CookieLabelLocation = new Point(MethodButtonLocation.X + MethodButtonSize.Width + 10, MethodLabelLocation.Y);
 
 	    var CookieButtonLocation = new Point(CookieLabelLocation.X + CookieLabelSize.Width, CookieLabelLocation.Y - 1);
@@ -230,26 +230,26 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Label(ConfigurationContainer, HTTPvLabel, HTTPVLabelSize, HTTPVLabelLocation, LabelBColor, LabelFColor, 1, 10, HTTPVLabelText);
-		Controls.Label(ConfigurationContainer, UserAgentLabel, UserAgentLabelSize, UserAgentLabelLocation, LabelBColor, LabelFColor, 1, 10, UserAgentLabelText);
-		Controls.Label(ConfigurationContainer, MethodLabel, MethodLabelSize, MethodLabelLocation, LabelBColor, LabelFColor, 1, 10, MethodLabelText);
-		Controls.Label(ConfigurationContainer, CookieLabel, CookieLabelSize, CookieLabelLocation, LabelBColor, LabelFColor, 1, 10, CookieLabelText);
+		Control.Label(ConfigurationContainer, HTTPvLabel, HTTPVLabelSize, HTTPVLabelLocation, LabelBColor, LabelFColor, 1, 10, HTTPVLabelText);
+		Control.Label(ConfigurationContainer, UserAgentLabel, UserAgentLabelSize, UserAgentLabelLocation, LabelBColor, LabelFColor, 1, 10, UserAgentLabelText);
+		Control.Label(ConfigurationContainer, MethodLabel, MethodLabelSize, MethodLabelLocation, LabelBColor, LabelFColor, 1, 10, MethodLabelText);
+		Control.Label(ConfigurationContainer, CookieLabel, CookieLabelSize, CookieLabelLocation, LabelBColor, LabelFColor, 1, 10, CookieLabelText);
 
-		Controls.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
-		Controls.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
-		Controls.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
-		Controls.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Control.TextBox(ConfigurationContainer, HTTPvBox, HTTPVButtonSize, HTTPVButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Control.TextBox(ConfigurationContainer, UserAgentBox, UserAgentButtonSize, UserAgentButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Control.TextBox(ConfigurationContainer, MethodBox, MethodButtonSize, MethodButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
+		Control.TextBox(ConfigurationContainer, CookieBox, CookieButtonSize, CookieButtonLocation, TextBoxBColor, TextBoxFColor, 1, 9);
 
 		foreach (Control controlo in ConfigurationContainer.Controls)
 		{
 		    if (controlo is PictureBox)
 		    {
 			((TextBox)controlo.Controls[0]).TextAlign = HorizontalAlignment.Center;
-			Tools.Round(controlo, 6);
+			Tool.Round(controlo, 6);
 		    }
 		}
 
-		Tools.Resize(ConfigurationContainer, new Size(CContainerSize.Width, CookieLabelLocation.Y + CookieLabelSize.Height + UserAgentButtonLocation.Y + 2));
+		Tool.Resize(ConfigurationContainer, new Size(CContainerSize.Width, CookieLabelLocation.Y + CookieLabelSize.Height + UserAgentButtonLocation.Y + 2));
 	    }
 
 	    catch (Exception E)
@@ -276,7 +276,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(DashDialog, BottomBar, BContainerSize, BContainerLocation, BContainerBColor);
+		Control.Image(DashDialog, BottomBar, BContainerSize, BContainerLocation, BContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -293,8 +293,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 11, "Close");
-		Controls.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 11, "Help");
+		Control.Button(InnerBottomBarContainer, Close, ButtonSize, CloseLocation, ButtonBColor, ButtonFColor, 1, 11, "Close");
+		Control.Button(InnerBottomBarContainer, Help, ButtonSize, HelpLocation, ButtonBColor, ButtonFColor, 1, 11, "Help");
 
 		Help.Click += (s, e) =>
 		{
@@ -313,7 +313,7 @@ namespace DashlorisX
 		{
 		    if (control is Button)
 		    {
-			Tools.Round(control, 6);
+			Tool.Round(control, 6);
 		    }
 		}
 	    }
@@ -329,7 +329,7 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(BottomBar, InnerBottomBarContainer, IContainerSize, IContainerLocation, IContainerBColor);
+		Control.Image(BottomBar, InnerBottomBarContainer, IContainerSize, IContainerLocation, IContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -350,7 +350,7 @@ namespace DashlorisX
 		    InitializeSettings();
 		    InitializeBottomBar();
 
-		    Tools.Resize(DashDialog, new Size(DashDialog.Width, BottomBar.Top + BottomBar.Height));
+		    Tool.Resize(DashDialog, new Size(DashDialog.Width, BottomBar.Top + BottomBar.Height));
 
 		    DoInitialize = false;
 		}

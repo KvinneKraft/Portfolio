@@ -33,7 +33,7 @@ namespace DashlorisX
 		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBColor, MenuBarBColor);
 		    
 		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
-		    Instance.DoInitializeMessageContainer(DashDialog, TextContainerBColor, ForeColor);
+		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor);
 
 		    DashDialog.ShowAsIs();
 
@@ -66,7 +66,7 @@ namespace DashlorisX
 
 	    private readonly TextBox TextBox = new TextBox();
 
-	    public void DoInitializeMessageContainer(DashDialog DashDialog, Color BackColor, Color ForeColor)
+	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
 	    {
 		Size AppSize = GetAppSize();
 
@@ -95,6 +95,8 @@ namespace DashlorisX
 		try
 		{
 		    Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, BackColor, ForeColor, 1, 9, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
+
+		    TextBox.Text = Message;
 		}
 
 		catch (Exception E)

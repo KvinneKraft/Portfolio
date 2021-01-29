@@ -18,8 +18,8 @@ namespace DashlorisX
 {
     public class Confirmation
     {
-	private readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 	public DashDialog DashDialog = new DashDialog();
 
@@ -89,8 +89,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Image(BottomContainer, BottomButtonContainer, BBContainerSize, BBContainerLocation, ContainerBColor);
-		Controls.Image(DashDialog, BottomContainer, BContainerSize, BContainerLocation, ContainerBColor);
+		Control.Image(BottomContainer, BottomButtonContainer, BBContainerSize, BBContainerLocation, ContainerBColor);
+		Control.Image(DashDialog, BottomContainer, BContainerSize, BContainerLocation, ContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -107,8 +107,8 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.Button(BottomButtonContainer, Accept, ButtonSize, AcceptLocation, ButtonBColor, ButtonFColor, 1, 10, "Accept");
-		Controls.Button(BottomButtonContainer, Cancel, ButtonSize, CancelLocation, ButtonBColor, ButtonFColor, 1, 10, "Cancel");
+		Control.Button(BottomButtonContainer, Accept, ButtonSize, AcceptLocation, ButtonBColor, ButtonFColor, 1, 10, "Accept");
+		Control.Button(BottomButtonContainer, Cancel, ButtonSize, CancelLocation, ButtonBColor, ButtonFColor, 1, 10, "Cancel");
 
 		Accept.Click += (s, e) =>
 		{
@@ -135,7 +135,7 @@ namespace DashlorisX
 
 		foreach (Button button in BottomButtonContainer.Controls)
 		{
-		    Tools.Round(button, 6);
+		    Tool.Round(button, 6);
 		}
 	    }
 
@@ -161,10 +161,10 @@ namespace DashlorisX
 
 	    try
 	    {
-		Controls.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, FixedSize: false, Multiline: true, ScrollBar:true, ReadOnly:true);
-		Controls.Image(DashDialog, MainContainer, MContainerSize, MContainerLocation, ContainerBColor);
+		Control.TextBox(MainContainer, TextContainer, TContainerSize, TContainerLocation, ContainerBColor, TContainerFColor, 1, 9, FixedSize: false, Multiline: true, ScrollBar:true, ReadOnly:true);
+		Control.Image(DashDialog, MainContainer, MContainerSize, MContainerLocation, ContainerBColor);
 
-		Tools.Round(MainContainer, 6);
+		Tool.Round(MainContainer, 6);
 	    }
 
 	    catch (Exception E)
