@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -40,21 +41,13 @@ namespace DashlorisX
 
 	public static void Utilize(string error, string title, bool thread = false)
 	{
-	    new Thread(() => {
-		new Dialog(error, title).ShowDialog();
+	    new Thread(() => 
+	    {
+		new DashBox().Show(error, title, Color.FromArgb(14, 14, 14), Color.FromArgb(6, 6, 6), Color.FromArgb(20, 20, 20), Color.White, DashBox.Buttons.OK);
+		Environment.Exit(-1);
 	    })
 
 	    { IsBackground = thread }.Start();
-	}
-
-	private class Dialog : Form
-	{
-	    public Dialog(string error, string title)
-	    {
-		//Custom Dialog Soon
-		MessageBox.Show(error, title, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-		Environment.Exit(-1);
-	    }
 	}
     }
 }
