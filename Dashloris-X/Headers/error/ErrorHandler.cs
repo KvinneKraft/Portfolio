@@ -30,7 +30,8 @@ namespace DashlorisX
 		$"{E.Message}\r\n" + 
 		$"----------------------\r\n" + 
 		$"{E.Source}\r\n" + 
-		$"----------------------\r\n"
+		$"----------------------\r\n" +
+		$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.  Latest versions are available at my GitHub at https://github.com/KvinneKraft"
 	    );
 	}
 
