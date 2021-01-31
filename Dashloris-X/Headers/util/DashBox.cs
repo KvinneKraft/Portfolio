@@ -258,7 +258,7 @@ namespace DashlorisX
 
 	    public Size GetAppSize()
 	    {
-		return new Size(250, 250);// Get Size | Not even really going to be used.
+		return new Size(325, 250);// Get Size | Not even really going to be used.
 	    }
 	}
     }
