@@ -22,7 +22,7 @@ namespace DashlorisX
     {
 	private readonly DashTools Tool = new DashTools();
 
-	private Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
+	public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 	{
 	    if (ObjectLocation.X == -2)
 	    {
