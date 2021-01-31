@@ -20,75 +20,7 @@ namespace DashlorisX
     public partial class DashlorisX : Form
     {
 	private readonly DashControls Control = new DashControls();
-	private readonly static DashTools Tool = new DashTools();
-
-	public static class Program
-	{
-	    private static void ValidatePrivileges()
-	    {
-		var DashSys = new DashSys();
-
-		if (!DashSys.IsPrivileged())
-		{
-		    DashBox DashBox = new DashBox();
-
-		    var ContainerBColor = Color.FromArgb(9, 39, 66);
-		    var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		    var AppBColor = Color.FromArgb(6, 17, 33);
-
-		    int DialogResult = DashBox.Show("It seems like you have insufficient permissions.\r\n\r\nYou should run this application with elevated privileges, if you do not you may experience issues while running the application.\r\n\r\nAt this point you can either choose to press \'Yes\' to open up this application as administrator, or you can choose to press \'No\' which will close the application.", "Insufficient Privileges", AppBColor, MenuBarBColor, ContainerBColor, Color.White, Buttons:DashBox.Buttons.YesNo);
-
-		    if (DialogResult == 1)
-		    {
-			using (Process process = new Process())
-			{
-			    var StartInfo = new ProcessStartInfo();
-
-			    StartInfo.FileName = DashSys.GetCurrentFileLocation();
-			    StartInfo.WorkingDirectory = Environment.CurrentDirectory;
-			    StartInfo.UseShellExecute = true;
-			    StartInfo.Verb = "runas";
-
-			    process.StartInfo = StartInfo;
-			    process.Start();
-			}
-		    }
-
-		    Environment.Exit(-1);
-		}
-	    }
-
-	    private static void ShowToS()
-	    {
-		new TOS().Show();
-	    }
-
-	    private static void DashlorisX()
-	    {
-		new DashlorisX().ShowDialog();
-	    }
-	    
-	    [STAThread]
-	    public static void Main()
-	    {
-		try
-		{
-		    Application.EnableVisualStyles();
-		    Application.SetCompatibleTextRenderingDefault(false);
-
-		    ValidatePrivileges();
-		    ShowToS();
-		    DashlorisX();
-
-		    Application.Exit();
-		}
-
-		catch (Exception E)
-		{
-		    ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Fatal Error");
-		}
-	    }
-	}
+	private readonly DashTools Tool = new DashTools();
 
 	private static readonly DashMenuBar MenuBar = new DashMenuBar("Dashloris-X", hide: false);
 
