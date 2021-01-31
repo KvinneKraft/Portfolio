@@ -32,7 +32,7 @@ namespace DashlorisX
 	{
 	    if (!ConfirmInteger(Value))
 	    {
-		ShowError("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error");
+		ShowError("The bytes specified or the duration specified was found the be invalid.\r\n\r\nPlease correct this and then retry.", "Integer Error");
 		return false;
 	    }
 
@@ -63,7 +63,7 @@ namespace DashlorisX
 
 	    if (!IsValid)
 	    {
-		ShowError("The domain specified is blacklisted!", "Domain Restriction");
+		ShowError("The domain specified is blacklisted!\r\n\r\nPlease specify a domain that is not blacklisted!", "Domain Restriction");
 	    }
 
 	    return IsValid;
@@ -107,7 +107,7 @@ namespace DashlorisX
 
 		    if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
 		    {
-			ShowError("The host specified is not an ipv4 and neither a valid http/https/www url.  Please correct this and then retry!", "Host Address Parse Error");
+			ShowError("The host specified is not an ipv4 and neither a valid http/https/www url.\r\n\r\nPlease correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    };
 
@@ -118,7 +118,7 @@ namespace DashlorisX
 
 		    catch
 		    {
-			ShowError("The domain specified does not resolve to a valid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error");
+			ShowError("The domain specified does not resolve to a valid ipv4 address.\r\n\r\nPlease correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    }
 		}
@@ -129,14 +129,14 @@ namespace DashlorisX
 
 		    if (ham.AddressFamily != AddressFamily.InterNetwork)
 		    {
-			ShowError("The host specified resolved to an invalid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error");
+			ShowError("The host specified resolved to an invalid ipv4 address.\r\n\r\nPlease correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    }
 		}
 
 		if (r_host.Length < 7 || r_host == string.Empty)
 		{
-		    ShowError("The host specified is invalid.  Please correct this and then retry!", "Host Address Parse Error");
+		    ShowError("The host specified is invalid.\r\n\r\nPlease correct this and then retry!", "Host Address Parse Error");
 		    return string.Empty;
 		}
 
@@ -162,7 +162,7 @@ namespace DashlorisX
 
 		if (result < 1 || result > 65535 || !isInteger)
 		{
-		    ShowError("The port specified was found to be invalid.\r\n\r\nNote: A valid port ranges from 1 to 65535.  If you did not know this then you probably should not be using this right now.\r\n\r\nPlease retry!", "Port Parse Error");
+		    ShowError("The port specified was found to be invalid.\r\n\r\nNote: A valid port ranges from 1 to 65535.\r\n\r\nIf you did not know this then you probably should not be using this right now.\r\n\r\nPlease retry!", "Port Parse Error");
 		    result = -1;
 		};
 
