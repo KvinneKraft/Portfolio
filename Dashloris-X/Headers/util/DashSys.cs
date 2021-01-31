@@ -17,7 +17,14 @@ namespace DashlorisX
 {
     public class DashSys
     {
-	public bool IsPrivileged() =>
-	    new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+	public bool IsPrivileged()
+	{
+	    return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+	}
+
+	public string GetCurrentFileLocation()
+	{
+	    return System.Reflection.Assembly.GetExecutingAssembly().Location;
+	}
     }
 }
