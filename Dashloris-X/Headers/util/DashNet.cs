@@ -17,11 +17,22 @@ namespace DashlorisX
 {
     public class DashNet
     {
+	private readonly DashBox DashBox = new DashBox();
+
+	private void ShowError(string message, string title)
+	{
+	    var AppBColor = Color.FromArgb(6, 17, 33);
+	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
+	    var ContainerBColor = Color.FromArgb(9, 39, 66);
+
+	    DashBox.Show(message, title, AppBColor, MenuBarBColor, ContainerBColor, Color.White);
+	}
+
 	public bool ConfirmBytes(string Value)
 	{
 	    if (!ConfirmInteger(Value))
 	    {
-		MessageBox.Show("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		ShowError("The bytes specified or the duration specified was found the be invalid.  Please correct this and then retry.", "Integer Error");
 		return false;
 	    }
 
@@ -52,7 +63,7 @@ namespace DashlorisX
 
 	    if (!IsValid)
 	    {
-		MessageBox.Show("The domain specified is blacklisted!", "Domain Restriction", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		ShowError("The domain specified is blacklisted!", "Domain Restriction");
 	    }
 
 	    return IsValid;
@@ -96,7 +107,7 @@ namespace DashlorisX
 
 		    if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
 		    {
-			MessageBox.Show("The host specified is not an ipv4 and neither a valid http/https/www url.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			ShowError("The host specified is not an ipv4 and neither a valid http/https/www url.  Please correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    };
 
@@ -107,7 +118,7 @@ namespace DashlorisX
 
 		    catch
 		    {
-			MessageBox.Show("The domain specified does not resolve to a valid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			ShowError("The domain specified does not resolve to a valid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    }
 		}
@@ -118,14 +129,14 @@ namespace DashlorisX
 
 		    if (ham.AddressFamily != AddressFamily.InterNetwork)
 		    {
-			MessageBox.Show("The host specified resolved to an invalid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			ShowError("The host specified resolved to an invalid ipv4 address.  Please correct this and then retry!", "Host Address Parse Error");
 			return string.Empty;
 		    }
 		}
 
 		if (r_host.Length < 7 || r_host == string.Empty)
 		{
-		    MessageBox.Show("The host specified is invalid.  Please correct this and then retry!", "Host Address Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		    ShowError("The host specified is invalid.  Please correct this and then retry!", "Host Address Parse Error");
 		    return string.Empty;
 		}
 
@@ -151,7 +162,7 @@ namespace DashlorisX
 
 		if (result < 1 || result > 65535 || !isInteger)
 		{
-		    MessageBox.Show("The port specified was found to be invalid.\r\n\r\nNote: A valid port ranges from 1 to 65535.  If you did not know this then you probably should not be using this right now.\r\n\r\nPlease retry!", "Port Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		    ShowError("The port specified was found to be invalid.\r\n\r\nNote: A valid port ranges from 1 to 65535.  If you did not know this then you probably should not be using this right now.\r\n\r\nPlease retry!", "Port Parse Error");
 		    result = -1;
 		};
 

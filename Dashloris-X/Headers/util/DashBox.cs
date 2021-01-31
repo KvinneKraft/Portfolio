@@ -63,8 +63,7 @@ namespace DashlorisX
 
 	    private readonly PictureBox UpperTextContainer = new PictureBox();
 	    private readonly PictureBox InnerTextContainer = new PictureBox();
-
-	    private readonly System.Windows.Controls.TextBlock TextBlock = new System.Windows.Controls.TextBlock();
+	    
 	    private readonly TextBox TextBox = new TextBox();
 
 	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
