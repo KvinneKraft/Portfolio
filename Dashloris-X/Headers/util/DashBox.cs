@@ -46,9 +46,9 @@ namespace DashlorisX
 	    {
 		var DialogResult = MessageBox.Show("There was an error while loading one or more dialogs.  This is preventing a message from being shown.  Would you still wish to continue?  \r\n\r\nPlease, keep in mind that if you continue, you may experience issues.\r\n\r\nPress OK to continue or press CANCEL to close the application and show the stack-trace.", "Error Handler", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
 
-		if (DialogResult.Equals(System.Windows.Forms.DialogResult.Cancel))
+		if (DialogResult == DialogResult.Cancel)
 		{
-		    throw (ErrorHandler.GetException(E));
+		    ErrorHandler.Utilize(ErrorHandler.GetFormat(ErrorHandler.GetException(E)), "Error Handler");
 		}
 	    }
 
@@ -72,10 +72,10 @@ namespace DashlorisX
 		var AppSize = GetAppSize();
 
 		var TextBoxFont = Tool.GetFont(1, 9);
-		var TextBoxSize = new Size(AppSize.Width - 32, TextRenderer.MeasureText(Message, TextBoxFont).Height + 22);
+		var TextBoxSize = new Size(AppSize.Width - 32, TextRenderer.MeasureText(Message, TextBoxFont, new Size(AppSize.Width - 32, 0), TextFormatFlags.WordBreak).Height);
 		var TextBoxLocation = new Point(0, 0);
 
-		var MainContainerSize = new Size(AppSize.Width - 22, TextBoxSize.Height);
+		var MainContainerSize = new Size(AppSize.Width - 22, TextBoxSize.Height + 10);
 		var MainContainerLocation = new Point(11, DashDialog.MenuBar.Bar.Height + 11);
 
 		var SubContainerSize = new Size(MainContainerSize.Width - 10, MainContainerSize.Height - 10);
