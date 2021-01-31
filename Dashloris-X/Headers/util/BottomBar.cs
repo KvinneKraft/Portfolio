@@ -52,7 +52,7 @@ namespace DashlorisX
 		Control.Image(Top, BarContainer, BarSize, BarLocation, BackColor);
 		Control.Image(BarContainer, ButtonContainer, ButtonContainerSize, ButtonContainerLocation, BackColor);
 
-		for (int k = 0, x = 0, y = 0; k < Buttons.Count; k += 1, x += Buttons[k].Width)
+		for (int k = 0, x = 0, y = 0; k < Buttons.Count; x += Buttons[k].Width, k += 1)
 		{
 		    Buttons[k].Location = new Point(x, y);
 
