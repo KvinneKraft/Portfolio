@@ -35,16 +35,24 @@ namespace DashlorisX
 		new TOS().Show();
 	    }
 	    
-	    [STAThread] public static void Main()
+	    [STAThread]
+	    public static void Main()
 	    {
-		Application.EnableVisualStyles();
-		Application.SetCompatibleTextRenderingDefault(false);
-		
-		ShowToS();
-		DashlorisX();
-		
-		Application.Exit();
-		Environment.Exit(-1);
+		try
+		{
+		    Application.EnableVisualStyles();
+		    Application.SetCompatibleTextRenderingDefault(false);
+
+		    ShowToS();
+		    DashlorisX();
+
+		    Application.Exit();
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Fatal Error");
+		}
 	    }
 	}
 
