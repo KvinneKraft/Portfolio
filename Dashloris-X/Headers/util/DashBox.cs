@@ -31,9 +31,10 @@ namespace DashlorisX
 		    var Instance = new ControlInitialization();
 
 		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBColor, MenuBarBColor);
-		    
-		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
+
 		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor);
+		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
+		    Instance.DoInitializeApp(DashDialog);
 
 		    DashDialog.ShowAsIs();
 
@@ -68,34 +69,28 @@ namespace DashlorisX
 
 	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
 	    {
-		Size AppSize = GetAppSize();
+		var AppSize = GetAppSize();
 
-		var UTContainerSize = new Size(AppSize.Width - 22, AppSize.Height - 22 - BottomBarContainer.Height - DashDialog.MenuBar.Bar.Height);
-		var UTContainerLocation = new Point(11, DashDialog.MenuBar.Bar.Height + 11);
+		var TextBoxFont = Tool.GetFont(1, 9);
+		var TextBoxSize = new Size(AppSize.Width - 32, TextRenderer.MeasureText(Message, TextBoxFont).Height + 22);
+		var TextBoxLocation = new Point(0, 0);
 
-		var ITContainerSize = new Size(UTContainerSize.Width - 10, UTContainerSize.Height - 10);
-		var ITContainerLocation = new Point(5, 5);
+		var MainContainerSize = new Size(AppSize.Width - 22, TextBoxSize.Height);
+		var MainContainerLocation = new Point(11, DashDialog.MenuBar.Bar.Height + 11);
+
+		var SubContainerSize = new Size(MainContainerSize.Width - 10, MainContainerSize.Height - 10);
+		var SubContainerLocation = new Point(5, 5);
 
 		try
 		{
-		    Control.Image(UpperTextContainer, InnerTextContainer, ITContainerSize, ITContainerLocation, BackColor);
-		    Control.Image(DashDialog, UpperTextContainer, UTContainerSize, UTContainerLocation, BackColor);
+		    Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, BackColor, ForeColor, 1, 9, ReadOnly: true, Multiline: true, FixedSize: false);
+
+		    TextBox.Text = Message;
+
+		    Control.Image(DashDialog, UpperTextContainer, MainContainerSize, MainContainerLocation, BackColor);
+		    Control.Image(UpperTextContainer, InnerTextContainer, SubContainerSize, SubContainerLocation, BackColor);
 
 		    Tool.Round(UpperTextContainer, 6);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-
-		var TextSize = ITContainerSize;
-		var TextLocation = new Point(0, 0);
-		
-		try
-		{
-		    Control.TextBox(InnerTextContainer, TextBox, TextSize, TextLocation, BackColor, ForeColor, 1, 9, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
-		    TextBox.Text = Message;
 		}
 
 		catch (Exception E)
@@ -113,7 +108,7 @@ namespace DashlorisX
 	    public void DoInitializeBottomBar(DashDialog DashDialog, Color BackColor, Color ForeColor, Buttons Buttons)
 	    {
 		var BOContainerSize = new Size(DashDialog.Width, 30);
-		var BOContainerLocation = new Point(0, DashDialog.Height - BOContainerSize.Height);
+		var BOContainerLocation = new Point(0, UpperTextContainer.Top + UpperTextContainer.Height + 12);
 
 		try
 		{
@@ -248,9 +243,22 @@ namespace DashlorisX
 		}
 	    }
 
+	    public void DoInitializeApp(DashDialog DashDialog)
+	    {
+		try
+		{
+		    Tool.Resize(DashDialog, new Size(BottomBarContainer.Width, BottomBarContainer.Top + BottomBarContainer.Height));
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
 	    public Size GetAppSize()
 	    {
-		return new Size(250, 250);// Get Size
+		return new Size(250, 250);// Get Size | Not even really going to be used.
 	    }
 	}
     }
