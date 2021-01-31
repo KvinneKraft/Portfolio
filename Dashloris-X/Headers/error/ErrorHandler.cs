@@ -23,15 +23,15 @@ namespace DashlorisX
 	{
 	    return string.Format
 	    (
-		$"An error has occurred and has prevented the application from functioning any further, safely.  Please send the following to KvinneKraft@protonmail.com if you wish to help me fix this.\r\n" +
+		$"An error has occurred and has prevented the application from functioning any further, safely.\r\n\r\nPlease send the following to KvinneKraft@protonmail.com if you wish to help me fix this issue.\r\n\r\n" +
 		$"----------------------\r\n" +
 		$"{E.StackTrace}\r\n" + 
 		$"----------------------\r\n" + 
 		$"{E.Message}\r\n" + 
 		$"----------------------\r\n" + 
 		$"{E.Source}\r\n" + 
-		$"----------------------\r\n" +
-		$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.  Latest versions are available at my GitHub at https://github.com/KvinneKraft"
+		$"----------------------\r\n\r\n" +
+		$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
 	    );
 	}
 
@@ -44,7 +44,12 @@ namespace DashlorisX
 	{
 	    new Thread(() => 
 	    {
-		new DashBox().Show(error, title, Color.FromArgb(14, 14, 14), Color.FromArgb(6, 6, 6), Color.FromArgb(20, 20, 20), Color.White);
+		var ContainerBColor = Color.FromArgb(9, 39, 66);
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+
+		new DashBox().Show(error, title, AppBColor, MenuBarBColor,ContainerBColor, Color.White);
+
 		Environment.Exit(-1);
 	    })
 
