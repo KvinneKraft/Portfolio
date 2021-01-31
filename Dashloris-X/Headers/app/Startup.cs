@@ -105,6 +105,49 @@ namespace DashlorisX
 	    }
 	}
 
+	private class SplashApp : Form
+	{
+	    private readonly DashControls Control = new DashControls();
+	    private readonly DashTools Tool = new DashTools();
+	    
+	    public SplashApp()
+	    {
+		StartPosition = FormStartPosition.CenterScreen;
+		FormBorderStyle = FormBorderStyle.None;
+
+		BackgroundImage = Properties.Resources.SPLASH;
+
+		Tool.Resize(this, BackgroundImage.Size);
+	    }
+	}
+
+	private static void ShowSplash()
+	{
+	    try
+	    {
+		SplashApp Splash = new SplashApp();
+
+		var CloseSplash = new System.Timers.Timer(2500);
+
+		CloseSplash.AutoReset = false;
+		CloseSplash.Enabled = true;
+
+		CloseSplash.Elapsed += (s, e) =>
+		{
+		    Splash.Close();
+		};
+
+		CloseSplash.Start();
+
+		Splash.ShowDialog();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private static void ShowToS()
 	{
 	    try
@@ -141,6 +184,7 @@ namespace DashlorisX
 
 		ValidateProcess();
 		ValidatePrivileges();
+		ShowSplash();
 		ShowToS();
 		DashlorisX();
 
