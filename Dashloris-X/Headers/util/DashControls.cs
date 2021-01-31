@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -21,6 +22,31 @@ namespace DashlorisX
     public class DashControls
     {
 	private readonly DashTools Tool = new DashTools();
+
+	public void SetUrl(Control Object, string Destination)
+	{
+	    try
+	    {
+		Object.Click += (s, e) =>
+		{
+		    using (var Process = new Process())
+		    {
+			Process.StartInfo = new ProcessStartInfo()
+			{
+			    FileName = Destination,
+			    UseShellExecute = true,
+			};
+
+			Process.Start();
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 	{
