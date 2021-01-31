@@ -39,17 +39,12 @@ namespace DashlorisX
 	    {
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
-
-		var AppBColor = Color.FromArgb(6, 17, 33);
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		var ContainerBColor = Color.FromArgb(9, 39, 66);
-
-		new DashBox().Show("The bytes specified or the duration specified was found the be invalid.\r\n\r\nPlease retry.", "Byte Order Error", AppBColor, MenuBarBColor, ContainerBColor, Color.White);
-
+		
 		ShowToS();
 		DashlorisX();
 		
 		Application.Exit();
+		Environment.Exit(-1);
 	    }
 	}
 
