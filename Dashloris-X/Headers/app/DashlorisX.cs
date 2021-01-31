@@ -103,6 +103,7 @@ namespace DashlorisX
 	    try
 	    {
 		Control.Image(this, MainContainer, MContainerSize, MContainerLocation, MContainerBColor);
+		
 		Tool.Round(MainContainer, 6);
 	    }
 
