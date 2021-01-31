@@ -53,7 +53,7 @@ namespace DashlorisX
 	{
 	    var Results = new List<bool>()
 	    {
-		DashNet.ConfirmInteger(DashlorisX.DurationTextBox.Text),
+		DashNet.ConfirmDuration(DashlorisX.DurationTextBox.Text),
 		DashNet.ConfirmBytes(DashlorisX.BytesTextBox.Text),
 		DashNet.ConfirmPort(DashlorisX.PortTextBox.Text),
 		DashNet.ConfirmIP(DashlorisX.HostTextBox.Text),

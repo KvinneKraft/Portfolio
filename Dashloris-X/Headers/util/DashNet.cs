@@ -28,11 +28,26 @@ namespace DashlorisX
 	    DashBox.Show(message, title, AppBColor, MenuBarBColor, ContainerBColor, Color.White);
 	}
 
+	public bool ConfirmDuration(string Value)
+	{
+	    int V = GetInteger(Value);
+
+	    if (V == -1 || V < 10)
+	    {
+		ShowError("The duration specified was found to be invalid.\r\n\r\nThe value must be above 10 atleast!\r\n\r\nPlease correct this and then retry.", "Duration Error");
+		return false;
+	    }
+
+	    return true;
+	}
+
 	public bool ConfirmBytes(string Value)
 	{
-	    if (!ConfirmInteger(Value))
+	    int V = GetInteger(Value);
+
+	    if (V == -1 || V < 10)
 	    {
-		ShowError("The bytes specified or the duration specified was found the be invalid.\r\n\r\nPlease correct this and then retry.", "Integer Error");
+		ShowError("The bytes specified was found to be invalid.\r\n\r\nThe value must be above 10 atleast!\r\n\r\nPlease correct this and then retry.", "Byte Error");
 		return false;
 	    }
 
@@ -160,7 +175,7 @@ namespace DashlorisX
 	    {
 		bool isInteger = int.TryParse(port, out int result);
 
-		if (result < 1 || result > 65535 || !isInteger)
+		if (!isInteger || result < 1 || result > 65535)
 		{
 		    ShowError("The port specified was found to be invalid.\r\n\r\nNote: A valid port ranges from 1 to 65535.\r\n\r\nIf you did not know this then you probably should not be using this right now.\r\n\r\nPlease retry!", "Port Parse Error");
 		    result = -1;
