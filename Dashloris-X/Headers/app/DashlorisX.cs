@@ -11,7 +11,6 @@ using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Security.Principal;
 using System.Collections.Generic;
 
 using DashlorisX.Properties;
@@ -27,11 +26,35 @@ namespace DashlorisX
 	{
 	    private static void ValidatePrivileges()
 	    {
-		var DashSys DashSys = new DashSys();
+		var DashSys = new DashSys();
 
 		if (!DashSys.IsPrivileged())
 		{
-		    // Show error dialog.
+		    DashBox DashBox = new DashBox();
+
+		    var ContainerBColor = Color.FromArgb(9, 39, 66);
+		    var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		    var AppBColor = Color.FromArgb(6, 17, 33);
+
+		    int DialogResult = DashBox.Show("It seems like you have insufficient permissions.\r\n\r\nYou should run this application with elevated privileges, if you do not you may experience issues while running the application.\r\n\r\nAt this point you can either choose to press \'Yes\' to open up this application as administrator, or you can choose to press \'No\' which will close the application.", "Insufficient Privileges", AppBColor, MenuBarBColor, ContainerBColor, Color.White, Buttons:DashBox.Buttons.YesNo);
+
+		    if (DialogResult == 1)
+		    {
+			using (Process process = new Process())
+			{
+			    var StartInfo = new ProcessStartInfo();
+
+			    StartInfo.FileName = DashSys.GetCurrentFileLocation();
+			    StartInfo.WorkingDirectory = Environment.CurrentDirectory;
+			    StartInfo.UseShellExecute = true;
+			    StartInfo.Verb = "runas";
+
+			    process.StartInfo = StartInfo;
+			    process.Start();
+			}
+		    }
+
+		    Environment.Exit(-1);
 		}
 	    }
 
