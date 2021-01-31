@@ -200,7 +200,14 @@ namespace DashlorisX
 			};
 		    }
 
-		    for (int k = 1, x = 0; k <= 2; k += 1, x += ButtonSize.Width + 10)
+		    int b = 1;
+
+		    if (Buttons != Buttons.OK)
+		    {
+			b += 1;
+		    };
+
+		    for (int k = 1, x = 0; k <= b; k += 1, x += ButtonSize.Width + 10)
 		    {
 			Control.Button(BottomBarButtonContainer, GetButtonObject(k), ButtonSize, new Point(x, 0), BackColor, ForeColor, 1, 10, GetButtonText(k));
 			SetButtonClickEvent(k);
