@@ -22,7 +22,7 @@ namespace DashlorisX
 	    OKCancel = 0, YesNo = 1, OK = 2
 	}
 
-	public int Show(string Message, string Title, Color AppBColor, Color MenuBarBColor, Color TextContainerBColor, Color ForeColor, bool TextBlock = false, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
+	public int Show(string Message, string Title, Color AppBColor, Color MenuBarBColor, Color TextContainerBColor, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
 	{
 	    try
 	    {
@@ -33,7 +33,7 @@ namespace DashlorisX
 		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBColor, MenuBarBColor);
 		    
 		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
-		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor, TextBlock);
+		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor);
 
 		    DashDialog.ShowAsIs();
 
@@ -67,7 +67,7 @@ namespace DashlorisX
 	    private readonly System.Windows.Controls.TextBlock TextBlock = new System.Windows.Controls.TextBlock();
 	    private readonly TextBox TextBox = new TextBox();
 
-	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor, bool TextBlock)
+	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
 	    {
 		Size AppSize = GetAppSize();
 
@@ -95,16 +95,8 @@ namespace DashlorisX
 		
 		try
 		{
-		    if (!TextBlock)
-		    {
-			Control.TextBox(InnerTextContainer, TextBox, TextSize, TextLocation, BackColor, ForeColor, 1, 9, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
-			TextBox.Text = Message;
-		    }
-
-		    else
-		    {
-			Control.TextBlock(InnerTextContainer, TextBlock, TextSize, TextLocation, BackColor, ForeColor, 1, 9);
-		    }
+		    Control.TextBox(InnerTextContainer, TextBox, TextSize, TextLocation, BackColor, ForeColor, 1, 9, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+		    TextBox.Text = Message;
 		}
 
 		catch (Exception E)

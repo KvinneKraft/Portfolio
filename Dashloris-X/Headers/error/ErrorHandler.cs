@@ -44,7 +44,7 @@ namespace DashlorisX
 	{
 	    new Thread(() => 
 	    {
-		new DashBox().Show(error, title, Color.FromArgb(14, 14, 14), Color.FromArgb(6, 6, 6), Color.FromArgb(20, 20, 20), Color.White, false);
+		new DashBox().Show(error, title, Color.FromArgb(14, 14, 14), Color.FromArgb(6, 6, 6), Color.FromArgb(20, 20, 20), Color.White);
 		Environment.Exit(-1);
 	    })
 
