@@ -25,14 +25,24 @@ namespace DashlorisX
 
 	public static class Program
 	{
-	    private static void DashlorisX()
+	    private static void ValidatePrivileges()
 	    {
-		new DashlorisX().ShowDialog();
+		var DashSys DashSys = new DashSys();
+
+		if (!DashSys.IsPrivileged())
+		{
+		    // Show error dialog.
+		}
 	    }
 
 	    private static void ShowToS()
 	    {
 		new TOS().Show();
+	    }
+
+	    private static void DashlorisX()
+	    {
+		new DashlorisX().ShowDialog();
 	    }
 	    
 	    [STAThread]
@@ -43,6 +53,7 @@ namespace DashlorisX
 		    Application.EnableVisualStyles();
 		    Application.SetCompatibleTextRenderingDefault(false);
 
+		    ValidatePrivileges();
 		    ShowToS();
 		    DashlorisX();
 
