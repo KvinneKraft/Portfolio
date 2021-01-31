@@ -37,7 +37,7 @@
     <ApplicationIcon>Resources\ICON.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>DashlorisX.DashlorisX.Program</StartupObject>
+    <StartupObject>DashlorisX.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -74,6 +74,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Headers\app\settings\SettingsInfo.cs" />
+    <Compile Include="Headers\app\Startup.cs" />
     <Compile Include="Headers\app\tos\TOS.cs" />
     <Compile Include="Headers\error\ErrorHandler.cs" />
     <Compile Include="Headers\util\BottomBar.cs" />
