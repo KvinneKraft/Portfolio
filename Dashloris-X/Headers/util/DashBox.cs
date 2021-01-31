@@ -248,6 +248,11 @@ namespace DashlorisX
 		try
 		{
 		    Tool.Resize(DashDialog, new Size(BottomBarContainer.Width, BottomBarContainer.Top + BottomBarContainer.Height));
+
+		    var RectangleSize = new Size(DashDialog.Width - 2, DashDialog.Height - DashDialog.MenuBar.Bar.Height + 1);
+		    var RectangleLocation = new Point(1, DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Bar.Top - 2);
+
+		    Tool.PaintRectangle(DashDialog, 2, RectangleSize, RectangleLocation, DashDialog.MenuBar.Bar.BackColor);
 		}
 
 		catch (Exception E)
