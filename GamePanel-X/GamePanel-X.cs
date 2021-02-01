@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace GamePanel_X
 {
-    public partial class Form1 : Form
+    public partial class GamePanelX
     {
-	public Form1()
+	public GamePanelX()
 	{
-	    InitializeComponent();
+	    // Setup Default Text At Top
+	    // Setup Default Usings
+	    // Add Libraries
 	}
     }
 }
