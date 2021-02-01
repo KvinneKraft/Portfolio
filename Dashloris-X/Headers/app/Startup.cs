@@ -187,7 +187,7 @@ namespace DashlorisX
 		ShowSplash();
 		ShowToS();
 		DashlorisX();
-
+		
 		Application.Exit();
 	    }
 
