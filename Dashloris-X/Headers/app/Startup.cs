@@ -118,6 +118,7 @@ namespace DashlorisX
 		BackgroundImage = Properties.Resources.SPLASH;
 
 		Tool.Resize(this, BackgroundImage.Size);
+		Tool.Round(this, 8);
 	    }
 	}
 
