@@ -94,13 +94,15 @@ namespace GamePanelX
 		throw ErrorHandler.GetException(E);
 	    }
 
-	    var LogoSize = new Size(38, 32);
+	    Image LogoImage = Properties.Resources.LOGO;
+
 	    var LogoLocation = new Point(5, 5);
+	    var LogoSize = LogoImage.Size;
 
 	    try
 	    {
 		Control.Image(Top, SLogo, LogoSize, LogoLocation, Top.BackColor/*Color.FromArgb(6, 17, 33)*/, ObjectImage: Properties.Resources.LOGO);
-		Control.Image(Bar, Logo, LogoSize, LogoLocation, BarCola, ObjectImage: Properties.Resources.LOGO);
+		Control.Image(Bar, Logo, LogoSize, LogoLocation, BarCola, ObjectImage: LogoImage);
 
 		Tool.Interactive(SLogo, Top);
 		Tool.Interactive(Logo, Top);
