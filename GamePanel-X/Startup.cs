@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace GamePanel_X
 {
-    static class Program
+    static class Startup
     {
 	/// <summary>
 	/// The main entry point for the application.
