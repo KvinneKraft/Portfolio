@@ -17,6 +17,9 @@ namespace GamePanelX
 {
     public partial class GamePanelX
     {
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
+
 	private readonly DashDialog DashDialog = new DashDialog();
 
 	private void InitializeMainComponent()
@@ -41,13 +44,26 @@ namespace GamePanelX
 	    }
 	}
 
-
+	private readonly Form MainContainer = new Form();
 
 	private void InitializeMainContainer()
 	{
 	    try
 	    {
+		var MainContainerSize = new Size(DashDialog.Width - 20, DashDialog.Height - 20 - DashDialog.MenuBar.Bar.Height);
+	
+		MainContainer.Location = new Point(10, 10 + DashDialog.MenuBar.Bar.Height - 1);
+		MainContainer.BackColor = Color.FromArgb(10, 10, 10);
 
+		MainContainer.FormBorderStyle = FormBorderStyle.None;
+		MainContainer.TopLevel = false;
+
+		Tool.Resize(MainContainer, MainContainerSize);
+		Tool.Round(MainContainer, 6);
+
+		MainContainer.Show();
+
+		DashDialog.Controls.Add(MainContainer);
 	    }
 
 	    catch (Exception E)
