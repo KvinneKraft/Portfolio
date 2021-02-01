@@ -17,13 +17,16 @@ namespace GamePanelX
 {
     public static class Startup
     {
+	private static GamePanelX GamePanelX;
+
 	[STAThread]
 	public static void Main()
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
-	    
-	    // Setup compatibility for GamePanel-X.cs
+
+	    GamePanelX = new GamePanelX();
+	    GamePanelX.StartApp();
 	}
     }
 }

@@ -17,11 +17,13 @@ namespace GamePanelX
 {
     public partial class GamePanelX
     {
-	public GamePanelX()
+	private readonly DashDialog DashDialog = new DashDialog();
+
+	public void StartApp()
 	{
-	    // Setup Default Text At Top
-	    // Setup Default Usings
-	    // Add Libraries
+
+
+	    Application.Run(DashDialog);
 	}
     }
 }
