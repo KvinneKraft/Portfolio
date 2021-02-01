@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GamePanel_X
+namespace GamePanelX
 {
     public partial class GamePanelX
     {
