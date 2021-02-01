@@ -21,120 +21,94 @@ namespace DashlorisX
 {
     public class DashTools
     {
-	public string GetErrorFormat(Exception e) => $"Hey there, I am unfortunate to say but DashBooks has stopped working!\r\n\r\nIf you want to help me out then please send the following to me at KvinneKraft@protonmail.com. \r\n\r\nSTACK TRACE:\r\n{e.StackTrace}\r\n\r\nRAW MESSAGE:\r\n{e.Message}\r\n\r\nThank you, regardless!\r\n-Dashie";
-
-	public Size GetFontSize(string TEXT, int SIZE) =>
-	    TextRenderer.MeasureText(TEXT, GetFont(1, SIZE));
-
-	public void Resize(Control OBJECT, Size SIZE)
+	public Size GetFontSize(string Text, int Size)
 	{
-	    OBJECT.MaximumSize = SIZE;
-	    OBJECT.MinimumSize = SIZE;
-	    OBJECT.Size = SIZE;
+	    return TextRenderer.MeasureText(Text, GetFont(1, Size));
 	}
 
-	public void PaintRectangle(Control CON, int THICKNESS, Size SIZE, Point LOCATION, Color COLOR)
+	public void Resize(Control Object, Size Size)
 	{
-	    LOCATION = GetCenter(CON, LOCATION, SIZE);
+	    Object.MaximumSize = Size;
+	    Object.MinimumSize = Size;
+	}
 
-	    CON.Paint += (s, e) =>
+	public void PaintRectangle(Control Object, int Thickness, Size Size, Point Location, Color Color)
+	{
+	    Object.Paint += (s, e) =>
 	    {
 		var graphics = e.Graphics;
 
 		graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-		using (Pen pen = new Pen(COLOR, THICKNESS))
+		using (Pen pen = new Pen(Color, Thickness))
 		{
-		    graphics.DrawRectangle(pen, new Rectangle(LOCATION, SIZE));
+		    graphics.DrawRectangle(pen, new Rectangle(Location, Size));
 		};
 	    };
 	}
 
-	public void PaintLine(Control CON, Color COLOR, int THICKNESS, Point LOCATION1, Point LOCATION2)
+	public void PaintLine(Control Object, Color Color, int Thickness, Point Location1, Point Location2)
 	{
-	    CON.Paint += (s, e) =>
+	    Object.Paint += (s, e) =>
 	    {
 		var graphics = e.Graphics;
 
 		graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-		using (Pen pen = new Pen(COLOR, THICKNESS))
+		using (Pen pen = new Pen(Color, Thickness))
 		{
-		    graphics.DrawLine(pen, LOCATION1, LOCATION2);
+		    graphics.DrawLine(pen, Location1, Location2);
 		};
 	    };
 	}
 
-	public void PaintCircle(Control CON, Color COLOR, int THICKNESS, Point LOCATION, Size SIZE)
+	public void PaintCircle(Control Object, Color Color, int Thickness, Point Location, Size Size)
 	{
-	    LOCATION = GetCenter(CON, LOCATION, SIZE);
-
-	    CON.Paint += (s, e) =>
+	    Object.Paint += (s, e) =>
 	    {
 		var graphics = e.Graphics;
 
 		graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-		using (Pen pen = new Pen(COLOR, THICKNESS))
+		using (Pen pen = new Pen(Color, Thickness))
 		{
-		    graphics.DrawEllipse(pen, new RectangleF(LOCATION, SIZE));
+		    graphics.DrawEllipse(pen, new RectangleF(Location, Size));
 		};
 	    };
-	}
-
-	public Point GetCenter(Control CON, Point LOCATION, Size SIZE)
-	{
-	    if (LOCATION.Y < 0)
-		LOCATION.Y = (CON.Height - SIZE.Height) / 2;
-
-	    if (LOCATION.X < 0)
-		LOCATION.X = (CON.Width - SIZE.Width) / 2;
-
-	    return LOCATION;
-	}
-
-	public Point GetCenter(Control CON, Control OBJECT, Point LOCATION)
-	{
-	    if (LOCATION.Y < 0)
-		LOCATION.Y = (CON.Height - OBJECT.Height) / 2;
-
-	    if (LOCATION.X < 0)
-		LOCATION.X = (CON.Width - OBJECT.Width) / 2;
-
-	    return LOCATION;
 	}
 
 	[DllImport("User32.dll")] static extern IntPtr CreateIconFromResource(byte[] presbits, uint dwResSize, bool fIcon, uint dwVer);
-	public void UseResourceCursor(Control CON, byte[] BYTES)
+	public void UseResourceCursor(Control Object, byte[] BYTES)
 	{
 	    var curse = new Cursor(CreateIconFromResource(BYTES, (uint)BYTES.Length, false, 0x00030000));
 
-	    CON.Cursor = curse;
-	    CON.Update();
+	    Object.Cursor = curse;
+	    Object.Update();
 	}
 
-	public void Interactive(Control CON, Control TAR)
+	public void Interactive(Control Object, Control Target)
 	{
-	    var LOC = Point.Empty;
+	    var Location = Point.Empty;
 
-	    CON.MouseMove += (s, e) =>
+	    Object.MouseMove += (s, e) =>
 	    {
-		if (LOC.IsEmpty)
+		if (Location.IsEmpty)
+		{
 		    return;
+		}
 
-		var SOC = Point.Empty;
-
-		SOC.X = TAR.Location.X + (e.X - LOC.X);
-		SOC.Y = TAR.Location.Y + (e.Y - LOC.Y);
-
-		TAR.Location = SOC;
+		Target.Location = new Point(Target.Location.X + (e.X - Location.X), Target.Location.Y + (e.Y - Location.Y));
 	    };
 
-	    CON.MouseDown += (s, e) =>
-		LOC = new Point(e.X, e.Y);
+	    Object.MouseDown += (s, e) =>
+	    {
+		Location = new Point(e.X, e.Y);
+	    };
 
-	    CON.MouseUp += (s, e) =>
-		LOC = Point.Empty;
+	    Object.MouseUp += (s, e) =>
+	    {
+		Location = Point.Empty;
+	    };
 	}
 
 	public class ReadOnlyForm : Form
@@ -146,62 +120,72 @@ namespace DashlorisX
 	    }
 	}
 
-	public readonly ReadOnlyForm ROF = new ReadOnlyForm();
+	public readonly ReadOnlyForm ReadForm = new ReadOnlyForm();
 
-	public void Round(Control CON, int RAD)
+	public void Round(Control Object, int Radius)
 	{
-	    CON.Paint += (s, e) =>
+	    Object.Paint += (s, e) =>
 	    {
-		ROF.PaintOwner(e);
+		try
+		{
+		    ReadForm.PaintOwner(e);
 
-		GraphicsPath GRAP = new GraphicsPath();
+		    GraphicsPath GraphicsPath = new GraphicsPath();
 
-		var RECT = new Rectangle(0, 0, CON.Width, CON.Height);
+		    var Rectangle = new Rectangle(0, 0, Object.Width, Object.Height);
 
-		int R = RAD * 3;
+		    int R = Radius * 3;
 
-		int H = RECT.Height;
-		int W = RECT.Width;
+		    int H = Rectangle.Height;
+		    int W = Rectangle.Width;
 
-		int X = RECT.X; // Perhaps use 0 instead?
-		int Y = RECT.X; // Perhaps use 0 instead?
+		    int X = Rectangle.X;
+		    int Y = Rectangle.X;
 
-		GRAP.AddArc(X, Y, R, R, 170, 90);
-		GRAP.AddArc(X + W - R, Y, R, R, 270, 90);
-		GRAP.AddArc(X + W - R, Y + H - R, R, R, 0, 90);
-		GRAP.AddArc(X, Y + H - R, R, R, 80, 90);
+		    GraphicsPath.AddArc(X, Y, R, R, 170, 90);
+		    GraphicsPath.AddArc(X + W - R, Y, R, R, 270, 90);
+		    GraphicsPath.AddArc(X + W - R, Y + H - R, R, R, 0, 90);
+		    GraphicsPath.AddArc(X, Y + H - R, R, R, 80, 90);
 
-		CON.Region = new Region(GRAP);
+		    Object.Region = new Region(GraphicsPath);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    };
 	}
 
 	[DllImport("gdi32.dll")] private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
-	readonly PrivateFontCollection FONT_COLLECTION = new PrivateFontCollection();
+	readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
 
-	public Font GetFont(int TYPE, int SIZE)
+	public Font GetFont(int FontId, int Height)
 	{
-	    if (FONT_COLLECTION.Families.Length < 2)
+	    if (FontCollection.Families.Length < 2)
 	    {
-		var FDAT = new List<byte[]>();
-
-		FDAT.Add(Resources.main);
-		FDAT.Add(Resources.cute);
-
-		for (int k = 0; k < FDAT.Count; k += 1)
+		var RawDataCollection = new List<byte[]>()
 		{
-		    byte[] DAT = FDAT[k];
+		    Resources.main,
+		    Resources.cute,
+		};
 
-		    var PTR = Marshal.AllocCoTaskMem(DAT.Length);
-		    Marshal.Copy(DAT, 0, PTR, DAT.Length);
+		for (int k = 0; k < RawDataCollection.Count; k += 1)
+		{
+		    byte[] RawData = RawDataCollection[k];
 
-		    uint REF = 0;
+		    var Pointer = Marshal.AllocCoTaskMem(RawData.Length);
 
-		    AddFontMemResourceEx(PTR, (uint)DAT.Length, IntPtr.Zero, ref REF);
-		    FONT_COLLECTION.AddMemoryFont(PTR, DAT.Length);
+		    Marshal.Copy(RawData, 0, Pointer, RawData.Length);
+
+		    uint Reference = 0;
+
+		    AddFontMemResourceEx(Pointer, (uint)RawData.Length, IntPtr.Zero, ref Reference);
+		    FontCollection.AddMemoryFont(Pointer, RawData.Length);
 		};
 	    };
 
-	    return new Font(FONT_COLLECTION.Families[TYPE]/*+1 ?*/, SIZE, FontStyle.Regular);
+	    return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
 	}
     }
 }
