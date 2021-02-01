@@ -22,11 +22,19 @@ namespace GamePanelX
 	[STAThread]
 	public static void Main()
 	{
-	    Application.EnableVisualStyles();
-	    Application.SetCompatibleTextRenderingDefault(false);
+	    try
+	    {
+		Application.EnableVisualStyles();
+		Application.SetCompatibleTextRenderingDefault(false);
 
-	    GamePanelX = new GamePanelX();
-	    GamePanelX.StartApp();
+		GamePanelX = new GamePanelX();
+		GamePanelX.StartApp();
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.Utilize(ErrorHandler.GetFormat(E), "Fatal Runtime Error");
+	    }
 	}
     }
 }
