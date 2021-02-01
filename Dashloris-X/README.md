@@ -1,7 +1,13 @@
 ## Download the The Dashloris-X
->I would recommend checking the information section first before download The Dashloris.
+>I would recommend checking the information section first before downloading The Dashloris.
 
 >You can find all (including unstable) builds [Here](https://github.com/KvinneKraft/Portfolio/tree/main/Dashloris-X/Application) on my GitHub but also [Here](https://pugpawz.com) on my website.  Please know that some versions may contain bugs, if you do find any, please reach out to me at KvinneKraft@protonmail.com about the matter, I want to squash them all and throw salt on them lil bastards (It is worth mentioning that, I would never do such a thing to a living being).
+##
+## Release information about the Dashloris-X
+### Version [1.0](https://github.com/KvinneKraft/Portfolio/tree/main/Dashloris-X/Application/1.0)
+> This version is the first version publicly released.  This version contains quite a few errors and overall bugs.  The main purpose of this release was to share what worked in a way that was not too lazy yet easy.
+### Version [2.0](https://github.com/KvinneKraft/Portfolio/tree/main/Dashloris-X/Application/2.0)
+> This beautiful release comes with a lot, and when I say a lot, I mean a lot of bug fixes (All the features I implement are written down on paper, too much to write over into this document.) but also a lot of features, such as custom message boxes, improved error handling and much, much more!  This version took quite some time to develop, but it is here!  (Due to optimizations the Dashloris-X attack has become very powerful!)
 ##
 ## Future of The Dashloris-X
 >To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction, is what I consider it to be.
