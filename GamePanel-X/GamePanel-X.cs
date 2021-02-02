@@ -44,29 +44,8 @@ namespace GamePanelX
 	    }
 	}
 
-	private readonly DashConfig GameConfig = new DashConfig();
 	private readonly Form MainContainer = new Form();
 	private readonly Label NoGames = new Label();
-
-	private class DashConfig
-	{
-	    public readonly Dictionary<int, List<string>> GameData = new Dictionary<int, List<string>>();
-
-	    public void ReadGames()
-	    {
-		try
-		{
-		    GameData.Clear();
-
-		    var RawData = File.ReadAllLines("gameData\\games.config", );
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-	}
 
 	private void initializeMainContainer()
 	{
@@ -113,13 +92,75 @@ namespace GamePanelX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-	
+
+	private class DashConfig
+	{
+	    public readonly Dictionary<int, List<string>> GameData = new Dictionary<int, List<string>>();
+
+	    public void ReadGames()
+	    {
+		try
+		{
+		    GameData.Clear();
+
+		    var RawData = File.ReadAllLines("gameData\\games.config").ToList();
+		    
+		    for (int g = 0, c = 1; g < RawData.Count; )
+		    {
+			if (RawData[g].StartsWith(" ") || RawData[g].StartsWith("#"))
+			{
+			    g += 1;
+			    continue;
+			}
+			
+			if (RawData.Count >= g + 5)
+			{
+			    if (RawData[g].ToCharArray()[0].ToString() == c.ToString())
+			    {
+				var GameData = new List<string>();
+
+				GameData.AddRange
+				(
+				    new string[]
+				    {
+					RawData[g + 1],
+					RawData[g + 2],
+					RawData[g + 3],
+					RawData[g + 4],
+					RawData[g + 5]
+				    }
+				);
+
+				this.GameData.Add(g, GameData);
+
+				g += 6;
+				c += 1;
+
+				continue;
+			    }
+			}
+
+			break;
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	}
+
+	private readonly DashConfig GameConfig = new DashConfig();
+
 	public void StartApp()
 	{
 	    try
 	    {
 		initializeMainComponent();
 		initializeMainContainer();
+
+		GameConfig.ReadGames();
 
 		Application.Run(DashDialog);
 		Environment.Exit(-1);
