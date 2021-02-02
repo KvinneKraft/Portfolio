@@ -41,31 +41,31 @@ namespace GamePanelX
 	    {
 		GameData.Clear();
 
-		var RawData = File.ReadAllLines("gameData\\games.config").ToList();
+		var rawData = File.ReadAllLines("gameData\\games.config").ToList();
 
-		for (int g = 0, c = 1; g < RawData.Count;)
+		for (int g = 0, c = 1; g < rawData.Count;)
 		{
-		    if (RawData[g].StartsWith(" ") || RawData[g].StartsWith("#"))
+		    if (rawData[g].StartsWith(" ") || rawData[g].StartsWith("#"))
 		    {
 			g += 1;
 			continue;
 		    }
 
-		    if (RawData.Count >= g + 5)
+		    if (rawData.Count >= g + 5)
 		    {
-			if (RawData[g].ToCharArray()[0].ToString() == c.ToString())
+			if (rawData[g].ToCharArray()[0].ToString() == c.ToString())
 			{
 			    AddGameData
 			    (
-				g,
+				c,
 
 				new List<string>()
 				{
-				    RawData[g + 1],
-				    RawData[g + 2],
-				    RawData[g + 3],
-				    RawData[g + 4],
-				    RawData[g + 5]
+				    rawData[g + 1].Replace("parameters: ", string.Empty),
+				    rawData[g + 2].Replace("file-name: ", string.Empty),
+				    rawData[g + 3].Replace("game-name: ", string.Empty),
+				    rawData[g + 4].Replace("directory: ", string.Empty),
+				    rawData[g + 5].Replace("runas: ", string.Empty)
 				}
 			    );
 
@@ -89,11 +89,112 @@ namespace GamePanelX
 	// Use picturebox as button container.  Flexible integration.
 	public readonly Dictionary<int, PictureBox> GameControls = new Dictionary<int, PictureBox>();
 
-	public void LoadGames()
+	private int GetSlotY(GamePanel GamePanel)
 	{
 	    try
 	    {
+		int y = 0;
 
+		if (GamePanel.GameContainer.Controls.Count > 0)
+		{
+		    Control Control = GamePanel.GameContainer.Controls[GamePanel.GameContainer.Controls.Count - 1];
+		    y = Control.Top + Control.Height;
+		}
+
+		return y;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void AddGameSlot(int id, GamePanel GamePanel)
+	{
+	    try
+	    {
+		PictureBox GameContainer = new PictureBox();
+
+		var GameSize = new Size(GamePanel.GameContainer.Width, 26);
+		var GameLoca = new Point(0, GetSlotY(GamePanel));
+		var GameBColor = GamePanel.GameContainer.BackColor;
+
+		Control.Image(GamePanel.GameContainer, GameContainer, GameSize, GameLoca, GameBColor);
+		GameControls.Add(id, GameContainer);
+
+		Button Launch = new Button();
+		Button Edit = new Button();
+
+		var LaunchSize = new Size(GameContainer.Width - 75, GameSize.Height);
+		var LaunchLoca = new Point(0, 0);
+
+		var EditSize = new Size(75, GameSize.Height);
+		var EditLoca = new Point(LaunchSize.Width, 0);
+
+		var ButtonBColor = GameBColor;
+		var ButtonFColor = Color.White;
+		
+		Control.Button(GameContainer, Launch, LaunchSize, LaunchLoca, ButtonBColor, ButtonFColor, 1, 10, GameData[id][2]);
+
+		Launch.Click += (s, e) =>
+		{
+		    // Executioner by id.  gameData[<button id>][<option id>]
+		    MessageBox.Show($"{id}");
+		};
+
+		Control.Button(GameContainer, Edit, EditSize, EditLoca, ButtonBColor, ButtonFColor, 1, 9, "Edit");
+
+		Edit.Click += (s, e) =>
+		{
+		    MessageBox.Show($"{id}");
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void ShowGames(GamePanel GamePanel)
+	{
+	    GamePanel.CheckBoxContainer.Show();
+	    GamePanel.GameContainer.Show();
+	}
+
+	private void HideGames(GamePanel GamePanel)
+	{
+	    GamePanel.CheckBoxContainer.Hide();
+	    GamePanel.GameContainer.Hide();
+	}
+
+	public void LoadGames(GamePanel GamePanel)
+	{
+	    try
+	    {
+		if (GameData.Count > 0)
+		{
+		    GameControls.Clear();
+
+		    for (int k = 0; k < GameData.Count; k += 1)
+		    {
+			if (!GameData.ContainsKey(k + 1))
+			{
+			    // Missing brick error.
+			    break;
+			}
+
+			AddGameSlot(k + 1, GamePanel);
+		    }
+
+		    ShowGames(GamePanel);
+		}
+
+		else
+		{
+		    HideGames(GamePanel);
+		}
 	    }
 
 	    catch (Exception E)
