@@ -45,7 +45,6 @@ namespace GamePanelX
 	}
 
 	public readonly PictureBox CheckBoxContainer = new PictureBox();
-	public readonly PictureBox GameContainer = new PictureBox();
 
 	private void setupCheckBoxContainer()
 	{
@@ -64,11 +63,17 @@ namespace GamePanelX
 	    }
 	}
 
+	public readonly PictureBox GameContainer = new PictureBox();
+
 	private void setupGameContainer()
 	{
 	    try
 	    {
-
+		var GameContainerSize = new Size(MainContainer.Width - CheckBoxContainer.Width - CheckBoxContainer.Left - 21, MainContainer.Height - 2);
+		var GameContainerLoca = new Point(CheckBoxContainer.Width + CheckBoxContainer.Left + 1, 2);
+		var GameContainerBColor = Color.FromArgb(24, 24, 24);
+		
+		Control.Image(MainContainer, GameContainer, GameContainerSize, GameContainerLoca, GameContainerBColor);
 	    }
 
 	    catch (Exception E)
@@ -120,7 +125,7 @@ namespace GamePanelX
 	    {
 		var NoGamesMessageText = string.Format("No Games have yet been added :c\r\nClick this text to add one right now!");
 		var NoGamesMessageSize = TextRenderer.MeasureText(NoGamesMessageText, Tool.GetFont(1, 12));
-		var NoGamesMessageLoca = new Point((MainContainer.Width - NoGamesMessageSize.Width) / 2 + 5, (MainContainer.Height - NoGamesMessageSize.Height) / 2 - 5);
+		var NoGamesMessageLoca = new Point((MainContainer.Width - NoGamesMessageSize.Width) / 2 - 8, (MainContainer.Height - NoGamesMessageSize.Height) / 2 - 5);
 
 		var NoGamesBColor = MainContainer.BackColor;
 		var NoGamesFColor = Color.White;
