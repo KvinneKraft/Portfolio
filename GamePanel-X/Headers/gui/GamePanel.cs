@@ -44,8 +44,11 @@ namespace GamePanelX
 	    }
 	}
 
+	public readonly PictureBox CheckBoxContainer = new PictureBox();
+	public readonly PictureBox GameContainer = new PictureBox();
+
+	public readonly Label NoGamesMessage = new Label();
 	public readonly Form MainContainer = new Form();
-	public readonly Label NoGames = new Label();
 
 	public void initializeMainContainer()
 	{
@@ -72,6 +75,8 @@ namespace GamePanelX
 		throw (ErrorHandler.GetException(E));
 	    }
 
+
+
 	    var NoGamesText = string.Format("No Games have yet been added :c\r\nClick this text to add one right now!");
 	    var NoGamesLocation = new Point(-2, -2);
 	    var NoGamesBColor = MainContainer.BackColor;
@@ -79,12 +84,12 @@ namespace GamePanelX
 
 	    try
 	    {
-		Control.Label(MainContainer, NoGames, Size.Empty, NoGamesLocation, NoGamesBColor, NoGamesFColor, 1, 12, NoGamesText);
+		Control.Label(MainContainer, NoGamesMessage, Size.Empty, NoGamesLocation, NoGamesBColor, NoGamesFColor, 1, 12, NoGamesText);
 
-		NoGames.Left -= 8;
-		NoGames.Top -= 8;
+		NoGamesMessage.Left -= 8;
+		NoGamesMessage.Top -= 8;
 
-		NoGames.TextAlign = ContentAlignment.MiddleCenter;
+		NoGamesMessage.TextAlign = ContentAlignment.MiddleCenter;
 	    }
 
 	    catch (Exception E)
