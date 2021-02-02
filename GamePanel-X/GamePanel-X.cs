@@ -27,6 +27,9 @@ namespace GamePanelX
 		GamePanel.initializeMainComponent();
 		GamePanel.initializeMainContainer();
 
+		GamePanel.CheckBoxContainer.Hide();
+		GamePanel.GameContainer.Hide();
+
 		GameConfig.ReadGames();
 		GameConfig.LoadGames();
 
