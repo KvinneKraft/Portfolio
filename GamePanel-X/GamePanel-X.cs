@@ -31,7 +31,7 @@ namespace GamePanelX
 		GamePanel.GameContainer.Hide();
 
 		GameConfig.ReadGames();
-		GameConfig.LoadGames();
+		GameConfig.LoadGames(GamePanel);
 
 		Application.Run(GamePanel.DashDialog);
 		Environment.Exit(-1);
