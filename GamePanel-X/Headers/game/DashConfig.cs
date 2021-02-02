@@ -35,11 +35,42 @@ namespace GamePanelX
 	    }
 	}
 
+	private void VerifyConfigExistence()
+	{
+	    try
+	    {
+		try
+		{
+		    if (!Directory.Exists("gameData"))
+		    {
+			Directory.CreateDirectory("gameData");
+		    }
+
+		    if (!File.Exists(@"gameData\games.config"))
+		    {
+			File.WriteAllText(@"gameData\games.config", "# Only modify this file if you know what the fuck you are doing!");
+		    }
+		}
+
+		catch
+		{
+		    throw (new Exception("i/o error"));
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public void ReadGames()
 	{
 	    try
 	    {
 		GameData.Clear();
+
+		VerifyConfigExistence();
 
 		var rawData = File.ReadAllLines("gameData\\games.config").ToList();
 

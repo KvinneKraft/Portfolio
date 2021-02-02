@@ -29,7 +29,7 @@ namespace GamePanelX
 
 		GamePanel.CheckBoxContainer.Hide();
 		GamePanel.GameContainer.Hide();
-
+		
 		GameConfig.ReadGames();
 		GameConfig.LoadGames(GamePanel);
 
