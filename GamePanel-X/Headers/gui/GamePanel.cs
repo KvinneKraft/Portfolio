@@ -27,7 +27,7 @@ namespace GamePanelX
 	    try
 	    {
 		var MenuBarBColor = Color.FromArgb(8, 8, 8);
-		var AppBColor = Color.FromArgb(24, 24, 24);
+		var AppBColor = Color.FromArgb(9, 39, 66);
 		var AppSize = new Size(350, 350);
 
 		DashDialog.JustInitialize(AppSize, string.Format("GamePanel-X  1.0"), AppBColor, MenuBarBColor, MenuBarMinim: true, CloseHideApp: false);
@@ -52,7 +52,7 @@ namespace GamePanelX
 	    {
 		var CheckBoxContainerSize = new Size(28, DashDialog.Height - 2);
 		var CheckBoxContainerLoca = new Point(1, 1);
-		var CheckBoxContainerBColor = Color.FromArgb(24, 24, 24);
+		var CheckBoxContainerBColor = Color.FromArgb(9, 39, 66);
 
 		Control.Image(MainContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
 	    }
@@ -71,7 +71,7 @@ namespace GamePanelX
 	    {
 		var GameContainerSize = new Size(MainContainer.Width - CheckBoxContainer.Width - CheckBoxContainer.Left - 21, MainContainer.Height - 2);
 		var GameContainerLoca = new Point(CheckBoxContainer.Width + CheckBoxContainer.Left + 1, 2);
-		var GameContainerBColor = Color.FromArgb(24, 24, 24);
+		var GameContainerBColor = Color.FromArgb(9, 39, 66);
 		
 		Control.Image(MainContainer, GameContainer, GameContainerSize, GameContainerLoca, GameContainerBColor);
 	    }
@@ -89,10 +89,10 @@ namespace GamePanelX
 	{
 	    try
 	    {
-		Tool.Resize(MainContainer, new Size(DashDialog.Width - 2, DashDialog.Height - DashDialog.MenuBar.Bar.Height));
+		Tool.Resize(MainContainer, new Size(DashDialog.Width - 4, DashDialog.Height - DashDialog.MenuBar.Bar.Height - 30));
 
-		MainContainer.Location = new Point(1, DashDialog.MenuBar.Bar.Height - 1);
-		MainContainer.BackColor = Color.FromArgb(10, 10, 10);
+		MainContainer.Location = new Point(2, DashDialog.MenuBar.Bar.Height - 1);
+		MainContainer.BackColor = Color.FromArgb(9, 39, 66);
 
 		MainContainer.FormBorderStyle = FormBorderStyle.None;
 		MainContainer.TopLevel = false;
@@ -133,6 +133,48 @@ namespace GamePanelX
 		Control.Label(MainContainer, NoGamesMessage, Size.Empty, NoGamesMessageLoca, NoGamesBColor, NoGamesFColor, 1, 12, NoGamesMessageText);
 
 		NoGamesMessage.TextAlign = ContentAlignment.MiddleCenter;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private readonly PictureBox BottomContainer = new PictureBox();
+	private readonly PictureBox ButtonContainer = new PictureBox();
+
+	private readonly Button Remove = new Button();
+	private readonly Button Games = new Button();
+	private readonly Button Add = new Button();
+
+	public void initializeMainBottomBar()
+	{
+	    try
+	    {
+		var BottomContainerSize = new Size(DashDialog.Width, 30);
+		var BottomContainerLoca = new Point(0, DashDialog.Height - BottomContainerSize.Height - 1);
+		var BottomContainerBColor = DashDialog.MenuBar.Bar.BackColor;
+
+		Control.Image(DashDialog, BottomContainer, BottomContainerSize, BottomContainerLoca, BottomContainerBColor);
+
+		var ButtonSize = new Size(70, BottomContainerSize.Height - 8);
+		var ButtonBColor = BottomContainerBColor;
+		var ButtonFColor = Color.White;
+
+		var Button3Loca = new Point(160, 0);
+		var Button2Loca = new Point(80, 0);
+		var Button1Loca = new Point(0, 0);
+
+		Control.Button(ButtonContainer, Remove, ButtonSize, Button3Loca, ButtonBColor, ButtonFColor, 1, 9, "Remove");
+		Control.Button(ButtonContainer, Games, ButtonSize, Button2Loca, ButtonBColor, ButtonFColor, 1, 9, "Games");
+		Control.Button(ButtonContainer, Add, ButtonSize, Button1Loca, ButtonBColor, ButtonFColor, 1, 9, "Add");
+
+		var ButtonContainerSize = new Size(Button3Loca.X + ButtonSize.Width, ButtonSize.Height);
+		var ButtonContainerLoca = new Point((BottomContainer.Width - ButtonContainerSize.Width) / 2, (BottomContainer.Height - ButtonContainerSize.Height) / 2);
+		var ButtonContainerBColor = BottomContainerBColor;
+
+		Control.Image(BottomContainer, ButtonContainer, ButtonContainerSize, ButtonContainerLoca, ButtonContainerBColor);
 	    }
 
 	    catch (Exception E)
