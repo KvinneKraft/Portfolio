@@ -140,6 +140,27 @@ namespace GamePanelX
 	    }
 	}
 
+	private int GetCheckBoxY(GamePanel GamePanel)
+	{
+	    try
+	    {
+		int y = 0;
+
+		if (GamePanel.CheckBoxContainer.Controls.Count > 0)
+		{
+		    Control Control = GamePanel.CheckBoxContainer.Controls[GamePanel.CheckBoxContainer.Controls.Count - 1];
+		    y = Control.Top + Control.Height;
+		}
+
+		return y;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void AddGameSlot(int id, GamePanel GamePanel)
 	{
 	    try
@@ -179,6 +200,24 @@ namespace GamePanelX
 		{
 		    MessageBox.Show($"{id}");
 		};
+
+		// 26
+
+		PictureBox CheckBoxContainer = new PictureBox();
+
+		var CheckBoxContainerSize = new Size(28, 26);
+		var CheckBoxContainerLoca = new Point((GamePanel.CheckBoxContainer.Width - CheckBoxContainerSize.Width) / 2, GetCheckBoxY(GamePanel));
+		var CheckBoxContainerBColor = GamePanel.CheckBoxContainer.BackColor;
+
+		Control.Image(GamePanel.CheckBoxContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
+
+		PictureBox CheckBox = new PictureBox();
+
+		var CheckBoxSize = new Size(16, 16);
+		var CheckBoxLoca = new Point((CheckBoxContainerSize.Width - CheckBoxSize.Width) / 2, (CheckBoxContainerSize.Height - CheckBoxSize.Height) / 2);
+		var CheckBoxBColor = Color.FromArgb(9, 39, 66);
+
+		Control.Image(CheckBoxContainer, CheckBox, CheckBoxSize, CheckBoxLoca, CheckBoxBColor);
 	    }
 
 	    catch (Exception E)

@@ -27,7 +27,7 @@ namespace GamePanelX
 	    try
 	    {
 		var MenuBarBColor = Color.FromArgb(8, 8, 8);
-		var AppBColor = Color.FromArgb(9, 39, 66);
+		var AppBColor = Color.FromArgb(8, 8, 8);
 		var AppSize = new Size(350, 350);
 
 		DashDialog.JustInitialize(AppSize, string.Format("GamePanel-X  1.0"), AppBColor, MenuBarBColor, MenuBarMinim: true, CloseHideApp: false);
@@ -51,8 +51,8 @@ namespace GamePanelX
 	    try
 	    {
 		var CheckBoxContainerSize = new Size(28, DashDialog.Height - 2);
-		var CheckBoxContainerLoca = new Point(1, 1);
-		var CheckBoxContainerBColor = Color.FromArgb(9, 39, 66);
+		var CheckBoxContainerLoca = new Point(0, 1);
+		var CheckBoxContainerBColor = Color.FromArgb(8, 8, 8);
 
 		Control.Image(MainContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
 	    }
