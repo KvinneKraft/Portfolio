@@ -52,14 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamePanel-X.cs" />
-    <Compile Include="Headers\DashBox.cs" />
-    <Compile Include="Headers\DashControls.cs" />
-    <Compile Include="Headers\DashDialog.cs">
+    <Compile Include="Headers\game\DashConfig.cs" />
+    <Compile Include="Headers\gui\GamePanel.cs" />
+    <Compile Include="Headers\util\DashBox.cs" />
+    <Compile Include="Headers\util\DashControls.cs" />
+    <Compile Include="Headers\util\DashDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Headers\DashMenuBar.cs" />
-    <Compile Include="Headers\DashTools.cs" />
-    <Compile Include="Headers\ErrorHandler.cs" />
+    <Compile Include="Headers\util\DashMenuBar.cs" />
+    <Compile Include="Headers\util\DashTools.cs" />
+    <Compile Include="Headers\util\ErrorHandler.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -47,6 +47,36 @@ namespace GamePanelX
 	public readonly PictureBox CheckBoxContainer = new PictureBox();
 	public readonly PictureBox GameContainer = new PictureBox();
 
+	private void setupCheckBoxContainer()
+	{
+	    try
+	    {
+		var CheckBoxContainerSize = new Size(28, DashDialog.Height - 2);
+		var CheckBoxContainerLoca = new Point(1, 1);
+		var CheckBoxContainerBColor = Color.FromArgb(24, 24, 24);
+
+		Control.Image(MainContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void setupGameContainer()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public readonly Label NoGamesMessage = new Label();
 	public readonly Form MainContainer = new Form();
 
@@ -75,19 +105,27 @@ namespace GamePanelX
 		throw (ErrorHandler.GetException(E));
 	    }
 
+	    try
+	    {
+		setupCheckBoxContainer();
+		setupGameContainer();
+	    }
 
-
-	    var NoGamesText = string.Format("No Games have yet been added :c\r\nClick this text to add one right now!");
-	    var NoGamesLocation = new Point(-2, -2);
-	    var NoGamesBColor = MainContainer.BackColor;
-	    var NoGamesFColor = Color.White;
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 
 	    try
 	    {
-		Control.Label(MainContainer, NoGamesMessage, Size.Empty, NoGamesLocation, NoGamesBColor, NoGamesFColor, 1, 12, NoGamesText);
+		var NoGamesMessageText = string.Format("No Games have yet been added :c\r\nClick this text to add one right now!");
+		var NoGamesMessageSize = TextRenderer.MeasureText(NoGamesMessageText, Tool.GetFont(1, 12));
+		var NoGamesMessageLoca = new Point((MainContainer.Width - NoGamesMessageSize.Width) / 2 + 5, (MainContainer.Height - NoGamesMessageSize.Height) / 2 - 5);
 
-		NoGamesMessage.Left -= 8;
-		NoGamesMessage.Top -= 8;
+		var NoGamesBColor = MainContainer.BackColor;
+		var NoGamesFColor = Color.White;
+
+		Control.Label(MainContainer, NoGamesMessage, Size.Empty, NoGamesMessageLoca, NoGamesBColor, NoGamesFColor, 1, 12, NoGamesMessageText);
 
 		NoGamesMessage.TextAlign = ContentAlignment.MiddleCenter;
 	    }
