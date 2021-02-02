@@ -171,7 +171,7 @@ namespace GamePanelX
 		Control.Button(ButtonContainer, Add, ButtonSize, Button1Loca, ButtonBColor, ButtonFColor, 1, 9, "Add");
 
 		var ButtonContainerSize = new Size(Button3Loca.X + ButtonSize.Width, ButtonSize.Height);
-		var ButtonContainerLoca = new Point((BottomContainer.Width - ButtonContainerSize.Width) / 2, (BottomContainer.Height - ButtonContainerSize.Height) / 2);
+		var ButtonContainerLoca = new Point((BottomContainer.Width - ButtonContainerSize.Width) / 2 - 8, (BottomContainer.Height - ButtonContainerSize.Height) / 2);
 		var ButtonContainerBColor = BottomContainerBColor;
 
 		Control.Image(BottomContainer, ButtonContainer, ButtonContainerSize, ButtonContainerLoca, ButtonContainerBColor);
