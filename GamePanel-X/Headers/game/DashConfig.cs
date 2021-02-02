@@ -116,8 +116,7 @@ namespace GamePanelX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	// Use picturebox as button container.  Flexible integration.
+	
 	public readonly Dictionary<int, PictureBox> GameControls = new Dictionary<int, PictureBox>();
 
 	private int GetSlotY(GamePanel GamePanel)
