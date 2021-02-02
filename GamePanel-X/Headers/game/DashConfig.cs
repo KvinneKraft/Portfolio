@@ -17,6 +17,9 @@ namespace GamePanelX
 {
     public class DashConfig
     {
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
+
 	public readonly Dictionary<int, List<string>> GameData = new Dictionary<int, List<string>>();
 
 	private void AddGameData(int id, List<string> data)
@@ -58,11 +61,11 @@ namespace GamePanelX
 
 				new List<string>()
 				{
-					RawData[g + 1],
-					RawData[g + 2],
-					RawData[g + 3],
-					RawData[g + 4],
-					RawData[g + 5]
+				    RawData[g + 1],
+				    RawData[g + 2],
+				    RawData[g + 3],
+				    RawData[g + 4],
+				    RawData[g + 5]
 				}
 			    );
 
@@ -82,6 +85,9 @@ namespace GamePanelX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
+	// Use picturebox as button container.  Flexible integration.
+	public readonly Dictionary<int, PictureBox> GameControls = new Dictionary<int, PictureBox>();
 
 	public void LoadGames()
 	{
