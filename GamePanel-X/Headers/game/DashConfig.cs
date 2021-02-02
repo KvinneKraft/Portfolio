@@ -199,6 +199,53 @@ namespace GamePanelX
 	    GamePanel.GameContainer.Hide();
 	}
 
+	private readonly DashBox DashBox = new DashBox();
+
+	private string ParseErrorMessage()
+	{
+	    return string.Format
+	    (
+		@"I am sorry, but apparently there was an error while trying to load the game-data from the configuration file at gameData\games.config.\r\n\r\n" +
+		"Would you like to remove the invalid configuration file and place a new one? Execution will continue after decision making."
+	    );
+	}
+
+	private void ReloadGameConfig()
+	{
+	    try
+	    {
+		Directory.Delete("gameData", true);
+		VerifyConfigExistence();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void HandleParseError()
+	{
+	    try
+	    {
+		var ContainerBColor = Color.FromArgb(9, 39, 66);
+		var MenuBarBColor = Color.FromArgb(19, 36, 64);
+		var AppBColor = Color.FromArgb(6, 17, 33);
+
+		int Result = DashBox.Show(ParseErrorMessage(), "Dash Config Parse Error", AppBColor, MenuBarBColor, ContainerBColor, Color.White);
+
+		if (Result == 1)
+		{
+		    ReloadGameConfig();
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public void LoadGames(GamePanel GamePanel)
 	{
 	    try
@@ -211,7 +258,7 @@ namespace GamePanelX
 		    {
 			if (!GameData.ContainsKey(k + 1))
 			{
-			    // Missing brick error.
+			    HandleParseError();
 			    break;
 			}
 
