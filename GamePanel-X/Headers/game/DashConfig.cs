@@ -161,20 +161,54 @@ namespace GamePanelX
 	    }
 	}
 
+	private void StartGame(int id)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void EditGame(int id)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void SetupColorCheckBox(PictureBox CheckBox, Color CheckBoxBColor)
 	{
-	    CheckBox.Click += (s, e) =>
+	    try
 	    {
-		if (CheckBox.BackColor == Color.FromArgb(64, 64, 64))
+		CheckBox.Click += (s, e) =>
 		{
-		    CheckBox.BackColor = CheckBoxBColor;
-		}
+		    if (CheckBox.BackColor == Color.FromArgb(64, 64, 64))
+		    {
+			CheckBox.BackColor = CheckBoxBColor;
+		    }
 
-		else
-		{
-		    CheckBox.BackColor = Color.FromArgb(64, 64, 64);
-		}
-	    };
+		    else
+		    {
+			CheckBox.BackColor = Color.FromArgb(64, 64, 64);
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	private void AddGameSlot(int id, GamePanel GamePanel)
@@ -205,15 +239,14 @@ namespace GamePanelX
 
 		Launch.Click += (s, e) =>
 		{
-		    // Executioner by id.  gameData[<button id>][<option id>]
-		    MessageBox.Show($"{id}");
+		    StartGame(id);
 		};
 
 		Control.Button(GameContainer, Edit, EditSize, EditLoca, ButtonBColor, ButtonFColor, 1, 9, "Edit");
 
 		Edit.Click += (s, e) =>
 		{
-		    MessageBox.Show($"{id}");
+		    EditGame(id);
 		};
 
 		GameControls.Add(id, GameContainer);
