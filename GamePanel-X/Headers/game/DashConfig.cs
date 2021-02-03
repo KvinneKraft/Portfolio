@@ -161,6 +161,22 @@ namespace GamePanelX
 	    }
 	}
 
+	private void SetupColorCheckBox(PictureBox CheckBox, Color CheckBoxBColor)
+	{
+	    CheckBox.Click += (s, e) =>
+	    {
+		if (CheckBox.BackColor == Color.FromArgb(64, 64, 64))
+		{
+		    CheckBox.BackColor = CheckBoxBColor;
+		}
+
+		else
+		{
+		    CheckBox.BackColor = Color.FromArgb(64, 64, 64);
+		}
+	    };
+	}
+
 	private void AddGameSlot(int id, GamePanel GamePanel)
 	{
 	    try
@@ -172,7 +188,6 @@ namespace GamePanelX
 		var GameBColor = GamePanel.GameContainer.BackColor;
 
 		Control.Image(GamePanel.GameContainer, GameContainer, GameSize, GameLoca, GameBColor);
-		GameControls.Add(id, GameContainer);
 
 		Button Launch = new Button();
 		Button Edit = new Button();
@@ -201,23 +216,25 @@ namespace GamePanelX
 		    MessageBox.Show($"{id}");
 		};
 
-		// 26
+		GameControls.Add(id, GameContainer);
 
 		PictureBox CheckBoxContainer = new PictureBox();
+		PictureBox CheckBox = new PictureBox();
 
 		var CheckBoxContainerSize = new Size(28, 26);
 		var CheckBoxContainerLoca = new Point((GamePanel.CheckBoxContainer.Width - CheckBoxContainerSize.Width) / 2, GetCheckBoxY(GamePanel));
 		var CheckBoxContainerBColor = GamePanel.CheckBoxContainer.BackColor;
 
-		Control.Image(GamePanel.CheckBoxContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
-
-		PictureBox CheckBox = new PictureBox();
-
 		var CheckBoxSize = new Size(16, 16);
 		var CheckBoxLoca = new Point((CheckBoxContainerSize.Width - CheckBoxSize.Width) / 2, (CheckBoxContainerSize.Height - CheckBoxSize.Height) / 2);
 		var CheckBoxBColor = Color.FromArgb(9, 39, 66);
 
+		Control.Image(GamePanel.CheckBoxContainer, CheckBoxContainer, CheckBoxContainerSize, CheckBoxContainerLoca, CheckBoxContainerBColor);
 		Control.Image(CheckBoxContainer, CheckBox, CheckBoxSize, CheckBoxLoca, CheckBoxBColor);
+		
+		SetupColorCheckBox(CheckBox, CheckBoxBColor);
+	
+		GameControls.Add(-id, CheckBoxContainer);
 	    }
 
 	    catch (Exception E)
