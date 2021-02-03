@@ -170,6 +170,21 @@ namespace GamePanelX
 		Control.Button(ButtonContainer, Games, ButtonSize, Button2Loca, ButtonBColor, ButtonFColor, 1, 9, "Games");
 		Control.Button(ButtonContainer, Add, ButtonSize, Button1Loca, ButtonBColor, ButtonFColor, 1, 9, "Add");
 
+		Remove.Click += (s, e) =>
+		{
+		    // Remove game from config and gui.
+		};
+
+		Games.Click += (s, e) =>
+		{
+		    // Show a dialog with websites where you can download games for free.
+		};
+
+		Add.Click += (s, e) =>
+		{
+		    // Popup add menu, create design.
+		};
+
 		var ButtonContainerSize = new Size(Button3Loca.X + ButtonSize.Width, ButtonSize.Height);
 		var ButtonContainerLoca = new Point((BottomContainer.Width - ButtonContainerSize.Width) / 2 - 8, (BottomContainer.Height - ButtonContainerSize.Height) / 2);
 		var ButtonContainerBColor = BottomContainerBColor;
