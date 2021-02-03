@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -165,7 +166,41 @@ namespace GamePanelX
 	{
 	    try
 	    {
+		new Thread(() =>
+		{
+		    using (var Process = new Process())
+		    {
+			string parameters = GameData[id][0];
+			string directory = GameData[id][3];
+			string filename = GameData[id][1];
 
+			if (directory.ToLower() == "%current%")
+			{
+			    directory = Directory.GetCurrentDirectory();
+			}
+
+			if (parameters.ToLower() == "none")
+			{
+			    parameters = string.Empty;
+			}
+
+			Process.StartInfo = new ProcessStartInfo()
+			{
+			    Arguments = parameters,
+			    FileName = filename,
+			    WorkingDirectory = directory,
+			};
+
+			if (GameData[id][4].ToLower() == "true")
+			{
+			    Process.StartInfo.Verb = string.Format("runas");
+			}
+
+			Process.Start();
+		    }
+		})
+
+		{ IsBackground = true }.Start();
 	    }
 
 	    catch (Exception E)
