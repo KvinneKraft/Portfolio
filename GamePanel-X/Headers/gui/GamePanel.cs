@@ -182,7 +182,7 @@ namespace GamePanelX
 
 		Add.Click += (s, e) =>
 		{
-		    // Popup add menu, create design.
+		    // Popup add menu, create design. Do not forget edit dialog.
 		};
 
 		var ButtonContainerSize = new Size(Button3Loca.X + ButtonSize.Width, ButtonSize.Height);
