@@ -60,11 +60,11 @@ namespace GamePanelX
 	    return (result);
 	}
 
-	private void initializeContainer()
+	private void initializeContainer(string parameters, string filename, string gamename, string directory, string runas)
 	{
 	    try
 	    {
-
+		// add default values to textboxes and such if the above variables are not null, none or nil.
 	    }
 
 	    catch (Exception E)
@@ -132,12 +132,12 @@ namespace GamePanelX
 	    }
 	}
 
-	public void Show()
+	public void Show(string parameters = "none", string filename = "none", string gamename = "none", string directory = "none", string runas = "none")
 	{
 	    try
 	    {
 		initializeComponent();
-		initializeContainer();
+		initializeContainer(parameters, filename, gamename, directory, runas);
 		initializeBottomBar();
 
 		DashDialog.ShowAsIs(ShowDialog:false);
