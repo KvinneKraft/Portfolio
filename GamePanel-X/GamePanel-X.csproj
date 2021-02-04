@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="GamePanel-X.cs" />
     <Compile Include="Headers\game\DashConfig.cs" />
+    <Compile Include="Headers\gui\GameEditor.cs" />
     <Compile Include="Headers\gui\GamePanel.cs" />
     <Compile Include="Headers\util\DashBox.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
