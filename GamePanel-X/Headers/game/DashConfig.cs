@@ -376,6 +376,7 @@ namespace GamePanelX
 	    {
 		if (GameData.Count > 0)
 		{
+		    GamePanel.GameContainer.Controls.Clear();
 		    GameControls.Clear();
 
 		    for (int k = 0; k < GameData.Count; k += 1)
