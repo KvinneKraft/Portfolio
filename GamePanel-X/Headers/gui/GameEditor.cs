@@ -60,11 +60,11 @@ namespace GamePanelX
 	    return (result);
 	}
 
-	private void initializeContainer(string parameters, string filename, string gamename, string directory, string runas)
+	private void initializeContainer()
 	{
 	    try
 	    {
-		// add default values to textboxes and such if the above variables are not null, none or nil.
+
 	    }
 
 	    catch (Exception E)
@@ -132,13 +132,23 @@ namespace GamePanelX
 	    }
 	}
 
+	private bool mustInitialize = true;
+
 	public void Show(string parameters = "none", string filename = "none", string gamename = "none", string directory = "none", string runas = "none")
 	{
 	    try
 	    {
-		initializeComponent();
-		initializeContainer(parameters, filename, gamename, directory, runas);
-		initializeBottomBar();
+		if (mustInitialize)
+		{
+		    initializeComponent();
+		    initializeContainer();
+		    initializeBottomBar();
+
+		    mustInitialize = false;
+		}
+
+
+		// change parameters, filename, gamename, directory and runas from here rather than through initialzie container.
 
 		DashDialog.ShowAsIs(ShowDialog:false);
 	    }
