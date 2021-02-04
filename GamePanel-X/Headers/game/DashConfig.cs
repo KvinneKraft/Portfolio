@@ -209,11 +209,11 @@ namespace GamePanelX
 	    }
 	}
 
-	private void EditGame(int id)
+	private void EditGame(int id, GamePanel GamePanel)
 	{
 	    try
 	    {
-
+		GamePanel.GameEditor.Show(GameData[id][0], GameData[id][1], GameData[id][2], GameData[id][3], GameData[id][4]);
 	    }
 
 	    catch (Exception E)
@@ -281,7 +281,7 @@ namespace GamePanelX
 
 		Edit.Click += (s, e) =>
 		{
-		    EditGame(id);
+		    EditGame(id, GamePanel);
 		};
 
 		GameControls.Add(id, GameContainer);
