@@ -43,6 +43,9 @@ namespace GamePanelX
 	private readonly PictureBox RunasContainer = new PictureBox();
 	private readonly PictureBox RunasBox = new PictureBox();
 
+	private readonly Color UncheckColor = Color.FromArgb(16, 16, 16);
+	private readonly Color CheckColor = Color.FromArgb(8, 8, 8);
+
 	private readonly TextBox ExecutionParameters = new TextBox();
 	private readonly TextBox StartDirectory = new TextBox();
 	private readonly TextBox DisplayName = new TextBox();
@@ -147,7 +150,23 @@ namespace GamePanelX
 		    mustInitialize = false;
 		}
 
+		if (gamename != "none" && runas != "none")
+		{
+		    ExecutionParameters.Text = parameters;
+		    StartDirectory.Text = directory;
+		    DisplayName.Text = gamename;
+		    FilePath.Text = filename;
+		    
+		    if (runas.ToLower() == "true")
+		    {
+			RunasBox.BackColor = CheckColor;
+		    }
 
+		    else
+		    {
+			RunasBox.BackColor = UncheckColor;
+		    }
+		}
 		// change parameters, filename, gamename, directory and runas from here rather than through initialzie container.
 
 		DashDialog.ShowAsIs(ShowDialog:false);
