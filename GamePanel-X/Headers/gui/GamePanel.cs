@@ -148,6 +148,8 @@ namespace GamePanelX
 	private readonly Button Games = new Button();
 	private readonly Button Add = new Button();
 
+	private readonly GameEditor GameEditor = new GameEditor();
+
 	public void initializeMainBottomBar()
 	{
 	    try
@@ -182,7 +184,15 @@ namespace GamePanelX
 
 		Add.Click += (s, e) =>
 		{
-		    // Popup add menu, create design. Do not forget edit dialog.
+		    if (!GameEditor.DashDialog.Visible)
+		    {
+			GameEditor.Show();
+		    }
+
+		    else
+		    {
+			GameEditor.Hide();
+		    }
 		};
 
 		var ButtonContainerSize = new Size(Button3Loca.X + ButtonSize.Width, ButtonSize.Height);
