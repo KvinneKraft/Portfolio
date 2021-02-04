@@ -135,6 +135,35 @@ namespace GamePanelX
 	    }
 	}
 
+	private void CheckDefaults(string parameters, string filename, string gamename, string directory, string runas)
+	{
+	    try
+	    {
+		if (gamename != "none" && runas != "none")
+		{
+		    ExecutionParameters.Text = parameters;
+		    StartDirectory.Text = directory;
+		    DisplayName.Text = gamename;
+		    FilePath.Text = filename;
+
+		    if (runas.ToLower() == "true")
+		    {
+			RunasBox.BackColor = CheckColor;
+		    }
+
+		    else
+		    {
+			RunasBox.BackColor = UncheckColor;
+		    }
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private bool mustInitialize = true;
 
 	public void Show(string parameters = "none", string filename = "none", string gamename = "none", string directory = "none", string runas = "none")
@@ -150,23 +179,7 @@ namespace GamePanelX
 		    mustInitialize = false;
 		}
 
-		if (gamename != "none" && runas != "none")
-		{
-		    ExecutionParameters.Text = parameters;
-		    StartDirectory.Text = directory;
-		    DisplayName.Text = gamename;
-		    FilePath.Text = filename;
-		    
-		    if (runas.ToLower() == "true")
-		    {
-			RunasBox.BackColor = CheckColor;
-		    }
-
-		    else
-		    {
-			RunasBox.BackColor = UncheckColor;
-		    }
-		}
+		CheckDefaults(parameters, filename, gamename, directory, runas);
 		// change parameters, filename, gamename, directory and runas from here rather than through initialzie container.
 
 		DashDialog.ShowAsIs(ShowDialog:false);
