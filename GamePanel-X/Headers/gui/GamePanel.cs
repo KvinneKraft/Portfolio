@@ -148,7 +148,7 @@ namespace GamePanelX
 	private readonly Button Games = new Button();
 	private readonly Button Add = new Button();
 
-	private readonly GameEditor GameEditor = new GameEditor();
+	public readonly GameEditor GameEditor = new GameEditor();
 
 	public void initializeMainBottomBar()
 	{
