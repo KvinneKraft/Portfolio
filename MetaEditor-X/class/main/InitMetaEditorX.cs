@@ -29,8 +29,8 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-		var MenuBarBColor = Color.FromArgb(31, 13, 54);
-		var AppBColor = Color.FromArgb(46, 51, 110);
+		var MenuBarBColor = Color.FromArgb(0, 27, 56);
+		var AppBColor = Color.FromArgb(22, 61, 105);
 		var AppSize = new Size(350, 300);
 
 		DashDialog.JustInitialize(AppSize, "Meta Editor-X", AppBColor, MenuBarBColor, CloseHideApp:false);
@@ -48,7 +48,13 @@ namespace MetaEditorX
 	{
 	    try
 	    {
+		var ContainerSize = new Size(DashDialog.Width - 20, DashDialog.Height - 51 - DashDialog.MenuBar.Bar.Height);
+		var ContainerLoca = new Point(10, 11 + DashDialog.MenuBar.Bar.Height);
+		var ContainerBColor = Color.FromArgb(13, 34, 56);
 
+		Control.Image(DashDialog, MetaContainer, ContainerSize, ContainerLoca, ContainerBColor);
+
+		Tool.Round(MetaContainer, 8);
 	    }
 
 	    catch (Exception E)
