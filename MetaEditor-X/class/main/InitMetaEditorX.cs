@@ -74,17 +74,16 @@ namespace MetaEditorX
 		MetaInnerContainer.Size = new Size(MetaContainer.Width - 3, MetaContainer.Height - 4);
 		MetaInnerContainer.Location = new Point(2, 2);
 
-		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
-		MetaInnerContainer.BackColor = MetaContainer.BackColor;
+		Tool.Round(MetaInnerContainer, 8);
 
 		MetaInnerContainer.VerticalScroll.Enabled = true;
 		MetaInnerContainer.VerticalScroll.Visible = true;
 		MetaInnerContainer.TopLevel = false;
 
+		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
+		MetaInnerContainer.BackColor = MetaContainer.BackColor;
+
 		MetaContainer.Controls.Add(MetaInnerContainer);
-
-		Tool.Round(MetaInnerContainer, 8);
-
 		MetaInnerContainer.Show();
 	    }
 
