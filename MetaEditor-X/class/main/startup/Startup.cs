@@ -17,7 +17,7 @@ namespace MetaEditorX
 {
     public static class Startup
     {
-	private static readonly MetaEditorX MetaEditorX = new MetaEditorX();
+	private static MetaEditorX MetaEditorX;
 
 	[STAThread]
 	public static void Main()
@@ -27,6 +27,7 @@ namespace MetaEditorX
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 
+		MetaEditorX = new MetaEditorX();
 		MetaEditorX.Show();
 	    }
 
