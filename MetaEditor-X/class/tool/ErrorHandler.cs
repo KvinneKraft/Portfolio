@@ -55,5 +55,10 @@ namespace MetaEditorX
 
 	    { IsBackground = thread }.Start();
 	}
+
+	public static void JustDoIt(Exception E, string title = "Error Handler")
+	{
+	    Utilize(GetFormat(E), title);
+	}
     }
 }
