@@ -55,6 +55,8 @@ namespace MetaEditorX
 		Control.Image(DashDialog, MetaContainer, ContainerSize, ContainerLoca, ContainerBColor);
 
 		Tool.Round(MetaContainer, 8);
+
+		InnerContainer();
 	    }
 
 	    catch (Exception E)
@@ -69,7 +71,21 @@ namespace MetaEditorX
 	{
 	    try
 	    {
+		MetaInnerContainer.Size = new Size(MetaContainer.Width - 3, MetaContainer.Height - 4);
+		MetaInnerContainer.Location = new Point(2, 2);
 
+		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
+		MetaInnerContainer.BackColor = MetaContainer.BackColor;
+
+		MetaInnerContainer.VerticalScroll.Enabled = true;
+		MetaInnerContainer.VerticalScroll.Visible = true;
+		MetaInnerContainer.TopLevel = false;
+
+		MetaContainer.Controls.Add(MetaInnerContainer);
+
+		Tool.Round(MetaInnerContainer, 8);
+
+		MetaInnerContainer.Show();
 	    }
 
 	    catch (Exception E)
