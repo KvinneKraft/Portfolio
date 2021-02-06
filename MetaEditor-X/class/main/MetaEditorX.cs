@@ -17,11 +17,15 @@ namespace MetaEditorX
 {
     public partial class MetaEditorX
     {
+	public readonly InitMetaEditorX Initialize = new InitMetaEditorX();
+
 	public void Show()
 	{
 	    try
 	    {
-
+		Initialize.Component();
+		Initialize.Container();
+		Initialize.BottomBar();
 	    }
 
 	    catch (Exception E)
