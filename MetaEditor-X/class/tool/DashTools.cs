@@ -38,7 +38,7 @@ namespace MetaEditorX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
@@ -53,7 +53,7 @@ namespace MetaEditorX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
@@ -68,7 +68,7 @@ namespace MetaEditorX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
