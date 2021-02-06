@@ -26,6 +26,8 @@ namespace MetaEditorX
 		Initialize.Component();
 		Initialize.Container();
 		Initialize.BottomBar();
+
+		Initialize.DashDialog.ShowAsIs();
 	    }
 
 	    catch (Exception E)
