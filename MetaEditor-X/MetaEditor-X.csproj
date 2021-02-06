@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\InitMetaEditorX.cs" />
     <Compile Include="class\main\MetaEditorX.cs" />
     <Compile Include="class\main\startup\Startup.cs" />
     <Compile Include="class\tool\DashBox.cs" />
