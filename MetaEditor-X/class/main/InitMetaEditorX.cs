@@ -20,11 +20,17 @@ namespace MetaEditorX
 	private Exception GetFormat(Exception E) =>
 	    ErrorHandler.GetException(E);
 
+	public readonly DashDialog DashDialog = new DashDialog();
+
 	public void Component()
 	{
 	    try
 	    {
+		var MenuBarBColor = Color.FromArgb(45, 41, 77);
+		var AppBColor = Color.FromArgb(178, 121, 252);
+		var AppSize = new Size(350, 300);
 
+		DashDialog.JustInitialize(AppSize, "Meta Editor-X", AppBColor, MenuBarBColor, CloseHideApp:false);
 	    }
 
 	    catch (Exception E)
