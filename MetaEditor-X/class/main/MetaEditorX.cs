@@ -26,7 +26,7 @@ namespace MetaEditorX
 
 	    catch (Exception E)
 	    {
-
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
     }
