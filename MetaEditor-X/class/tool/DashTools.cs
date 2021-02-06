@@ -115,7 +115,7 @@ namespace MetaEditorX
 	{
 	    public void PaintOwner(PaintEventArgs e)
 	    {
-		e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 		base.OnPaint(e);
 	    }
 	}
@@ -131,7 +131,7 @@ namespace MetaEditorX
 		    ReadForm.PaintOwner(e);
 
 		    GraphicsPath GraphicsPath = new GraphicsPath();
-
+		    
 		    var Rectangle = new Rectangle(0, 0, Object.Width, Object.Height);
 
 		    int R = Radius * 3;
