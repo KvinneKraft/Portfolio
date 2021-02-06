@@ -17,6 +17,9 @@ namespace MetaEditorX
 {
     public class InitMetaEditorX
     {
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
+
 	private Exception GetFormat(Exception E) =>
 	    ErrorHandler.GetException(E);
 
@@ -79,7 +82,30 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-		//
+		var MetaBarSize = new Size(DashDialog.Width, 30);
+		var MetaBarLoca = new Point(0, DashDialog.Height - MetaBarSize.Height);
+		var MetaBarBColor = DashDialog.MenuBar.Bar.BackColor;
+
+		Control.Image(DashDialog, MetaBarContainer, MetaBarSize, MetaBarLoca, MetaBarBColor);
+
+		var ButtonSize = new Size(70, 24);
+		var ButtonBColor = MetaBarBColor;
+		var ButtonFColor = Color.White;
+
+		var MiscLoca = new Point(ButtonSize.Width + 10, 0);
+		var LoadLoca = new Point(0, 0);
+
+		Control.Button(ButtonContainer, Misc, ButtonSize, MiscLoca, ButtonBColor, ButtonFColor, 1, 8, "Misc");
+		Control.Button(ButtonContainer, Load, ButtonSize, LoadLoca, ButtonBColor, ButtonFColor, 1, 8, "Load");
+
+		var ContainerSize = new Size((ButtonSize.Width * ButtonContainer.Controls.Count) + (10 * (ButtonContainer.Controls.Count - 1)), Load.Height);
+		var ContainerLoca = new Point((MetaBarContainer.Width - ContainerSize.Width) / 2, (MetaBarContainer.Height - ContainerSize.Height) / 2);
+		var ContainerBColor = MetaBarBColor;
+
+		Control.Image(MetaBarContainer, ButtonContainer, ContainerSize, ContainerLoca, ContainerBColor);
+
+		Tool.Round(Load, 6);
+		Tool.Round(Misc, 6);
 	    }
 
 	    catch (Exception E)
