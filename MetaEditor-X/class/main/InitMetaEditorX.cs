@@ -26,8 +26,8 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-		var MenuBarBColor = Color.FromArgb(45, 41, 77);
-		var AppBColor = Color.FromArgb(178, 121, 252);
+		var MenuBarBColor = Color.FromArgb(31, 13, 54);
+		var AppBColor = Color.FromArgb(46, 51, 110);
 		var AppSize = new Size(350, 300);
 
 		DashDialog.JustInitialize(AppSize, "Meta Editor-X", AppBColor, MenuBarBColor, CloseHideApp:false);

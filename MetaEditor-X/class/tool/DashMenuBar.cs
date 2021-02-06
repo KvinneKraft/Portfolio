@@ -61,10 +61,10 @@ namespace MetaEditorX
 		Minim.BackColor = Color;
 		Title.BackColor = Color;
 
-		var RectangleSize = new Size(Bar.Width - 1, Bar.Parent.Height - Bar.Height + 1);
-		var RectangleLocation = new Point(0, Bar.Height + Bar.Top - 2);
+		var RectangleSize = new Size(Bar.Width - 2, Bar.Parent.Height - Bar.Height);
+		var RectangleLocation = new Point(1, Bar.Height + Bar.Top - 3);
 
-		Tool.PaintRectangle(Bar.Parent, 2, RectangleSize, RectangleLocation, Color);
+		Tool.PaintRectangle(Bar.Parent, 3, RectangleSize, RectangleLocation, Color);
 
 		SLogo.BackColor = Bar.Parent.BackColor;
 		Logo.BackColor = Color;
@@ -175,7 +175,7 @@ namespace MetaEditorX
 
 	    try
 	    {
-		Tool.PaintRectangle(Top, 2, RectangleSize, RectangleLocation, BorCola);
+		Tool.PaintRectangle(Top, 3, RectangleSize, RectangleLocation, BorCola);
 	    }
 
 	    catch (Exception E)
