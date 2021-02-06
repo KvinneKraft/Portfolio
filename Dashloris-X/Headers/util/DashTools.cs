@@ -38,7 +38,7 @@ namespace DashlorisX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
@@ -53,7 +53,7 @@ namespace DashlorisX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
@@ -68,7 +68,7 @@ namespace DashlorisX
 	    {
 		var graphics = e.Graphics;
 
-		graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 		using (Pen pen = new Pen(Color, Thickness))
 		{
@@ -115,7 +115,7 @@ namespace DashlorisX
 	{
 	    public void PaintOwner(PaintEventArgs e)
 	    {
-		e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 		base.OnPaint(e);
 	    }
 	}
