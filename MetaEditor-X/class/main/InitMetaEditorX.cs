@@ -182,6 +182,7 @@ namespace MetaEditorX
 	public readonly PictureBox MetaBarContainer = new PictureBox();
 	public readonly PictureBox ButtonContainer = new PictureBox();
 
+	public readonly Button Save = new Button();
 	public readonly Button Load = new Button();
 	public readonly Button Misc = new Button();
 
@@ -195,24 +196,30 @@ namespace MetaEditorX
 
 		Control.Image(DashDialog, MetaBarContainer, MetaBarSize, MetaBarLoca, MetaBarBColor);
 
-		var ButtonSize = new Size(70, 24);
-		var ButtonBColor = MetaBarBColor;
-		var ButtonFColor = Color.White;
-
-		var MiscLoca = new Point(ButtonSize.Width + 10, 0);
-		var LoadLoca = new Point(0, 0);
-
-		Control.Button(ButtonContainer, Misc, ButtonSize, MiscLoca, ButtonBColor, ButtonFColor, 1, 8, "Misc");
-		Control.Button(ButtonContainer, Load, ButtonSize, LoadLoca, ButtonBColor, ButtonFColor, 1, 8, "Load");
-
-		var ContainerSize = new Size((ButtonSize.Width * ButtonContainer.Controls.Count) + (10 * (ButtonContainer.Controls.Count - 1)), Load.Height);
+		var ContainerSize = new Size(230, 24);
 		var ContainerLoca = new Point((MetaBarContainer.Width - ContainerSize.Width) / 2, (MetaBarContainer.Height - ContainerSize.Height) / 2);
 		var ContainerBColor = MetaBarBColor;
 
 		Control.Image(MetaBarContainer, ButtonContainer, ContainerSize, ContainerLoca, ContainerBColor);
 
-		Tool.Round(Load, 6);
-		Tool.Round(Misc, 6);
+		var ButtonSize = new Size(70, 24);
+		var ButtonBColor = MetaBarBColor;
+		var ButtonFColor = Color.White;
+
+		var MiscLoca = new Point(140 + 20, 0);
+		var SaveLoca = new Point(70 + 10, 0);
+		var LoadLoca = new Point(0, 0);
+		
+		Control.Button(ButtonContainer, Misc, ButtonSize, MiscLoca, ButtonBColor, ButtonFColor, 1, 8, "Misc");
+		Control.Button(ButtonContainer, Load, ButtonSize, LoadLoca, ButtonBColor, ButtonFColor, 1, 8, "Load");
+		Control.Button(ButtonContainer, Save, ButtonSize, SaveLoca, ButtonBColor, ButtonFColor, 1, 8, "Save");
+
+		foreach (Button Button in ButtonContainer.Controls)
+		{
+		    Tool.Round(Button, 6);
+		}
+
+		Tool.Round(ButtonContainer, 6);
 	    }
 
 	    catch (Exception E)
