@@ -85,7 +85,7 @@ namespace MetaEditorX
 		MetaInnerContainer.Visible = true;
 
 		MetaContainer.Controls.Add(MetaInnerContainer);
-
+		
 		AddMetaFields();
 	    }
 
@@ -99,7 +99,7 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-		var MetaFields = new string[] { "", "", "", "", "", "", "" };
+
 	    }
 
 	    catch (Exception E)
