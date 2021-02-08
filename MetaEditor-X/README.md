@@ -1,33 +1,20 @@
 ## Download the MetaEditor-X
->
+>You can find the latest versions here, in this repository but you can also find the stable releases on my website [Here](https://pugpawz.com)!
 ##
 ## Release information about the Dashloris-X
-### Version [1.0](https://github.com/KvinneKraft/Portfolio/tree/main/Dashloris-X/Application/1.0)
->
+### Version [1.0](https://github.com/KvinneKraft/Portfolio/blob/main/MetaEditor-X/application/1.0/MetaEditor-X.exe?raw=true)
+>This version introduces the main functionality such as the ability to read and update the creation and last access date of any file on your file system!
 ##
-## Future of The Dashloris-X
->To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction, is what I consider it to be.
-
->But to get to the point, the future of Dashloris-X is uncertain, just like anything else in life, but, I do have a lot of things planned for this piece of software.  The expansion it will face is far beyond my ordinary standards.  I also have plenty of other designs to work on, which means you will come across a lot on my page very soon!
+## The Future of this Application
+>I have a lot of designs laying around my room, I am just waiting for the right moment.  Right now I am tired of working on small projects that only waste my time, I want to focus on projects that are a bit more variating.  So yea, the future of this application is unclear, but if you feel like there are some things that could make this application something different, then please let me know.  You can always reach me at KvinneKraft@protonmail.com.  For now though, the project is postponed, until I feel like I want to recode this application.
 ##
-## Screenshots of The Dashloris-X
-### Main Panel:
-![Main GUI](Screenshots/main-gui.png)
-### Settings GUI:
-![Settings GUI](Screenshots/settings-gui.png)
-### Ping GUI:
-![Ping GUI](Screenshots/ping-gui.png)
+## Screenshots
+![Screenshot1](https://raw.githubusercontent.com/KvinneKraft/Portfolio/main/MetaEditor-X/screenshots/screenshot1.png)
 ##
-## Information about The Dashloris-X
->Hey there, even though there is a special dialog dedicated to the information that I want to share about this application within the application already, I still feel like I have to address a few things.  This application was made for personal use only until I discovered the use others may see within its shadow.  Therefore I present to you the official (long postponed) Dashloris-X!  
-
->This application will allow you to test web-servers their bandwidth using a more advanced version of Slowloris, going by the name of Dashloris-X. Dashloris-X has a lot of customization that comes with it and a lot of other features I have not yet seen present among other variants of the original Slowloris.
-
->Not only did I take my time to fully custom code all of the interfaces and a lot of the classes but, I also made sure all the code is ready for update whenever my Dash senses tingle.  I both took in mind the potential destined future of my application and the distinctiveness I wanted to present to the user.  
-
->This application is unique in its own type of way.  And all of that within just 2 weeks.  My back has severe pains now, but it is worth it, ahaha.
-##
-## The Requirements
+## Requirements
 > You will need The .NET Framework version 4.7 or above, you can find The .NET Framework version 4.7 [Here](https://dotnet.microsoft.com/download/dotnet-framework/net47).
 
 > You will also need Windows x64 bit, which you can find [Here](https://www.microsoft.com/en-us/windows) if you do not have it already.
+##
+## Disclaimer
+>Please know I made this application for personal intentions only.  It is not meant to function within a business like environment or whatever.  It is just a little side project I enjoyed working on until I realized .NET can be a bigger pain in the @ss than C++.  Like seriously, I remember changing anything file related using C++ with just 20 lines.  File Size, Author, Version and all that type of stuff, but .NET makes it a lot harder.  Anyways, enough of me complaining.  Again, I do not think this application is actually that well made, I can do a lot better than this.  Have a nice day though!
