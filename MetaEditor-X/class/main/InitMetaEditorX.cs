@@ -188,6 +188,19 @@ namespace MetaEditorX
 
 	private string CurrentFile = string.Empty;
 
+	private void SaveFileData()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+	}
+
 	private void LoadFileData()
 	{
 	    try
@@ -235,7 +248,7 @@ namespace MetaEditorX
 		{
 		    if (CurrentFile != string.Empty)
 		    {
-
+			SaveFileData();
 		    }
 		};
 
