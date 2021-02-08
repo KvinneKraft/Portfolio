@@ -139,15 +139,18 @@ namespace MetaEditorX
 		throw (GetFormat(E));
 	    }
 
-	    var TextBox = new TextBox();
-
+	    var TextBox = new TextBox()
+	    {
+		Text = "Awaiting File ....",
+	    };
+	    
 	    var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 10, Label.Height + 6);
 	    var TextBoxLoca = new Point(Label.Left + Label.Width + 2, Label.Top - 2);
 	    var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
+		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.FromArgb(200, 200, 200), 1, 9);
 		Tool.Round(MetaInnerContainer.Controls[MetaInnerContainer.Controls.Count - 1], 6);
 	    }
 
@@ -168,6 +171,8 @@ namespace MetaEditorX
 		{
 		    AddMetaRow(k);
 		}
+
+
 	    }
 
 	    catch (Exception E)
