@@ -126,23 +126,24 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-		var TextBox = new TextBox();
 		var Label = new Label();
 
-		var LabelSize = Tool.GetFontSize(MetaType[index], 9);
+		var LabelText = MetaType[index];
+		var LabelSize = Tool.GetFontSize(LabelText, 9);
 		var LabelLoca = GetLabelLocation(index);
-
-		var TextBoxSize = new Size(MetaInnerContainer.Width - LabelLoca.X - LabelSize.Width - 32, LabelSize.Height + 6);
-		var TextBoxLoca = new Point(LabelLoca.X + LabelSize.Width + 5, LabelLoca.Y - 2);
-
-		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
 		var LabelBColor = MetaInnerContainer.BackColor;
 
-		Control.Label(MetaInnerContainer, Label, LabelSize, LabelLoca, LabelBColor, Color.White, 1, 9, MetaType[index]);
-		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
-
-		TextBoxValues.Add(index, TextBox);
+		Control.Label(MetaInnerContainer, Label, LabelSize, LabelLoca, LabelBColor, Color.White, 1, 9, LabelText);
 		LabelValues.Add(index, Label);
+
+		var TextBox = new TextBox();
+
+		var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 32, Label.Height + 6);
+		var TextBoxLoca = new Point(Label.Left + Label.Width + 5, Label.Top - 2);
+		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
+
+		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
+		TextBoxValues.Add(index, TextBox);
 	    }
 
 	    catch (Exception E)
