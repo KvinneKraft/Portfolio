@@ -95,14 +95,73 @@ namespace MetaEditorX
 	    }
 	}
 
+	private readonly Dictionary<int, TextBox> TextBoxValues = new Dictionary<int, TextBox>();
+	private readonly Dictionary<int, Label> LabelValues = new Dictionary<int, Label>();
+
+	private readonly List<string> MetaType = new List<string>()
+	{
+	    "Creation Time", "Creation Time UTC", "Last Access Time",
+	    "Last Access Time UTC", "Is Read Only",
+	};
+
+	private int GetMetaID(string type)
+	{
+	    return MetaType.IndexOf(type.ToLower());
+	}
+
+	private Point GetLabelLocation(int index)
+	{
+	    Point Location = new Point(5, 5);
+
+	    if (MetaInnerContainer.Controls.Count > 0)
+	    {
+		Control Control = MetaInnerContainer.Controls[index - 2];
+
+		Location.Y = (Control.Top + Control.Height);
+		Location.X = (Control.Left);
+	    }
+
+	    return Location;
+	}
+
+	private void AddMetaRow(int index)
+	{
+	    try
+	    {
+		var Label = new Label();
+
+		var LabelLoca = GetLabelLocation(index);
+		var LabelBColor = MetaInnerContainer.BackColor;
+		var LabelFColor = Color.White;
+
+		var TextBox = new TextBox();
+
+		var TextBoxSize = new Size(MetaInnerContainer.Width - 10 - Label.Left - Label.Width, Label.Height);
+		var TextBoxLoca = new Point(LabelLoca.X + Label.Width + 5, LabelLoca.Y);
+		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFColor = LabelFColor;
+
+		Control.Label(MetaInnerContainer, Label, Size.Empty, LabelLoca, LabelBColor, LabelFColor, 1, 9, MetaType[index]);
+		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, TextBoxFColor, 1, 9);
+
+		TextBoxValues.Add(index, TextBox);
+		LabelValues.Add(index, Label);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+	}
+
 	public void AddMetaFields()
 	{
 	    try
 	    {
-		//FileVersionInfo
-		//FileInfo
-		// Add all fields
-		// Onload, only enable the ones we are going to use.
+		for (int k = 0; k < MetaType.Count; k += 1)
+		{
+		    AddMetaRow(k);
+		}
 	    }
 
 	    catch (Exception E)
