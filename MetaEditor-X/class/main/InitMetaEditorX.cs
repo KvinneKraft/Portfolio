@@ -1,7 +1,10 @@
 ﻿// Author: Dashie
 // Version: 1.0
 //
-// <description>
+// *coughs*  this application was made for personal use only, yet is worth its place in my portfolio.  Its nice
+// fully custom user interface is worth more than the functionality of this thing, but yea, who even cares, ahaha.
+//
+// I have a lot of other projects coming which will be a lot more codeful than this shit.  Have a nice day man!
 //
 
 using System;
@@ -182,9 +185,9 @@ namespace MetaEditorX
 	public readonly PictureBox MetaBarContainer = new PictureBox();
 	public readonly PictureBox ButtonContainer = new PictureBox();
 
+	public readonly Button About = new Button();
 	public readonly Button Save = new Button();
 	public readonly Button Load = new Button();
-	public readonly Button Misc = new Button();
 
 	private string CurrentFile = string.Empty;
 
@@ -278,9 +281,9 @@ namespace MetaEditorX
 		    LoadFileData();
 		};
 
-		Misc.Click += (s, e) =>
+		About.Click += (s, e) =>
 		{
-		    // Show Dialog
+		    MessageBox.Show("Usually I do not really do these type of things, but for now I must, this project is boring me because of its simplicity but also its difficulty.  The .NET Framework (which is used to put this together.) does not directly support the modification of file data.  Since there are many other products capable of modifying files in such a manner, I figured why not cancel the entire project but atleast make it work as intended at first.  So yea, here you go with a nearly useless tool.  But it was a nice project, I loved working on the design, it looks kind of smooth.  I am open for suggestions, if you have any, send a message to KvinneKraft@protonmail.com.  Regardless, I am going to head out now.  I still did spend about 5 days working on this, but yea.  Much love to all of you!  Please do not see this thing as an example, ahaha, it is not.", "Hey there!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		};
 	    }
 
@@ -310,11 +313,11 @@ namespace MetaEditorX
 		var ButtonBColor = MetaBarBColor;
 		var ButtonFColor = Color.White;
 
-		var MiscLoca = new Point(140 + 20, 0);
+		var AboutLoca = new Point(140 + 20, 0);
 		var SaveLoca = new Point(70 + 10, 0);
 		var LoadLoca = new Point(0, 0);
 		
-		Control.Button(ButtonContainer, Misc, ButtonSize, MiscLoca, ButtonBColor, ButtonFColor, 1, 8, "Misc");
+		Control.Button(ButtonContainer, About, ButtonSize, AboutLoca, ButtonBColor, ButtonFColor, 1, 8, "About");
 		Control.Button(ButtonContainer, Load, ButtonSize, LoadLoca, ButtonBColor, ButtonFColor, 1, 8, "Load");
 		Control.Button(ButtonContainer, Save, ButtonSize, SaveLoca, ButtonBColor, ButtonFColor, 1, 8, "Save");
 
