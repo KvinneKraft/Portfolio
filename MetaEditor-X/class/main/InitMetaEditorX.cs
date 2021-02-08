@@ -99,7 +99,10 @@ namespace MetaEditorX
 	{
 	    try
 	    {
-
+		//FileVersionInfo
+		//FileInfo
+		// Add all fields
+		// Onload, only enable the ones we are going to use.
 	    }
 
 	    catch (Exception E)
