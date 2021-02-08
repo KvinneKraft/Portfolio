@@ -186,11 +186,42 @@ namespace MetaEditorX
 	public readonly Button Load = new Button();
 	public readonly Button Misc = new Button();
 
-	private void SetupTriggerEvents()
+	private string CurrentFile = string.Empty;
+
+	private void LoadFileData()
 	{
 	    try
 	    {
 
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+	}
+
+	private void SetupTriggerEvents()
+	{
+	    try
+	    {
+		Save.Click += (s, e) =>
+		{
+		    if (CurrentFile != string.Empty)
+		    {
+
+		    }
+		};
+
+		Load.Click += (s, e) =>
+		{
+		    LoadFileData();
+		};
+
+		Misc.Click += (s, e) =>
+		{
+		    // Show Dialog
+		};
 	    }
 
 	    catch (Exception E)
