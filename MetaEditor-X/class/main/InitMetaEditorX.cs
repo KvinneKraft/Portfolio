@@ -211,14 +211,13 @@ namespace MetaEditorX
 
 		    var FileInfo = new FileInfo(OpenFileDialog.FileName);
 
-		    //	    "Creation Time", "Creation Time UTC", "Last Access Time",
-		    //      "Last Access Time UTC", "Is Read Only",
-
 		    TextBoxValues[0].Text = $"{FileInfo.CreationTime}";
 		    TextBoxValues[1].Text = $"{FileInfo.CreationTimeUtc}";
 		    TextBoxValues[2].Text = $"{FileInfo.LastAccessTime}";
 		    TextBoxValues[3].Text = $"{FileInfo.LastAccessTimeUtc}";
 		    TextBoxValues[4].Text = $"{FileInfo.IsReadOnly}";
+
+		    CurrentFile = OpenFileDialog.FileName;
 		}
 	    }
 
