@@ -192,7 +192,28 @@ namespace MetaEditorX
 	{
 	    try
 	    {
+		if (!File.Exists(CurrentFile))
+		{
+		    MessageBox.Show("The file that was specified before, does not exist!", "Oh no", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		    return;
+		}
 
+		try
+		{
+		    FileInfo FileInfo = new FileInfo(CurrentFile);
+
+		    FileInfo.CreationTime = DateTime.Parse($"{TextBoxValues[0].Text}");
+		    FileInfo.CreationTimeUtc = DateTime.Parse($"{TextBoxValues[1].Text}");
+		    FileInfo.LastAccessTime = DateTime.Parse($"{TextBoxValues[2].Text}");
+		    FileInfo.LastAccessTimeUtc = DateTime.Parse($"{TextBoxValues[3].Text}");
+		    FileInfo.IsReadOnly = (TextBoxValues[4].Text.ToLower() == "true");
+		}
+
+		catch
+		{
+		    MessageBox.Show("The information supplied does not suit the standard format.  Please follow the format already present.  For example, repeat the Date-Time format and only use True or False for the Is Read Only box.", "Oh no", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		    return;
+		}
 	    }
 
 	    catch (Exception E)
