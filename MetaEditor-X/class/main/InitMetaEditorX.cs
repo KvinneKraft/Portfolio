@@ -111,14 +111,12 @@ namespace MetaEditorX
 
 	private Point GetLabelLocation(int index)
 	{
-	    Point Location = new Point(5, 5);
+	    Point Location = new Point(5, 8);
 
 	    if (MetaInnerContainer.Controls.Count > 0)
 	    {
-		Control Control = MetaInnerContainer.Controls[index - 2];
-
-		Location.Y = (Control.Top + Control.Height);
-		Location.X = (Control.Left);
+		Control Control = MetaInnerContainer.Controls[MetaInnerContainer.Controls.Count - 2];
+		Location.Y = Control.Height + Control.Top + 10;
 	    }
 
 	    return Location;
@@ -128,21 +126,20 @@ namespace MetaEditorX
 	{
 	    try
 	    {
+		var TextBox = new TextBox();
 		var Label = new Label();
 
+		var LabelSize = Tool.GetFontSize(MetaType[index], 9);
 		var LabelLoca = GetLabelLocation(index);
-		var LabelBColor = MetaInnerContainer.BackColor;
-		var LabelFColor = Color.White;
 
-		var TextBox = new TextBox();
+		var TextBoxSize = new Size(MetaInnerContainer.Width - LabelLoca.X - LabelSize.Width - 32, LabelSize.Height + 6);
+		var TextBoxLoca = new Point(LabelLoca.X + LabelSize.Width + 5, LabelLoca.Y - 2);
 
-		var TextBoxSize = new Size(MetaInnerContainer.Width - 10 - Label.Left - Label.Width, Label.Height);
-		var TextBoxLoca = new Point(LabelLoca.X + Label.Width + 5, LabelLoca.Y);
 		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
-		var TextBoxFColor = LabelFColor;
+		var LabelBColor = MetaInnerContainer.BackColor;
 
-		Control.Label(MetaInnerContainer, Label, Size.Empty, LabelLoca, LabelBColor, LabelFColor, 1, 9, MetaType[index]);
-		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, TextBoxFColor, 1, 9);
+		Control.Label(MetaInnerContainer, Label, LabelSize, LabelLoca, LabelBColor, Color.White, 1, 9, MetaType[index]);
+		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
 
 		TextBoxValues.Add(index, TextBox);
 		LabelValues.Add(index, Label);
@@ -150,7 +147,8 @@ namespace MetaEditorX
 
 	    catch (Exception E)
 	    {
-		throw (GetFormat(E));
+		MessageBox.Show(E.Message + E.StackTrace);
+		//throw (GetFormat(E));
 	    }
 	}
 
