@@ -76,13 +76,11 @@ namespace MetaEditorX
 
 		Tool.Round(MetaInnerContainer, 8);
 
-		MetaInnerContainer.VerticalScroll.Enabled = true;
-		MetaInnerContainer.VerticalScroll.Visible = true;
-		MetaInnerContainer.TopLevel = false;
-
 		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
 		MetaInnerContainer.BackColor = MetaContainer.BackColor;
+
 		MetaInnerContainer.Visible = true;
+		MetaInnerContainer.TopLevel = false;
 
 		MetaContainer.Controls.Add(MetaInnerContainer);
 		
@@ -128,7 +126,7 @@ namespace MetaEditorX
 	    {
 		var Label = new Label();
 
-		var LabelText = MetaType[index];
+		var LabelText = $"{MetaType[index]}:";
 		var LabelSize = Tool.GetFontSize(LabelText, 9);
 		var LabelLoca = GetLabelLocation(index);
 		var LabelBColor = MetaInnerContainer.BackColor;
@@ -138,8 +136,8 @@ namespace MetaEditorX
 
 		var TextBox = new TextBox();
 
-		var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 32, Label.Height + 6);
-		var TextBoxLoca = new Point(Label.Left + Label.Width + 5, Label.Top - 2);
+		var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 29, Label.Height + 6);
+		var TextBoxLoca = new Point(Label.Left + Label.Width + 2, Label.Top - 2);
 		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
 
 		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
