@@ -79,8 +79,8 @@ namespace MetaEditorX
 		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
 		MetaInnerContainer.BackColor = MetaContainer.BackColor;
 
-		MetaInnerContainer.Visible = true;
 		MetaInnerContainer.TopLevel = false;
+		MetaInnerContainer.Visible = true;
 
 		MetaContainer.Controls.Add(MetaInnerContainer);
 		
