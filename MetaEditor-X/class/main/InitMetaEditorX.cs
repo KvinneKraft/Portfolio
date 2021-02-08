@@ -82,9 +82,24 @@ namespace MetaEditorX
 
 		MetaInnerContainer.FormBorderStyle = FormBorderStyle.None;
 		MetaInnerContainer.BackColor = MetaContainer.BackColor;
+		MetaInnerContainer.Visible = true;
 
 		MetaContainer.Controls.Add(MetaInnerContainer);
-		MetaInnerContainer.Show();
+
+		AddMetaFields();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+	}
+
+	public void AddMetaFields()
+	{
+	    try
+	    {
+		var MetaFields = new string[] { "", "", "", "", "", "", "" };
 	    }
 
 	    catch (Exception E)
