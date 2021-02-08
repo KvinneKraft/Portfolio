@@ -31,7 +31,7 @@ namespace MetaEditorX
 	    {
 		var MenuBarBColor = Color.FromArgb(0, 27, 56);
 		var AppBColor = Color.FromArgb(22, 61, 105);
-		var AppSize = new Size(350, 300);
+		var AppSize = new Size(275, 300);
 
 		DashDialog.JustInitialize(AppSize, "Meta Editor-X", AppBColor, MenuBarBColor, CloseHideApp:false);
 	    }
@@ -122,33 +122,42 @@ namespace MetaEditorX
 
 	private void AddMetaRow(int index)
 	{
+	    var Label = new Label();
+
+	    var LabelText = $"{MetaType[index]}:";
+	    var LabelSize = Tool.GetFontSize(LabelText, 9);
+	    var LabelLoca = GetLabelLocation(index);
+	    var LabelBColor = MetaInnerContainer.BackColor;
+
 	    try
 	    {
-		var Label = new Label();
-
-		var LabelText = $"{MetaType[index]}:";
-		var LabelSize = Tool.GetFontSize(LabelText, 9);
-		var LabelLoca = GetLabelLocation(index);
-		var LabelBColor = MetaInnerContainer.BackColor;
-
 		Control.Label(MetaInnerContainer, Label, LabelSize, LabelLoca, LabelBColor, Color.White, 1, 9, LabelText);
-		LabelValues.Add(index, Label);
-
-		var TextBox = new TextBox();
-
-		var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 10, Label.Height + 6);
-		var TextBoxLoca = new Point(Label.Left + Label.Width + 2, Label.Top - 2);
-		var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
-
-		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
-		TextBoxValues.Add(index, TextBox);
 	    }
 
 	    catch (Exception E)
 	    {
-		MessageBox.Show(E.Message + E.StackTrace);
-		//throw (GetFormat(E));
+		throw (GetFormat(E));
 	    }
+
+	    var TextBox = new TextBox();
+
+	    var TextBoxSize = new Size(MetaInnerContainer.Width - Label.Left - Label.Width - 10, Label.Height + 6);
+	    var TextBoxLoca = new Point(Label.Left + Label.Width + 2, Label.Top - 2);
+	    var TextBoxBColor = DashDialog.MenuBar.Bar.BackColor;
+
+	    try
+	    {
+		Control.TextBox(MetaInnerContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBColor, Color.White, 1, 9);
+		Tool.Round(MetaInnerContainer.Controls[MetaInnerContainer.Controls.Count - 1], 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+
+	    TextBoxValues.Add(index, TextBox);
+	    LabelValues.Add(index, Label);
 	}
 
 	public void AddMetaFields()
