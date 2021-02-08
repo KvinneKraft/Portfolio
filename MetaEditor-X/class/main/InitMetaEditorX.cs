@@ -186,6 +186,19 @@ namespace MetaEditorX
 	public readonly Button Load = new Button();
 	public readonly Button Misc = new Button();
 
+	private void SetupTriggerEvents()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetFormat(E));
+	    }
+	}
+
 	public void BottomBar()
 	{
 	    try
@@ -220,6 +233,8 @@ namespace MetaEditorX
 		}
 
 		Tool.Round(ButtonContainer, 6);
+
+		SetupTriggerEvents();
 	    }
 
 	    catch (Exception E)
