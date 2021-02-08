@@ -192,7 +192,34 @@ namespace MetaEditorX
 	{
 	    try
 	    {
+		using (var OpenFileDialog = new OpenFileDialog())
+		{
+		    OpenFileDialog.Filter = ("Executables (*.exe)|*.exe|Installer (*.msi)|*.msi|Any (experimental)|*.*");
+		    OpenFileDialog.Title = ("Select A File");
 
+		    OpenFileDialog.CheckFileExists = true;
+		    OpenFileDialog.CheckPathExists = true;
+		    OpenFileDialog.Multiselect = false;
+
+		    var DialogResult = OpenFileDialog.ShowDialog();
+
+		    if (DialogResult != DialogResult.OK)
+		    {
+			MessageBox.Show("You have canceled the operation.  You may reselect your file, if any.", "Oh no", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			return;
+		    }
+
+		    var FileInfo = new FileInfo(OpenFileDialog.FileName);
+
+		    //	    "Creation Time", "Creation Time UTC", "Last Access Time",
+		    //      "Last Access Time UTC", "Is Read Only",
+
+		    TextBoxValues[0].Text = $"{FileInfo.CreationTime}";
+		    TextBoxValues[1].Text = $"{FileInfo.CreationTimeUtc}";
+		    TextBoxValues[2].Text = $"{FileInfo.LastAccessTime}";
+		    TextBoxValues[3].Text = $"{FileInfo.LastAccessTimeUtc}";
+		    TextBoxValues[4].Text = $"{FileInfo.IsReadOnly}";
+		}
 	    }
 
 	    catch (Exception E)
