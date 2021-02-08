@@ -49,7 +49,7 @@ namespace MetaEditorX
 	    try
 	    {
 		var ContainerSize = new Size(DashDialog.Width - 20, DashDialog.Height - 51 - DashDialog.MenuBar.Bar.Height);
-		var ContainerLoca = new Point(10, 11 + DashDialog.MenuBar.Bar.Height);
+		var ContainerLoca = new Point(10, 10 + DashDialog.MenuBar.Bar.Height);
 		var ContainerBColor = Color.FromArgb(13, 34, 56);
 
 		Control.Image(DashDialog, MetaContainer, ContainerSize, ContainerLoca, ContainerBColor);
