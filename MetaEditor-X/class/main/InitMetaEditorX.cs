@@ -31,7 +31,7 @@ namespace MetaEditorX
 	    {
 		var MenuBarBColor = Color.FromArgb(0, 27, 56);
 		var AppBColor = Color.FromArgb(22, 61, 105);
-		var AppSize = new Size(275, 300);
+		var AppSize = new Size(275, 215);
 
 		DashDialog.JustInitialize(AppSize, "Meta Editor-X", AppBColor, MenuBarBColor, CloseHideApp:false);
 	    }
@@ -104,7 +104,7 @@ namespace MetaEditorX
 
 	private int GetMetaID(string type)
 	{
-	    return MetaType.IndexOf(type.ToLower());
+	    return MetaType.IndexOf(type);
 	}
 
 	private Point GetLabelLocation(int index)
@@ -171,8 +171,6 @@ namespace MetaEditorX
 		{
 		    AddMetaRow(k);
 		}
-
-
 	    }
 
 	    catch (Exception E)
