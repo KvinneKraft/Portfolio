@@ -16,7 +16,7 @@ namespace DNSChangerX
 {
     public class AppInfo
     {
-	private readonly LogContainer LogContainer = new LogContainer(new Size(250, 250), ("App Information"));
+	private readonly LogContainer LogContainer = new LogContainer(new Size(300, 300), ("App Information"));
 
 	private string AppInfoText()
 	{
