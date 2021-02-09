@@ -29,14 +29,14 @@ namespace DNSChangerX
 	    );
 	}
 
-	public void Show()
+	public void Show(DashDialog DashDialog, PictureBox Container)
 	{
 	    try
 	    {
-		var ContainerBColor = Color.FromArgb(12, 12, 12);
-		var MenuBarBColor = Color.FromArgb(8, 8, 8);
-		var AppBColor = Color.FromArgb(20, 20, 20);
-		    
+		var ContainerBColor = Container.BackColor;
+		var MenuBarBColor = DashDialog.MenuBar.Bar.BackColor;
+		var AppBColor = DashDialog.BackColor;
+
 		LogContainer.Show(AppInfoText(), "App Information", MenuBarBColor, ContainerBColor, AppBColor);
 	    }
 
