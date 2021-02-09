@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="class\main\DNSChangerX.cs" />
-    <Compile Include="class\main\gui\InitDNSChangerX.cs" />
+    <Compile Include="class\main\info\Info.cs" />
+    <Compile Include="class\main\core\DNSChangerX.cs" />
+    <Compile Include="class\main\core\InitDNSChangerX.cs" />
     <Compile Include="class\main\startup\Startup.cs" />
     <Compile Include="class\tool\DashBox.cs" />
     <Compile Include="class\tool\DashControls.cs" />
@@ -97,6 +98,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\LOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="class\main\dnslist\" />
+    <Folder Include="class\main\help\" />
+    <Folder Include="class\main\startupdns\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
