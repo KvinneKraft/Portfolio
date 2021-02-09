@@ -36,6 +36,9 @@ namespace DNSChangerX
 		{
 		    Application.Exit();
 		};
+
+		new AppInfo().Show();
+		new AppHelp().Show();
 	    }
 
 	    catch (Exception E)
