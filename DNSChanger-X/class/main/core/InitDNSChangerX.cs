@@ -20,7 +20,6 @@ namespace DNSChangerX
 	private readonly DashTools Tool = new DashTools();
 
 
-
 	public readonly DashDialog DashDialog = new DashDialog();
 
 	public void CoreComponent()
@@ -35,7 +34,6 @@ namespace DNSChangerX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
 
 
 	private readonly Label TopLabel1 = new Label(); //ip1 
@@ -68,7 +66,6 @@ namespace DNSChangerX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
 
 
 	private readonly PictureBox BottomContainer1 = new PictureBox();
