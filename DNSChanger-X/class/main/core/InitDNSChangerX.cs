@@ -26,7 +26,16 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		var MenuBarBColor = Color.Purple;
+		var AppBColor = Color.HotPink;
+		var AppSize = new Size(325, 250);
 
+		DashDialog.JustInitialize(AppSize, ("DNS Changer-X  -  1.0"), AppBColor, MenuBarBColor);
+
+		DashDialog.MenuBar.Close.Click += (s, e) =>
+		{
+		    Application.Exit();
+		};
 	    }
 
 	    catch (Exception E)
