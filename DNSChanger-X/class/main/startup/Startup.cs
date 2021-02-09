@@ -1,22 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+// Author: Dashie
+// Version: 1.0
+
+using System;
+using System.IO;
+using System.Net;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace DNSChangerX
 {
     static class Program
     {
-	/// <summary>
-	/// The main entry point for the application.
-	/// </summary>
 	[STAThread]
 	static void Main()
 	{
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
-	    Application.Run(new Form1());
+
+	    new DNSChangerX().Show();
+
+	    Application.ExitThread();
+	    Application.Exit();
 	}
     }
 }
