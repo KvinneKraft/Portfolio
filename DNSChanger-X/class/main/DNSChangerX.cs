@@ -14,11 +14,25 @@ using System.Collections.Generic;
 
 namespace DNSChangerX
 {
-    public partial class DNSChangerX : Form
+    public partial class DNSChangerX
     {
+	private readonly Initialize Initialize = new Initialize();
+
 	public void Show()
 	{
+	    try
+	    {
+		Initialize.CoreComponent();
+		Initialize.TopComponent();
+		Initialize.BottomComponent();
 
+		Application.Run(Initialize.DashDialog);
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
 	}
     }
 }
