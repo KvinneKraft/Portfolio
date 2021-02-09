@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\help\Help.cs" />
     <Compile Include="class\main\info\Info.cs" />
     <Compile Include="class\main\core\DNSChangerX.cs" />
     <Compile Include="class\main\core\InitDNSChangerX.cs" />
@@ -101,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="class\main\dnslist\" />
-    <Folder Include="class\main\help\" />
     <Folder Include="class\main\startupdns\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
