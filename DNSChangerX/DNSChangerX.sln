@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1259
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNSChangerX", "DNSChangerX.csproj", "{D0ECBB99-3072-49E3-92A8-74EAF0A38754}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0ECBB99-3072-49E3-92A8-74EAF0A38754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0ECBB99-3072-49E3-92A8-74EAF0A38754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0ECBB99-3072-49E3-92A8-74EAF0A38754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0ECBB99-3072-49E3-92A8-74EAF0A38754}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AEEE1619-032F-4479-8EB0-5F37B6A5EC41}
+	EndGlobalSection
+EndGlobal
