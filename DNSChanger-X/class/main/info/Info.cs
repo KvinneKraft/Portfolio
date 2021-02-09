@@ -16,11 +16,13 @@ namespace DNSChangerX
 {
     public class AppInfo
     {
-	private string AppInfo()
+	private readonly LogContainer LogContainer = new LogContainer(new Size(250, 250), ("App Information"));
+
+	private string AppInfoText()
 	{
 	    return string.Format
 	    (
-		"",
+		"1",
 		"",
 		"",
 		"",
@@ -33,17 +35,11 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var LogTitle = ("App Information");
-		var LogSize = new Size(250, 250);
-
-		using (var LogContainer = new LogContainer(LogSize, LogTitle))
-		{
-		    var ContainerBColor = Color.FromArgb(12, 12, 12);
-		    var MenuBarBColor = Color.FromArgb(8, 8, 8);
-		    var AppBColor = Color.FromArgb(20, 20, 20);
-
-		    LogContainer.Show(AppInfo(), LogTitle, MenuBarBColor, ContainerBColor, AppBColor);
-		}
+		var ContainerBColor = Color.FromArgb(12, 12, 12);
+		var MenuBarBColor = Color.FromArgb(8, 8, 8);
+		var AppBColor = Color.FromArgb(20, 20, 20);
+		    
+		LogContainer.Show(AppInfoText(), "App Information", MenuBarBColor, ContainerBColor, AppBColor);
 	    }
 
 	    catch (Exception E)
