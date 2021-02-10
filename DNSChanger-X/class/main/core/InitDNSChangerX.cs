@@ -28,7 +28,7 @@ namespace DNSChangerX
 	    {
 		var MenuBarBCol = Color.Purple;
 		var AppBCol = Color.HotPink;
-		var AppSize = new Size(324, 250);
+		var AppSize = new Size(334, 250);
 
 		DashDialog.JustInitialize(AppSize, ("DNS Changer-X  -  1.0"), AppBCol, MenuBarBCol);
 
@@ -96,6 +96,9 @@ namespace DNSChangerX
 
 		Control.TextBox(TopContainer2, TopTextBox1, TextBoxSize, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 		Control.TextBox(TopContainer2, TopTextBox2, TextBoxSize, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 9);
+
+		TopTextBox1.Text = ("208.67.222.222");
+		TopTextBox2.Text = ("208.67.220.220");
 
 		TopTextBox1.TextAlign = HorizontalAlignment.Center;
 		TopTextBox2.TextAlign = HorizontalAlignment.Center;
