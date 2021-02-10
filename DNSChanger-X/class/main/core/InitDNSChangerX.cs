@@ -28,7 +28,7 @@ namespace DNSChangerX
 	    {
 		var MenuBarBCol = Color.Purple;
 		var AppBCol = Color.HotPink;
-		var AppSize = new Size(334, 177);
+		var AppSize = new Size(334, 180);
 
 		DashDialog.JustInitialize(AppSize, ("DNS Changer-X  -  1.0"), AppBCol, MenuBarBCol);
 
@@ -237,10 +237,6 @@ namespace DNSChangerX
 		{
 		    Tool.Round(Button, 6);
 		}
-
-		var NewAppSize = new Size(DashDialog.Width, BottomContainer1.Height + BottomContainer1.Top + 10);
-
-		MessageBox.Show(NewAppSize.Height.ToString());
 	    }
 
 	    catch (Exception E)
