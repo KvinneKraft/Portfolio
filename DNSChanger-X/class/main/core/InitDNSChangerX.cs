@@ -217,13 +217,13 @@ namespace DNSChangerX
 		Control.Image(BottomContainer1, BottomContainer2, Container2Size, Container2Loca, ContainerBCol);
 		Control.Image(DashDialog, BottomContainer1, Container1Size, Container1Loca, ContainerBCol);
 
-		var ButtonSize = new Size(BottomContainer2.Width - 5 / 2, 24);
+		var ButtonSize = new Size((BottomContainer2.Width - 5) / 2, 24);
 		var ButtonBCol = Color.FromArgb(16, 16, 16);
 		var ButtonFCol = Color.White;
 
+		var Button4Loca = new Point(ButtonSize.Width + 5, ButtonSize.Height + 5);
 		var Button3Loca = new Point(0, ButtonSize.Height + 5);
 		var Button2Loca = new Point(ButtonSize.Width + 5, 0);
-		var Button4Loca = new Point(ButtonSize.Width + 5, 0);
 		var Button1Loca = new Point(0, 0);
 
 		Control.Button(BottomContainer2, BottomButton1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 10, "Is Online");
