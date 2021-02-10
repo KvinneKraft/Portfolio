@@ -119,7 +119,20 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		var ContainerBCol = Color.Purple;
 
+		var Container3Size = new Size(TopContainer2.Width, 24);
+		var Container3Loca = new Point(5, TopContainer2.Top + TopContainer2.Height + 8);
+
+		Control.Image(TopContainer1, TopContainer3, Container3Size, Container3Loca, ContainerBCol);
+
+		var LabelBCol = ContainerBCol;
+		var LabelFCol = Color.White;
+
+		var Label3Size = GetLabelSize("Version:");
+		var Label3Loca = new Point(0, 0);
+
+		var Label4Loca = new Point();
 	    }
 
 	    catch (Exception E)
