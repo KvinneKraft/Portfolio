@@ -26,8 +26,8 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var MenuBarBCol = Color.Purple;
-		var AppBCol = Color.HotPink;
+		var MenuBarBCol = Color.FromArgb(14, 0, 57);
+		var AppBCol = Color.FromArgb(36, 1, 112);
 		var AppSize = new Size(334, 180);
 
 		DashDialog.JustInitialize(AppSize, ("DNS Changer-X  -  1.0"), AppBCol, MenuBarBCol);
@@ -61,6 +61,9 @@ namespace DNSChangerX
 	private readonly PictureBox TopCheckBox1 = new PictureBox();
 	private readonly PictureBox TopCheckBox2 = new PictureBox();
 
+	private readonly Color CheckDisable = Color.FromArgb(14, 0, 57);
+	private readonly Color CheckEnable = Color.FromArgb(24, 102, 0);
+
 	private readonly Button TopButton1 = new Button(); //spoof
 
 	private Size GetLabelSize(string text, int size = 9) =>
@@ -70,7 +73,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var ContainerBCol = Color.Purple;
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
 
 		var Container1Size = new Size(DashDialog.Width - 20, 58);
 		var Container1Loca = new Point(10, DashDialog.MenuBar.Bar.Height + 10);
@@ -93,7 +96,7 @@ namespace DNSChangerX
 		Control.Label(TopContainer2, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
 
 		var TextBoxSize = new Size(TextBoxWidth, 23);
-		var TextBoxBCol = Color.FromArgb(16, 16, 16);
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 		var TextBoxFCol = Color.White;
 
 		var TextBox1Loca = new Point(TopLabel1.Width + TopLabel1.Left, Label1Loca.Y - 2);
@@ -123,11 +126,22 @@ namespace DNSChangerX
 	    }
 	}
 
+	private void HandleCheckBox(PictureBox TheBox, PictureBox NotTheBox)
+	{
+	    if (TheBox.BackColor == CheckEnable)
+	    {
+		return;
+	    }
+
+	    NotTheBox.BackColor = CheckDisable;
+	    TheBox.BackColor = CheckEnable;
+	}
+	
 	private void InitTop2()
 	{
 	    try
 	    {
-		var ContainerBCol = Color.Purple;
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
 
 		var Container3Size = new Size(TopContainer2.Width, 20);
 		var Container3Loca = new Point(3, TopContainer2.Top + TopContainer2.Height + 8);
@@ -155,17 +169,22 @@ namespace DNSChangerX
 		var CheckBox1Loca = new Point(Label4Loca.X + Label4Size.Width, ((Label4Size.Height - CheckBoxSize.Height) + Label4Loca.Y) / 2);
 		var CheckBox2Loca = new Point(Label5Loca.X + Label5Size.Width, ((Label5Size.Height - CheckBoxSize.Height) + Label5Loca.Y) / 2);
 
-		var CheckBoxBCol = Color.FromArgb(16, 16, 16);
+		var CheckBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 
 		Control.Image(TopContainer3, TopCheckBox1, CheckBoxSize, CheckBox1Loca, CheckBoxBCol);
 		Control.Image(TopContainer3, TopCheckBox2, CheckBoxSize, CheckBox2Loca, CheckBoxBCol);
+
+		TopCheckBox1.BackColor = CheckEnable;
+
+		TopCheckBox1.Click += (s, e) => HandleCheckBox(TopCheckBox1, TopCheckBox2);
+		TopCheckBox2.Click += (s, e) => HandleCheckBox(TopCheckBox2, TopCheckBox1);
 
 		Tool.Round(TopCheckBox1, 6);
 		Tool.Round(TopCheckBox2, 6);
 
 		var Button1Size = new Size(TopTextBox1.Parent.Width, 20);
 		var Button1Loca = new Point(TopContainer3.Width - Button1Size.Width, (TopContainer3.Height - Button1Size.Height) / 2);
-		var Button1BCol = Color.FromArgb(16, 16, 16);
+		var Button1BCol = DashDialog.MenuBar.Bar.BackColor;
 		var Button1FCol = Color.White;
 
 		Control.Button(TopContainer3, TopButton1, Button1Size, Button1Loca, Button1BCol, Button1FCol, 1, 7, "Change DNS");
@@ -212,7 +231,7 @@ namespace DNSChangerX
 		var Container2Size = new Size(Container1Size.Width - 10, Container1Size.Height - 10);
 		var Container2Loca = new Point(5, 5);
 
-		var ContainerBCol = Color.Purple;
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
 
 		Control.Image(BottomContainer1, BottomContainer2, Container2Size, Container2Loca, ContainerBCol);
 		Control.Image(DashDialog, BottomContainer1, Container1Size, Container1Loca, ContainerBCol);
@@ -220,7 +239,7 @@ namespace DNSChangerX
 		Tool.Round(BottomContainer1, 6);
 
 		var ButtonSize = new Size((BottomContainer2.Width - 5) / 2, 24);
-		var ButtonBCol = Color.FromArgb(16, 16, 16);
+		var ButtonBCol = DashDialog.MenuBar.Bar.BackColor;
 		var ButtonFCol = Color.White;
 
 		var Button4Loca = new Point(ButtonSize.Width + 5, ButtonSize.Height + 5);
@@ -228,10 +247,10 @@ namespace DNSChangerX
 		var Button2Loca = new Point(ButtonSize.Width + 5, 0);
 		var Button1Loca = new Point(0, 0);
 
-		Control.Button(BottomContainer2, BottomButton1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 10, "Is Online");
-		Control.Button(BottomContainer2, BottomButton2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 10, "DNS List");
-		Control.Button(BottomContainer2, BottomButton3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 10, "App Help");
-		Control.Button(BottomContainer2, BottomButton4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 10, "App Info");
+		Control.Button(BottomContainer2, BottomButton1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 9, "Is Online");
+		Control.Button(BottomContainer2, BottomButton2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 9, "DNS List");
+		Control.Button(BottomContainer2, BottomButton3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 9, "App Help");
+		Control.Button(BottomContainer2, BottomButton4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 9, "App Info");
 
 		foreach (Button Button in BottomContainer2.Controls)
 		{
