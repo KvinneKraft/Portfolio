@@ -149,12 +149,12 @@ namespace DNSChangerX
 
 	    var ButtonSize = new Size(100, BContainerSize.Height);
 	    var ButtonLocation = new Point((BContainerSize.Width - ButtonSize.Width) / 2, 0);
-	    var ButtonFColor = Color.White;
+	    var ButtonFCol = Color.White;
 	    var ButtonBCol = MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBCol, ButtonFColor, 1, 10, "Close");
+		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBCol, ButtonBCol, 1, 10, "Close");
 		Tool.Round(BottomClose, 6);
 
 		BottomClose.Click += (s, e) =>
@@ -201,11 +201,11 @@ namespace DNSChangerX
 	    var TextBoxSize = IContainerSize;
 	    var TextBoxLocation = new Point(0, 0);
 	    var TextBoxBCol = TContainerBCol;
-	    var TextBoxFColor = Color.White;
+	    var TextBoxFCol = Color.White;
 
 	    try
 	    {
-		Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBCol, TextBoxFColor, 1, 8, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
+		Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBCol, TextBoxBCol, 1, 8, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
 	    }
 
 	    catch (Exception E)

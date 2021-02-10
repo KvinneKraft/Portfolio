@@ -65,7 +65,7 @@ namespace DNSChangerX
 
 	public readonly Dictionary<TextBox, PictureBox> TextBoxContainers = new Dictionary<TextBox, PictureBox>(); 
 
-	public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFColor, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
+	public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
 	{
 	    try
 	    {
@@ -74,7 +74,7 @@ namespace DNSChangerX
 		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
 
 		Object.BackColor = ObjectBCol;
-		Object.ForeColor = ObjectFColor;
+		Object.ForeColor = ObjectFCol;
 
 		Object.BorderStyle = BorderStyle.None;
 
@@ -94,7 +94,7 @@ namespace DNSChangerX
 		    TextBoxContainer.BorderStyle = BorderStyle.None;
 		    
 		    TextBoxContainer.BackColor = ObjectBCol;
-		    TextBoxContainer.ForeColor = ObjectFColor;
+		    TextBoxContainer.ForeColor = ObjectFCol;
 
 		    Top.Controls.Add(TextBoxContainer);
 
@@ -134,7 +134,7 @@ namespace DNSChangerX
 	    }
 	}
 
-	public void Button(Control Top, Button Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFColor, int FontTypeID, int FontSize, string ButtonText, bool TabStop = false)
+	public void Button(Control Top, Button Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string ButtonText, bool TabStop = false)
 	{
 	    try
 	    {
@@ -143,7 +143,7 @@ namespace DNSChangerX
 		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
 
 		Object.BackColor = ObjectBCol;
-		Object.ForeColor = ObjectFColor;
+		Object.ForeColor = ObjectFCol;
 
 		Object.Font = Tool.GetFont(FontTypeID, FontSize);
 		Object.Text = ButtonText;
@@ -163,7 +163,7 @@ namespace DNSChangerX
 	    }
 	}
 
-	public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFColor, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
+	public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
 	{
 	    try
 	    {
@@ -177,7 +177,7 @@ namespace DNSChangerX
 		Object.Location = CalculateCenter(Top, Object, ObjectLocation);
 
 		Object.BackColor = ObjectBCol;
-		Object.ForeColor = ObjectFColor;
+		Object.ForeColor = ObjectFCol;
 
 		Object.Font = Tool.GetFont(FontTypeID, FontSize);
 		Object.Text = LabelText;
