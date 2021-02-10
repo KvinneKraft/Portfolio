@@ -67,7 +67,11 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		var Container1Size = new Size(DashDialog.Width - 20, 150);
+		var Container1Loca = new Point(10, DashDialog.MenuBar.Bar.Height + 10);
+		var Container1BCol = Color.Purple;
 
+		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, Container1BCol);
 	    }
 
 	    catch (Exception E)
