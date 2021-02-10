@@ -67,20 +67,27 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		var ContainerBCol = Color.Purple;
+
 		var Container1Size = new Size(DashDialog.Width - 20, 150);
 		var Container1Loca = new Point(10, DashDialog.MenuBar.Bar.Height + 10);
-		var Container1BCol = Color.Purple;
 
-		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, Container1BCol);
+		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, ContainerBCol);
 
-		var Label1Loca = new Point(5, 5);
-		var Label2Loca = new Point(Label1Loca.X, Label1Loca.Y + TextRenderer.MeasureText("IP-2:", Tool.GetFont(1, 10)).Height + 10);
-
-		var LabelBCol = Container1BCol;
+		var LabelSize = TextRenderer.MeasureText("IP-2:", Tool.GetFont(1, 10));
+		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		Control.Label(TopContainer1, TopLabel1, Size.Empty, Label1Loca, LabelBCol, LabelFCol, 1, 10, "IP-1:");
-		Control.Label(TopContainer1, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
+		var Label2Loca = new Point(0, LabelSize.Height + 10);
+		var Label1Loca = new Point(0, 0);
+
+		Control.Label(TopContainer2, TopLabel1, Size.Empty, Label1Loca, LabelBCol, LabelFCol, 1, 10, "IP-1:");
+		Control.Label(TopContainer2, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
+
+		var Container2Size = new Size(Container1Size.Width - 10, TopLabel2.Top + TopLabel2.Height);
+		var Container2Loca = new Point(5, 5);
+
+		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Color.Black);//ContainerBCol);
 	    }
 
 	    catch (Exception E)
