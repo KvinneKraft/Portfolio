@@ -63,6 +63,9 @@ namespace DNSChangerX
 
 	private readonly Button TopButton1 = new Button(); //spoof
 
+	private Size GetLabelSize(string text, int size = 9) =>
+	    TextRenderer.MeasureText(text, Tool.GetFont(1, size));
+
 	private void InitTop1()
 	{
 	    try
@@ -74,7 +77,7 @@ namespace DNSChangerX
 
 		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, ContainerBCol);
 
-		var LabelSize = TextRenderer.MeasureText("IP-2:", Tool.GetFont(1, 10));
+		var LabelSize = GetLabelSize("IP-2:", 10);
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
