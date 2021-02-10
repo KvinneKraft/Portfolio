@@ -106,7 +106,7 @@ namespace DNSChangerX
 		var Container2Size = new Size(Container2Width, TopLabel2.Top + TopLabel2.Height + 2);
 		var Container2Loca = new Point(5, 5);
 
-		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Color.White); //ContainerBCol);
+		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, ContainerBCol);
 	    }
 
 	    catch (Exception E)
