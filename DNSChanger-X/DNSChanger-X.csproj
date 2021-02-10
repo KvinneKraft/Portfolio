@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\dnslist\DnsList.cs" />
+    <Compile Include="class\main\dnslist\InitDnsList.cs" />
     <Compile Include="class\main\help\Help.cs" />
     <Compile Include="class\main\info\Info.cs" />
     <Compile Include="class\main\core\DNSChangerX.cs" />
@@ -97,10 +99,7 @@
   <ItemGroup>
     <None Include="resources\ICON.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="class\main\dnslist\" />
-    <Folder Include="class\main\startupdns\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="resources\LOGO.gif" />
   </ItemGroup>
