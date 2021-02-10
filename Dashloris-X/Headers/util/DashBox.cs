@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace DashlorisX
+namespace DNSChangerX
 {
     public class DashBox
     {
@@ -22,7 +22,7 @@ namespace DashlorisX
 	    OKCancel = 0, YesNo = 1, OK = 2
 	}
 
-	public int Show(string Message, string Title, Color AppBColor, Color MenuBarBColor, Color TextContainerBColor, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
+	public int Show(string Message, string Title, Color AppBCol, Color MenuBarBCol, Color TextContainerBCol, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
 	{
 	    try
 	    {
@@ -30,10 +30,10 @@ namespace DashlorisX
 		{
 		    var Instance = new ControlInitialization();
 
-		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBColor, MenuBarBColor);
+		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBCol, MenuBarBCol);
 
-		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor);
-		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
+		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBCol, ForeColor);
+		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBCol, ForeColor, Buttons);
 		    Instance.DoInitializeApp(DashDialog);
 
 		    DashDialog.ShowAsIs();
@@ -70,9 +70,15 @@ namespace DashlorisX
 	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
 	    {
 		var AppSize = GetAppSize();
+		var TextBoxHeight = (TextRenderer.MeasureText(Message, Tool.GetFont(1, 9), new Size(AppSize.Width - 32, 0), TextFormatFlags.WordBreak).Height);
 
-		var TextBoxFont = Tool.GetFont(1, 9);
-		var TextBoxSize = new Size(AppSize.Width - 32, TextRenderer.MeasureText(Message, TextBoxFont, new Size(AppSize.Width - 32, 0), TextFormatFlags.WordBreak).Height);
+		if (TextBoxHeight - 32 > 350)
+		{
+		    TextBox.ScrollBars = ScrollBars.Vertical;
+		    TextBoxHeight = 372;
+		}
+
+		var TextBoxSize = new Size(AppSize.Width - 32, TextBoxHeight);
 		var TextBoxLocation = new Point(0, 0);
 
 		var MainContainerSize = new Size(AppSize.Width - 22, TextBoxSize.Height + 10);
