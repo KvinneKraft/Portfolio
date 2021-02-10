@@ -63,7 +63,7 @@ namespace DNSChangerX
 
 	private readonly Button TopButton1 = new Button(); //spoof
 
-	public void TopComponent()
+	private void InitTop1()
 	{
 	    try
 	    {
@@ -79,7 +79,7 @@ namespace DNSChangerX
 		var LabelFCol = Color.White;
 
 		int Container2Width = (Container1Size.Width - 10);//10 => 5 from top and sides of container1.
-		int TextBoxWidth = ((Container2Width - ((LabelSize.Width * 2) + 10)) / 2); //10 => separation width
+		int TextBoxWidth = ((Container2Width - ((LabelSize.Width * 2) + 10)) / 2);//10 => separation width
 
 		var Label2Loca = new Point(LabelSize.Width + TextBoxWidth + 10, 0);
 		var Label1Loca = new Point(0, 0);
@@ -107,6 +107,33 @@ namespace DNSChangerX
 		var Container2Loca = new Point(3, 5);
 
 		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, ContainerBCol);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void InitTop2()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void TopComponent()
+	{
+	    try
+	    {
+		InitTop1();
+		InitTop2();
 	    }
 
 	    catch (Exception E)
