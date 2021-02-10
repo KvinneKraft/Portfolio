@@ -106,6 +106,9 @@ namespace DNSChangerX
 		TopTextBox1.TextAlign = HorizontalAlignment.Center;
 		TopTextBox2.TextAlign = HorizontalAlignment.Center;
 
+		Tool.Round(TopTextBox1.Parent, 6);
+		Tool.Round(TopTextBox2.Parent, 6);
+
 		var Container2Size = new Size(Container2Width, TopLabel2.Top + TopLabel2.Height + 2);
 		var Container2Loca = new Point(3, 5);
 
@@ -124,7 +127,7 @@ namespace DNSChangerX
 	    {
 		var ContainerBCol = Color.Purple;
 
-		var Container3Size = new Size(TopContainer2.Width, 32);
+		var Container3Size = new Size(TopContainer2.Width, 20);
 		var Container3Loca = new Point(3, TopContainer2.Top + TopContainer2.Height + 8);
 
 		Control.Image(TopContainer1, TopContainer3, Container3Size, Container3Loca, ContainerBCol);
@@ -157,6 +160,13 @@ namespace DNSChangerX
 
 		Tool.Round(TopCheckBox1, 6);
 		Tool.Round(TopCheckBox2, 6);
+
+		var Button1Size = new Size(TopTextBox1.Parent.Width, 20);
+		var Button1Loca = new Point(TopContainer3.Width - Button1Size.Width, (TopContainer3.Height - Button1Size.Height) / 2);
+		var Button1BCol = Color.FromArgb(16, 16, 16);
+		var Button1FCol = Color.White;
+
+		Control.Button(TopContainer3, TopButton1, Button1Size, Button1Loca, Button1BCol, Button1FCol, 1, 7, "Change DNS");
 	    }
 
 	    catch (Exception E)
