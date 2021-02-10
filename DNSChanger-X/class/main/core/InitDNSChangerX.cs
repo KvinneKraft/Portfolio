@@ -72,10 +72,12 @@ namespace DNSChangerX
 	    {
 		var ContainerBCol = Color.Purple;
 
-		var Container1Size = new Size(DashDialog.Width - 20, 150);
+		var Container1Size = new Size(DashDialog.Width - 20, 58);
 		var Container1Loca = new Point(10, DashDialog.MenuBar.Bar.Height + 10);
 
 		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, ContainerBCol);
+
+		Tool.Round(TopContainer1, 6);
 
 		var LabelSize = GetLabelSize("IP-2:", 10);
 		var LabelBCol = ContainerBCol;
@@ -167,6 +169,10 @@ namespace DNSChangerX
 		var Button1FCol = Color.White;
 
 		Control.Button(TopContainer3, TopButton1, Button1Size, Button1Loca, Button1BCol, Button1FCol, 1, 7, "Change DNS");
+
+		Tool.Round(TopButton1, 6);
+
+		MessageBox.Show($"{TopContainer3.Top + TopContainer3.Height + 5}");
 	    }
 
 	    catch (Exception E)
