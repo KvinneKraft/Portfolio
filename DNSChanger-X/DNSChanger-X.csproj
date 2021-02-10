@@ -98,9 +98,6 @@
     <None Include="resources\ICON.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\LOGO.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="class\main\dnslist\" />
     <Folder Include="class\main\startupdns\" />
   </ItemGroup>
