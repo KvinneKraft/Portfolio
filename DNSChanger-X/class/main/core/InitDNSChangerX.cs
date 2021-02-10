@@ -84,10 +84,22 @@ namespace DNSChangerX
 		Control.Label(TopContainer2, TopLabel1, Size.Empty, Label1Loca, LabelBCol, LabelFCol, 1, 10, "IP-1:");
 		Control.Label(TopContainer2, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
 
-		var Container2Size = new Size(Container1Size.Width - 10, TopLabel2.Top + TopLabel2.Height);
+		int Container2Width = Container1Size.Width - 10;
+
+		var TextBoxSize = new Size(Container2Width - TopLabel2.Left - TopLabel2.Width - 5, 21);
+		var TextBoxBCol = Color.FromArgb(16, 16, 16);
+		var TextBoxFCol = Color.White;
+
+		var TextBox1Loca = new Point(TopLabel1.Width + TopLabel1.Left, Label1Loca.Y - 2);
+		var TextBox2Loca = new Point(TopLabel1.Width + TopLabel1.Left, Label2Loca.Y - 2);
+
+		Control.TextBox(TopContainer2, TopTextBox1, TextBoxSize, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 9);
+		Control.TextBox(TopContainer2, TopTextBox2, TextBoxSize, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 9);
+
+		var Container2Size = new Size(Container2Width, TopLabel2.Top + TopLabel2.Height + 2);
 		var Container2Loca = new Point(5, 5);
 
-		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Color.Black);//ContainerBCol);
+		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, ContainerBCol);
 	    }
 
 	    catch (Exception E)
