@@ -171,8 +171,6 @@ namespace DNSChangerX
 		Control.Button(TopContainer3, TopButton1, Button1Size, Button1Loca, Button1BCol, Button1FCol, 1, 7, "Change DNS");
 
 		Tool.Round(TopButton1, 6);
-
-		MessageBox.Show($"{TopContainer3.Top + TopContainer3.Height + 5}");
 	    }
 
 	    catch (Exception E)
@@ -198,18 +196,40 @@ namespace DNSChangerX
 
 	private readonly PictureBox BottomContainer1 = new PictureBox();
 	private readonly PictureBox BottomContainer2 = new PictureBox();
-	private readonly PictureBox BottomContainer3 = new PictureBox();
 
 	private readonly Button BottomButton1 = new Button(); //is online
 	private readonly Button BottomButton2 = new Button(); //dns list
 	private readonly Button BottomButton3 = new Button(); //help
-	private readonly Button BottomButton4 = new Button(); //about
+	private readonly Button BottomButton4 = new Button(); //info
 
 	public void BottomComponent()
 	{
 	    try
 	    {
+		var Container1Size = new Size(TopContainer1.Width, 63);
+		var Container1Loca = new Point(10, TopContainer1.Height + TopContainer1.Top + 10);
 
+		var Container2Size = new Size(Container1Size.Width - 10, Container1Size.Height - 10);
+		var Container2Loca = new Point(5, 5);
+
+		var ContainerBCol = Color.Purple;
+
+		Control.Image(BottomContainer1, BottomContainer2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(DashDialog, BottomContainer1, Container1Size, Container1Loca, ContainerBCol);
+
+		var ButtonSize = new Size(BottomContainer2.Width - 5 / 2, 24);
+		var ButtonBCol = Color.FromArgb(16, 16, 16);
+		var ButtonFCol = Color.White;
+
+		var Button3Loca = new Point(0, ButtonSize.Height + 5);
+		var Button2Loca = new Point(ButtonSize.Width + 5, 0);
+		var Button4Loca = new Point(ButtonSize.Width + 5, 0);
+		var Button1Loca = new Point(0, 0);
+
+		Control.Button(BottomContainer2, BottomButton1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 10, "Is Online");
+		Control.Button(BottomContainer2, BottomButton2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 10, "DNS List");
+		Control.Button(BottomContainer2, BottomButton3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 10, "App Help");
+		Control.Button(BottomContainer2, BottomButton4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 10, "App Info");
 	    }
 
 	    catch (Exception E)
