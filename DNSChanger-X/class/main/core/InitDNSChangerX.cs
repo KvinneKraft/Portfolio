@@ -221,6 +221,9 @@ namespace DNSChangerX
 	private readonly Button BottomButton3 = new Button(); //help
 	private readonly Button BottomButton4 = new Button(); //info
 
+	private readonly AppHelp AppHelp = new AppHelp();
+	private readonly AppInfo AppInfo = new AppInfo();
+
 	public void BottomComponent()
 	{
 	    try
@@ -256,6 +259,16 @@ namespace DNSChangerX
 		{
 		    Tool.Round(Button, 6);
 		}
+
+		BottomButton3.Click += (s, e) =>
+		{
+		    AppHelp.Show(DashDialog, BottomContainer1);
+		};
+
+		BottomButton4.Click += (s, e) =>
+		{
+		    AppInfo.Show(DashDialog, BottomContainer1);
+		};
 	    }
 
 	    catch (Exception E)
