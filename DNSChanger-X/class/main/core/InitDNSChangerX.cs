@@ -28,7 +28,7 @@ namespace DNSChangerX
 	    {
 		var MenuBarBCol = Color.Purple;
 		var AppBCol = Color.HotPink;
-		var AppSize = new Size(325, 250);
+		var AppSize = new Size(324, 250);
 
 		DashDialog.JustInitialize(AppSize, ("DNS Changer-X  -  1.0"), AppBCol, MenuBarBCol);
 
@@ -78,28 +78,32 @@ namespace DNSChangerX
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		var Label2Loca = new Point(0, LabelSize.Height + 10);
+		int Container2Width = (Container1Size.Width - 10);//10 => 5 from top and sides of container1.
+		int TextBoxWidth = ((Container2Width - ((LabelSize.Width * 2) + 10)) / 2); //10 => separation width
+
+		var Label2Loca = new Point(LabelSize.Width + TextBoxWidth + 10, 0);
 		var Label1Loca = new Point(0, 0);
 
 		Control.Label(TopContainer2, TopLabel1, Size.Empty, Label1Loca, LabelBCol, LabelFCol, 1, 10, "IP-1:");
 		Control.Label(TopContainer2, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
 
-		int Container2Width = Container1Size.Width - 10;
-
-		var TextBoxSize = new Size(Container2Width - TopLabel2.Left - TopLabel2.Width - 5, 21);
+		var TextBoxSize = new Size(TextBoxWidth, 23);
 		var TextBoxBCol = Color.FromArgb(16, 16, 16);
 		var TextBoxFCol = Color.White;
 
 		var TextBox1Loca = new Point(TopLabel1.Width + TopLabel1.Left, Label1Loca.Y - 2);
-		var TextBox2Loca = new Point(TopLabel1.Width + TopLabel1.Left, Label2Loca.Y - 2);
+		var TextBox2Loca = new Point(TopLabel2.Width + TopLabel2.Left, Label2Loca.Y - 2);
 
 		Control.TextBox(TopContainer2, TopTextBox1, TextBoxSize, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 		Control.TextBox(TopContainer2, TopTextBox2, TextBoxSize, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 
+		TopTextBox1.TextAlign = HorizontalAlignment.Center;
+		TopTextBox2.TextAlign = HorizontalAlignment.Center;
+
 		var Container2Size = new Size(Container2Width, TopLabel2.Top + TopLabel2.Height + 2);
 		var Container2Loca = new Point(5, 5);
 
-		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Color.White); //ContainerBCol);
 	    }
 
 	    catch (Exception E)
