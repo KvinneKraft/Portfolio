@@ -58,8 +58,8 @@ namespace DNSChangerX
 	private readonly PictureBox TopContainer2 = new PictureBox();
 	private readonly PictureBox TopContainer3 = new PictureBox();
 
-	private readonly PictureBox TopSelectBox1 = new PictureBox();
-	private readonly PictureBox TopSelectBox2 = new PictureBox();
+	private readonly PictureBox TopCheckBox1 = new PictureBox();
+	private readonly PictureBox TopCheckBox2 = new PictureBox();
 
 	private readonly Button TopButton1 = new Button(); //spoof
 
@@ -125,28 +125,35 @@ namespace DNSChangerX
 		var ContainerBCol = Color.Purple;
 
 		var Container3Size = new Size(TopContainer2.Width, 32);
-		var Container3Loca = new Point(5, TopContainer2.Top + TopContainer2.Height + 8);
+		var Container3Loca = new Point(3, TopContainer2.Top + TopContainer2.Height + 8);
 
 		Control.Image(TopContainer1, TopContainer3, Container3Size, Container3Loca, ContainerBCol);
 
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		var SelectBoxSize = new Size(24, 24);
-		var SelectBoxBCol = LabelBCol;
-
-		var Label3Size = GetLabelSize("Version:", 11);
+		var Label3Size = GetLabelSize("Version", 11);
 		var Label3Loca = new Point(0, 0);
 
 		var Label4Size = GetLabelSize("4", 10);
 		var Label4Loca = new Point(Label3Size.Width, Label3Loca.Y + 2);
 
-		var SelectBox1Loca = new Point(Label4Loca.X + Label4Size.Width, ((Label4Size.Height - SelectBoxSize.Height) + Label4Loca.Y) / 2);
+		var CheckBoxSize = new Size(16, 16);
 
-		var Label5Size = GetLabelSize("6", 10);
-		var Label5Loca = new Point(Label4Size.Width + Label4Loca.X + SelectBoxSize.Width + 10);
+		var Label5Size = GetLabelSize("or 6", 10);
+		var Label5Loca = new Point(Label4Size.Width + Label4Loca.X + CheckBoxSize.Width + 2, Label3Loca.Y + 2);
 
-		var SelectBox2Loca = new Point(Label5Loca.X + Label5Size.Width, ((Label5Size.Height - SelectBoxSize.Height) + Label5Loca.Y) / 2);
+		Control.Label(TopContainer3, TopLabel3, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 11, "Version:");
+		Control.Label(TopContainer3, TopLabel4, Label4Size, Label4Loca, LabelBCol, LabelFCol, 1, 10, "4");
+		Control.Label(TopContainer3, TopLabel5, Label5Size, Label5Loca, LabelBCol, LabelFCol, 1, 10, "or 6");
+
+		var CheckBox1Loca = new Point(Label4Loca.X + Label4Size.Width, ((Label4Size.Height - CheckBoxSize.Height) + Label4Loca.Y) / 2);
+		var CheckBox2Loca = new Point(Label5Loca.X + Label5Size.Width, ((Label5Size.Height - CheckBoxSize.Height) + Label5Loca.Y) / 2);
+
+		var CheckBoxBCol = Color.FromArgb(16, 16, 16);
+
+		Control.Image(TopContainer3, TopCheckBox1, CheckBoxSize, CheckBox1Loca, CheckBoxBCol);
+		Control.Image(TopContainer3, TopCheckBox2, CheckBoxSize, CheckBox2Loca, CheckBoxBCol);
 	    }
 
 	    catch (Exception E)
