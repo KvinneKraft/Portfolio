@@ -132,7 +132,7 @@ namespace DNSChangerX
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		var Label3Size = GetLabelSize("Version ", 10);
+		var Label3Size = GetLabelSize("Version", 10);
 		var Label3Loca = new Point(0, 0);
 
 		var Label4Size = GetLabelSize("4", 10);
@@ -140,12 +140,12 @@ namespace DNSChangerX
 
 		var CheckBoxSize = new Size(16, 16);
 
-		var Label5Size = GetLabelSize(" or  6", 10);
+		var Label5Size = GetLabelSize("or 6", 10);
 		var Label5Loca = new Point(Label4Size.Width + Label4Loca.X + CheckBoxSize.Width + 2, Label3Loca.Y);
 
-		Control.Label(TopContainer3, TopLabel3, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 11, "Version");
+		Control.Label(TopContainer3, TopLabel3, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 10, "Version");
 		Control.Label(TopContainer3, TopLabel4, Label4Size, Label4Loca, LabelBCol, LabelFCol, 1, 10, "4");
-		Control.Label(TopContainer3, TopLabel5, Label5Size, Label5Loca, LabelBCol, LabelFCol, 1, 10, " or  6");
+		Control.Label(TopContainer3, TopLabel5, Label5Size, Label5Loca, LabelBCol, LabelFCol, 1, 10, "or 6");
 
 		var CheckBox1Loca = new Point(Label4Loca.X + Label4Size.Width, ((Label4Size.Height - CheckBoxSize.Height) + Label4Loca.Y) / 2);
 		var CheckBox2Loca = new Point(Label5Loca.X + Label5Size.Width, ((Label5Size.Height - CheckBoxSize.Height) + Label5Loca.Y) / 2);
@@ -154,6 +154,9 @@ namespace DNSChangerX
 
 		Control.Image(TopContainer3, TopCheckBox1, CheckBoxSize, CheckBox1Loca, CheckBoxBCol);
 		Control.Image(TopContainer3, TopCheckBox2, CheckBoxSize, CheckBox2Loca, CheckBoxBCol);
+
+		Tool.Round(TopCheckBox1, 6);
+		Tool.Round(TopCheckBox2, 6);
 	    }
 
 	    catch (Exception E)
