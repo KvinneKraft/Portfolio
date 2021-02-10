@@ -104,5 +104,8 @@
     <Folder Include="class\main\dnslist\" />
     <Folder Include="class\main\startupdns\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\LOGO.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
