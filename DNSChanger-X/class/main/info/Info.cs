@@ -33,11 +33,11 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var ContainerBColor = Container.BackColor;
-		var MenuBarBColor = DashDialog.MenuBar.Bar.BackColor;
-		var AppBColor = DashDialog.BackColor;
+		var ContainerBCol = Container.BackColor;
+		var MenuBarBCol = DashDialog.MenuBar.Bar.BackColor;
+		var AppBCol = DashDialog.BackColor;
 
-		LogContainer.Show(AppInfoText(), "App Information", MenuBarBColor, ContainerBColor, AppBColor);
+		LogContainer.Show(AppInfoText(), "App Information", MenuBarBCol, ContainerBCol, AppBCol);
 	    }
 
 	    catch (Exception E)

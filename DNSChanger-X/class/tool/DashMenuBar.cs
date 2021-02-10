@@ -81,11 +81,11 @@ namespace DNSChangerX
 	{
 	    var MenuBarSize = new Size(Top.Width, Height);
 	    var MenuBarLocation = new Point(0, 0);
-	    var MenuBarBColor = BarCola;
+	    var MenuBarBCol = BarCola;
 
 	    try
 	    {
-		Control.Image(Top, Bar, MenuBarSize, MenuBarLocation, MenuBarBColor);
+		Control.Image(Top, Bar, MenuBarSize, MenuBarLocation, MenuBarBCol);
 		Tool.Interactive(Bar, Top);
 	    }
 

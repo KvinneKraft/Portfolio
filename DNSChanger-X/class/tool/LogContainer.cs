@@ -20,20 +20,20 @@ namespace DNSChangerX
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
 
-	private void ColorApp(Color MenuBarBColor, Color ContainerBColor, Color AppBColor)
+	private void ColorApp(Color MenuBarBCol, Color ContainerBCol, Color AppBCol)
 	{
 	    try
 	    {
-		InnerTextContainer.BackColor = ContainerBColor;
-		TextContainer.BackColor = ContainerBColor;
-		TextBox.BackColor = ContainerBColor;
+		InnerTextContainer.BackColor = ContainerBCol;
+		TextContainer.BackColor = ContainerBCol;
+		TextBox.BackColor = ContainerBCol;
 
-		BackColor = AppBColor;
+		BackColor = AppBCol;
 
-		MenuBar.Recolor(MenuBarBColor);
+		MenuBar.Recolor(MenuBarBCol);
 
-		BottomContainer.BackColor = MenuBarBColor;
-		BottomClose.BackColor = MenuBarBColor;
+		BottomContainer.BackColor = MenuBarBCol;
+		BottomClose.BackColor = MenuBarBCol;
 	    }
 
 	    catch (Exception E)
@@ -56,11 +56,11 @@ namespace DNSChangerX
 	    );
 	}
 
-	public void Show(string Message, string Title, Color MenuBarBColor, Color ContainerBColor, Color AppBColor, bool ShowDialog = true)
+	public void Show(string Message, string Title, Color MenuBarBCol, Color ContainerBCol, Color AppBCol, bool ShowDialog = true)
 	{
 	    try
 	    {
-		ColorApp(MenuBarBColor, ContainerBColor, AppBColor);
+		ColorApp(MenuBarBCol, ContainerBCol, AppBCol);
 
 		MenuBar.UpdateTitle(Title);
 
@@ -118,8 +118,8 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+		var MenuBarBCol = Color.FromArgb(19, 36, 64);
+		MenuBar.Add(this, 26, MenuBarBCol, MenuBarBCol);
 	    }
 
 	    catch (Exception E)
@@ -135,11 +135,11 @@ namespace DNSChangerX
 	{
 	    var BContainerSize = new Size(Width, 34);
 	    var BContainerLocation = new Point(0, Height - BContainerSize.Height);
-	    var BContainerBColor = MenuBar.Bar.BackColor;
+	    var BContainerBCol = MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Control.Image(this, BottomContainer, BContainerSize, BContainerLocation, BContainerBColor);
+		Control.Image(this, BottomContainer, BContainerSize, BContainerLocation, BContainerBCol);
 	    }
 
 	    catch (Exception E)
@@ -150,11 +150,11 @@ namespace DNSChangerX
 	    var ButtonSize = new Size(100, BContainerSize.Height);
 	    var ButtonLocation = new Point((BContainerSize.Width - ButtonSize.Width) / 2, 0);
 	    var ButtonFColor = Color.White;
-	    var ButtonBColor = MenuBar.Bar.BackColor;
+	    var ButtonBCol = MenuBar.Bar.BackColor;
 
 	    try
 	    {
-		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBColor, ButtonFColor, 1, 10, "Close");
+		Control.Button(BottomContainer, BottomClose, ButtonSize, ButtonLocation, ButtonBCol, ButtonFColor, 1, 10, "Close");
 		Tool.Round(BottomClose, 6);
 
 		BottomClose.Click += (s, e) =>
@@ -178,16 +178,16 @@ namespace DNSChangerX
 	{
 	    var TContainerSize = new Size(Width - 22, Height - 22 - MenuBar.Bar.Height - BottomContainer.Height);
 	    var TContainerLocation = new Point(11, MenuBar.Bar.Height + 11);
-	    var TContainerBColor = Color.FromArgb(9, 39, 66);
+	    var TContainerBCol = Color.FromArgb(9, 39, 66);
 
 	    var IContainerSize = new Size(TContainerSize.Width - 10, TContainerSize.Height - 10);
 	    var IContainerLocation = new Point(5, 5);
-	    var IContainerBColor = TContainerBColor;
+	    var IContainerBCol = TContainerBCol;
 
 	    try
 	    {
-		Control.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBColor);
-		Control.Image(this, TextContainer, TContainerSize, TContainerLocation, TContainerBColor);
+		Control.Image(TextContainer, InnerTextContainer, IContainerSize, IContainerLocation, IContainerBCol);
+		Control.Image(this, TextContainer, TContainerSize, TContainerLocation, TContainerBCol);
 
 		Tool.Round(InnerTextContainer, 10);
 		Tool.Round(TextContainer, 6);
@@ -200,12 +200,12 @@ namespace DNSChangerX
 
 	    var TextBoxSize = IContainerSize;
 	    var TextBoxLocation = new Point(0, 0);
-	    var TextBoxBColor = TContainerBColor;
+	    var TextBoxBCol = TContainerBCol;
 	    var TextBoxFColor = Color.White;
 
 	    try
 	    {
-		Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBColor, TextBoxFColor, 1, 8, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
+		Control.TextBox(InnerTextContainer, TextBox, TextBoxSize, TextBoxLocation, TextBoxBCol, TextBoxFColor, 1, 8, ReadOnly:true, Multiline:true, ScrollBar:true, FixedSize:false);
 	    }
 
 	    catch (Exception E)

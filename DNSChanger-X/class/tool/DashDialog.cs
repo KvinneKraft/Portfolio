@@ -23,7 +23,7 @@ namespace DNSChangerX
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
 
-	private void InitializeComponent(Size AppSize, string AppTitle, Color AppBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None)
+	private void InitializeComponent(Size AppSize, string AppTitle, Color AppBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None)
 	{
 	    try
 	    {
@@ -40,7 +40,7 @@ namespace DNSChangerX
 
 		Icon = Resources.ICON;
 
-		BackColor = AppBColor;
+		BackColor = AppBCol;
 
 		Tool.Round(this, 6);
 	    }
@@ -53,12 +53,12 @@ namespace DNSChangerX
 
 	public DashMenuBar MenuBar = null;
 
-	private void InitializeMenuBar(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBColor)
+	private void InitializeMenuBar(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBCol)
 	{
 	    try
 	    {
 		MenuBar = new DashMenuBar(AppTitle, AppMinim, AppClose, AppHide);
-		MenuBar.Add(this, 26, MenuBarBColor, MenuBarBColor);
+		MenuBar.Add(this, 26, MenuBarBCol, MenuBarBCol);
 	    }
 
 	    catch (Exception E)
@@ -67,12 +67,12 @@ namespace DNSChangerX
 	    }
 	}
 
-	private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
 	    {
-		InitializeComponent(AppSize, AppTitle, AppBColor, StartPosition: StartPosition, FormBorderStyle: FormBorderStyle);
-		InitializeMenuBar(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBColor);
+		InitializeComponent(AppSize, AppTitle, AppBCol, StartPosition: StartPosition, FormBorderStyle: FormBorderStyle);
+		InitializeMenuBar(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBCol);
 	    }
 
 	    catch (Exception E)
@@ -83,13 +83,13 @@ namespace DNSChangerX
 	
 	private bool DoInitialize = true;
 
-	public void Show(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	public void Show(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
 	    {
 		if (DoInitialize)
 		{
-		    DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp);
+		    DoInitializeApp(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp);
 		    DoInitialize = false;
 		}
 
@@ -102,11 +102,11 @@ namespace DNSChangerX
 	    }
 	}
 
-	public void JustInitialize(Size AppSize, string AppTitle, Color AppBColor, Color MenuBarBColor, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	public void JustInitialize(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
 	{
 	    try
 	    {
-		DoInitializeApp(AppSize, AppTitle, AppBColor, MenuBarBColor, StartPosition, FormBorderStyle,  MenuBarMinim:MenuBarMinim, MenuBarClose:MenuBarClose, CloseHideApp:CloseHideApp);
+		DoInitializeApp(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle,  MenuBarMinim:MenuBarMinim, MenuBarClose:MenuBarClose, CloseHideApp:CloseHideApp);
 	    }
 
 	    catch (Exception E)

@@ -118,7 +118,7 @@ namespace DNSChangerX
 	    return 0;
 	}
 
-	public void AddItem(Label Object, string ItemName, Color ItemBColor, Color ItemFColor, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
+	public void AddItem(Label Object, string ItemName, Color ItemBCol, Color ItemFColor, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
 	{
 	    if (ItemWidth == -2 || ItemHeight == -2)
 	    {
@@ -135,7 +135,7 @@ namespace DNSChangerX
 
 	    var ItemSize = new Size(ItemWidth, ItemHeight);
 	    var ItemLocation = new Point(0, GetY());
-	    var ItemBackColor = ItemBColor;
+	    var ItemBackColor = ItemBCol;
 	    var ItemForeColor = ItemFColor;
 
 	    try

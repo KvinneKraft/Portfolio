@@ -44,11 +44,11 @@ namespace DNSChangerX
 	{
 	    new Thread(() => 
 	    {
-		var ContainerBColor = Color.FromArgb(9, 39, 66);
-		var MenuBarBColor = Color.FromArgb(19, 36, 64);
-		var AppBColor = Color.FromArgb(6, 17, 33);
+		var ContainerBCol = Color.FromArgb(9, 39, 66);
+		var MenuBarBCol = Color.FromArgb(19, 36, 64);
+		var AppBCol = Color.FromArgb(6, 17, 33);
 
-		new DashBox().Show(error, title, AppBColor, MenuBarBColor,ContainerBColor, Color.White);
+		new DashBox().Show(error, title, AppBCol, MenuBarBCol,ContainerBCol, Color.White);
 
 		Environment.Exit(-1);
 	    })

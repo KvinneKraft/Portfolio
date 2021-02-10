@@ -22,7 +22,7 @@ namespace DNSChangerX
 	    OKCancel = 0, YesNo = 1, OK = 2
 	}
 
-	public int Show(string Message, string Title, Color AppBColor, Color MenuBarBColor, Color TextContainerBColor, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
+	public int Show(string Message, string Title, Color AppBCol, Color MenuBarBCol, Color TextContainerBCol, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
 	{
 	    try
 	    {
@@ -30,10 +30,10 @@ namespace DNSChangerX
 		{
 		    var Instance = new ControlInitialization();
 
-		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBColor, MenuBarBColor);
+		    DashDialog.JustInitialize(Instance.GetAppSize(), Title, AppBCol, MenuBarBCol);
 
-		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBColor, ForeColor);
-		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBColor, ForeColor, Buttons);
+		    Instance.DoInitializeMessageContainer(DashDialog, Message, TextContainerBCol, ForeColor);
+		    Instance.DoInitializeBottomBar(DashDialog, MenuBarBCol, ForeColor, Buttons);
 		    Instance.DoInitializeApp(DashDialog);
 
 		    DashDialog.ShowAsIs();
