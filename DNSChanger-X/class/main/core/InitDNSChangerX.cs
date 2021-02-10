@@ -72,6 +72,15 @@ namespace DNSChangerX
 		var Container1BCol = Color.Purple;
 
 		Control.Image(DashDialog, TopContainer1, Container1Size, Container1Loca, Container1BCol);
+
+		var Label1Loca = new Point(5, 5);
+		var Label2Loca = new Point(Label1Loca.X, Label1Loca.Y + TextRenderer.MeasureText("IP-2:", Tool.GetFont(1, 10)).Height + 10);
+
+		var LabelBCol = Container1BCol;
+		var LabelFCol = Color.White;
+
+		Control.Label(TopContainer1, TopLabel1, Size.Empty, Label1Loca, LabelBCol, LabelFCol, 1, 10, "IP-1:");
+		Control.Label(TopContainer1, TopLabel2, Size.Empty, Label2Loca, LabelBCol, LabelFCol, 1, 10, "IP-2:");
 	    }
 
 	    catch (Exception E)
