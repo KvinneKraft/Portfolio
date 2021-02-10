@@ -104,7 +104,7 @@ namespace DNSChangerX
 		TopTextBox2.TextAlign = HorizontalAlignment.Center;
 
 		var Container2Size = new Size(Container2Width, TopLabel2.Top + TopLabel2.Height + 2);
-		var Container2Loca = new Point(5, 5);
+		var Container2Loca = new Point(3, 5);
 
 		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, ContainerBCol);
 	    }
