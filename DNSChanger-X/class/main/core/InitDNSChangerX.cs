@@ -124,7 +124,7 @@ namespace DNSChangerX
 	    {
 		var ContainerBCol = Color.Purple;
 
-		var Container3Size = new Size(TopContainer2.Width, 24);
+		var Container3Size = new Size(TopContainer2.Width, 32);
 		var Container3Loca = new Point(5, TopContainer2.Top + TopContainer2.Height + 8);
 
 		Control.Image(TopContainer1, TopContainer3, Container3Size, Container3Loca, ContainerBCol);
@@ -132,10 +132,21 @@ namespace DNSChangerX
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		var Label3Size = GetLabelSize("Version:");
+		var SelectBoxSize = new Size(24, 24);
+		var SelectBoxBCol = LabelBCol;
+
+		var Label3Size = GetLabelSize("Version:", 11);
 		var Label3Loca = new Point(0, 0);
 
-		var Label4Loca = new Point();
+		var Label4Size = GetLabelSize("4", 10);
+		var Label4Loca = new Point(Label3Size.Width, Label3Loca.Y + 2);
+
+		var SelectBox1Loca = new Point(Label4Loca.X + Label4Size.Width, ((Label4Size.Height - SelectBoxSize.Height) + Label4Loca.Y) / 2);
+
+		var Label5Size = GetLabelSize("6", 10);
+		var Label5Loca = new Point(Label4Size.Width + Label4Loca.X + SelectBoxSize.Width + 10);
+
+		var SelectBox2Loca = new Point(Label5Loca.X + Label5Size.Width, ((Label5Size.Height - SelectBoxSize.Height) + Label5Loca.Y) / 2);
 	    }
 
 	    catch (Exception E)
