@@ -70,9 +70,15 @@ namespace DNSChangerX
 	    public void DoInitializeMessageContainer(DashDialog DashDialog, string Message, Color BackColor, Color ForeColor)
 	    {
 		var AppSize = GetAppSize();
+		var TextBoxHeight = (TextRenderer.MeasureText(Message, Tool.GetFont(1, 9), new Size(AppSize.Width - 32, 0), TextFormatFlags.WordBreak).Height);
 
-		var TextBoxFont = Tool.GetFont(1, 9);
-		var TextBoxSize = new Size(AppSize.Width - 32, TextRenderer.MeasureText(Message, TextBoxFont, new Size(AppSize.Width - 32, 0), TextFormatFlags.WordBreak).Height);
+		if (TextBoxHeight - 32 > 350)
+		{
+		    TextBox.ScrollBars = ScrollBars.Vertical;
+		    TextBoxHeight = 372;
+		}
+
+		var TextBoxSize = new Size(AppSize.Width - 32, TextBoxHeight);
 		var TextBoxLocation = new Point(0, 0);
 
 		var MainContainerSize = new Size(AppSize.Width - 22, TextBoxSize.Height + 10);
