@@ -217,6 +217,8 @@ namespace DNSChangerX
 		Control.Image(BottomContainer1, BottomContainer2, Container2Size, Container2Loca, ContainerBCol);
 		Control.Image(DashDialog, BottomContainer1, Container1Size, Container1Loca, ContainerBCol);
 
+		Tool.Round(BottomContainer1, 6);
+
 		var ButtonSize = new Size((BottomContainer2.Width - 5) / 2, 24);
 		var ButtonBCol = Color.FromArgb(16, 16, 16);
 		var ButtonFCol = Color.White;
@@ -230,6 +232,15 @@ namespace DNSChangerX
 		Control.Button(BottomContainer2, BottomButton2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 10, "DNS List");
 		Control.Button(BottomContainer2, BottomButton3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 10, "App Help");
 		Control.Button(BottomContainer2, BottomButton4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 10, "App Info");
+
+		foreach (Button Button in BottomContainer2.Controls)
+		{
+		    Tool.Round(Button, 6);
+		}
+
+		var NewAppSize = new Size(DashDialog.Width, BottomContainer1.Height + BottomContainer1.Top + 10);
+
+		Tool.Resize(DashDialog, NewAppSize);
 	    }
 
 	    catch (Exception E)
