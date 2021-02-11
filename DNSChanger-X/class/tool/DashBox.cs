@@ -269,7 +269,7 @@ namespace DNSChangerX
 
 	    public Size GetAppSize()
 	    {
-		return new Size(325, 250);// Get Size | Not even really going to be used.
+		return new Size(345, 250);// Get Size | Not even really going to be used.
 	    }
 	}
     }
