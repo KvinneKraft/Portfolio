@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
-namespace DashlorisX
+namespace DNSChangerX
 {
     public class DashNet
     {
@@ -21,9 +21,9 @@ namespace DashlorisX
 
 	private void ShowError(string message, string title)
 	{
-	    var AppBColor = Color.FromArgb(6, 17, 33);
-	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
 	    var ContainerBColor = Color.FromArgb(9, 39, 66);
+	    var MenuBarBColor = Color.FromArgb(19, 36, 64);
+	    var AppBColor = Color.FromArgb(6, 17, 33);
 
 	    DashBox.Show(message, title, AppBColor, MenuBarBColor, ContainerBColor, Color.White);
 	}
