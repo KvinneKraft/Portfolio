@@ -62,6 +62,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="class\tool\DashMenuBar.cs" />
+    <Compile Include="class\tool\DashNet.cs" />
     <Compile Include="class\tool\DashTools.cs" />
     <Compile Include="class\tool\DropDownMenu.cs" />
     <Compile Include="class\tool\ErrorHandler.cs" />
