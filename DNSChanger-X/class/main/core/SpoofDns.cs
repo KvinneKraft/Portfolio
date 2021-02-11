@@ -18,7 +18,7 @@ namespace DNSChangerX
 {
     public class SpoofDns
     {
-	public void ChangeDns(int mode, string ip1, string ip2)
+	public void ChangeDns(PictureBox Checkbox1, PictureBox Checkbox2, string ip1, string ip2)
 	{
 	    try
 	    {
