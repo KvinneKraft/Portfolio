@@ -50,11 +50,6 @@ namespace DNSChangerX
 
 	private void InitDisplay1()
 	{
-
-	}
-
-	public void DisplayComponent()
-	{
 	    try
 	    {
 		var ContainerBCol = Color.FromArgb(2, 55, 110);
@@ -67,9 +62,33 @@ namespace DNSChangerX
 
 		Control.Image(DisplayContainer1, DisplayContainer2, Container2Size, Container2Loca, ContainerBCol);
 		Control.Image(DashDialog, DisplayContainer1, Container1Size, Container1Loca, ContainerBCol);
+	    }
 
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
+	private void InitDisplay2()
+	{
+	    try
+	    {
 
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void DisplayComponent()
+	{
+	    try
+	    {
+		InitDisplay1();
+		InitDisplay2();
 		// DNS Servers from embedded file auto add control thing. [<provider>,<ip1>,<ip2>]
 		// Click = Copy
 	    }
