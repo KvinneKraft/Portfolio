@@ -129,6 +129,8 @@ namespace DNSChangerX
 	private readonly Label TopLabel4 = new Label(); //4
 	private readonly Label TopLabel5 = new Label(); //6
 
+	private readonly SpoofDns SpoofDns = new SpoofDns();
+
 	private void HandleCheckBox(PictureBox TheBox, PictureBox NotTheBox)
 	{
 	    if (TheBox.BackColor == CheckEnable)
@@ -191,6 +193,11 @@ namespace DNSChangerX
 		var Button1FCol = Color.White;
 
 		Control.Button(TopContainer3, TopButton1, Button1Size, Button1Loca, Button1BCol, Button1FCol, 1, 7, "Change DNS");
+
+		TopButton1.Click += (s, e) =>
+		{
+		    SpoofDns.ChangeDns(TopCheckBox1, TopCheckBox2, TopTextBox1.Text, TopTextBox2.Text);
+		};
 
 		Tool.Round(TopButton1, 6);
 	    }
