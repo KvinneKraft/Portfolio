@@ -26,7 +26,7 @@ namespace DNSChangerX
 	    {
 		if (ip1.Length > 6)
 		{
-		    DashBox.Show(GetIsOnline(ip1, ip2), "DNS Connectivity Check", DashDialog.BackColor, DashDialog.MenuBar.Bar.BackColor, BottomContainer1.BackColor, Color.White);
+		    DashBox.Show(GetReachabilityReport(ip1, ip2), "DNS Connectivity Check", DashDialog.BackColor, DashDialog.MenuBar.Bar.BackColor, BottomContainer1.BackColor, Color.White);
 		}
 	    }
 
@@ -36,7 +36,7 @@ namespace DNSChangerX
 	    }
 	}
 
-	private string GetIsOnline(string ip1, string ip2)//separate file
+	private string GetReachabilityReport(string ip1, string ip2)
 	{
 	    try
 	    {
