@@ -18,8 +18,6 @@ namespace DNSChangerX
     {
 	private readonly InitDnsList InitDnsList = new InitDnsList();
 
-
-
 	public DnsList()
 	{
 	    try
