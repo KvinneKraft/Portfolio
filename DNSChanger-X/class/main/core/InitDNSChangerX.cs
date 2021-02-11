@@ -224,113 +224,10 @@ namespace DNSChangerX
 	private readonly Button BottomButton3 = new Button(); //help
 	private readonly Button BottomButton4 = new Button(); //info
 
-	private readonly DashNet DashNet = new DashNet();
-	private readonly DashBox DashBox = new DashBox();
+	private readonly IsOnline IsOnline = new IsOnline();
+	private readonly DnsList DnsList = new DnsList();
 	private readonly AppHelp AppHelp = new AppHelp();
 	private readonly AppInfo AppInfo = new AppInfo();
-
-	private void HandleDnsList()//separate file
-	{
-	    try
-	    {
-		using (Process Process = new Process())
-		{
-		    Process.StartInfo = new ProcessStartInfo()
-		    {
-			FileName = "https://public-dns.info/nameservers.txt",
-			UseShellExecute = true,
-		    };
-
-		    Process.Start();
-		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private string GetIsOnline()//separate file
-	{
-	    try
-	    {
-		string report = ("The following results were returned after trying to connect to the given DNS server(s).\r\n\r\nPrimary DNS (d1:53) Status: r1");
-
-		string primary = TopTextBox1.Text;
-		string replace = string.Empty;
-
-		if (DashNet.ConfirmIP(primary))
-		{
-		    if (DashNet.IsOnline(primary, port:53, timeout:350))
-		    {
-			replace = ("Online!");
-		    }
-
-		    else
-		    {
-			replace = ("Offline!");
-		    }
-		}
-
-		else
-		{
-		    replace = ("unknown address specified");
-		}
-
-		report = report.Replace("r1", replace).Replace("d1", primary);
-
-		if (TopTextBox2.Text.Length > 6)
-		{
-		    report += "\r\nSecondary DNS (d2:53) Status: r2";
-
-		    string secondary = TopTextBox2.Text;
-
-		    if (DashNet.ConfirmIP(secondary))
-		    {
-			if (DashNet.IsOnline(secondary, port:53, timeout:350))
-			{
-			    replace = ("Online!");
-			}
-
-			else
-			{
-			    replace = ("Offline!");
-			}
-		    }
-
-		    else
-		    {
-			replace = ("unknown address specified");
-		    }
-
-		    report = report.Replace("r2", replace).Replace("d2", secondary);
-		}
-
-		return report;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-	}
-
-	private void HandleIsOnline()
-	{
-	    try
-	    {
-		if (TopTextBox1.Text.Length > 6)
-		{
-		    DashBox.Show(GetIsOnline(), "DNS Connectivity Check", DashDialog.BackColor, DashDialog.MenuBar.Bar.BackColor, BottomContainer1.BackColor, Color.White);
-		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
 
 	public void BottomComponent()
 	{
@@ -368,6 +265,11 @@ namespace DNSChangerX
 		    Tool.Round(Button, 6);
 		}
 
+		BottomButton1.Click += (s, e) =>
+		{
+		    IsOnline.HandleIsOnline(TopTextBox1.Text, TopTextBox2.Text, DashDialog, BottomContainer1);
+		};
+
 		BottomButton3.Click += (s, e) =>
 		{
 		    AppHelp.Show(DashDialog, BottomContainer1);
@@ -378,14 +280,9 @@ namespace DNSChangerX
 		    AppInfo.Show(DashDialog, BottomContainer1);
 		};
 
-		BottomButton1.Click += (s, e) =>
-		{
-		    HandleIsOnline();
-		};
-
 		BottomButton2.Click += (s, e) =>
 		{
-		    HandleDnsList();
+		    DnsList.HandleDnsList();
 		};
 	    }
 
