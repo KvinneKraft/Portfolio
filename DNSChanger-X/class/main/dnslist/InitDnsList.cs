@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Drawing;
 using System.Threading;
+using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ namespace DNSChangerX
 		DisplayContainer3.VerticalScroll.Enabled = true;
 		DisplayContainer3.VerticalScroll.Visible = true;
 
+		DisplayContainer3.BackColor = ContainerBCol;
 		DisplayContainer3.Location = new Point(0, 0);
 		DisplayContainer3.Size = Container2Size;
 
@@ -86,7 +88,18 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		string resourceData = Properties.Resources.dnslist;
 
+		List<string> stringData = resourceData.Split
+		(
+		    new[] 
+		    {
+			Environment.NewLine
+		    }, 
+		    
+		StringSplitOptions.RemoveEmptyEntries).ToList();
+
+		MessageBox.Show(stringData[0]);
 	    }
 
 	    catch (Exception E)
