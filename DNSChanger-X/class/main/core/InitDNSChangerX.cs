@@ -223,6 +223,7 @@ namespace DNSChangerX
 
 	private readonly AppHelp AppHelp = new AppHelp();
 	private readonly AppInfo AppInfo = new AppInfo();
+	private readonly DnsList DnsList = new DnsList();
 
 	public void BottomComponent()
 	{
@@ -259,6 +260,11 @@ namespace DNSChangerX
 		{
 		    Tool.Round(Button, 6);
 		}
+
+		BottomButton2.Click += (s, e) =>
+		{
+		    DnsList.Show();
+		};
 
 		BottomButton3.Click += (s, e) =>
 		{
