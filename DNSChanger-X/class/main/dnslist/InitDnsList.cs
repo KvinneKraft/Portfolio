@@ -84,16 +84,60 @@ namespace DNSChangerX
 	    }
 	}
 
-	private List<string> GetStringData() =>
+	private void AddTextBox(string ip1, string ip2, int id)
+	{
+	    try
+	    {
+		TextBox TextBox = new TextBox();
+
+		var TextBoxSize = new Size(DisplayContainer3.Width - 75, 20);
+		var TextBoxLoca = new Point(76, DisplayTextBoxes.Count * 20);//add border in between
+		var TextBoxBCol = DisplayContainer3.BackColor;
+		var TextBoxFCol = Color.White;
+
+		Control.TextBox(DisplayContainer3, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly:true);
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = ($"Primary: {ip1}, Secondary: {ip2}");
+
+		DisplayTextBoxes.Add(id, TextBox);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void AddLabel(string service, int id)
+	{
+	    try
+	    {
+		// Y = DisplayTextBoxes[id].Top
+		// Height = DisplayTextBoxes[id].Height
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private List<string> GetDnsList() =>
 	    ((Properties.Resources.dnslist).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList());
 
 	private void InitDisplay2()
 	{
 	    try
 	    {
-		foreach (string line in GetStringData)
-		{
+		var DnsList = GetDnsList();
 
+		for (var k = 0; k < DnsList.Count; k += 1)
+		{
+		    var Dns = DnsList[k].Split(',');
+
+		    AddTextBox(Dns[1], Dns[2], k);
+		    AddLabel(Dns[0], k);
 		}
 	    }
 
