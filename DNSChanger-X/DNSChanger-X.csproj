@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\dnslist\DnsList.cs" />
+    <Compile Include="class\main\isonline\IsOnline.cs" />
     <Compile Include="class\main\help\Help.cs" />
     <Compile Include="class\main\info\Info.cs" />
     <Compile Include="class\main\core\DNSChangerX.cs" />
@@ -104,5 +106,6 @@
   <ItemGroup>
     <None Include="resources\LOGO.gif" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
