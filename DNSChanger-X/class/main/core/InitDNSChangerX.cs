@@ -225,7 +225,6 @@ namespace DNSChangerX
 
 	private readonly AppHelp AppHelp = new AppHelp();
 	private readonly AppInfo AppInfo = new AppInfo();
-	private readonly DnsList DnsList = new DnsList();
 
 	public void BottomComponent()
 	{
@@ -265,7 +264,16 @@ namespace DNSChangerX
 
 		BottomButton2.Click += (s, e) =>
 		{
-		    DnsList.Show();
+		    using (Process Process = new Process())
+		    {
+			Process.StartInfo = new ProcessStartInfo()
+			{
+			    FileName = "https://public-dns.info/nameservers.txt",
+			    UseShellExecute = true,
+			};
+
+			Process.Start();
+		    }
 		};
 
 		BottomButton3.Click += (s, e) =>

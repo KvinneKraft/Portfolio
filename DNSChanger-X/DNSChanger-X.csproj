@@ -51,8 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="class\main\dnslist\DnsList.cs" />
-    <Compile Include="class\main\dnslist\InitDnsList.cs" />
     <Compile Include="class\main\help\Help.cs" />
     <Compile Include="class\main\info\Info.cs" />
     <Compile Include="class\main\core\DNSChangerX.cs" />
