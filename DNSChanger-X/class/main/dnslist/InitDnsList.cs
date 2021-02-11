@@ -30,7 +30,7 @@ namespace DNSChangerX
 		var AppBCol = Color.FromArgb(36, 1, 112);
 		var AppSize = new Size(250, 250);
 
-		DashDialog.JustInitialize(AppSize, ("DNS List  -  1.0"), AppBCol, MenuBarBCol);
+		DashDialog.JustInitialize(AppSize, ("Free DNS List  -  1.0"), AppBCol, MenuBarBCol);
 	    }
 
 	    catch (Exception E)
