@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\core\SpoofDns.cs" />
     <Compile Include="class\main\dnslist\DnsList.cs" />
     <Compile Include="class\main\isonline\IsOnline.cs" />
     <Compile Include="class\main\help\Help.cs" />
@@ -65,6 +66,7 @@
     </Compile>
     <Compile Include="class\tool\DashMenuBar.cs" />
     <Compile Include="class\tool\DashNet.cs" />
+    <Compile Include="class\tool\DashSys.cs" />
     <Compile Include="class\tool\DashTools.cs" />
     <Compile Include="class\tool\DropDownMenu.cs" />
     <Compile Include="class\tool\ErrorHandler.cs" />
