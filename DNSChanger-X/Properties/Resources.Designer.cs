@@ -71,6 +71,21 @@ namespace DNSChangerX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AlternateDNS,198.101.242.72,23.253.163.53
+        ///CleanBrowsing,185.228.168.9,185.228.169.9
+        ///OpenDNS,208.67.222.222,208.67.220.220
+        ///AdGuardDNS,94.140.14.14,94.140.15.15
+        ///Google,8.8.8.8,8.4.4.8
+        ///Cloudflare,1.1.1.1,1.0.0.1
+        ///Comodo,8.26.56.26,8.20.247.20.
+        /// </summary>
+        internal static string dnslist {
+            get {
+                return ResourceManager.GetString("dnslist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ICON {
