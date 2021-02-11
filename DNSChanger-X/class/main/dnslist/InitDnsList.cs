@@ -40,17 +40,36 @@ namespace DNSChangerX
 	}
 
 
+	private readonly Dictionary<int, TextBox> DisplayTextBoxes = new Dictionary<int, TextBox>();
+	private readonly Dictionary<int, Label> DisplayLabels = new Dictionary<int, Label>();
+
 	private readonly PictureBox DisplayContainer1 = new PictureBox();
 	private readonly PictureBox DisplayContainer2 = new PictureBox();
-	private readonly PictureBox DisplayContainer3 = new PictureBox();
 
-	private readonly Dictionary<int, TextBox> DisplayTextBoxes = new Dictionary<int, TextBox>();
-	private readonly Dictionary<int, Button> DisplayButtons = new Dictionary<int, Button>();
+	private readonly Form DisplayContainer3 = new Form();
+
+	private void InitDisplay1()
+	{
+
+	}
 
 	public void DisplayComponent()
 	{
 	    try
 	    {
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
+
+		var Container1Size = new Size(DashDialog.Width - 20, DashDialog.Height - DashDialog.MenuBar.Bar.Height - 50); // 28 = BottomBar
+		var Container1Loca = new Point(10, 11 + DashDialog.MenuBar.Bar.Height);
+
+		var Container2Size = new Size(Container1Size.Width - 14, Container1Size.Height - 14);
+		var Container2Loca = new Point(7, 7);
+
+		Control.Image(DisplayContainer1, DisplayContainer2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(DashDialog, DisplayContainer1, Container1Size, Container1Loca, ContainerBCol);
+
+
+
 		// DNS Servers from embedded file auto add control thing. [<provider>,<ip1>,<ip2>]
 		// Click = Copy
 	    }
