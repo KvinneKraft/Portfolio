@@ -47,9 +47,6 @@ namespace DNSChangerX
 
 	private readonly Label TopLabel1 = new Label(); //ip1 
 	private readonly Label TopLabel2 = new Label(); //ip2
-	private readonly Label TopLabel3 = new Label(); //version
-	private readonly Label TopLabel4 = new Label(); //4
-	private readonly Label TopLabel5 = new Label(); //6
 
 	public readonly TextBox TopTextBox1 = new TextBox();
 	public readonly TextBox TopTextBox2 = new TextBox();
@@ -57,12 +54,6 @@ namespace DNSChangerX
 	private readonly PictureBox TopContainer1 = new PictureBox();
 	private readonly PictureBox TopContainer2 = new PictureBox();
 	private readonly PictureBox TopContainer3 = new PictureBox();
-
-	private readonly PictureBox TopCheckBox1 = new PictureBox();
-	private readonly PictureBox TopCheckBox2 = new PictureBox();
-
-	private readonly Color CheckDisable = Color.FromArgb(14, 0, 57);
-	private readonly Color CheckEnable = Color.FromArgb(24, 102, 0);
 
 	private readonly Button TopButton1 = new Button(); //spoof
 
