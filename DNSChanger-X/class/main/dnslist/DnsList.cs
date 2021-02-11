@@ -24,6 +24,7 @@ namespace DNSChangerX
 	    {
 		InitDnsList.CoreComponent();
 		InitDnsList.DisplayComponent();
+		InitDnsList.BottomComponent();
 	    }
 
 	    catch (Exception E)
