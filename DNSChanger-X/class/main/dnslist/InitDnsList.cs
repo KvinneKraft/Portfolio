@@ -60,9 +60,6 @@ namespace DNSChangerX
 		var Container2Size = new Size(Container1Size.Width - 14, Container1Size.Height - 14);
 		var Container2Loca = new Point(7, 7);
 
-		Control.Image(DisplayContainer1, DisplayContainer2, Container2Size, Container2Loca, ContainerBCol);
-		Control.Image(DashDialog, DisplayContainer1, Container1Size, Container1Loca, ContainerBCol);
-
 		DisplayContainer3.FormBorderStyle = FormBorderStyle.None;
 		DisplayContainer3.TopLevel = false;
 
@@ -72,9 +69,11 @@ namespace DNSChangerX
 		DisplayContainer3.Location = new Point(0, 0);
 		DisplayContainer3.Size = Container2Size;
 
+		DisplayContainer2.Controls.Add(DisplayContainer3);
 		DisplayContainer3.Show();
 
-		DisplayContainer2.Controls.Add(DisplayContainer3);
+		Control.Image(DisplayContainer1, DisplayContainer2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(DashDialog, DisplayContainer1, Container1Size, Container1Loca, ContainerBCol);
 	    }
 
 	    catch (Exception E)
