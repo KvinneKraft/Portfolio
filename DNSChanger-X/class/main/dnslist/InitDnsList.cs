@@ -51,7 +51,8 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		// DNS Servers from embedded file auto add control thing. [<provider>,<ip1>,<ip2> | <select button>]
+		// DNS Servers from embedded file auto add control thing. [<provider>,<ip1>,<ip2>]
+		// Click = Copy
 	    }
 
 	    catch (Exception E)
@@ -68,7 +69,22 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		var ContainerSize = new Size(DashDialog.Width, 28);
+		var ContainerLoca = new Point(0, DashDialog.Height - 28);
+		var ContainerBCol = DashDialog.MenuBar.Bar.BackColor;
 
+		Control.Image(DashDialog, BottomContainer1, ContainerSize, ContainerLoca, ContainerBCol);
+
+		var ButtonSize = new Size(85, 24);
+		var ButtonLoca = new Point((ContainerSize.Width - 85) / 2, (ContainerSize.Height - 24) / 2);
+		var ButtonFCol = Color.White;
+
+		Control.Button(BottomContainer1, BottomButton1, ButtonSize, ButtonLoca, ContainerBCol, ButtonFCol, 1, 9, "Done");
+
+		BottomButton1.Click += (s, e) =>
+		{
+		    DashDialog.Hide();
+		};
 	    }
 
 	    catch (Exception E)
