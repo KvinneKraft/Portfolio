@@ -115,6 +115,19 @@ namespace DNSChangerX
 	    {
 		// Y = DisplayTextBoxes[id].Top
 		// Height = DisplayTextBoxes[id].Height
+
+		Label Label = new Label();
+
+		var LabelSize = new Size(75, DisplayTextBoxes[id].Height);
+		var LabelLoca = new Point(0, DisplayTextBoxes[id].Top);
+		var LabelBCol = DisplayContainer3.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(DisplayContainer3, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 8, service);
+
+		Label.TextAlign = ContentAlignment.MiddleLeft;
+
+		DisplayLabels.Add(id, Label);
 	    }
 
 	    catch (Exception E)
