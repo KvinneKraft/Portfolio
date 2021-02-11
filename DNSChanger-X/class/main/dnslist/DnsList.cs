@@ -29,7 +29,7 @@ namespace DNSChangerX
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.JustDoIt(E);//throw (ErrorHandler.GetException(E));
 	    }
 	}
 
