@@ -62,6 +62,19 @@ namespace DNSChangerX
 
 		Control.Image(DisplayContainer1, DisplayContainer2, Container2Size, Container2Loca, ContainerBCol);
 		Control.Image(DashDialog, DisplayContainer1, Container1Size, Container1Loca, ContainerBCol);
+
+		DisplayContainer3.FormBorderStyle = FormBorderStyle.None;
+		DisplayContainer3.TopLevel = false;
+
+		DisplayContainer3.VerticalScroll.Enabled = true;
+		DisplayContainer3.VerticalScroll.Visible = true;
+
+		DisplayContainer3.Location = new Point(0, 0);
+		DisplayContainer3.Size = Container2Size;
+
+		DisplayContainer3.Show();
+
+		DisplayContainer2.Controls.Add(DisplayContainer3);
 	    }
 
 	    catch (Exception E)
