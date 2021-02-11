@@ -51,7 +51,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		// DNS Servers from embedded file auto add control thing.
+		// DNS Servers from embedded file auto add control thing. [<provider>,<ip1>,<ip2> | <select button>]
 	    }
 
 	    catch (Exception E)
