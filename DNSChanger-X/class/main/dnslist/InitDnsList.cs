@@ -84,22 +84,17 @@ namespace DNSChangerX
 	    }
 	}
 
+	private List<string> GetStringData() =>
+	    ((Properties.Resources.dnslist).Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList());
+
 	private void InitDisplay2()
 	{
 	    try
 	    {
-		string resourceData = Properties.Resources.dnslist;
+		foreach (string line in GetStringData)
+		{
 
-		List<string> stringData = resourceData.Split
-		(
-		    new[] 
-		    {
-			Environment.NewLine
-		    }, 
-		    
-		StringSplitOptions.RemoveEmptyEntries).ToList();
-
-		MessageBox.Show(stringData[0]);
+		}
 	    }
 
 	    catch (Exception E)
