@@ -22,8 +22,8 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		InitDnsList.CoreComponent();//GUI itself, Dash Dialog thing.
-		InitDnsList.DisplayComponent();//Columns and such
+		InitDnsList.CoreComponent();
+		InitDnsList.DisplayComponent();
 	    }
 
 	    catch (Exception E)
