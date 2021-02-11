@@ -40,6 +40,12 @@ namespace DNSChangerX
 	}
 
 
+	private readonly PictureBox DisplayContainer1 = new PictureBox();
+	private readonly PictureBox DisplayContainer2 = new PictureBox();
+	private readonly PictureBox DisplayContainer3 = new PictureBox();
+
+	private readonly Dictionary<int, TextBox> DisplayTextBoxes = new Dictionary<int, TextBox>();
+	private readonly Dictionary<int, Button> DisplayButtons = new Dictionary<int, Button>();
 
 	public void DisplayComponent()
 	{
@@ -54,6 +60,9 @@ namespace DNSChangerX
 	    }
 	}
 
+
+	private readonly PictureBox BottomContainer1 = new PictureBox();
+	private readonly Button BottomButton1 = new Button();
 
 	public void BottomComponent()
 	{
