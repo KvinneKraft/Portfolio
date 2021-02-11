@@ -117,6 +117,17 @@ namespace DNSChangerX
 	    }
 	}
 
+
+	private readonly Color CheckDisable = Color.FromArgb(14, 0, 57);
+	private readonly Color CheckEnable = Color.FromArgb(24, 102, 0);
+
+	private readonly PictureBox TopCheckBox1 = new PictureBox();
+	private readonly PictureBox TopCheckBox2 = new PictureBox();
+
+	private readonly Label TopLabel3 = new Label(); //version
+	private readonly Label TopLabel4 = new Label(); //4
+	private readonly Label TopLabel5 = new Label(); //6
+
 	private void HandleCheckBox(PictureBox TheBox, PictureBox NotTheBox)
 	{
 	    if (TheBox.BackColor == CheckEnable)
