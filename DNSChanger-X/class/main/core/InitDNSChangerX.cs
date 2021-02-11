@@ -226,6 +226,28 @@ namespace DNSChangerX
 	private readonly AppHelp AppHelp = new AppHelp();
 	private readonly AppInfo AppInfo = new AppInfo();
 
+	private void HandleDnsList()
+	{
+	    try
+	    {
+		using (Process Process = new Process())
+		{
+		    Process.StartInfo = new ProcessStartInfo()
+		    {
+			FileName = "https://public-dns.info/nameservers.txt",
+			UseShellExecute = true,
+		    };
+
+		    Process.Start();
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public void BottomComponent()
 	{
 	    try
@@ -264,16 +286,7 @@ namespace DNSChangerX
 
 		BottomButton2.Click += (s, e) =>
 		{
-		    using (Process Process = new Process())
-		    {
-			Process.StartInfo = new ProcessStartInfo()
-			{
-			    FileName = "https://public-dns.info/nameservers.txt",
-			    UseShellExecute = true,
-			};
-
-			Process.Start();
-		    }
+		    HandleDnsList();
 		};
 
 		BottomButton3.Click += (s, e) =>
