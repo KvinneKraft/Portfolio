@@ -26,7 +26,11 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		//Gui Initialization
+		var MenuBarBCol = Color.FromArgb(14, 0, 57);
+		var AppBCol = Color.FromArgb(36, 1, 112);
+		var AppSize = new Size(250, 250);
+
+		DashDialog.JustInitialize(AppSize, ("DNS List  -  1.0"), AppBCol, MenuBarBCol);
 	    }
 
 	    catch (Exception E)
@@ -42,6 +46,20 @@ namespace DNSChangerX
 	    try
 	    {
 		// DNS Servers from embedded file auto add control thing.
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	public void BottomComponent()
+	{
+	    try
+	    {
+
 	    }
 
 	    catch (Exception E)
