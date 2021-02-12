@@ -81,31 +81,7 @@ namespace DNSChangerX
 
 	    return DnsNs;
 	}
-
-	/*
-    string[] Dns = { DnsString };
-    var CurrentInterface = GetActiveEthernetOrWifiNetworkInterface();
-    if (CurrentInterface == null) return;
-
-    ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
-    ManagementObjectCollection objMOC = objMC.GetInstances();
-    foreach (ManagementObject objMO in objMOC)
-    {
-        if ((bool)objMO["IPEnabled"])
-        {
-            if (objMO["Description"].ToString().Equals(CurrentInterface.Description))
-            {
-                ManagementBaseObject objdns = objMO.GetMethodParameters("SetDNSServerSearchOrder");
-                if (objdns != null)
-                {
-                    objdns["DNSServerSearchOrder"] = Dns;
-                    objMO.InvokeMethod("SetDNSServerSearchOrder", objdns, null);
-                }
-            }
-        }
-    }	
-	*/
-
+	
 	private void ChangeIPv4(string ip1, string ip2)
 	{
 	    try
@@ -150,7 +126,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		ChangeDnsNs(GetDnsNs(ip1, ip2));
+		
 	    }
 
 	    catch (Exception E)
