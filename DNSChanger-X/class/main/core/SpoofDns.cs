@@ -13,15 +13,59 @@ using System.Net.Sockets;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace DNSChangerX
 {
     public class SpoofDns
     {
+	/*
+	 
+	    public static NetworkInterface GetActiveEthernetOrWifiNetworkInterface()
+	    {
+		var Nic = NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(
+		    a => a.OperationalStatus == OperationalStatus.Up &&
+		    (a.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || a.NetworkInterfaceType == NetworkInterfaceType.Ethernet) &&
+		    a.GetIPProperties().GatewayAddresses.Any(g => g.Address.AddressFamily.ToString() == "InterNetwork"));
+
+		return Nic;
+	    }
+	     */
+
+	private NetworkInterface GetCurrentNetworkInterface()
+	{
+	    try
+	    {
+		// Long ass line of code...
+		return NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault
+		(
+		    a => a.OperationalStatus == OperationalStatus.Up && 
+		    (
+			a.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet ||
+			a.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || 
+			a.NetworkInterfaceType == NetworkInterfaceType.Ethernet
+		    )
+		    
+		    && 
+		    
+		    a.GetIPProperties().GatewayAddresses.Any
+		    (
+			b => b.Address.AddressFamily.ToString() == "InterNetwork"
+		    )
+		);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void ChangeIPv4(string ip1, string ip2)
 	{
 	    try
 	    {
+		MessageBox.Show(GetCurrentNetworkInterface().Name);
 		// Change to Ipv4
 	    }
 
