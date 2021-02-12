@@ -106,12 +106,10 @@ namespace DNSChangerX
     }	
 	*/
 
-	private void ChangeDnsNs(List<string> DnsNs)
+	private void ChangeIPv4(string ip1, string ip2)
 	{
 	    try
 	    {
-		string[] Dns = DnsNs.ToArray();
-
 		NetworkInterface NetworkInterface = GetCurrentNetworkInterface();
 
 		if (NetworkInterface == null)
@@ -122,9 +120,11 @@ namespace DNSChangerX
 
 		ManagementObjectCollection ObjectMCollection = new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
 
+		string[] Dns = GetDnsNs(ip1, ip2).ToArray();
+
 		foreach (ManagementObject Object in ObjectMCollection)
 		{
-		    if ((bool) Object["IPEnabled"])
+		    if ((bool)Object["IPEnabled"])
 		    {
 			if (Object["Description"].ToString() == NetworkInterface.Description)
 			{
@@ -138,19 +138,6 @@ namespace DNSChangerX
 			}
 		    }
 		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private void ChangeIPv4(string ip1, string ip2)
-	{
-	    try
-	    {
-		ChangeDnsNs(GetDnsNs(ip1, ip2));
 	    }
 
 	    catch (Exception E)
