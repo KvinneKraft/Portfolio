@@ -19,6 +19,28 @@ namespace DNSChangerX
 {
     public class SpoofDns
     {
+	private readonly DashBox DashBox = new DashBox();
+
+	private void ErrorDialog(string message, string title)
+	{
+	    try
+	    {
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
+		var MenuBarBCol = Color.FromArgb(14, 0, 57);
+		var AppBCol = Color.FromArgb(36, 1, 112);
+
+		DashBox.Show(message, title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	private readonly DashNet DashNet = new DashNet();
+
 	private NetworkInterface GetCurrentNetworkInterface()
 	{
 	    try
@@ -90,7 +112,32 @@ namespace DNSChangerX
 	    {
 		string[] Dns = DnsNs.ToArray();
 
+		NetworkInterface NetworkInterface = GetCurrentNetworkInterface();
 
+		if (NetworkInterface == null)
+		{
+		    ErrorDialog("There was no active usable interface found to change the DNS server(s) of.\r\n\r\nI need an interface to change the DNS of else this functionality can not be used.", "Interface Detection Error");
+		    return;
+		}
+
+		ManagementObjectCollection ObjectMCollection = new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
+
+		foreach (ManagementObject Object in ObjectMCollection)
+		{
+		    if ((bool) Object["IPEnabled"])
+		    {
+			if (Object["Description"].ToString() == NetworkInterface.Description)
+			{
+			    ManagementBaseObject BaseObject = Object.GetMethodParameters("SetDNSServerSearchOrder");
+
+			    if (BaseObject != null)
+			    {
+				BaseObject["DNSServerSearchOrder"] = Dns;
+				Object.InvokeMethod("SetDNSServerSearchOrder", BaseObject, null);
+			    }
+			}
+		    }
+		}
 	    }
 
 	    catch (Exception E)
@@ -116,7 +163,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		// Change to IPv6
+		ChangeDnsNs(GetDnsNs(ip1, ip2));
 	    }
 
 	    catch (Exception E)
@@ -124,29 +171,6 @@ namespace DNSChangerX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
-	private readonly DashBox DashBox = new DashBox();
-
-	private void ErrorDialog(string message)
-	{
-	    try
-	    {
-		var ContainerBCol = Color.FromArgb(2, 55, 110);
-		var MenuBarBCol = Color.FromArgb(14, 0, 57);
-		var AppBCol = Color.FromArgb(36, 1, 112);
-		
-		DashBox.Show(message, "IP Specification Error", AppBCol, MenuBarBCol, ContainerBCol, Color.White);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-
-	private readonly DashNet DashNet = new DashNet();
 
 	public void ChangeDns(PictureBox Checkbox1, PictureBox Checkbox2, string ip1, string ip2)
 	{
@@ -163,9 +187,14 @@ namespace DNSChangerX
 		    {
 			ChangeIPv4(ip1, ip2);
 		    }
+
+		    ErrorDialog("You have successfully set your new DNS servers!", "Success!");
 		}
 
-		ErrorDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.");
+		else
+		{
+		    ErrorDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.", "IP Specification Error");
+		}
 	    }
 
 	    catch (Exception E)
