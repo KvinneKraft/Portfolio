@@ -138,7 +138,7 @@ namespace DNSChangerX
 		{
 		    r_host = ham.ToString();
 
-		    if (ham.AddressFamily != AddressFamily.InterNetwork)
+		    if (ham.AddressFamily != AddressFamily.InterNetwork && ham.AddressFamily != AddressFamily.InterNetworkV6)
 		    {
 			return string.Empty;
 		    }
