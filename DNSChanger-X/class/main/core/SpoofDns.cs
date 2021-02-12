@@ -48,11 +48,62 @@ namespace DNSChangerX
 	    }
 	}
 
+	private List<string> GetDnsNs(string ip1, string ip2)
+	{
+	    var DnsNs = new List<string>() { ip1 };
+
+	    if (ip2.Length > 6)
+	    {
+		DnsNs.Add(ip2);
+	    }
+
+	    return DnsNs;
+	}
+
+	/*
+    string[] Dns = { DnsString };
+    var CurrentInterface = GetActiveEthernetOrWifiNetworkInterface();
+    if (CurrentInterface == null) return;
+
+    ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
+    ManagementObjectCollection objMOC = objMC.GetInstances();
+    foreach (ManagementObject objMO in objMOC)
+    {
+        if ((bool)objMO["IPEnabled"])
+        {
+            if (objMO["Description"].ToString().Equals(CurrentInterface.Description))
+            {
+                ManagementBaseObject objdns = objMO.GetMethodParameters("SetDNSServerSearchOrder");
+                if (objdns != null)
+                {
+                    objdns["DNSServerSearchOrder"] = Dns;
+                    objMO.InvokeMethod("SetDNSServerSearchOrder", objdns, null);
+                }
+            }
+        }
+    }	
+	*/
+
+	private void ChangeDnsNs(List<string> DnsNs)
+	{
+	    try
+	    {
+		string[] Dns = DnsNs.ToArray();
+
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void ChangeIPv4(string ip1, string ip2)
 	{
 	    try
 	    {
-		// Change to Ipv4
+		ChangeDnsNs(GetDnsNs(ip1, ip2));
 	    }
 
 	    catch (Exception E)
@@ -74,19 +125,47 @@ namespace DNSChangerX
 	    }
 	}
 
+
+	private readonly DashBox DashBox = new DashBox();
+
+	private void ErrorDialog(string message)
+	{
+	    try
+	    {
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
+		var MenuBarBCol = Color.FromArgb(14, 0, 57);
+		var AppBCol = Color.FromArgb(36, 1, 112);
+		
+		DashBox.Show(message, "IP Specification Error", AppBCol, MenuBarBCol, ContainerBCol, Color.White);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	private readonly DashNet DashNet = new DashNet();
+
 	public void ChangeDns(PictureBox Checkbox1, PictureBox Checkbox2, string ip1, string ip2)
 	{
 	    try
 	    {
-		if (Checkbox2.BackColor == Initialize.CheckEnable)
+		if (DashNet.ConfirmIP(ip1))
 		{
-		    ChangeIPv6(ip1, ip2);
+		    if (Checkbox2.BackColor == Initialize.CheckEnable)
+		    {
+			ChangeIPv6(ip1, ip2);
+		    }
+
+		    else
+		    {
+			ChangeIPv4(ip1, ip2);
+		    }
 		}
 
-		else
-		{
-		    ChangeIPv4(ip1, ip2);
-		}
+		ErrorDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.");
 	    }
 
 	    catch (Exception E)
