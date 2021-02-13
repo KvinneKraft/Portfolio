@@ -21,7 +21,7 @@ namespace DNSChangerX
     {
 	private readonly DashBox DashBox = new DashBox();
 
-	private void ErrorDialog(string message, string title)
+	private void ShowDialog(string message, string title)
 	{
 	    try
 	    {
@@ -82,7 +82,7 @@ namespace DNSChangerX
 	    return DnsNs;
 	}
 	
-	private void ChangeIPv4(string ip1, string ip2)
+	private bool ChangeIPv4(string ip1, string ip2)
 	{
 	    try
 	    {
@@ -90,13 +90,14 @@ namespace DNSChangerX
 
 		if (NetworkInterface == null)
 		{
-		    ErrorDialog("There was no active usable interface found to change the DNS server(s) of.\r\n\r\nI need an interface to change the DNS of else this functionality can not be used.", "Interface Detection Error");
-		    return;
+		    ShowDialog("There was no active usable interface found to change the DNS server(s) of.\r\n\r\nI need an interface to change the DNS of else this functionality can not be used.", "Interface Detection Error");
+		    return false;
 		}
 
 		ManagementObjectCollection ObjectMCollection = new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
 
 		string[] Dns = GetDnsNs(ip1, ip2).ToArray();
+		int Servers = 0;
 
 		foreach (ManagementObject Object in ObjectMCollection)
 		{
@@ -110,10 +111,20 @@ namespace DNSChangerX
 			    {
 				BaseObject["DNSServerSearchOrder"] = Dns;
 				Object.InvokeMethod("SetDNSServerSearchOrder", BaseObject, null);
+
+				Servers += 1;
 			    }
 			}
 		    }
 		}
+
+		if (Servers == 0)
+		{
+		    ShowDialog("No valid network adapters were found.\r\n\r\nThis has caused the application to be unable to set the valid DNS server(s).", "Error While Setting DNS");
+		    return false;
+		}
+
+		return true;
 	    }
 
 	    catch (Exception E)
@@ -122,11 +133,11 @@ namespace DNSChangerX
 	    }
 	}
 
-	private void ChangeIPv6(string ip1, string ip2)
+	private bool ChangeIPv6(string ip1, string ip2)
 	{
 	    try
 	    {
-		
+		return true;
 	    }
 
 	    catch (Exception E)
@@ -141,22 +152,27 @@ namespace DNSChangerX
 	    {
 		if (DashNet.ConfirmIP(ip1))
 		{
+		    bool Success = false;
+
 		    if (Checkbox2.BackColor == Initialize.CheckEnable)
 		    {
-			ChangeIPv6(ip1, ip2);
+			Success = ChangeIPv6(ip1, ip2);
 		    }
 
 		    else
 		    {
-			ChangeIPv4(ip1, ip2);
+			Success = ChangeIPv4(ip1, ip2);
 		    }
 
-		    ErrorDialog("You have successfully set your new DNS servers!", "Success!");
+		    if (Success)
+		    {
+			ShowDialog("You have successfully set your new DNS servers!", "Success!");
+		    }
 		}
 
 		else
 		{
-		    ErrorDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.", "IP Specification Error");
+		    ShowDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.", "IP Specification Error");
 		}
 	    }
 
