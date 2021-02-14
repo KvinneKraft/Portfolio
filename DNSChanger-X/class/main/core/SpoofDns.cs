@@ -39,6 +39,22 @@ namespace DNSChangerX
 	    }
 	}
 
+	private bool IsIPAddressFamily(AddressFamily AddressFamily, string dns)
+	{
+	    try
+	    {
+		return
+		(
+		    IPAddress.Parse(dns).AddressFamily == AddressFamily
+		);
+	    }
+
+	    catch (Exception E)
+	    {
+		return false;
+	    }
+	}
+
 	public void ChangeDns(PictureBox checkbox, string dns1, string dns2)
 	{
 	    try
@@ -74,21 +90,25 @@ namespace DNSChangerX
 
 		    DomainNameServers.RemoveAt(k);
 		}
-		
-		if (!checkbox.BackColor.Equals(Initialize.CheckEnable))
-		{
-		    if (IsIPAddressFamily(AddressFamily.InterNetworkV6))
-		    {
 
-			return;
+		foreach (string dns in DomainNameServers)
+		{
+		    if (!checkbox.BackColor.Equals(Initialize.CheckEnable))
+		    {
+			if (IsIPAddressFamily(AddressFamily.InterNetworkV6, dns))
+			{
+
+			    return;
+			}
 		    }
-		}
 
-		else
-		{
-		    if (IsIPAddressFamily(AddressFamily.InterNetwork))
+		    else
 		    {
+			if (IsIPAddressFamily(AddressFamily.InterNetwork, dns))
+			{
 
+			    return;
+			}
 		    }
 		}
 	    }
