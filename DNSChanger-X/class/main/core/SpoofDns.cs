@@ -49,7 +49,7 @@ namespace DNSChangerX
 		);
 	    }
 
-	    catch (Exception E)
+	    catch
 	    {
 		return false;
 	    }
@@ -68,13 +68,26 @@ namespace DNSChangerX
 	    }
 	}
 
+	private void ShowInterfaceLackError()
+	{
+	    try
+	    {
+		ShowDialog("It appears no usable interfaces were found.\r\n\r\nPerhaps try switching between ip versions to see which works best.\r\n\r\nPerhaps your system does not support the set ip version.", "Insufficient Interfaces Found");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly List<NetworkInterfaceType> NetworkInterfaceTypes = new List<NetworkInterfaceType>()
 	{
    	    NetworkInterfaceType.GigabitEthernet, NetworkInterfaceType.Wireless80211,
 	    NetworkInterfaceType.GenericModem, NetworkInterfaceType.Ethernet
 	};
 
-	private List<NetworkInterface> GetNetworkInterfaces()
+	private List<NetworkInterface> GetNetworkInterfaces(AddressFamily AddressFamily)
 	{
 	    try
 	    {
@@ -90,8 +103,7 @@ namespace DNSChangerX
 			    (
 				b =>
 				(
-				    b.Address.AddressFamily.Equals(AddressFamily.InterNetworkV6) ||
-				    b.Address.AddressFamily.Equals(AddressFamily.InterNetwork)
+				    b.Address.AddressFamily.Equals(AddressFamily)
 				)
 			    ))
 
@@ -115,7 +127,45 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces();
+		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces(AddressFamily.InterNetwork);
+
+		if (NetworkInterfaceCollection.Count < 1)
+		{
+		    ShowInterfaceLackError();
+		    return;
+		}
+
+		ManagementObjectCollection MObjectCollection = new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
+
+		int ModifiedInterfaces = 0;
+
+		foreach (NetworkInterface NetworkInterface in NetworkInterfaceCollection)
+		{
+		    foreach (ManagementObject MObject in MObjectCollection)
+		    {
+			if (MObject["Description"].ToString() == NetworkInterface.Description)
+			{
+			    if ((Boolean)MObject["IPEnabled"])
+			    {
+				ManagementBaseObject MBaseObject = MObject.GetMethodParameters("SetDNSServerSearchOrder");
+
+				if (MBaseObject != null)
+				{
+				    MBaseObject["DNSServerSearchOrder"] = (dns.ToArray());
+				    MObject.InvokeMethod("SetDNSServerSearchOrder", MBaseObject, null);
+
+				    ModifiedInterfaces += 1;
+				}
+			    }
+			}
+		    }
+		}
+
+		if (ModifiedInterfaces == 0)
+		{
+		    ShowDialog("No applicable network adapters were found.\r\n\r\nThis has caused the application to be unable to set the specified secondary and or primary DNS.\r\n\r\nPlease make sure that atleast one network adapter is compatible with either IPv4 or IPv6 depending on your desired needs.", "No DNS Set!");
+		    return;
+		}
 	    }
 
 	    catch (Exception E)
@@ -128,6 +178,14 @@ namespace DNSChangerX
 	{
 	    try
 	    {
+		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces(AddressFamily.InterNetworkV6);
+
+		if (NetworkInterfaceCollection.Count < 1)
+		{
+		    ShowInterfaceLackError();
+		    return;
+		}
+
 
 	    }
 
