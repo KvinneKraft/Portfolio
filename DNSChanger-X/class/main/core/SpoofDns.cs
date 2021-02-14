@@ -55,6 +55,19 @@ namespace DNSChangerX
 	    }
 	}
 
+	void ShowIPvError()
+	{
+	    try
+	    {
+		ShowDialog("One of the given DNS addresses is incompatible with the set IP version.\r\n\r\nPlease make sure you only use IPv4 or IPv6 whenever you are sure about the version your DNS address is.\r\n\r\nFuture functionality promises automatic detection.", "Invalid IP Version");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E))
+	    }
+	}
+
 	public void ChangeDns(PictureBox checkbox, string dns1, string dns2)
 	{
 	    try
@@ -95,18 +108,18 @@ namespace DNSChangerX
 		{
 		    if (!checkbox.BackColor.Equals(Initialize.CheckEnable))
 		    {
-			if (IsIPAddressFamily(AddressFamily.InterNetworkV6, dns))
+			if (!IsIPAddressFamily(AddressFamily.InterNetworkV6, dns))
 			{
-
+			    ShowIPvError();
 			    return;
 			}
 		    }
 
 		    else
 		    {
-			if (IsIPAddressFamily(AddressFamily.InterNetwork, dns))
+			if (!IsIPAddressFamily(AddressFamily.InterNetwork, dns))
 			{
-
+			    ShowIPvError();
 			    return;
 			}
 		    }
