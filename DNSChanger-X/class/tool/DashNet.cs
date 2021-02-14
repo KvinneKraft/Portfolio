@@ -158,6 +158,19 @@ namespace DNSChangerX
 	    }
 	}
 
+	public AddressFamily GetAddressFamily(string ip)
+	{
+	    try
+	    {
+		return IPAddress.Parse(ip).AddressFamily;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public bool ConfirmPort(string port)
 	{
 	    return (GetPort(port) != -1);
