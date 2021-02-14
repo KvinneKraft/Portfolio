@@ -196,7 +196,7 @@ namespace DNSChangerX
 
 		TopButton1.Click += (s, e) =>
 		{
-		    SpoofDns.ChangeDns(TopCheckBox1, TopCheckBox2, TopTextBox1.Text, TopTextBox2.Text);
+		    SpoofDns.ChangeDns(TopCheckBox1, TopTextBox1.Text, TopTextBox2.Text);
 		};
 
 		Tool.Round(TopButton1, 6);
