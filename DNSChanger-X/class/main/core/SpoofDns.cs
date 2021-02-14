@@ -19,9 +19,10 @@ namespace DNSChangerX
 {
     public class SpoofDns
     {
+	private readonly DashNet DashNet = new DashNet();
 	private readonly DashBox DashBox = new DashBox();
 
-	private void ShowDialog(string message, string title)
+	private void ShowDialog(string Message, string Title)
 	{
 	    try
 	    {
@@ -29,7 +30,7 @@ namespace DNSChangerX
 		var MenuBarBCol = Color.FromArgb(14, 0, 57);
 		var AppBCol = Color.FromArgb(36, 1, 112);
 
-		DashBox.Show(message, title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
+		DashBox.Show(Message, Title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
 	    }
 
 	    catch (Exception E)
@@ -38,189 +39,63 @@ namespace DNSChangerX
 	    }
 	}
 
-
-	private readonly DashNet DashNet = new DashNet();
-
-	private readonly List<NetworkInterfaceType> NetworkInterfaceTypes = new List<NetworkInterfaceType>()
-	{
-   	    NetworkInterfaceType.GigabitEthernet,
-	    NetworkInterfaceType.Wireless80211,
-	    NetworkInterfaceType.GenericModem,
-	    NetworkInterfaceType.Ethernet
-	};
-
-	private bool ValidateNetworkInterface(NetworkInterface NetworkInterface)
-	{
-	    return NetworkInterface.GetIPProperties().GatewayAddresses.Any
-	    (
-		b =>
-		(
-		    b.Address.AddressFamily == AddressFamily.InterNetworkV6 ||
-		    b.Address.AddressFamily == AddressFamily.InterNetwork
-		)
-	    );
-	}
-
-	private List<NetworkInterface> GetCurrentNetworkInterface()
+	public void ChangeDns(PictureBox checkbox, string dns1, string dns2)
 	{
 	    try
 	    {
-		var NetworkInterfaceList = new List<NetworkInterface>();
+		List<string> DomainNameServers = new List<string>();
 
-		foreach (NetworkInterface NetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
+		DomainNameServers.Add(dns1);
+		DomainNameServers.Add(dns2);
+
+		for (int k = 0; k < DomainNameServers.Count; k += 1)
 		{
-		    if (NetworkInterface.OperationalStatus == OperationalStatus.Up)
+		    if (k == 0)
 		    {
-			if (NetworkInterfaceTypes.Contains(NetworkInterface.NetworkInterfaceType))
+			if (!DashNet.ConfirmIP(DomainNameServers[k]))
 			{
-			    if (ValidateNetworkInterface(NetworkInterface))
-			    {
-				NetworkInterfaceList.Add(NetworkInterface);
-			    }
+			    ShowDialog("I was unable to resolve the given primary domain name server address.\r\n\r\nPlease make sure you have specified the right IP address.\r\n\r\nIt can be an IPv4 or IPv6 address, that is up to you, just make sure it is reachable and therefore, again, the right IP address.", "IP Resolve Error");
+			    return;
 			}
+
+			continue;
 		    }
+
+		    if (DomainNameServers[k].Length > 0)
+		    {
+			if (!DashNet.ConfirmIP(DomainNameServers[k]))
+			{
+			    ShowDialog("I was unable to resolve the given secondary domain name server address.\r\n\r\nPlease make sure you have specified the right IP address.\r\n\r\nIt can be an IPv4 or IPv6 address, that is up to you, just make sure it is reachable and therefore, again, the right IP address.", "IP Resolve Error");
+			    return;
+			}
+
+			continue;
+		    }
+
+		    DomainNameServers.RemoveAt(k);
 		}
 		
-		return NetworkInterfaceList;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-	
-	private bool IsIPv6(NetworkInterface NetworkInterface)
-	{
-	    try
-	    {
-		return NetworkInterface.GetIPProperties().GatewayAddresses.Any
-		(
-		    b => b.Address.AddressFamily == AddressFamily.InterNetworkV6
-		);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private List<string> GetDnsNs(string ip1, string ip2)
-	{
-	    var DnsNs = new List<string>() { ip1 };
-
-	    if (ip2.Length > 6)
-	    {
-		DnsNs.Add(ip2);
-	    }
-
-	    return DnsNs;
-	}
-
-	private bool ChangeIPv4(string ip1, string ip2)
-	{
-	    try
-	    {
-		var NetworkInterfaces = GetCurrentNetworkInterface();
-
-		if (NetworkInterfaces.Count < 1)
+		if (!checkbox.BackColor.Equals(Initialize.CheckEnable))
 		{
-		    ShowDialog("There was no active usable interface found to change the DNS server(s) of.\r\n\r\nI need an interface to change the DNS of else this functionality can not be used.", "Interface Detection Error");
-		    return false;
-		}
-
-		ManagementObjectCollection ObjectMCollection = new ManagementClass("Win32_NetworkAdapterConfiguration").GetInstances();
-
-		string[] Dns = GetDnsNs(ip1, ip2).ToArray();
-		int Servers = 0;
-
-		foreach (var NetworkInterface in NetworkInterfaces)
-		{
-		    if (!IsIPv6(NetworkInterface))
+		    if (IsIPAddressFamily(AddressFamily.InterNetworkV6))
 		    {
-			foreach (ManagementObject Object in ObjectMCollection)
-			{
-			    if (Object["Description"].ToString() == NetworkInterface.Description)
-			    {
-				if ((bool)Object["IPEnabled"])
-				{
-				    ManagementBaseObject BaseObject = Object.GetMethodParameters("SetDNSServerSearchOrder");
 
-				    if (BaseObject != null)
-				    {
-					BaseObject["DNSServerSearchOrder"] = Dns;
-					Object.InvokeMethod("SetDNSServerSearchOrder", BaseObject, null);
-
-					Servers += 1;
-				    }
-				}
-			    }
-			}
-		    }
-		}
-
-		if (Servers == 0)
-		{
-		    ShowDialog("No applicable network adapters were found.\r\n\r\nThis has caused the application to be unable to set the valid DNS server(s).", "Error While Setting DNS");
-		    return false;
-		}
-
-		return true;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private bool ChangeIPv6(string ip1, string ip2)
-	{
-	    try
-	    {
-		return true;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	public void ChangeDns(PictureBox Checkbox1, PictureBox Checkbox2, string ip1, string ip2)
-	{
-	    try
-	    {
-		if (DashNet.ConfirmIP(ip1))
-		{
-		    bool Success = false;
-
-		    if (Checkbox2.BackColor == Initialize.CheckEnable)
-		    {
-			Success = ChangeIPv6(ip1, ip2);
-		    }
-
-		    else
-		    {
-			Success = ChangeIPv4(ip1, ip2);
-		    }
-
-		    if (Success)
-		    {
-			ShowDialog("You have successfully set your new DNS servers!", "Success!");
+			return;
 		    }
 		}
 
 		else
 		{
-		    ShowDialog("The server requested as your potentially new primary DNS server could not be validated as correct.\r\n\r\nI need you to make sure that the IP given is valid and can actually be used.", "IP Specification Error");
+		    if (IsIPAddressFamily(AddressFamily.InterNetwork))
+		    {
+
+		    }
 		}
 	    }
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
     }
