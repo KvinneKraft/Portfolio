@@ -55,7 +55,7 @@ namespace DNSChangerX
 	    }
 	}
 
-	void ShowIPvError()
+	private void ShowIPvError()
 	{
 	    try
 	    {
@@ -64,7 +64,76 @@ namespace DNSChangerX
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E))
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private readonly List<NetworkInterfaceType> NetworkInterfaceTypes = new List<NetworkInterfaceType>()
+	{
+   	    NetworkInterfaceType.GigabitEthernet, NetworkInterfaceType.Wireless80211,
+	    NetworkInterfaceType.GenericModem, NetworkInterfaceType.Ethernet
+	};
+
+	private List<NetworkInterface> GetNetworkInterfaces()
+	{
+	    try
+	    {
+		var NetworkInterfaces = new List<NetworkInterface>();
+
+		foreach (var NetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
+		{
+		    if (NetworkInterface.OperationalStatus.Equals(OperationalStatus.Up))
+		    {
+			if (NetworkInterfaceTypes.Contains(NetworkInterface.NetworkInterfaceType))
+			{
+			    if (NetworkInterface.GetIPProperties().GatewayAddresses.Any
+			    (
+				b =>
+				(
+				    b.Address.AddressFamily.Equals(AddressFamily.InterNetworkV6) ||
+				    b.Address.AddressFamily.Equals(AddressFamily.InterNetwork)
+				)
+			    ))
+
+			    {
+				NetworkInterfaces.Add(NetworkInterface);
+			    }
+			}
+		    }
+		}
+
+		return NetworkInterfaces;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void ChangeDNSToIPv4(List<string> dns)
+	{
+	    try
+	    {
+		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void ChangeDNSToIPv6(List<string> dns)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -123,6 +192,16 @@ namespace DNSChangerX
 			    return;
 			}
 		    }
+		}
+
+		if (checkbox.BackColor.Equals(Initialize.CheckEnable))
+		{
+		    ChangeDNSToIPv4(DomainNameServers);
+		}
+
+		else
+		{
+		    ChangeDNSToIPv6(DomainNameServers);
 		}
 	    }
 
