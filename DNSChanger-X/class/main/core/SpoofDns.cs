@@ -81,6 +81,19 @@ namespace DNSChangerX
 	    }
 	}
 
+	private void ShowSuccessMessage()
+	{
+	    try
+	    {
+		ShowDialog("The specified DNS has been set.\r\n\r\nYou may have to restart your system depending on your setup.\r\n\r\nIf it did not get set after that though, please reach out to me at KvinneKraft@protonmail.com.", "Execution Success");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly List<NetworkInterfaceType> NetworkInterfaceTypes = new List<NetworkInterfaceType>()
 	{
    	    NetworkInterfaceType.GigabitEthernet, NetworkInterfaceType.Wireless80211,
@@ -145,7 +158,7 @@ namespace DNSChangerX
 		    {
 			if (MObject["Description"].ToString() == NetworkInterface.Description)
 			{
-			    if ((Boolean)MObject["IPEnabled"])
+			    if ((bool) MObject["IPEnabled"])
 			    {
 				ManagementBaseObject MBaseObject = MObject.GetMethodParameters("SetDNSServerSearchOrder");
 
@@ -164,7 +177,11 @@ namespace DNSChangerX
 		if (ModifiedInterfaces == 0)
 		{
 		    ShowDialog("No applicable network adapters were found.\r\n\r\nThis has caused the application to be unable to set the specified secondary and or primary DNS.\r\n\r\nPlease make sure that atleast one network adapter is compatible with either IPv4 or IPv6 depending on your desired needs.", "No DNS Set!");
-		    return;
+		}
+
+		else
+		{
+		    ShowSuccessMessage();
 		}
 	    }
 
@@ -178,7 +195,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces(AddressFamily.InterNetworkV6);
+		List<NetworkInterface> NetworkInterfaceCollection = GetNetworkInterfaces(AddressFamily.InterNetwork);
 
 		if (NetworkInterfaceCollection.Count < 1)
 		{
@@ -186,7 +203,37 @@ namespace DNSChangerX
 		    return;
 		}
 
+		string[] WindowsCommands = new string[2];
 
+		WindowsCommands[0] = ("interface ipv6 set dnsservers \"%name%\" static %ip% primary");
+
+		if (dns.Count > 0)
+		{
+		    WindowsCommands[1] = ("interface ipv6 add dnsservers \"%name%\" %ip% index=2");
+		}
+
+		string FilePath = ($@"{Environment.SystemDirectory}\netsh.exe");
+
+		for (int k = 0; k < NetworkInterfaceCollection.Count; k += 1)
+		{
+		    string InterfaceName = NetworkInterfaceCollection[k].Description; //Name;
+
+		    foreach (string Argument in WindowsCommands)
+		    {
+			using (Process Process = new Process())
+			{
+			    Process.StartInfo.Arguments = ($"{Argument.Replace("%name%", InterfaceName).Replace("%ip%", dns[WindowsCommands.ToList().IndexOf(Argument)])}");
+			    Process.StartInfo.FileName = (FilePath);
+
+			    MessageBox.Show(Process.StartInfo.Arguments);
+
+			    Process.StartInfo.UseShellExecute = true;
+			    Process.StartInfo.CreateNoWindow = true;
+
+			    Process.Start();
+			}
+		    }
+		}
 	    }
 
 	    catch (Exception E)
