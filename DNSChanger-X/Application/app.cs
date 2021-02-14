@@ -209,12 +209,7 @@ namespace DNSChangerX
 	}
 
 	private readonly DashNet DashNet = new DashNet();
-
-	private bool IPIsCompatible(string ip1, string ip2, AddressFamily AddressFamily)
-	{
-	    return ();
-	}
-
+	
 	public void ChangeDns(PictureBox Checkbox1, PictureBox Checkbox2, string ip1, string ip2)
 	{
 	    try
