@@ -41,26 +41,62 @@ namespace DNSChangerX
 
 	private readonly DashNet DashNet = new DashNet();
 
-	private NetworkInterface GetCurrentNetworkInterface()
+	private readonly List<NetworkInterfaceType> NetworkInterfaceTypes = new List<NetworkInterfaceType>()
+	{
+   	    NetworkInterfaceType.GigabitEthernet,
+	    NetworkInterfaceType.Wireless80211,
+	    NetworkInterfaceType.GenericModem,
+	    NetworkInterfaceType.Ethernet
+	};
+
+	private bool ValidateNetworkInterface(NetworkInterface NetworkInterface)
+	{
+	    return NetworkInterface.GetIPProperties().GatewayAddresses.Any
+	    (
+		b =>
+		(
+		    b.Address.AddressFamily == AddressFamily.InterNetworkV6 ||
+		    b.Address.AddressFamily == AddressFamily.InterNetwork
+		)
+	    );
+	}
+
+	private List<NetworkInterface> GetCurrentNetworkInterface()
 	{
 	    try
 	    {
-		// Long ass line of code...
-		return NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault
+		var NetworkInterfaceList = new List<NetworkInterface>();
+
+		foreach (NetworkInterface NetworkInterface in NetworkInterface.GetAllNetworkInterfaces())
+		{
+		    if (NetworkInterface.OperationalStatus == OperationalStatus.Up)
+		    {
+			if (NetworkInterfaceTypes.Contains(NetworkInterface.NetworkInterfaceType))
+			{
+			    if (ValidateNetworkInterface(NetworkInterface))
+			    {
+				NetworkInterfaceList.Add(NetworkInterface);
+			    }
+			}
+		    }
+		}
+		
+		return NetworkInterfaceList;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	
+	private bool IsIPv6(NetworkInterface NetworkInterface)
+	{
+	    try
+	    {
+		return NetworkInterface.GetIPProperties().GatewayAddresses.Any
 		(
-		    a => a.OperationalStatus == OperationalStatus.Up && 
-		    (
-			a.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet ||
-			a.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || 
-			a.NetworkInterfaceType == NetworkInterfaceType.Ethernet
-		    )
-		    
-		    && 
-		    
-		    a.GetIPProperties().GatewayAddresses.Any
-		    (
-			b => b.Address.AddressFamily.ToString() == "InterNetwork"
-		    )
+		    b => b.Address.AddressFamily == AddressFamily.InterNetworkV6
 		);
 	    }
 
@@ -81,14 +117,14 @@ namespace DNSChangerX
 
 	    return DnsNs;
 	}
-	
+
 	private bool ChangeIPv4(string ip1, string ip2)
 	{
 	    try
 	    {
-		NetworkInterface NetworkInterface = GetCurrentNetworkInterface();
+		var NetworkInterfaces = GetCurrentNetworkInterface();
 
-		if (NetworkInterface == null)
+		if (NetworkInterfaces.Count < 1)
 		{
 		    ShowDialog("There was no active usable interface found to change the DNS server(s) of.\r\n\r\nI need an interface to change the DNS of else this functionality can not be used.", "Interface Detection Error");
 		    return false;
@@ -99,20 +135,26 @@ namespace DNSChangerX
 		string[] Dns = GetDnsNs(ip1, ip2).ToArray();
 		int Servers = 0;
 
-		foreach (ManagementObject Object in ObjectMCollection)
+		foreach (var NetworkInterface in NetworkInterfaces)
 		{
-		    if ((bool)Object["IPEnabled"])
+		    if (!IsIPv6(NetworkInterface))
 		    {
-			if (Object["Description"].ToString() == NetworkInterface.Description)
+			foreach (ManagementObject Object in ObjectMCollection)
 			{
-			    ManagementBaseObject BaseObject = Object.GetMethodParameters("SetDNSServerSearchOrder");
-
-			    if (BaseObject != null)
+			    if (Object["Description"].ToString() == NetworkInterface.Description)
 			    {
-				BaseObject["DNSServerSearchOrder"] = Dns;
-				Object.InvokeMethod("SetDNSServerSearchOrder", BaseObject, null);
+				if ((bool)Object["IPEnabled"])
+				{
+				    ManagementBaseObject BaseObject = Object.GetMethodParameters("SetDNSServerSearchOrder");
 
-				Servers += 1;
+				    if (BaseObject != null)
+				    {
+					BaseObject["DNSServerSearchOrder"] = Dns;
+					Object.InvokeMethod("SetDNSServerSearchOrder", BaseObject, null);
+
+					Servers += 1;
+				    }
+				}
 			    }
 			}
 		    }
@@ -120,7 +162,7 @@ namespace DNSChangerX
 
 		if (Servers == 0)
 		{
-		    ShowDialog("No valid network adapters were found.\r\n\r\nThis has caused the application to be unable to set the valid DNS server(s).", "Error While Setting DNS");
+		    ShowDialog("No applicable network adapters were found.\r\n\r\nThis has caused the application to be unable to set the valid DNS server(s).", "Error While Setting DNS");
 		    return false;
 		}
 
