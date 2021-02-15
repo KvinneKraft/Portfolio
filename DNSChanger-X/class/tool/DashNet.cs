@@ -52,13 +52,13 @@ namespace DNSChangerX
 	    return true;
 	}
 
-	public bool IsOnline(string url, int port = 80, int timeout = 500)
+	public bool IsOnline(string host, int port = 80, int timeout = 500)
 	{
 	    try
 	    {
-		var stocking = new Socket(GetAddressFamily(url), SocketType.Stream, ProtocolType.Tcp);
+		var stocking = new Socket(GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp);
 
-		var resu = stocking.BeginConnect(url, port, null, null);
+		var resu = stocking.BeginConnect(host, port, null, null);
 		var succ = resu.AsyncWaitHandle.WaitOne(timeout, true);
 
 		return stocking.Connected;
