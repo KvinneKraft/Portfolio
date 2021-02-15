@@ -162,30 +162,35 @@ namespace DNSChangerX
 
 	public Font GetFont(int FontId, int Height)
 	{
-	    if (FontCollection.Families.Length < 2)
+	    try
 	    {
-		var RawDataCollection = new List<byte[]>()
+		if (FontCollection.Families.Length < 2)
+		{
+		    var RawDataCollection = new List<byte[]>()
 		{
 		    Resources.main,
 		    Resources.cute,
 		};
 
-		for (int k = 0; k < RawDataCollection.Count; k += 1)
-		{
-		    byte[] RawData = RawDataCollection[k];
+		    for (int k = 0; k < RawDataCollection.Count; k += 1)
+		    {
+			byte[] RawData = RawDataCollection[k];
 
-		    var Pointer = Marshal.AllocCoTaskMem(RawData.Length);
+			var Pointer = Marshal.AllocCoTaskMem(RawData.Length);
 
-		    Marshal.Copy(RawData, 0, Pointer, RawData.Length);
+			Marshal.Copy(RawData, 0, Pointer, RawData.Length);
 
-		    uint Reference = 0;
+			uint Reference = 0;
 
-		    AddFontMemResourceEx(Pointer, (uint)RawData.Length, IntPtr.Zero, ref Reference);
-		    FontCollection.AddMemoryFont(Pointer, RawData.Length);
+			AddFontMemResourceEx(Pointer, (uint)RawData.Length, IntPtr.Zero, ref Reference);
+			FontCollection.AddMemoryFont(Pointer, RawData.Length);
+		    };
 		};
-	    };
 
-	    return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
+		return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
+	    }
+
+	    catch { /*Silenced for now.*/ return new Font("Modern", Height, FontStyle.Regular); };
 	}
     }
 }
