@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
-namespace DNSChangerX
+namespace DashlorisX
 {
     public class DashNet
     {
@@ -54,13 +54,26 @@ namespace DNSChangerX
 	    return true;
 	}
 
-	public bool IsOnline(string url, int port = 80, int timeout = 500)
+	public AddressFamily GetAddressFamily(string host)
 	{
 	    try
 	    {
-		var stocking = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+		return (IPAddress.Parse(host).AddressFamily);
+	    }
 
-		var resu = stocking.BeginConnect(url, port, null, null);
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public bool IsOnline(string host, int port = 80, int timeout = 500)
+	{
+	    try
+	    {
+		var stocking = new Socket(GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp);
+
+		var resu = stocking.BeginConnect(host, port, null, null);
 		var succ = resu.AsyncWaitHandle.WaitOne(timeout, true);
 
 		return stocking.Connected;
