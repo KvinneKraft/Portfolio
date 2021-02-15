@@ -31,7 +31,7 @@ namespace TheDashlorisX
 		var Container1Loca = new Point(0, 0);
 		var Container1Size = Capsule.Size;
 
-		var Container2Size = new Size(Container1Size.Width - 10, 90);
+		var Container2Size = new Size(Container1Size.Width - 10, 100);
 		var Container2Loca = new Point(5, (Container1Size.Height - Container2Size.Height) / 2);
 		var Container2BCol = Color.FromArgb(2, 55, 110);
 
@@ -54,9 +54,7 @@ namespace TheDashlorisX
 	public readonly TextBox TopTextBox2 = new TextBox();
 	public readonly TextBox TopTextBox3 = new TextBox();
 	public readonly TextBox TopTextBox4 = new TextBox();
-
-	private readonly Button TopButton1 = new Button();
-
+	
 	private readonly Label TopLabel1 = new Label();
 	private readonly Label TopLabel2 = new Label();
 	private readonly Label TopLabel3 = new Label();
@@ -115,6 +113,16 @@ namespace TheDashlorisX
 		Controls.TextBox(TopContainer2, TopTextBox3, TextBox3Size, TextBox3Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 		Controls.TextBox(TopContainer2, TopTextBox4, TextBox4Size, TextBox4Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 
+		TopTextBox1.TextAlign = HorizontalAlignment.Center;
+		TopTextBox2.TextAlign = HorizontalAlignment.Center;
+		TopTextBox3.TextAlign = HorizontalAlignment.Center;
+		TopTextBox4.TextAlign = HorizontalAlignment.Center;
+
+		TopTextBox1.Text = ("https://pugpawz.com/");
+		TopTextBox2.Text = ("65535");
+		TopTextBox3.Text = ("75250");
+		TopTextBox4.Text = ("5250");
+
 		Tools.Round(TopTextBox1.Parent, 6);
 		Tools.Round(TopTextBox2.Parent, 6);
 		Tools.Round(TopTextBox3.Parent, 6);
@@ -127,12 +135,37 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+	private readonly Button TopButton1 = new Button();
+
+	private void Init3()
+	{
+	    try
+	    {
+		var ButtonSize = new Size(135, 24);
+		var ButtonLoca = new Point(8 /*(TopContainer2.Width - 135) / 2*/, TopContainer2.Height - 32);
+		var ButtonBCol = TopTextBox1.BackColor; //TopContainer2.BackColor;
+		var ButtonFCol = Color.White;
+
+		Controls.Button(TopContainer2, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 8, "Test Connection");
+
+		Tools.Round(TopButton1, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
 	    {
 		Init1(Capsule);
 		Init2(DashDialog);
+		Init3();
 	    }
 
 	    catch (Exception E)
