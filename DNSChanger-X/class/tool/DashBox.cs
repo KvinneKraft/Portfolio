@@ -48,7 +48,7 @@ namespace DNSChangerX
 
 		if (DialogResult == DialogResult.Cancel)
 		{
-		    ErrorHandler.Utilize(ErrorHandler.GetFormat(ErrorHandler.GetException(E)), "Error Handler");
+		    ErrorHandler.JustDoIt(E);
 		}
 	    }
 
