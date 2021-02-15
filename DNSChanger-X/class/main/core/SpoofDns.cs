@@ -203,20 +203,21 @@ namespace DNSChangerX
 		    return;
 		}
 
-		string[] WindowsCommands = new string[2];
+		string[] WindowsCommands = new string[3];
 
-		WindowsCommands[0] = ("interface ipv6 set dnsservers \"%name%\" static \"%ip%\" primary");
+		WindowsCommands[0] = ("interface ipv4 delete dnsservers \"%name%\" all");
+		WindowsCommands[1] = ("interface ipv6 set dnsservers \"%name%\" static \"%ip%\" primary");
 
-		if (dns.Count > 0)
+		if (dns.Count > 1)
 		{
-		    WindowsCommands[1] = ("interface ipv6 add dnsservers \"%name%\" \"%ip%\" index=2");
+		    WindowsCommands[2] = ("interface ipv6 add dnsservers \"%name%\" \"%ip%\" index=2");
 		}
 
 		string FilePath = ($@"{Environment.SystemDirectory}\netsh.exe");
 
 		for (int k = 0; k < NetworkInterfaceCollection.Count; k += 1)
 		{
-		    string InterfaceName = NetworkInterfaceCollection[k].Description; //Name;
+		    string InterfaceName = NetworkInterfaceCollection[k].Name;
 
 		    foreach (string Argument in WindowsCommands)
 		    {
@@ -224,9 +225,7 @@ namespace DNSChangerX
 			{
 			    Process.StartInfo.Arguments = ($"{Argument.Replace("%name%", InterfaceName).Replace("%ip%", dns[WindowsCommands.ToList().IndexOf(Argument)])}");
 			    Process.StartInfo.FileName = (FilePath);
-
-			    MessageBox.Show(Process.StartInfo.Arguments);
-
+			    
 			    Process.StartInfo.UseShellExecute = true;
 			    Process.StartInfo.CreateNoWindow = true;
 
