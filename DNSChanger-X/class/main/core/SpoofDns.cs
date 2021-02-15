@@ -205,11 +205,11 @@ namespace DNSChangerX
 
 		string[] WindowsCommands = new string[2];
 
-		WindowsCommands[0] = ("interface ipv6 set dnsservers \"%name%\" static %ip% primary");
+		WindowsCommands[0] = ("interface ipv6 set dnsservers \"%name%\" static \"%ip%\" primary");
 
 		if (dns.Count > 0)
 		{
-		    WindowsCommands[1] = ("interface ipv6 add dnsservers \"%name%\" %ip% index=2");
+		    WindowsCommands[1] = ("interface ipv6 add dnsservers \"%name%\" \"%ip%\" index=2");
 		}
 
 		string FilePath = ($@"{Environment.SystemDirectory}\netsh.exe");
