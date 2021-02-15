@@ -76,7 +76,6 @@
     <Compile Include="Headers\app\settings\SettingsInfo.cs" />
     <Compile Include="Headers\app\Startup.cs" />
     <Compile Include="Headers\app\tos\TOS.cs" />
-    <Compile Include="Headers\error\ErrorHandler.cs" />
     <Compile Include="Headers\util\BottomBar.cs" />
     <Compile Include="Headers\util\DashBox.cs" />
     <Compile Include="Headers\util\DashControls.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Headers\util\DashSys.cs" />
     <Compile Include="Headers\util\DashTools.cs" />
     <Compile Include="Headers\util\DropDownMenu.cs" />
+    <Compile Include="Headers\util\ErrorHandler.cs" />
     <Compile Include="Headers\util\LogContainer.cs">
       <SubType>Form</SubType>
     </Compile>
