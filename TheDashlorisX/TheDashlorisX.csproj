@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>resources\ICON.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="class\main\core\InitThaDashlorisX.cs" />
+    <Compile Include="class\main\core\init\About.cs" />
+    <Compile Include="class\main\core\init\IsOnline.cs" />
+    <Compile Include="class\main\core\init\Launch.cs" />
+    <Compile Include="class\main\core\init\Settings.cs" />
+    <Compile Include="class\main\core\init\Target.cs" />
     <Compile Include="class\tool\DashBox.cs" />
     <Compile Include="class\tool\DashControls.cs" />
     <Compile Include="class\tool\DashDialog.cs">
@@ -95,8 +103,6 @@
   <ItemGroup>
     <None Include="resources\LOGO.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="class\main\core\init\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
