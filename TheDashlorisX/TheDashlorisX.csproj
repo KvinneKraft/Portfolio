@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="class\main\core\InitThaDashlorisX.cs" />
     <Compile Include="class\tool\DashBox.cs" />
     <Compile Include="class\tool\DashControls.cs" />
     <Compile Include="class\tool\DashDialog.cs">
@@ -60,10 +61,8 @@
     <Compile Include="class\tool\LogContainer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ThaDashlorisX.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Startup.cs" />
+    <Compile Include="class\main\core\ThaDashlorisX.cs" />
+    <Compile Include="class\main\startup\Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -95,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\LOGO.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="class\main\core\init\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
