@@ -56,7 +56,7 @@ namespace DNSChangerX
 	{
 	    try
 	    {
-		var stocking = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+		var stocking = new Socket(GetAddressFamily(url), SocketType.Stream, ProtocolType.Tcp);
 
 		var resu = stocking.BeginConnect(url, port, null, null);
 		var succ = resu.AsyncWaitHandle.WaitOne(timeout, true);
