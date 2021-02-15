@@ -20,7 +20,13 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		InitMainComponent();
+		InitBottomBarComponent();
+		InitSideBarComponent();
+		InitContainerComponent();
+		ReInitMenuBar();
 
+		Application.Run(DashDialog);
 	    }
 
 	    catch (Exception E)
