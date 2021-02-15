@@ -97,7 +97,8 @@ namespace DNSChangerX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		ErrorHandler.JustDoIt(E);
+		return string.Empty;
 	    }
 	}
     }
