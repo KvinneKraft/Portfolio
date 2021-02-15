@@ -68,39 +68,41 @@ namespace TheDashlorisX
 	private void Init2(DashDialog DashDialog)
 	{
 	    try
-	    { //Re-Do this code, future not high dashie!
+	    {
 		var LabelBCol = TopContainer2.BackColor;
 		var LabelFCol = Color.White;
 
 		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 		var TextBoxFCol = Color.White;
 
-		var Label1Text = ("Host:");
-		var Label1Size = GetFontSize(Label1Text);
-		var Label1Loca = new Point(5, 8);
-
-		var TextBox1Size = new Size(135, 20);
-		var TextBox1Loca = new Point(Label1Size.Width + 5, 8);
-
+		var Label3Text = ("Duration:");
+		var Label4Text = ("Bytes:");
 		var Label2Text = ("Port:");
-		var Label2Size = GetFontSize(Label2Text);
-		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 10, 8);
+		var Label1Text = ("Host:");
 
-		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, 8);
+		var Label1Size = GetFontSize(Label1Text);
+		var Label2Size = GetFontSize(Label2Text);
+		var Label3Size = GetFontSize(Label3Text);
+		var Label4Size = GetFontSize(Label4Text);
+
+		int Y1 = (8);
+
+		var Label1Loca = new Point(5, Y1);
+		var TextBox1Size = new Size(135, 20);
+		var TextBox1Loca = new Point(Label1Size.Width + 5, Y1);
+
+		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 10, Y1);
+		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, Y1);
 		var TextBox2Size = new Size(TopContainer2.Width - TextBox2Loca.X - 8, 20);
 
-		var Label3Text = ("Duration:");
-		var Label3Size = GetFontSize(Label3Text);
-		var Label3Loca = new Point(5, TextBox2Loca.Y + TextBox2Size.Height + 10);
+		int Y2 = (TextBox2Loca.Y + TextBox2Size.Height + 10);
 
-		var TextBox3Loca = new Point(Label3Loca.X + Label3Size.Width, TextBox2Loca.Y + TextBox2Size.Height + 10);
+		var Label3Loca = new Point(5, TextBox2Loca.Y + TextBox2Size.Height + 10);
+		var TextBox3Loca = new Point(Label3Loca.X + Label3Size.Width, Y2);
 		var TextBox3Size = new Size(85, 20);
 
-		var Label4Text = ("Bytes:");
-		var Label4Size = GetFontSize(Label4Text);
-		var Label4Loca = new Point(TextBox3Loca.X + TextBox3Size.Width + 10, TextBox2Loca.Y + TextBox2Size.Height + 10);
-
-		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, TextBox2Loca.Y + TextBox2Size.Height + 10);
+		var Label4Loca = new Point(TextBox3Loca.X + TextBox3Size.Width + 10, Y2);
+		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Y2);
 		var TextBox4Size = new Size(TopContainer2.Width - TextBox4Loca.X - 8, 20);
 
 		Controls.Label(TopContainer2, TopLabel1, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 10, Label1Text);
@@ -112,7 +114,11 @@ namespace TheDashlorisX
 		Controls.TextBox(TopContainer2, TopTextBox2, TextBox2Size, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 		Controls.TextBox(TopContainer2, TopTextBox3, TextBox3Size, TextBox3Loca, TextBoxBCol, TextBoxFCol, 1, 9);
 		Controls.TextBox(TopContainer2, TopTextBox4, TextBox4Size, TextBox4Loca, TextBoxBCol, TextBoxFCol, 1, 9);
-		// 125 0 75 0
+
+		Tools.Round(TopTextBox1.Parent, 6);
+		Tools.Round(TopTextBox2.Parent, 6);
+		Tools.Round(TopTextBox3.Parent, 6);
+		Tools.Round(TopTextBox4.Parent, 6);
 	    }
 
 	    catch (Exception E)
