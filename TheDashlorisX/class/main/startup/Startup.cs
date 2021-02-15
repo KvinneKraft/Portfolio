@@ -16,7 +16,7 @@ namespace TheDashlorisX
 
 	    ThaDashloris ThaDashloris = new ThaDashloris();
 
-	    ThaDashloris.Show();
+	    ThaDashloris.RunApplication();
 	}
     }
 }
