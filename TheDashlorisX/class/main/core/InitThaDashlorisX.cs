@@ -143,13 +143,20 @@ namespace TheDashlorisX
 
 
 	private readonly PictureBox CapsuleContainer1 = new PictureBox();
-	private readonly PictureBox CapsuleContainer2 = new PictureBox();
+
+	private readonly Target TargetPanel = new Target();
 
 	public void InitContainerComponent()
 	{
 	    try
 	    {
-		// Way of doing this is by calling all individual class initializers.
+		var CapsuleSize = new Size(DashDialog.Width - SideBarContainer1.Width - 2, DashDialog.Height - DashDialog.MenuBar.Bar.Height - BottomBarContainer1.Height);
+		var CapsuleLoca = new Point(SideBarContainer1.Width, DashDialog.MenuBar.Bar.Height);
+		var CapsuleBCol = DashDialog.BackColor; //Color.FromArgb(2, 55, 110);
+
+		Controls.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
+
+		TargetPanel.Initialize(DashDialog, CapsuleContainer1);
 	    }
 
 	    catch (Exception E)
