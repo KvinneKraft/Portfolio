@@ -55,12 +55,13 @@ namespace TheDashlorisX
 
 		Controls.Image(DashDialog, BottomBarContainer1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var LabelSize = Tools.GetFontSize("All Rights Reserved (c) Dashies Softwaries 2021", 5);
+		var LabelText = ($"All Rights Reserved (c) Dashies Softwaries {DateTime.Today.Year}");
+		var LabelSize = Tools.GetFontSize(LabelText, 5);
 		var LabelLoca = new Point((ContainerSize.Width - LabelSize.Width + 100) / 2, (ContainerSize.Height - LabelSize.Height) / 2);
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		Controls.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 5, "All Rights Reserved (c) Dashies Softwaries 2021");
+		Controls.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 5, LabelText);
 	    }
 
 	    catch (Exception E)
