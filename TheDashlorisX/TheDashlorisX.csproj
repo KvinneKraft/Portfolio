@@ -50,11 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="class\main\core\InitThaDashlorisX.cs" />
-    <Compile Include="class\main\core\init\About.cs" />
-    <Compile Include="class\main\core\init\IsOnline.cs" />
-    <Compile Include="class\main\core\init\Launch.cs" />
-    <Compile Include="class\main\core\init\Settings.cs" />
-    <Compile Include="class\main\core\init\Target.cs" />
+    <Compile Include="class\main\core\init\panels\about\About.cs" />
+    <Compile Include="class\main\core\init\panels\isonline\IsOnline.cs" />
+    <Compile Include="class\main\core\init\panels\settings\Settings.cs" />
+    <Compile Include="class\main\core\init\panels\launch\Launch.cs" />
+    <Compile Include="class\main\core\init\panels\target\Target.cs" />
     <Compile Include="class\tool\DashBox.cs" />
     <Compile Include="class\tool\DashControls.cs" />
     <Compile Include="class\tool\DashDialog.cs">
