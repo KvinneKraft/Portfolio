@@ -71,6 +71,7 @@ namespace TheDashlorisX
 	}
 
 
+
 	private readonly PictureBox SideBarContainer1 = new PictureBox();
 	private readonly PictureBox SideBarContainer2 = new PictureBox();
 	private readonly PictureBox SideBarContainer3 = new PictureBox();
@@ -143,6 +144,7 @@ namespace TheDashlorisX
 	}
 
 
+
 	private readonly PictureBox CapsuleContainer1 = new PictureBox();
 
 	private readonly Settings SettingsPanel = new Settings();
@@ -173,7 +175,6 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
 
 	public void ReInitMenuBar()
 	{
