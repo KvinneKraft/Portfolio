@@ -55,30 +55,11 @@ namespace TheDashlorisX
 	    }
 	}
 
-
-	private readonly PictureBox BottomContainer1 = new PictureBox();
-	private readonly PictureBox BottomContainer2 = new PictureBox();
-
-	private void InitContainer2()
-	{
-	    try
-	    {
-
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (E);
-	    }
-	}
-
-
 	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
 	    {
 		InitContainer1(Capsule);
-		InitContainer2();
 	    }
 
 	    catch (Exception E)
