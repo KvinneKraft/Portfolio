@@ -144,7 +144,11 @@ namespace TheDashlorisX
 
 	private readonly PictureBox CapsuleContainer1 = new PictureBox();
 
+	private readonly Settings SettingsPanel = new Settings();
+	private readonly IsOnline IsOnlinePanel = new IsOnline();
 	private readonly Target TargetPanel = new Target();
+	private readonly Launch LaunchPanel = new Launch();
+	private readonly About AboutPanel = new About();
 
 	public void InitContainerComponent()
 	{
@@ -156,7 +160,11 @@ namespace TheDashlorisX
 
 		Controls.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
 
-		TargetPanel.Initialize(DashDialog, CapsuleContainer1);
+		//TargetPanel.Initialize(DashDialog, CapsuleContainer1);
+		//SettingsPanel.Initialize(DashDialog, CapsuleContainer1);
+		//IsOnlinePanel.Initialize(DashDialog, CapsuleContainer1);
+		LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
+		//AboutPanel.Initialize(DashDialog, CapsuleContainer1);
 	    }
 
 	    catch (Exception E)
