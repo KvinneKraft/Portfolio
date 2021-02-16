@@ -19,18 +19,54 @@ namespace TheDashlorisX
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tools = new DashTools();
 
-
-	private readonly Button TopButton1 = new Button();
+	
 	private readonly Label TopLabel1 = new Label();
 
-	private void TopInit1()
+	private void TopInit1(Color LabelBCol)
 	{
+	    try
+	    {
+		var LabelText = ("Statistics:");
+		var LabelLoca = new Point(8, 8);
+		var LabelFCol = Color.White;
 
+		Control.Label(TopContainer1, TopLabel1, Size.Empty, LabelLoca, LabelBCol, LabelFCol, 1, 12, LabelText);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 	}
+
+
+	private readonly Button TopButton1 = new Button();
+
+	private void TopInit2(DashDialog DashDialog)
+	{
+	    try
+	    {
+		var ButtonText = ("Reset");
+		var ButtonSize = new Size(85, 20);
+		var ButtonLoca = new Point(TopContainer1.Width - 93, 8);
+		var ButtonBCol = DashDialog.MenuBar.Bar.BackColor;
+		var ButtonFCol = Color.White;
+
+		Control.Button(TopContainer1, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, ButtonText);
+
+		Tools.Round(TopButton1, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
 
 	private readonly PictureBox TopContainer1 = new PictureBox();
 
-	private void InitContainer1(PictureBox Capsule)
+	private void InitContainer1(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
 	    {
@@ -40,11 +76,8 @@ namespace TheDashlorisX
 
 		Control.Image(Capsule, TopContainer1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var LabelText = ("Statistics:");
-		var LabelLoca = new Point(8, 8);
-		var LabelFCol = Color.White;
-
-		Control.Label(TopContainer1, TopLabel1, Size.Empty, LabelLoca, ContainerBCol, LabelFCol, 1, 12, LabelText);
+		TopInit1(ContainerBCol);
+		TopInit2(DashDialog);
 
 		Tools.Round(TopContainer1, 6);
 	    }
@@ -59,7 +92,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		InitContainer1(Capsule);
+		InitContainer1(DashDialog, Capsule);
 	    }
 
 	    catch (Exception E)
