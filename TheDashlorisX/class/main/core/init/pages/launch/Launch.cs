@@ -19,7 +19,7 @@ namespace TheDashlorisX
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tools = new DashTools();
 
-	
+
 	private readonly Label TopLabel1 = new Label();
 
 	private void TopInit1(Color LabelBCol)
@@ -40,19 +40,19 @@ namespace TheDashlorisX
 	}
 
 
+
 	private readonly Button TopButton1 = new Button();
 
 	private void TopInit2(DashDialog DashDialog)
 	{
 	    try
 	    {
-		var ButtonText = ("Reset");
 		var ButtonSize = new Size(85, 20);
 		var ButtonLoca = new Point(TopContainer1.Width - 93, 8);
 		var ButtonBCol = DashDialog.MenuBar.Bar.BackColor;
 		var ButtonFCol = Color.White;
 
-		Control.Button(TopContainer1, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, ButtonText);
+		Control.Button(TopContainer1, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, "Reset");
 
 		Tools.Round(TopButton1, 6);
 	    }
@@ -62,6 +62,34 @@ namespace TheDashlorisX
 		throw (E);
 	    }
 	}
+
+
+
+	private readonly PictureBox TopContainer2 = new PictureBox();
+
+	public readonly TextBox TopTextBox1 = new TextBox();
+	public readonly TextBox TopTextBox2 = new TextBox();
+	public readonly TextBox TopTextBox3 = new TextBox();
+	public readonly TextBox TopTextBox4 = new TextBox();
+
+	private readonly Label TopLabel2 = new Label();
+	private readonly Label TopLabel3 = new Label();
+	private readonly Label TopLabel4 = new Label();
+	private readonly Label TopLabel5 = new Label();
+
+	private void TopInit3(DashDialog DashDialog)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
 
 
 	private readonly PictureBox TopContainer1 = new PictureBox();
@@ -78,6 +106,7 @@ namespace TheDashlorisX
 
 		TopInit1(ContainerBCol);
 		TopInit2(DashDialog);
+		TopInit3(DashDialog);
 
 		Tools.Round(TopContainer1, 6);
 	    }
