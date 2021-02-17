@@ -31,6 +31,12 @@ namespace TheDashlorisX
 		var LabelFCol = Color.White;
 
 		Control.Label(TopContainer1, TopLabel1, Size.Empty, LabelLoca, LabelBCol, LabelFCol, 1, 12, LabelText);
+
+		var ContainerSize = new Size(TopContainer1.Width - 13, TopContainer1.Height - (TopLabel1.Height + TopLabel1.Top + 15));
+		var ContainerLoca = new Point(5, TopContainer1.Height - ContainerSize.Height - 5);
+		var ContainerBCol = TopContainer1.BackColor;
+
+		Control.Image(TopContainer1, TopContainer2, ContainerSize, ContainerLoca, ContainerBCol);
 	    }
 
 	    catch (Exception E)
@@ -81,16 +87,10 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var ContainerSize = new Size(TopContainer1.Width - 13, TopContainer1.Height - (TopLabel1.Height + TopLabel1.Top + 15));
-		var ContainerLoca = new Point(5, TopContainer1.Height - ContainerSize.Height - 5);
-		var ContainerBCol = TopContainer1.BackColor;
-
-		Control.Image(TopContainer1, TopContainer2, ContainerSize, ContainerLoca, ContainerBCol);
-
 		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 		var TextBoxFCol = Color.White;
 
-		var LabelBCol = ContainerBCol;
+		var LabelBCol = TopContainer2.BackColor;
 		var LabelFCol = Color.White;
 
 		/*Think about a way to make this look better, this is horrific, what the actual fuck!*/
@@ -172,6 +172,48 @@ namespace TheDashlorisX
 		TopInit1(ContainerBCol);
 		TopInit2(DashDialog);
 		TopInit3(DashDialog);
+
+		Tool.Round(TopContainer1, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
+	}
+
+
+
+	private readonly PictureBox BottomContainer2 = new PictureBox();
+
+	private readonly TextBox BottomTextBox1 = new TextBox();
+
+	private readonly Button BottomButton1 = new Button();
+
+	private readonly Label BottomLabel1 = new Label();
+
+	private void BottomInit1(DashDialog DashDialog)
+	{
+
+	}
+
+
+
+	private readonly PictureBox BottomContainer1 = new PictureBox();
+
+	private void InitContainer2(DashDialog DashDialog, PictureBox Capsule)
+	{
+	    try
+	    {
+		var ContainerSize = new Size(Capsule.Width - 20, Capsule.Height - TopContainer1.Height - 32);
+		var ContainerLoca = new Point(10, TopContainer1.Height + TopContainer1.Top + 10);
+		var ContainerBCol = TopContainer1.BackColor;
+
+		Control.Image(Capsule, BottomContainer1, ContainerSize, ContainerLoca, ContainerBCol);
+
+		BottomInit1(DashDialog);
+
+		Tool.Round(BottomContainer1, 6);
 	    }
 
 	    catch (Exception E)
@@ -185,6 +227,7 @@ namespace TheDashlorisX
 	    try
 	    {
 		InitContainer1(DashDialog, Capsule);
+		InitContainer2(DashDialog, Capsule);
 	    }
 
 	    catch (Exception E)
