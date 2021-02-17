@@ -54,7 +54,7 @@ namespace TheDashlorisX
 
 		Control.Button(TopContainer1, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, "Reset");
 
-		Tools.Round(TopButton1, 6);
+		Tool.Round(TopButton1, 6);
 	    }
 
 	    catch (Exception E)
@@ -81,26 +81,72 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var ContainerSize = new Size(TopContainer1.Width - 10, TopContainer1.Height - (TopLabel1.Height + TopLabel1.Top + 10));
-		var ContainerLoca = new Point(5, TopContainer1.Top - 5);
+		var ContainerSize = new Size(TopContainer1.Width - 13, TopContainer1.Height - (TopLabel1.Height + TopLabel1.Top + 15));
+		var ContainerLoca = new Point(5, TopContainer1.Height - ContainerSize.Height - 5);
 		var ContainerBCol = TopContainer1.BackColor;
 
 		Control.Image(TopContainer1, TopContainer2, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var LabelBCol = ContainerBCol;
-		var LabelFCol = Color.White;
-
 		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 		var TextBoxFCol = Color.White;
 
-		var Label1Text = ("");
+		var LabelBCol = ContainerBCol;
+		var LabelFCol = Color.White;
+
+		/*Think about a way to make this look better, this is horrific, what the actual fuck!*/
+
+		var Label1Text = ("Headers Sent:");
 		var Label1Size = Tool.GetFontSize(Label1Text, 9);
 		var Label1Loca = new Point(0, 0);
 
-		var TextBox1Size = new Size(85, 20);
+		var TextBox1Size = new Size(65, 20);
 		var TextBox1Loca = new Point(Label1Loca.X + Label1Size.Width, Label1Loca.Y - 2);
 
-		Control.Label();
+		var Label2Text = ("Connections:");
+		var Label2Size = Tool.GetFontSize(Label2Text, 9);
+		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 8, 0);
+
+		var TextBox2Size = new Size(TopContainer2.Width - Label2Loca.X - Label2Size.Width, 20);
+		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, Label2Loca.Y - 2);
+
+		var Label3Text = ("Bytes Sent:");
+		var Label3Size = Tool.GetFontSize(Label3Text, 9);
+		var Label3Loca = new Point(0, Label2Size.Height + Label2Loca.Y + 8);
+
+		var TextBox3Size = new Size(65, 20);
+		var TextBox3Loca = new Point(Label3Loca.X + Label3Size.Width, Label3Loca.Y - 2);
+
+		var Label4Text = ("Time Left:");
+		var Label4Size = Tool.GetFontSize(Label4Text, 9);
+		var Label4Loca = new Point(TextBox3Size.Width + TextBox3Loca.X + 8, Label3Loca.Y);
+
+		var TextBox4Size = new Size(TopContainer2.Width - Label4Loca.X - Label4Size.Width, 20);
+		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Label4Loca.Y - 2);
+
+		Control.Label(TopContainer2, TopLabel5, Label4Size, Label4Loca, LabelBCol, LabelFCol, 1, 9, Label4Text);
+		Control.Label(TopContainer2, TopLabel4, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 9, Label3Text);
+		Control.Label(TopContainer2, TopLabel3, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 9, Label2Text);
+		Control.Label(TopContainer2, TopLabel2, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 9, Label1Text);
+
+		Control.TextBox(TopContainer2, TopTextBox4, TextBox4Size, TextBox4Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+		Control.TextBox(TopContainer2, TopTextBox3, TextBox3Size, TextBox3Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+		Control.TextBox(TopContainer2, TopTextBox2, TextBox2Size, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+		Control.TextBox(TopContainer2, TopTextBox1, TextBox1Size, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+
+		TopTextBox1.TextAlign = HorizontalAlignment.Center;
+		TopTextBox2.TextAlign = HorizontalAlignment.Center;
+		TopTextBox3.TextAlign = HorizontalAlignment.Center;
+		TopTextBox4.TextAlign = HorizontalAlignment.Center;
+
+		TopTextBox1.Text = ("0");
+		TopTextBox2.Text = ("0");
+		TopTextBox3.Text = ("0");
+		TopTextBox4.Text = ("0");
+
+		Tool.Round(TopTextBox1.Parent, 6);
+		Tool.Round(TopTextBox2.Parent, 6);
+		Tool.Round(TopTextBox3.Parent, 6);
+		Tool.Round(TopTextBox4.Parent, 6);
 	    }
 
 	    catch (Exception E)
@@ -126,8 +172,6 @@ namespace TheDashlorisX
 		TopInit1(ContainerBCol);
 		TopInit2(DashDialog);
 		TopInit3(DashDialog);
-
-		Tools.Round(TopContainer1, 6);
 	    }
 
 	    catch (Exception E)
