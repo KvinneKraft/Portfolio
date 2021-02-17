@@ -17,7 +17,7 @@ namespace TheDashlorisX
     public class Launch
     {
 	private readonly DashControls Control = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashTools Tool = new DashTools();
 
 
 	private readonly Label TopLabel1 = new Label();
@@ -81,7 +81,26 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		var ContainerSize = new Size(TopContainer1.Width - 10, TopContainer1.Height - (TopLabel1.Height + TopLabel1.Top + 10));
+		var ContainerLoca = new Point(5, TopContainer1.Top - 5);
+		var ContainerBCol = TopContainer1.BackColor;
 
+		Control.Image(TopContainer1, TopContainer2, ContainerSize, ContainerLoca, ContainerBCol);
+
+		var LabelBCol = ContainerBCol;
+		var LabelFCol = Color.White;
+
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFCol = Color.White;
+
+		var Label1Text = ("");
+		var Label1Size = Tool.GetFontSize(Label1Text, 9);
+		var Label1Loca = new Point(0, 0);
+
+		var TextBox1Size = new Size(85, 20);
+		var TextBox1Loca = new Point(Label1Loca.X + Label1Size.Width, Label1Loca.Y - 2);
+
+		Control.Label();
 	    }
 
 	    catch (Exception E)
