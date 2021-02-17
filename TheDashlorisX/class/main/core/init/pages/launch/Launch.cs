@@ -194,7 +194,15 @@ namespace TheDashlorisX
 
 	private void BottomInit1(DashDialog DashDialog)
 	{
+	    try
+	    {
 
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (E);
+	    }
 	}
 
 
