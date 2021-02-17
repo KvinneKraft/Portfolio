@@ -38,8 +38,8 @@ namespace TheDashlorisX
 
 
 
-	private readonly DashControls Controls = new DashControls();
-	private readonly DashTools Tools = new DashTools();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
 
 	private readonly PictureBox BottomBarContainer1 = new PictureBox();
@@ -53,15 +53,15 @@ namespace TheDashlorisX
 		var ContainerLoca = new Point(0, DashDialog.Height - 28);
 		var ContainerBCol = DashDialog.MenuBar.Bar.BackColor;
 
-		Controls.Image(DashDialog, BottomBarContainer1, ContainerSize, ContainerLoca, ContainerBCol);
+		Control.Image(DashDialog, BottomBarContainer1, ContainerSize, ContainerLoca, ContainerBCol);
 
 		var LabelText = ($"All Rights Reserved (c) Dashies Softwaries {DateTime.Today.Year}");
-		var LabelSize = Tools.GetFontSize(LabelText, 5);
+		var LabelSize = Tool.GetFontSize(LabelText, 5);
 		var LabelLoca = new Point((ContainerSize.Width - LabelSize.Width + 100) / 2, (ContainerSize.Height - LabelSize.Height) / 2);
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		Controls.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 5, LabelText);
+		Control.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 5, LabelText);
 	    }
 
 	    catch (Exception E)
@@ -88,7 +88,7 @@ namespace TheDashlorisX
 	    {
 		foreach (Control Control in Controls)
 		{
-		    Tools.Round(Control, 6);
+		    Tool.Round(Control, 6);
 		}
 	    }
 
@@ -113,9 +113,9 @@ namespace TheDashlorisX
 		var Container3Size = new Size(Container2Size.Width, 26);
 		var Container3Loca = new Point(10, Container1Size.Height - 36);
 
-		Controls.Image(SideBarContainer1, SideBarContainer3, Container3Size, Container3Loca, ContainerBCol);
-		Controls.Image(SideBarContainer1, SideBarContainer2, Container2Size, Container2Loca, ContainerBCol);
-		Controls.Image(DashDialog, SideBarContainer1, Container1Size, Container1Loca, ContainerBCol);
+		Control.Image(SideBarContainer1, SideBarContainer3, Container3Size, Container3Loca, ContainerBCol);
+		Control.Image(SideBarContainer1, SideBarContainer2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(DashDialog, SideBarContainer1, Container1Size, Container1Loca, ContainerBCol);
 
 		var OptionSize = new Size(Container2Size.Width, 26);
 		var OptionBCol = ContainerBCol;
@@ -127,11 +127,11 @@ namespace TheDashlorisX
 		var Option1Loca = new Point(0, 0);
 		var Option5Loca = new Point(0, 0);
 
-		Controls.Button(SideBarContainer3, SideBarButton5, OptionSize, Option5Loca, OptionBCol, OptionFCol, 1, 9, "Launch");
-		Controls.Button(SideBarContainer2, SideBarButton1, OptionSize, Option1Loca, OptionBCol, OptionFCol, 1, 9, "Target");
-		Controls.Button(SideBarContainer2, SideBarButton2, OptionSize, Option2Loca, OptionBCol, OptionFCol, 1, 9, "Settings");
-		Controls.Button(SideBarContainer2, SideBarButton3, OptionSize, Option3Loca, OptionBCol, OptionFCol, 1, 9, "Is Online");
-		Controls.Button(SideBarContainer2, SideBarButton4, OptionSize, Option4Loca, OptionBCol, OptionFCol, 1, 9, "About");
+		Control.Button(SideBarContainer3, SideBarButton5, OptionSize, Option5Loca, OptionBCol, OptionFCol, 1, 9, "Launch");
+		Control.Button(SideBarContainer2, SideBarButton1, OptionSize, Option1Loca, OptionBCol, OptionFCol, 1, 9, "Target");
+		Control.Button(SideBarContainer2, SideBarButton2, OptionSize, Option2Loca, OptionBCol, OptionFCol, 1, 9, "Settings");
+		Control.Button(SideBarContainer2, SideBarButton3, OptionSize, Option3Loca, OptionBCol, OptionFCol, 1, 9, "Is Online");
+		Control.Button(SideBarContainer2, SideBarButton4, OptionSize, Option4Loca, OptionBCol, OptionFCol, 1, 9, "About");
 
 		RoundControls(SideBarContainer2.Controls);
 		RoundControls(SideBarContainer3.Controls);
@@ -161,7 +161,7 @@ namespace TheDashlorisX
 		var CapsuleLoca = new Point(SideBarContainer1.Width, DashDialog.MenuBar.Bar.Height);
 		var CapsuleBCol = DashDialog.BackColor; //Color.FromArgb(2, 55, 110);
 
-		Controls.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
+		Control.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
 
 		//TargetPanel.Initialize(DashDialog, CapsuleContainer1);
 		//SettingsPanel.Initialize(DashDialog, CapsuleContainer1);
