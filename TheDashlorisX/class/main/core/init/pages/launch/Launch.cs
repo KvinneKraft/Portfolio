@@ -196,7 +196,38 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		var LabelText = ("Dash Log:");
+		var LabelSize = Tool.GetFontSize(LabelText, 12);
+		var LabelLoca = new Point(8, 8);
+		var LabelBCol = TopContainer1.BackColor;
+		var LabelFCol = Color.White;
 
+		Control.Label(BottomContainer1, BottomLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 12, LabelText);
+
+		var ContainerSize = new Size(BottomContainer1.Width - 14, BottomContainer1.Height - 49);
+		var ContainerLoca = new Point(7, 42);
+		var ContainerBCol = TopContainer1.BackColor;
+
+		Control.Image(BottomContainer1, BottomContainer2, ContainerSize, ContainerLoca, ContainerBCol);
+
+		var ButtonText = ("Clear");
+		var ButtonSize = new Size(85, 20);
+		var ButtonLoca = new Point(ContainerSize.Width - 93, 8);
+		var ButtonBCol = DashDialog.MenuBar.Bar.BackColor;
+		var ButtonFCol = Color.White;
+
+		Control.Button(BottomContainer1, BottomButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, ButtonText);
+
+		Tool.Round(BottomButton1, 6);
+
+		var TextBoxSize = new Size(ContainerSize.Width, ContainerSize.Height);
+		var TextBoxLoca = new Point(0, 0);
+		var TextBoxBCol = ContainerBCol;
+		var TextBoxFCol = Color.White;
+
+		Control.TextBox(BottomContainer2, BottomTextBox1, ContainerSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true, FixedSize: false, ScrollBar: true, Multiline:true);
+
+		BottomTextBox1.Text = ("hey!");
 	    }
 
 	    catch (Exception E)
