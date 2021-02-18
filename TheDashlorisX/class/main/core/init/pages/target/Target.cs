@@ -63,70 +63,68 @@ namespace TheDashlorisX
 	private Size GetFontSize(string text, int height = 10) =>
 	    Tool.GetFontSize(text, height);
 
+	private void AddInputBox(Label Label, Size LabelSize, Point LabelLoca, string LabelText, TextBox TextBox, Size TextBoxSize, Point TextBoxLoca, string TextBoxText, DashDialog DashDialog)
+	{
+	    try
+	    {
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFCol = Color.White;
+
+		Control.TextBox(TopContainer2, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 9, ReadOnly: true);
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = TextBoxText;
+
+		Tool.Round(TextBox.Parent, 6);
+
+		var LabelBCol = TopContainer2.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(TopContainer2, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 10, LabelText);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void Init2(DashDialog DashDialog)
 	{
 	    try
 	    {
-		var LabelBCol = TopContainer2.BackColor;
-		var LabelFCol = Color.White;
+		var Label4Size = GetFontSize("Duration:");
+		var Label3Size = GetFontSize("Bytes:");
+		var Label1Size = GetFontSize("Host:");
+		var Label2Size = GetFontSize("Port:");
 
-		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
-		var TextBoxFCol = Color.White;
-
-		var Label3Text = ("Duration:");
-		var Label4Text = ("Bytes:");
-		var Label2Text = ("Port:");
-		var Label1Text = ("Host:");
-
-		var Label1Size = GetFontSize(Label1Text);
-		var Label2Size = GetFontSize(Label2Text);
-		var Label3Size = GetFontSize(Label3Text);
-		var Label4Size = GetFontSize(Label4Text);
-
-		int Y1 = (8);
-
-		var Label1Loca = new Point(5, Y1);
 		var TextBox1Size = new Size(135, 20);
-		var TextBox1Loca = new Point(Label1Size.Width + 5, Y1);
+		var TextBox3Size = new Size(85, 20);
 
-		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 10, Y1);
-		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, Y1);
-		var TextBox2Size = new Size(TopContainer2.Width - TextBox2Loca.X - 8, 20);
+		var TextBox4Size = new Size(TopContainer2.Width - (TextBox3Size.Width + Label3Size.Width + 22 + Label4Size.Width), 20);
+		var TextBox2Size = new Size(TopContainer2.Width - (TextBox1Size.Width + Label1Size.Width + 22 + Label2Size.Width), 20);
+
+		var Label1Loca = new Point(5, 8);
+		var TextBox1Loca = new Point(Label1Size.Width + 5, 6);
+
+		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 10, 8);
+		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, 6);
 
 		int Y2 = (TextBox2Loca.Y + TextBox2Size.Height + 10);
 
 		var Label3Loca = new Point(5, TextBox2Loca.Y + TextBox2Size.Height + 10);
 		var TextBox3Loca = new Point(Label3Loca.X + Label3Size.Width, Y2);
-		var TextBox3Size = new Size(85, 20);
 
 		var Label4Loca = new Point(TextBox3Loca.X + TextBox3Size.Width + 10, Y2);
 		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Y2);
-		var TextBox4Size = new Size(TopContainer2.Width - TextBox4Loca.X - 8, 20);
+		
+		// TextBox2Loca.X: TextBox1Size.Width + Label1Size.Width + 5 + Label2Size.Width 
+		// TextBox4Loca.X: 
 
-		Control.Label(TopContainer2, TopLabel1, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 10, Label1Text);
-		Control.Label(TopContainer2, TopLabel2, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 10, Label2Text);
-		Control.Label(TopContainer2, TopLabel3, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 10, Label3Text);
-		Control.Label(TopContainer2, TopLabel4, Label4Size, Label4Loca, LabelBCol, LabelFCol, 1, 10, Label4Text);
-
-		Control.TextBox(TopContainer2, TopTextBox1, TextBox1Size, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 9);
-		Control.TextBox(TopContainer2, TopTextBox2, TextBox2Size, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 9);
-		Control.TextBox(TopContainer2, TopTextBox3, TextBox3Size, TextBox3Loca, TextBoxBCol, TextBoxFCol, 1, 9);
-		Control.TextBox(TopContainer2, TopTextBox4, TextBox4Size, TextBox4Loca, TextBoxBCol, TextBoxFCol, 1, 9);
-
-		TopTextBox1.TextAlign = HorizontalAlignment.Center;
-		TopTextBox2.TextAlign = HorizontalAlignment.Center;
-		TopTextBox3.TextAlign = HorizontalAlignment.Center;
-		TopTextBox4.TextAlign = HorizontalAlignment.Center;
-
-		TopTextBox1.Text = ("https://pugpawz.com/");
-		TopTextBox2.Text = ("65535");
-		TopTextBox3.Text = ("75250");
-		TopTextBox4.Text = ("5250");
-
-		Tool.Round(TopTextBox1.Parent, 6);
-		Tool.Round(TopTextBox2.Parent, 6);
-		Tool.Round(TopTextBox3.Parent, 6);
-		Tool.Round(TopTextBox4.Parent, 6);
+		AddInputBox(TopLabel1, Label1Size, Label1Loca, ("Host:"), TopTextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"), DashDialog);
+		AddInputBox(TopLabel4, Label4Size, Label4Loca, ("Duration:"), TopTextBox4, TextBox4Size, TextBox4Loca, ("5250"), DashDialog);
+		AddInputBox(TopLabel3, Label3Size, Label3Loca, ("Bytes:"), TopTextBox3, TextBox3Size, TextBox3Loca, ("75250"), DashDialog);
+		AddInputBox(TopLabel2, Label2Size, Label2Loca, ("Port:"), TopTextBox2, TextBox2Size, TextBox2Loca, ("65535"), DashDialog);
 	    }
 
 	    catch (Exception E)
