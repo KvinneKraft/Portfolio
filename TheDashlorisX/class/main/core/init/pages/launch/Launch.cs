@@ -83,7 +83,7 @@ namespace TheDashlorisX
 	private readonly Label TopLabel4 = new Label();
 	private readonly Label TopLabel5 = new Label();
 
-	private void TopInit3(DashDialog DashDialog)
+	private void AddInputBox(Label Label, Size LabelSize, Point LabelLoca, string LabelText, TextBox TextBox, Size TextBoxSize, Point TextBoxLoca, DashDialog DashDialog)
 	{
 	    try
 	    {
@@ -93,8 +93,27 @@ namespace TheDashlorisX
 		var LabelBCol = TopContainer2.BackColor;
 		var LabelFCol = Color.White;
 
-		/*Think about a way to make this look better, this is horrific, what the actual fuck!*/
+		Control.TextBox(TopContainer2, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
 
+		Control.Label(TopContainer2, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 9, LabelText);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void TopInit3(DashDialog DashDialog)
+	{
+	    try
+	    {
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFCol = Color.White;
+
+		var LabelBCol = TopContainer2.BackColor;
+		var LabelFCol = Color.White;
+		
 		var Label1Text = ("Headers Sent:");
 		var Label1Size = Tool.GetFontSize(Label1Text, 9);
 		var Label1Loca = new Point(0, 0);
@@ -151,7 +170,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E))
 	    }
 	}
 
@@ -178,7 +197,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E))
 	    }
 	}
 
