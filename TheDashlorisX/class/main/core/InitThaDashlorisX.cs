@@ -163,10 +163,10 @@ namespace TheDashlorisX
 
 		Control.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
 
-		//TargetPanel.Initialize(DashDialog, CapsuleContainer1);
+		TargetPanel.Initialize(DashDialog, CapsuleContainer1);
 		//SettingsPanel.Initialize(DashDialog, CapsuleContainer1);
 		//IsOnlinePanel.Initialize(DashDialog, CapsuleContainer1);
-		LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
+		//LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
 		//AboutPanel.Initialize(DashDialog, CapsuleContainer1);
 	    }
 
