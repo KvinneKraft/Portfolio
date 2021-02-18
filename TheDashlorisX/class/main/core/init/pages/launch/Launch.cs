@@ -41,7 +41,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -65,7 +65,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -83,17 +83,22 @@ namespace TheDashlorisX
 	private readonly Label TopLabel4 = new Label();
 	private readonly Label TopLabel5 = new Label();
 
-	private void AddInputBox(Label Label, Size LabelSize, Point LabelLoca, string LabelText, TextBox TextBox, Size TextBoxSize, Point TextBoxLoca, DashDialog DashDialog)
+	private void AddInputBox(Label Label, Size LabelSize, Point LabelLoca, string LabelText, TextBox TextBox, Size TextBoxSize, Point TextBoxLoca, string TextBoxText, DashDialog DashDialog)
 	{
 	    try
 	    {
 		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
 		var TextBoxFCol = Color.White;
 
+		Control.TextBox(TopContainer2, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = TextBoxText;
+
+		Tool.Round(TextBox.Parent, 6);
+
 		var LabelBCol = TopContainer2.BackColor;
 		var LabelFCol = Color.White;
-
-		Control.TextBox(TopContainer2, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
 
 		Control.Label(TopContainer2, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 9, LabelText);
 	    }
@@ -108,12 +113,6 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
-		var TextBoxFCol = Color.White;
-
-		var LabelBCol = TopContainer2.BackColor;
-		var LabelFCol = Color.White;
-		
 		var Label1Text = ("Headers Sent:");
 		var Label1Size = Tool.GetFontSize(Label1Text, 9);
 		var Label1Loca = new Point(0, 0);
@@ -142,35 +141,12 @@ namespace TheDashlorisX
 		var TextBox4Size = new Size(TopContainer2.Width - Label4Loca.X - Label4Size.Width, 20);
 		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Label4Loca.Y - 2);
 
-		Control.Label(TopContainer2, TopLabel5, Label4Size, Label4Loca, LabelBCol, LabelFCol, 1, 9, Label4Text);
-		Control.Label(TopContainer2, TopLabel4, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 9, Label3Text);
-		Control.Label(TopContainer2, TopLabel3, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 9, Label2Text);
-		Control.Label(TopContainer2, TopLabel2, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 9, Label1Text);
-
-		Control.TextBox(TopContainer2, TopTextBox4, TextBox4Size, TextBox4Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
-		Control.TextBox(TopContainer2, TopTextBox3, TextBox3Size, TextBox3Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
-		Control.TextBox(TopContainer2, TopTextBox2, TextBox2Size, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
-		Control.TextBox(TopContainer2, TopTextBox1, TextBox1Size, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
-
-		TopTextBox1.TextAlign = HorizontalAlignment.Center;
-		TopTextBox2.TextAlign = HorizontalAlignment.Center;
-		TopTextBox3.TextAlign = HorizontalAlignment.Center;
-		TopTextBox4.TextAlign = HorizontalAlignment.Center;
-
-		TopTextBox1.Text = ("0");
-		TopTextBox2.Text = ("0");
-		TopTextBox3.Text = ("0");
-		TopTextBox4.Text = ("0");
-
-		Tool.Round(TopTextBox1.Parent, 6);
-		Tool.Round(TopTextBox2.Parent, 6);
-		Tool.Round(TopTextBox3.Parent, 6);
-		Tool.Round(TopTextBox4.Parent, 6);
+		AddInputBox(TopLabel2, Label1Size, Label1Loca, ("Headers Sent:"), TopTextBox1, TextBox1Size, TextBox1Loca, ("0"), DashDialog);
 	    }
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E))
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -197,7 +173,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E))
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -251,7 +227,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (E);
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
