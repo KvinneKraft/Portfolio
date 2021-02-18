@@ -121,11 +121,13 @@ namespace TheDashlorisX
 		var OptionBCol = ContainerBCol;
 		var OptionFCol = Color.White;
 
-		var Option3Loca = new Point(0, OptionSize.Height * 2 + 16);
-		var Option4Loca = new Point(0, OptionSize.Height * 3 + 24);
-		var Option2Loca = new Point(0, OptionSize.Height + 8);
-		var Option1Loca = new Point(0, 0);
-		var Option5Loca = new Point(0, 0);
+		int x = 0;
+
+		var Option3Loca = new Point(x, OptionSize.Height * 2 + 16);
+		var Option4Loca = new Point(x, OptionSize.Height * 3 + 24);
+		var Option2Loca = new Point(x, OptionSize.Height + 8);
+		var Option1Loca = new Point(x, 0);
+		var Option5Loca = new Point(x, 0);
 
 		Control.Button(SideBarContainer3, SideBarButton5, OptionSize, Option5Loca, OptionBCol, OptionFCol, 1, 9, "Launch");
 		Control.Button(SideBarContainer2, SideBarButton1, OptionSize, Option1Loca, OptionBCol, OptionFCol, 1, 9, "Target");
@@ -163,10 +165,10 @@ namespace TheDashlorisX
 
 		Control.Image(DashDialog, CapsuleContainer1, CapsuleSize, CapsuleLoca, CapsuleBCol);
 
-		TargetPanel.Initialize(DashDialog, CapsuleContainer1);
+		//TargetPanel.Initialize(DashDialog, CapsuleContainer1);
 		//SettingsPanel.Initialize(DashDialog, CapsuleContainer1);
 		//IsOnlinePanel.Initialize(DashDialog, CapsuleContainer1);
-		//LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
+		LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
 		//AboutPanel.Initialize(DashDialog, CapsuleContainer1);
 	    }
 
