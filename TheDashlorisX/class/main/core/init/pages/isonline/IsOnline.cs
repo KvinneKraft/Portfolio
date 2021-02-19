@@ -20,10 +20,7 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
-
-	private readonly PictureBox TopContainer = new PictureBox();
-
-	// topinit1
+	
 	private readonly Label TopLabel1 = new Label();
 	private readonly Label TopLabel2 = new Label();
 	private readonly Label TopLabel3 = new Label();
@@ -32,7 +29,27 @@ namespace TheDashlorisX
 	private readonly TextBox TextBox1 = new TextBox();
 	private readonly TextBox TextBox2 = new TextBox();
 	private readonly TextBox TextBox3 = new TextBox();
-	// dropdownmenu
+
+	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
+
+	private void TopInit1()
+	{
+	    try
+	    {
+		
+
+		//DropDownMenu.SetupMenu(Top, MenuLocation, MenuColor, MenuBorderColor);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+
+	private readonly PictureBox MainContainer = new PictureBox();
 
 	private void InitContainer1(PictureBox Capsule)
 	{
@@ -42,10 +59,10 @@ namespace TheDashlorisX
 		var ContainerLoca = new Point(10, (Capsule.Height - 104) / 2);
 		var ContainerBCol = Color.FromArgb(2, 55, 110);
 
-		Control.Image(Capsule, TopContainer, ContainerSize, ContainerLoca, ContainerBCol);
-		Tool.Round(TopContainer, 6);
+		Control.Image(Capsule, MainContainer, ContainerSize, ContainerLoca, ContainerBCol);
+		Tool.Round(MainContainer, 6);
 
-
+		TopInit1();
 	    }
 
 	    catch (Exception E)
@@ -77,7 +94,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		InitContainer1();
+		InitContainer1(Capsule);
 		InitContainer2();
 	    }
 
