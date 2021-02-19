@@ -177,7 +177,9 @@ namespace TheDashlorisX
 
 
 
+	private readonly PictureBox BottomContainer3 = new PictureBox();
 	private readonly PictureBox BottomContainer2 = new PictureBox();
+
 	private readonly TextBox BottomTextBox1 = new TextBox();
 	private readonly Button BottomButton1 = new Button();
 	private readonly Label BottomLabel1 = new Label();
@@ -189,30 +191,32 @@ namespace TheDashlorisX
 		var LabelSize = Tool.GetFontSize("Dash Log:", 12);
 		var LabelBCol = TopContainer1.BackColor;
 		var LabelLoca = new Point(8, 8);
-		var LabelFCol = Color.White;
 
-		Control.Label(BottomContainer1, BottomLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 12, "Dash Log:");
+		Control.Label(BottomContainer1, BottomLabel1, LabelSize, LabelLoca, LabelBCol, Color.White, 1, 12, "Dash Log:");
 
-		var ContainerSize = new Size(BottomContainer1.Width - 14, BottomContainer1.Height - 49);
-		var ContainerBCol = Color.FromArgb(3, 36, 71);
-		var ContainerLoca = new Point(7, 42);
+		var Container1Size = new Size(BottomContainer1.Width - 14, BottomContainer1.Height - 49);
+		var Container1BCol = Color.FromArgb(3, 36, 71);
+		var Container1Loca = new Point(7, 42);
 
-		Control.Image(BottomContainer1, BottomContainer2, ContainerSize, ContainerLoca, ContainerBCol);
+		Control.Image(BottomContainer1, BottomContainer2, Container1Size, Container1Loca, Container1BCol);
+		Tool.Round(BottomContainer2, 6);
 
 		var ButtonSize = new Size(85, 20);
-		var ButtonLoca = new Point(ContainerSize.Width - 78, 8);
+		var ButtonLoca = new Point(Container1Size.Width - 78, 8);
 		var ButtonBCol = DashDialog.MenuBar.Bar.BackColor;
-		var ButtonFCol = Color.White;
-
-		Control.Button(BottomContainer1, BottomButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 7, "Reset");
+		
+		Control.Button(BottomContainer1, BottomButton1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 7, "Reset");
 		Tool.Round(BottomButton1, 6);
+		
+		var Container2Size = new Size(Container1Size.Width - 10, Container1Size.Height - 10);
+		var Container2Loca = new Point(5, 5);
 
-		var TextBoxSize = new Size(ContainerSize.Width, ContainerSize.Height);
+		Control.Image(BottomContainer2, BottomContainer3, Container2Size, Container2Loca, Container1BCol);
+		Tool.Round(BottomContainer3, 6);
+
 		var TextBoxLoca = new Point(0, 0);
-		var TextBoxBCol = ContainerBCol;
-		var TextBoxFCol = Color.White;
 
-		Control.TextBox(BottomContainer2, BottomTextBox1, ContainerSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true, FixedSize: false, ScrollBar: true, Multiline:true);
+		Control.TextBox(BottomContainer3, BottomTextBox1, Container2Size, TextBoxLoca, Container1BCol, Color.White, 1, 8, ReadOnly: true, FixedSize: false, ScrollBar: true, Multiline: true);
 
 		BottomTextBox1.Text = String.Format
 		(
