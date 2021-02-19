@@ -118,9 +118,6 @@ namespace TheDashlorisX
 		var Label4Loca = new Point(TextBox3Loca.X + TextBox3Size.Width + 10, Y2);
 		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Y2);
 		
-		// TextBox2Loca.X: TextBox1Size.Width + Label1Size.Width + 5 + Label2Size.Width 
-		// TextBox4Loca.X: 
-
 		AddInputBox(TopLabel1, Label1Size, Label1Loca, ("Host:"), TopTextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"), DashDialog);
 		AddInputBox(TopLabel4, Label4Size, Label4Loca, ("Duration:"), TopTextBox4, TextBox4Size, TextBox4Loca, ("5250"), DashDialog);
 		AddInputBox(TopLabel3, Label3Size, Label3Loca, ("Bytes:"), TopTextBox3, TextBox3Size, TextBox3Loca, ("75250"), DashDialog);
@@ -141,8 +138,8 @@ namespace TheDashlorisX
 	    try
 	    {
 		var ButtonSize = new Size(135, 24);
-		var ButtonLoca = new Point(8 /*(TopContainer2.Width - 135) / 2*/, TopContainer2.Height - 32);
-		var ButtonBCol = TopTextBox1.BackColor; //TopContainer2.BackColor;
+		var ButtonLoca = new Point(8, TopContainer2.Height - 32);
+		var ButtonBCol = TopTextBox1.BackColor;
 		var ButtonFCol = Color.White;
 
 		Control.Button(TopContainer2, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 8, "Test Connection");
