@@ -178,11 +178,8 @@ namespace TheDashlorisX
 
 
 	private readonly PictureBox BottomContainer2 = new PictureBox();
-
 	private readonly TextBox BottomTextBox1 = new TextBox();
-
 	private readonly Button BottomButton1 = new Button();
-
 	private readonly Label BottomLabel1 = new Label();
 
 	private void BottomInit1(DashDialog DashDialog)
