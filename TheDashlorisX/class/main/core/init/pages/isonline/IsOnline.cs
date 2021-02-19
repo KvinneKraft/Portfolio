@@ -50,6 +50,8 @@ namespace TheDashlorisX
 
 
 	private readonly PictureBox BottomContainer = new PictureBox();
+	private readonly Button BottomButton = new Button();
+	private readonly Label BottomLabel = new Label();
 
 	private void InitContainer2()
 	{
