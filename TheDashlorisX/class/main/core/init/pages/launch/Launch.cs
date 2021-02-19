@@ -213,7 +213,11 @@ namespace TheDashlorisX
 		var TextBoxFCol = Color.White;
 
 		Control.TextBox(BottomContainer2, BottomTextBox1, ContainerSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true, FixedSize: false, ScrollBar: true, Multiline:true);
-		BottomTextBox1.Text = ("hey!");
+
+		BottomTextBox1.Text = String.Format
+		(
+		    "(?) use me with caution, you can crash your own network because of misuse."
+		);
 	    }
 
 	    catch (Exception E)
