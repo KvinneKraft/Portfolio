@@ -56,12 +56,12 @@ namespace TheDashlorisX
 		Control.Image(DashDialog, BottomBarContainer1, ContainerSize, ContainerLoca, ContainerBCol);
 
 		var LabelText = ($"All Rights Reserved (c) Dashies Softwaries {DateTime.Today.Year}");
-		var LabelSize = Tool.GetFontSize(LabelText, 5);
+		var LabelSize = Tool.GetFontSize(LabelText, 6);
 		var LabelLoca = new Point((ContainerSize.Width - LabelSize.Width + 100) / 2, (ContainerSize.Height - LabelSize.Height) / 2);
 		var LabelBCol = ContainerBCol;
 		var LabelFCol = Color.White;
 
-		Control.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 5, LabelText);
+		Control.Label(BottomBarContainer1, BottomBarLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 6, LabelText);
 	    }
 
 	    catch (Exception E)
@@ -101,7 +101,7 @@ namespace TheDashlorisX
 	public void InitSideBarComponent()
 	{
 	    try
-	    {// COntainer BCOL = 2, 55, 110
+	    {
 		var ContainerBCol = DashDialog.MenuBar.Bar.BackColor;
 
 		var Container1Size = new Size(100, DashDialog.Height - DashDialog.MenuBar.Bar.Height - BottomBarContainer1.Height);
