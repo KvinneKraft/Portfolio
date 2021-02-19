@@ -34,10 +34,17 @@ namespace TheDashlorisX
 	private readonly TextBox TextBox3 = new TextBox();
 	// dropdownmenu
 
-	private void InitContainer1()
+	private void InitContainer1(PictureBox Capsule)
 	{
 	    try
 	    {
+		var ContainerSize = new Size(Capsule.Width - 20, 104);
+		var ContainerLoca = new Point(10, (Capsule.Height - 104) / 2);
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
+
+		Control.Image(Capsule, TopContainer, ContainerSize, ContainerLoca, ContainerBCol);
+		Tool.Round(TopContainer, 6);
+
 
 	    }
 
