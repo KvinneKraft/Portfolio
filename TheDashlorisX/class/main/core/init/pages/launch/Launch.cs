@@ -20,6 +20,8 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
+
+	private readonly PictureBox TopContainer2 = new PictureBox();
 	private readonly Label TopLabel1 = new Label();
 
 	private void TopInit1(Color LabelBCol)
@@ -70,8 +72,6 @@ namespace TheDashlorisX
 	}
 
 
-
-	private readonly PictureBox TopContainer2 = new PictureBox();
 
 	public readonly TextBox TopTextBox1 = new TextBox();
 	public readonly TextBox TopTextBox2 = new TextBox();
