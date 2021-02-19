@@ -194,7 +194,7 @@ namespace TheDashlorisX
 		Control.Label(BottomContainer1, BottomLabel1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 12, "Dash Log:");
 
 		var ContainerSize = new Size(BottomContainer1.Width - 14, BottomContainer1.Height - 49);
-		var ContainerBCol = TopContainer1.BackColor;
+		var ContainerBCol = Color.FromArgb(3, 36, 71);
 		var ContainerLoca = new Point(7, 42);
 
 		Control.Image(BottomContainer1, BottomContainer2, ContainerSize, ContainerLoca, ContainerBCol);
