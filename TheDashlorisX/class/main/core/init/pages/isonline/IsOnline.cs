@@ -111,11 +111,11 @@ namespace TheDashlorisX
 		var Label3Size = Tool.GetFontSize("Method:", 10);
 		var Label2Size = Tool.GetFontSize("Port:", 10);
 
-		var Label1Loca = new Point(0, 2);
+		var Label1Loca = new Point(0, 1);
 		var TextBox1Size = new Size(65, 20);
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 
-		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 8, 2);
+		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 8, 1);
 		var TextBox2Size = new Size(TopContainer.Width - (Label2Loca.X + Label2Size.Width), 20);
 		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, 0);
 
@@ -123,11 +123,16 @@ namespace TheDashlorisX
 
 		SetupDropDownMenu(Label3Loca, Label3Size, DashDialog);
 
-		//Setup Click Event with DropDownMenu
-
 		var Label4Loca = new Point(TopLabel4.Width + TopLabel4.Left + 8, Label3Loca.Y);
 		var TextBox3Size = new Size(TopContainer.Width - (Label4Loca.X + Label4Size.Width), 20);
-		var TextBox3Loca = new Point(Label4Loca.X + Label4Size.Width, Label4Loca.Y - 2);
+		var TextBox3Loca = new Point(Label4Loca.X + Label4Size.Width, Label4Loca.Y - 1);
+
+		AddInputBox(TopLabel1, Label1Size, Label1Loca, ("Timeout:"), TextBox1, TextBox1Size, TextBox1Loca, ("0"), DashDialog);
+		AddInputBox(TopLabel2, Label2Size, Label2Loca, ("Port:"), TextBox2, TextBox2Size, TextBox2Loca, ("0"), DashDialog);
+		AddInputBox(TopLabel3, Label3Size, Label3Loca, ("Method:"), TextBox3, TextBox3Size, TextBox3Loca, ("0"), DashDialog);
+
+		Control.Label(TopContainer, TopLabel5, Label4Size, Label4Loca, TopContainer.BackColor, Color.White, 1, 10, ("Packet Size:"));
+		
 	    }
 
 	    catch (Exception E)
