@@ -21,8 +21,6 @@ namespace TheDashlorisX
 
 
 
-	private readonly PictureBox TopContainer = new PictureBox();
-
 	private readonly Label TopLabel1 = new Label();
 	private readonly Label TopLabel2 = new Label();
 	private readonly Label TopLabel3 = new Label();
@@ -38,7 +36,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-
+		
 	    }
 
 	    catch (Exception E)
@@ -49,13 +47,17 @@ namespace TheDashlorisX
 
 
 
-	private readonly PictureBox MainContainer = new PictureBox();
+	private readonly PictureBox TopContainer = new PictureBox();
 
-	private void InitContainer1(PictureBox Capsule)
+	private void InitContainer1()
 	{
 	    try
 	    {
+		var ContainerSize = new Size(MainContainer.Width - 16, 54);
+		var ContainerLoca = new Point(8, 8);
+		var ContainerBCol = MainContainer.BackColor;
 
+		Control.Image(MainContainer, TopContainer, ContainerSize, ContainerLoca, ContainerBCol);
 
 		TopInit1();
 	    }
@@ -85,6 +87,10 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+
+	private readonly PictureBox MainContainer = new PictureBox();
+
 	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
@@ -95,7 +101,7 @@ namespace TheDashlorisX
 
 		Control.Image(Capsule, MainContainer, ContainerSize, ContainerLoca, ContainerBCol);
 
-		InitContainer1(Capsule);
+		InitContainer1();
 		InitContainer2();
 
 		Tool.Round(MainContainer, 6);
