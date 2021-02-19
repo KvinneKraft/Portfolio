@@ -21,22 +21,14 @@ namespace TheDashlorisX
 
 
 
-	private readonly PictureBox Container1 = new PictureBox();
 	private readonly Label Label1 = new Label();
 
-	private void InitContainer1(PictureBox Capsule)
+	private void InitContainer1()
 	{
 	    try
-	    {
-		var ContainerSize = new Size(Capsule.Width - 20, Capsule.Height - 20);
-		var ContainerLoca = new Point(10, 10);
-		var ContainerBCol = Color.FromArgb(2, 55, 110);
-
-		Control.Image(Capsule, Container1, ContainerSize, ContainerLoca, ContainerBCol);
-		Tool.Round(Container1, 6);
-	    
+	    { 
 		var LabelLoca = new Point(8, 8);
-		var LabelBCol = ContainerBCol;
+		var LabelBCol = Container1.BackColor;
 		var LabelFCol = Color.White;
 
 		Control.Label(Container1, Label1, Size.Empty, LabelLoca, LabelBCol, LabelFCol, 1, 12, ("Dashloris-X 3.0 Information:"));
@@ -88,12 +80,24 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+
+	private readonly PictureBox Container1 = new PictureBox();
+
 	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
 	    {
-		InitContainer1(Capsule);
+		var ContainerSize = new Size(Capsule.Width - 20, Capsule.Height - 20);
+		var ContainerLoca = new Point(10, 10);
+		var ContainerBCol = Color.FromArgb(2, 55, 110);
+
+		Control.Image(Capsule, Container1, ContainerSize, ContainerLoca, ContainerBCol);
+		
+		InitContainer1();
 		InitContainer2();
+
+		Tool.Round(Container1, 6);
 	    }
 
 	    catch (Exception E)
