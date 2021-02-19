@@ -25,6 +25,7 @@ namespace TheDashlorisX
 	private readonly Label TopLabel2 = new Label();
 	private readonly Label TopLabel3 = new Label();
 	private readonly Label TopLabel4 = new Label();
+	private readonly Label TopLabel5 = new Label();
 
 	private readonly TextBox TextBox1 = new TextBox();
 	private readonly TextBox TextBox2 = new TextBox();
@@ -32,11 +33,72 @@ namespace TheDashlorisX
 
 	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
 
+	private void SetupDropDownMenu(Point Loca, Size Size)
+	{
+	    try
+	    {
+		var MenuLoca = new Point(Loca.X + Size.Width, Loca.Y + 20);
+		DropDownMenu.SetupMenu(TopContainer, MenuLoca, Color.FromArgb(8, 8, 8), Color.FromArgb(8, 8, 8));
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void AddInputBox(Label Label, Size LabelSize, Point LabelLoca, string LabelText, TextBox TextBox, Size TextBoxSize, Point TextBoxLoca, string TextBoxText, DashDialog DashDialog)
+	{
+	    try
+	    {
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFCol = Color.White;
+
+		Control.TextBox(TopContainer, TextBox, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly: true);
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = TextBoxText;
+
+		Tool.Round(TextBox.Parent, 6);
+
+		var LabelBCol = TopContainer.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(TopContainer, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 9, LabelText);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void TopInit1()
 	{
 	    try
 	    {
+		var Label5Size = Tool.GetFontSize("Packet Size:", 10);
+		var Label1Size = Tool.GetFontSize("Timeout:", 10);
+		var Label3Size = Tool.GetFontSize("Method:", 10);
+		var Label2Size = Tool.GetFontSize("Port:", 10);
+
+		var Label1Loca = new Point(0, 2);
+		var TextBox1Size = new Size(65, 20);
+		var TextBox1Loca = new Point(Label1Size.Width, 0);
+
+		var Label2Loca = new Point(TextBox1Size.Width + TextBox1Loca.X + 8, 2);
+		var TextBox2Size = new Size(TopContainer.Width - (Label2Loca.X + Label2Size.Width), 20);
+		var TextBox2Loca = new Point(Label2Loca.X + Label2Size.Width, 0);
+
+		var Label3Loca = new Point(0, Label1Loca.Y + Label1Size.Height + 8);
+		var Label4Size = new Size(55, 20);
+		var Label4Loca = new Point(Label3Size.Width, Label3Loca.Y);
 		
+
+
+		SetupDropDownMenu(Label3Loca, Label3Size);
+
+		//Setup Click Event with DropDownMenu
 	    }
 
 	    catch (Exception E)
