@@ -218,7 +218,7 @@ namespace TheDashlorisX
 
 		Control.TextBox(BottomContainer3, BottomTextBox1, Container2Size, TextBoxLoca, Container1BCol, Color.White, 1, 8, ReadOnly: true, FixedSize: false, ScrollBar: true, Multiline: true);
 
-		BottomTextBox1.Text = String.Format
+		BottomTextBox1.Text = string.Format
 		(
 		    "(?) use me with caution, you can crash your own network because of misuse."
 		);
