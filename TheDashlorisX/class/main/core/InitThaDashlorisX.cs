@@ -168,8 +168,8 @@ namespace TheDashlorisX
 		//TargetPanel.Initialize(DashDialog, CapsuleContainer1);
 		//SettingsPanel.Initialize(DashDialog, CapsuleContainer1);
 		//IsOnlinePanel.Initialize(DashDialog, CapsuleContainer1);
-		//LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
-		AboutPanel.Initialize(DashDialog, CapsuleContainer1);
+		LaunchPanel.Initialize(DashDialog, CapsuleContainer1);
+		//AboutPanel.Initialize(DashDialog, CapsuleContainer1);
 	    }
 
 	    catch (Exception E)
