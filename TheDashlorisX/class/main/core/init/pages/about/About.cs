@@ -72,7 +72,14 @@ namespace TheDashlorisX
 		Control.TextBox(Container2, TextBox1, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8, ReadOnly:true, ScrollBar:true, Multiline:true, FixedSize:false);
 		Tool.Round(TextBox1, 6);
 
-		TextBox1.Text = ("Yes");
+		TextBox1.Text = string.Format
+		(
+		    "\r\nThis application was made for educational purposes only. I therefore do not claim any responsibility for any harm inflicted because of some form of use of this application. I therefore I am also going to state that you are claiming responsibility, automatically, whenever you make use of this application.\r\n\r\n" +
+		    "This project started off as a small thing I wanted to work on, a small project to prove my point basically. But after releasing 1.0 I felt like I could improve it so much more, so that is when 2.0 was born. At this point I took a small break from this project and worked on the DNS Spoofer X (you can find it on https://github.com/KvinneKraft as well, even on here https://pugpawz.com.), after taking a break I basically continued working on this application. I decided to recode the entire project, mainly because of many improvements I wanted to work into the project. There were many parts of the code where I wondered to myself, did I really code this? It took me two weeks to put the previous release together, which included restless nights. But yea. Here it is.\r\n\r\n" +
+		    "The main purpose of this application is the stress testing of web servers using the Dashloris-X method, this method is based on the original slowloris method. The difference is the variation and of course my way of putting it together, it is based on it but not the same. This version has many fixes, it makes you able to create endless connections without using too much bandwidth. When I tried running the current library against my own website the load would peak at a few GB/ps, and that by just using my home connection.\r\n\r\n" +
+		    "Because of its fatal capabilities must I ask you to be careful, do not make use of this client if you do not know what it does or is for that sake. I love all of you, peace out man!\r\n\r\n" +
+		    "If you find any bugs or have any suggestions then you can reach out to me at KvinneKraft@protonmail.com."
+		);
 	    }
 
 	    catch (Exception E)
