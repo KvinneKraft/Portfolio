@@ -31,6 +31,24 @@ namespace TheDashlorisX
 
 	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
 
+	private void AddLabel(Label Label, Size LabelSize, Point LabelLoca, string LabelText, DashDialog DashDialog, int FontHeight)
+	{
+	    try
+	    {
+		var LabelBCol = DashDialog.MenuBar.Bar.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(TopContainer, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, FontHeight, LabelText);
+
+		Label.TextAlign = ContentAlignment.MiddleCenter;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void SetupDropDownMenu(Point Loca, Size Size, DashDialog DashDialog)
 	{
 	    try
@@ -42,7 +60,7 @@ namespace TheDashlorisX
 		var Label4Size = new Size(75, 20);
 		var Label4Loca = new Point(Size.Width, Loca.Y);
 
-		AddLabel(TopLabel4, Label4Size, Label4Loca, "TCP", DashDialog);
+		AddLabel(TopLabel4, Label4Size, Label4Loca, "TCP", DashDialog, 8);
 
 		TopLabel4.MouseEnter += (s, e) =>
 		{
@@ -82,32 +100,25 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private void AddLabel(Label Label, Size LabelSize, Point LabelLoca, string LabelText, DashDialog DashDialog)
+	private Size GetFontSize(string text, int height = 10) =>
+	    Tool.GetFontSize(text, height);
+
+	private readonly PictureBox TopContainer = new PictureBox();
+
+	private void InitContainer1(DashDialog DashDialog)
 	{
 	    try
 	    {
-		var LabelBCol = DashDialog.MenuBar.Bar.BackColor;
-		var LabelFCol = Color.White;
+		var ContainerSize = new Size(MainContainer.Width - 16, 54);
+		var ContainerLoca = new Point(8, 8);
+		var ContainerBCol = MainContainer.BackColor;
 
-		Control.Label(TopContainer, Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 10, LabelText);
+		Control.Image(MainContainer, TopContainer, ContainerSize, ContainerLoca, ContainerBCol);
 
-		Label.TextAlign = ContentAlignment.MiddleCenter;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private void TopInit1(DashDialog DashDialog)
-	{
-	    try
-	    {
-		var Label4Size = Tool.GetFontSize("Packet Size:", 10);
-		var Label1Size = Tool.GetFontSize("Timeout:", 10);
-		var Label3Size = Tool.GetFontSize("Method:", 10);
-		var Label2Size = Tool.GetFontSize("Port:", 10);
+		var Label4Size = GetFontSize("Packet Size:");
+		var Label1Size = GetFontSize("Timeout:");
+		var Label3Size = GetFontSize("Method:");
+		var Label2Size = GetFontSize("Port:");
 
 		var Label1Loca = new Point(0, 1);
 		var TextBox1Size = new Size(65, 20);
@@ -130,28 +141,6 @@ namespace TheDashlorisX
 		AddInputBox(TopLabel3, Label3Size, Label3Loca, ("Method:"), TextBox3, TextBox3Size, TextBox3Loca, ("0"), DashDialog);
 
 		Control.Label(TopContainer, TopLabel5, Label4Size, Label4Loca, TopContainer.BackColor, Color.White, 1, 10, ("Packet Size:"));
-		
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private readonly PictureBox TopContainer = new PictureBox();
-
-	private void InitContainer1(DashDialog DashDialog)
-	{
-	    try
-	    {
-		var ContainerSize = new Size(MainContainer.Width - 16, 54);
-		var ContainerLoca = new Point(8, 8);
-		var ContainerBCol = MainContainer.BackColor;
-
-		Control.Image(MainContainer, TopContainer, ContainerSize, ContainerLoca, ContainerBCol);
-
-		TopInit1(DashDialog);
 	    }
 
 	    catch (Exception E)
@@ -168,7 +157,15 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		var ContainerSize = new Size(MainContainer.Width - 16, 20);
+		var ContainerLoca = new Point(8, TopContainer.Top + TopContainer.Height + 10);
+		var ContainerBCol = MainContainer.BackColor;
 
+		Control.Image(MainContainer, BottomContainer, ContainerSize, ContainerLoca, ContainerBCol);
+
+		
+
+		MessageBox.Show($"{BottomContainer.Top + BottomContainer.Height}");
 	    }
 
 	    catch (Exception E)
