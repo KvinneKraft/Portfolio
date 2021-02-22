@@ -31,8 +31,46 @@ namespace TheDashlorisX
 
 	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
 
+	private readonly Label Item1 = new Label();
+	private readonly Label Item2 = new Label();
+
 	private Size GetFontSize(string Text, int FontHeight = 9) =>
 	    Tool.GetFontSize(Text, FontHeight);
+
+	private void SetupDropDownMenu(Point Label3Loca, Color TextBoxBCol)
+	{
+	    try
+	    {
+		var MenuLocation = new Point(Label3Loca.X + 8, Container3.Height + Container3.Top);
+		var MenuBCol = TextBoxBCol;
+
+		DropDownMenu.SetupMenu(Container1, MenuLocation, MenuBCol, MenuBCol);
+		
+		DropDownMenu.AddItem(Item1, "[Tcp]", MenuBCol, Color.White, ItemTextSize: 8, ItemWidth: 106, ItemHeight: 20);
+		DropDownMenu.AddItem(Item2, "[Udp]", MenuBCol, Color.White, ItemTextSize: 8, ItemWidth: 106, ItemHeight: 20);
+
+		Label3.MouseEnter += (s, e) =>
+		{
+		    if (!DropDownMenu.Container.Visible)
+		    {
+			DropDownMenu.Show();
+		    }
+		};
+
+		Container2.MouseEnter += (s, e) =>
+		{
+		    if (DropDownMenu.Container.Visible)
+		    {
+			DropDownMenu.Hide();
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	private void InitSection1(DashDialog DashDialog, PictureBox Capsule)
 	{
@@ -84,13 +122,8 @@ namespace TheDashlorisX
 
 		Tool.Round(TextBox1.Parent, 6);
 
-		var MenuLocation = new Point(Label3Loca.X, Label3Loca.Y + Label3Size.Height);
-		var MenuBCol = TextBoxBCol;
+		SetupDropDownMenu(Label3Loca, TextBoxBCol);
 
-		DropDownMenu.SetupMenu(Container3, MenuLocation, MenuBCol, MenuBCol);
-
-		// Setup events here, later that is, layout > functionality.
-		// p[erhaps layer issues
 		var PictureBoxImage = Properties.Resources.isonline1;
 		var PictureBoxSize = PictureBoxImage.Size;
 		var PictureBoxLoca = new Point(Container3.Width - PictureBoxSize.Width, Container3.Height - PictureBoxSize.Height);
