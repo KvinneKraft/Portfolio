@@ -18,8 +18,7 @@ namespace TheDashlorisX
     {
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
-
-
+	
 	private readonly PictureBox TopContainer1 = new PictureBox();
 	private readonly PictureBox TopContainer2 = new PictureBox();
 
@@ -46,8 +45,7 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
+	
 	private readonly PictureBox TopContainer3 = new PictureBox();
 
 	public readonly TextBox TopTextBox1 = new TextBox();
@@ -129,8 +127,7 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
+	
 	private readonly Button TopButton1 = new Button();
 
 	private void Init3()
@@ -152,8 +149,7 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
+	
 	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
