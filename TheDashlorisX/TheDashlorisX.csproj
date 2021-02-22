@@ -103,6 +103,8 @@
   <ItemGroup>
     <None Include="resources\LOGO.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="resources\isonline\isonline1.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
