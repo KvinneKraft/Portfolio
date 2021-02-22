@@ -24,16 +24,54 @@ namespace TheDashlorisX
 	private readonly PictureBox PictureBox = new PictureBox();
 
 	private readonly TextBox TextBox1 = new TextBox();
-	private readonly TextBox TextBox2 = new TextBox();
 
 	private readonly Label Label1 = new Label();
 	private readonly Label Label2 = new Label();
 
-	private void InitSection1()
+	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
+
+	private Size GetFontSize(string Text, int FontHeight = 9) =>
+	    Tool.GetFontSize(Text, FontHeight);
+
+	private void InitSection1(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
-	    {
-		// Top Section
+	    {//preferred height + 16 
+		var Container1Size = new Size(Capsule.Width - 20, 80);
+		var Container1Loca = new Point(10, 0);
+		var Container1BCol = Color.FromArgb(2, 55, 110);
+
+		var Container2Size = new Size(Container1Size.Width - 16, Container1Size.Height - 16);
+		var Container2Loca = new Point(8, 8);
+		var Container2BCol = Container1BCol;
+
+		Control.Image(Container1, Container2, Container1Size, Container1Loca, Container1BCol);
+		Control.Image(Container2, Container3, Container2Size, Container2Loca, Container2BCol);
+
+		Tool.Round(Container2, 6);
+
+		var Label1Text = ("Connection Timeout:");
+		var Label1Size = GetFontSize(Label1Text);
+		var Label1Loca = new Point(0, 0);
+
+		var Label2Text = ("Protocol:");
+		var Label2Size = GetFontSize(Label2Text);
+		var Label2Loca = new Point(Label1Loca.X, Label1Size.Height + 8);
+
+		var LabelBCol = Container2BCol;
+		var LabelFCol = Color.White;
+
+		Control.Label(Container2, Label1, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 9, Label1Text);
+		Control.Label(Container2, Label2, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 9, Label2Text);
+
+		var TextBoxSize = new Size(Container2.Width - Label1.Width - 40, 20);
+		var TextBoxLoca = new Point(Label1.Width, 0);
+		var TextBoxBCol = DashDialog.MenuBar.Bar.BackColor;
+		var TextBoxFCol = Color.White;
+
+		Control.TextBox(Container2, TextBox1, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8);
+
+
 	    }
 
 	    catch (Exception E)
@@ -80,7 +118,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		InitSection1();
+		InitSection1(DashDialog, Capsule);
 		InitSection2();
 		InitSection3();
 	    }
