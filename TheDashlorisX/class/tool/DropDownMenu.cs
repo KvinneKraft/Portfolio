@@ -26,6 +26,7 @@ namespace TheDashlorisX
 	    try
 	    {
 		Container.Hide();
+		Container.SendToBack();
 	    }
 
 	    catch (Exception E)
@@ -39,6 +40,7 @@ namespace TheDashlorisX
 	    try
 	    {
 		Container.Show();
+		Container.BringToFront();
 	    }
 
 	    catch (Exception E)
