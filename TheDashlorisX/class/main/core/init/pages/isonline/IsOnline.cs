@@ -83,6 +83,13 @@ namespace TheDashlorisX
 		DropDownMenu.SetupMenu(Container2, MenuLocation, MenuBCol, MenuBCol);
 
 		// Setup events here, later that is, layout > functionality.
+
+		var PictureBoxImage = Properties.Resources.isonline1;
+		var PictureBoxSize = PictureBoxImage.Size;
+		var PictureBoxLoca = new Point(Container2.Width - PictureBoxSize.Width, Container2.Height - PictureBoxSize.Height);
+		var PictureBoxBCol = Container2BCol;
+		
+		Control.Image(Container2, PictureBox, PictureBoxSize, PictureBoxLoca, PictureBoxBCol, PictureBoxImage);
 	    }
 
 	    catch (Exception E)
