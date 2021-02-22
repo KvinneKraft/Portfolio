@@ -36,11 +36,8 @@ namespace TheDashlorisX
 	    }
 	}
 
-
-
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
-
 
 	private readonly PictureBox BottomBarContainer1 = new PictureBox();
 	private readonly Label BottomBarLabel1 = new Label();
@@ -69,8 +66,6 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
 
 	private readonly PictureBox SideBarContainer1 = new PictureBox();
 	private readonly PictureBox SideBarContainer2 = new PictureBox();
@@ -144,8 +139,6 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
 
 	private readonly PictureBox CapsuleContainer1 = new PictureBox();
 
