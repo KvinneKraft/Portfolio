@@ -21,30 +21,6 @@ namespace TheDashlorisX
 	
 	private readonly PictureBox TopContainer1 = new PictureBox();
 	private readonly PictureBox TopContainer2 = new PictureBox();
-
-	private void Init1(PictureBox Capsule)
-	{
-	    try
-	    {
-		var Container1BCol = Capsule.BackColor;
-		var Container1Loca = new Point(0, 0);
-		var Container1Size = Capsule.Size;
-
-		var Container2Size = new Size(Container1Size.Width - 10, 100);
-		var Container2Loca = new Point(5, (Container1Size.Height - Container2Size.Height) / 2);
-		var Container2BCol = Color.FromArgb(2, 55, 110);
-
-		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Container2BCol);
-		Control.Image(Capsule, TopContainer1, Container1Size, Container1Loca, Container1BCol);
-
-		Tool.Round(TopContainer2, 6);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
 	
 	private readonly PictureBox TopContainer3 = new PictureBox();
 
@@ -57,6 +33,8 @@ namespace TheDashlorisX
 	private readonly Label TopLabel2 = new Label();
 	private readonly Label TopLabel3 = new Label();
 	private readonly Label TopLabel4 = new Label();
+
+	private readonly Button TopButton1 = new Button();
 
 	private Size GetFontSize(string text, int height = 10) =>
 	    Tool.GetFontSize(text, height);
@@ -86,11 +64,24 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	private void Init2(DashDialog DashDialog)
+	
+	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
 	{
 	    try
 	    {
+		var Container1BCol = Capsule.BackColor;
+		var Container1Loca = new Point(0, 0);
+		var Container1Size = Capsule.Size;
+
+		var Container2Size = new Size(Container1Size.Width - 10, 100);
+		var Container2Loca = new Point(5, (Container1Size.Height - Container2Size.Height) / 2);
+		var Container2BCol = Color.FromArgb(2, 55, 110);
+
+		Control.Image(TopContainer1, TopContainer2, Container2Size, Container2Loca, Container2BCol);
+		Control.Image(Capsule, TopContainer1, Container1Size, Container1Loca, Container1BCol);
+
+		Tool.Round(TopContainer2, 6);
+
 		var Label4Size = GetFontSize("Duration:");
 		var Label3Size = GetFontSize("Bytes:");
 		var Label1Size = GetFontSize("Host:");
@@ -115,25 +106,12 @@ namespace TheDashlorisX
 
 		var Label4Loca = new Point(TextBox3Loca.X + TextBox3Size.Width + 10, Y2);
 		var TextBox4Loca = new Point(Label4Loca.X + Label4Size.Width, Y2);
-		
+
 		AddInputBox(TopLabel1, Label1Size, Label1Loca, ("Host:"), TopTextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"), DashDialog);
 		AddInputBox(TopLabel4, Label4Size, Label4Loca, ("Duration:"), TopTextBox4, TextBox4Size, TextBox4Loca, ("5250"), DashDialog);
 		AddInputBox(TopLabel3, Label3Size, Label3Loca, ("Bytes:"), TopTextBox3, TextBox3Size, TextBox3Loca, ("75250"), DashDialog);
 		AddInputBox(TopLabel2, Label2Size, Label2Loca, ("Port:"), TopTextBox2, TextBox2Size, TextBox2Loca, ("65535"), DashDialog);
-	    }
 
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-	
-	private readonly Button TopButton1 = new Button();
-
-	private void Init3()
-	{
-	    try
-	    {
 		var ButtonSize = new Size(135, 24);
 		var ButtonLoca = new Point(8, TopContainer2.Height - 32);
 		var ButtonBCol = TopTextBox1.BackColor;
@@ -142,21 +120,6 @@ namespace TheDashlorisX
 		Control.Button(TopContainer2, TopButton1, ButtonSize, ButtonLoca, ButtonBCol, ButtonFCol, 1, 8, "Test Connection");
 
 		Tool.Round(TopButton1, 6);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-	
-	public void Initialize(DashDialog DashDialog, PictureBox Capsule)
-	{
-	    try
-	    {
-		Init1(Capsule);
-		Init2(DashDialog);
-		Init3();
 	    }
 
 	    catch (Exception E)
