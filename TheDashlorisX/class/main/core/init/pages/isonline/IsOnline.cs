@@ -27,6 +27,7 @@ namespace TheDashlorisX
 
 	private readonly Label Label1 = new Label();
 	private readonly Label Label2 = new Label();
+	private readonly Label Label3 = new Label();
 
 	private readonly DropDownMenu DropDownMenu = new DropDownMenu();
 
@@ -58,11 +59,16 @@ namespace TheDashlorisX
 		var Label2Size = GetFontSize(Label2Text);
 		var Label2Loca = new Point(Label1Loca.X, Label1Size.Height + 8);
 
+		var Label3Text = ("--[Tcp]--");
+		var Label3Size = new Size(100, 20);
+		var Label3Loca = new Point(Label2Loca.X + Label2Size.Width);
+
 		var LabelBCol = Container2BCol;
 		var LabelFCol = Color.White;
 
 		Control.Label(Container2, Label1, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 9, Label1Text);
 		Control.Label(Container2, Label2, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 9, Label2Text);
+		Control.Label(Container2, Label3, Label3Size, Label3Loca, LabelBCol, LabelFCol, 1, 8, Label3Text);
 
 		var TextBoxSize = new Size(Container2.Width - Label1.Width - 40, 20);
 		var TextBoxLoca = new Point(Label1.Width, 0);
@@ -71,7 +77,12 @@ namespace TheDashlorisX
 
 		Control.TextBox(Container2, TextBox1, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 1, 8);
 
+		var MenuLocation = new Point(Label3Loca.X, Label3Loca.Y + Label3Size.Height);
+		var MenuBCol = TextBoxBCol;
 
+		DropDownMenu.SetupMenu(Container2, MenuLocation, MenuBCol, MenuBCol);
+
+		// Setup events here, later that is, layout > functionality.
 	    }
 
 	    catch (Exception E)
@@ -84,7 +95,7 @@ namespace TheDashlorisX
 	private readonly PictureBox Container4 = new PictureBox();
 
 	private readonly Button Button1 = new Button();
-	private readonly Label Label3 = new Label();
+	private readonly Label Label4 = new Label();
 
 	private void InitSection2()
 	{
