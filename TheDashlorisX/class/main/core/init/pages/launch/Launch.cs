@@ -103,14 +103,17 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private Size GetFontSize(string text, int height = 9) =>
+	    Tool.GetFontSize(text, height);
+
 	private void TopInit3(DashDialog DashDialog)
 	{
 	    try
 	    {
-		var Label1Size = Tool.GetFontSize(("Headers Sent:"), 9);
-		var Label2Size = Tool.GetFontSize(("Connections:"), 9);
-		var Label3Size = Tool.GetFontSize(("Bytes Sent:"), 9);
-		var Label4Size = Tool.GetFontSize(("Time Left:"), 9);
+		var Label1Size = GetFontSize(("Headers Sent:"));
+		var Label2Size = GetFontSize(("Connections:"));
+		var Label3Size = GetFontSize(("Bytes Sent:"));
+		var Label4Size = GetFontSize(("Time Left:"));
 
 		var TextBox1Size = new Size(65, 20);
 		var TextBox3Size = new Size(65, 20);
