@@ -97,13 +97,40 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	private readonly Label S3Label1 = new Label();
+	private void AddButton(Button Button, Point Loca, string Text)
+	{
 
+	}
+
+	private readonly Label S3Label1 = new Label();
+	
 	private void Init3()
 	{
 	    try
 	    {
+		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height - DashDialog.MenuBar.Bar.Height);
+		var Container1Loca = new Point(2, DashDialog.MenuBar.Bar.Height);
+		var Container1BCol = S2Container1.BackColor;
 
+		Control.Image(DashDialog, S3Container1, Container1Size, Container1Loca, Container1BCol);
+
+		var Label1Loca = new Point(-2, 10);
+
+		Control.Label(S3Container1, S3Label1, Size.Empty, Label1Loca, Container1BCol, Color.White, 1, 10, ("Dash Menu"));
+
+		var LineLoca1 = new Point(16, Label1Loca.Y + S3Label1.Height + 8);
+		var LineLoca2 = new Point(Container1Size.Width - 16, LineLoca1.Y);
+
+		Tool.PaintLine(S3Container1, Color.Black, 1, LineLoca1, LineLoca2);
+
+		var Container2Size = new Size(Container1Size.Width - 20, 125);
+		var Container2Loca = new Point(10, LineLoca1.Y + 9);
+
+		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, Container1BCol);
+
+
+
+		S3Container1.BringToFront();
 	    }
 
 	    catch (Exception E)
