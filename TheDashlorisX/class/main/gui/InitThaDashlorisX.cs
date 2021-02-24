@@ -88,13 +88,38 @@ namespace TheDashlorisX
 	}
 
 
+	private readonly PictureBox S3Container1 = new PictureBox();
+	private readonly PictureBox S3Container2 = new PictureBox();
+
+	private readonly Button S3Button1 = new Button();
+	private readonly Button S3Button2 = new Button();
+	private readonly Button S3Button3 = new Button();
+	private readonly Button S3Button4 = new Button();
+	private readonly Button S3Button5 = new Button();
+
+	private readonly Label S3Label1 = new Label();
+
+	private void Init3()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	public void InitializeApp()
 	{
 	    try
 	    {
 		Init1();//GUI
 		Init2();//BottomBar
-		//Init3();//SideMenu
+		Init3();//SideMenu
 		//Init4();//Capsule
 	    }
 
