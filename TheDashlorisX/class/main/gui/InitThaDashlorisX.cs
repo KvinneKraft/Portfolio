@@ -97,9 +97,32 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	private void AddButton(Button Button, Point Loca, string Text)
+	private void S3AddButtonControls()
 	{
+	    try 
+	    {
+		var Tuples = new List<Tuple<Button, Point, string>>()
+		{
+		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 0), "Target"),
+		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 25), "Dash Ping"),
+		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 50), "Port Scan"),
+		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 75), "About"),
+		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 100), "ToS"),
+		};
 
+		var ButtonBCol = S2Container1.BackColor;
+		var ButtonSize = new Size(105, 20);
+
+		foreach (var Tuple in Tuples)
+		{
+		    Control.Button(S3Container2, Tuple.Item1, ButtonSize, Tuple.Item2, ButtonBCol, Color.White, 1, 8, (Tuple.Item3));
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	private readonly Label S3Label1 = new Label();
@@ -128,9 +151,7 @@ namespace TheDashlorisX
 
 		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, Container1BCol);
 
-
-
-		S3Container1.BringToFront();
+		S3AddButtonControls();
 	    }
 
 	    catch (Exception E)
@@ -148,6 +169,8 @@ namespace TheDashlorisX
 		Init2();//BottomBar
 		Init3();//SideMenu
 		//Init4();//Capsule
+
+		S3Container1.BringToFront();
 	    }
 
 	    catch (Exception E)
