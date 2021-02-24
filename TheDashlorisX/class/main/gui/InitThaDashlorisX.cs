@@ -24,7 +24,7 @@ namespace TheDashlorisX
 	    {
 		var DialogMCol = Color.FromArgb(17, 38, 94);
 		var DialogBCol = Color.FromArgb(6, 14, 36);
-		var DialogSize = new Size(400, 300);
+		var DialogSize = new Size(400, 350);
 
 		DashDialog.JustInitialize(DialogSize, ("Tha Dashloris-X  -  3.0"), DialogBCol, DialogMCol);
 
@@ -90,46 +90,13 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S3Container1 = new PictureBox();
 	private readonly PictureBox S3Container2 = new PictureBox();
+	private readonly PictureBox S3Container3 = new PictureBox();
 
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
 	private readonly Button S3Button3 = new Button();
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
-
-	private void S3AddButtonControls()
-	{
-	    try 
-	    {
-		var Tuples = new List<Tuple<Button, string>>()
-		{
-		    Tuple.Create(S3Button1, "Target"),
-		    Tuple.Create(S3Button2, "Dash Ping"),
-		    Tuple.Create(S3Button3, "Port Scan"),
-		    Tuple.Create(S3Button4, "About"),
-		    Tuple.Create(S3Button5, "ToS"),
-		};
-
-		var ButtonBCol = S2Container1.BackColor;
-		var ButtonSize = new Size(105, 24); 
-
-		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
-		{
-		    var ButtonObje = Tuples[k].Item1;
-		    var ButtonLoca = new Point(0, y);
-		    var ButtonText = Tuples[k].Item2;
-
-		    Control.Button(S3Container2, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
-
-		    Tool.Round(ButtonObje, 6);
-		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
 
 	private readonly Label S3Label1 = new Label();
 	
@@ -142,22 +109,48 @@ namespace TheDashlorisX
 		var Container1BCol = S2Container1.BackColor;
 
 		Control.Image(DashDialog, S3Container1, Container1Size, Container1Loca, Container1BCol);
+		
+		var Label1Loca = new Point(21, 10);
 
-		var Label1Loca = new Point(-2, 10);
-
-		Control.Label(S3Container1, S3Label1, Size.Empty, Label1Loca, Container1BCol, Color.White, 1, 10, ("Dash Menu"));
-
+		Control.Label(S3Container2, S3Label1, Size.Empty, Label1Loca, Container1BCol, Color.White, 1, 10, ("Dash Menu"));
+		
 		var LineLoca1 = new Point(16, Label1Loca.Y + S3Label1.Height + 8);
 		var LineLoca2 = new Point(Container1Size.Width - 16, LineLoca1.Y);
 
-		Tool.PaintLine(S3Container1, Color.Black, 1, LineLoca1, LineLoca2);
+		Tool.PaintLine(S3Container2, Color.Black, 1, LineLoca1, LineLoca2);
 
 		var Container2Size = new Size(Container1Size.Width - 20, 145);
-		var Container2Loca = new Point(10, LineLoca1.Y + 9);
+		var Container2Loca = new Point(10, LineLoca1.Y + 15);
 
-		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, Container1BCol);
+		Control.Image(S3Container2, S3Container3, Container2Size, Container2Loca, Container1BCol);
 
-		S3AddButtonControls();
+		var Tuples = new List<Tuple<Button, string>>()
+		{
+		    Tuple.Create(S3Button1, "Target"),
+		    Tuple.Create(S3Button2, "Dash Ping"),
+		    Tuple.Create(S3Button3, "Port Scan"),
+		    Tuple.Create(S3Button4, "About"),
+		    Tuple.Create(S3Button5, "ToS"),
+		};
+
+		var ButtonBCol = DashDialog.BackColor;//S2Container1.BackColor;
+		var ButtonSize = new Size(105, 24);
+
+		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
+		{
+		    var ButtonObje = Tuples[k].Item1;
+		    var ButtonLoca = new Point(0, y);
+		    var ButtonText = Tuples[k].Item2;
+
+		    Control.Button(S3Container3, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
+
+		    Tool.Round(ButtonObje, 6);
+		}
+
+		var Container3Size = new Size(Container1Size.Width, Container2Size.Height + Container2Loca.Y);
+		var Container3Loca = new Point(0, 15);
+
+		Control.Image(S3Container1, S3Container2, Container3Size, Container3Loca, Container1BCol);
 	    }
 
 	    catch (Exception E)
