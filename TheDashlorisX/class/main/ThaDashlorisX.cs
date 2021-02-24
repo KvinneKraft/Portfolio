@@ -31,4 +31,14 @@ namespace TheDashlorisX
 	    }
 	}
     }
+
+
+    public class DashGlobe
+    {
+	public void ExitApplication()
+	{
+	    Environment.Exit(-1);
+	    Application.Exit();
+	}
+    }
 }
