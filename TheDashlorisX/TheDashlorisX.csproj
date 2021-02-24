@@ -49,28 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="class\main\core\InitThaDashlorisX.cs" />
-    <Compile Include="class\main\core\init\pages\about\About.cs" />
-    <Compile Include="class\main\core\init\pages\isonline\IsOnline.cs" />
-    <Compile Include="class\main\core\init\pages\settings\Settings.cs" />
-    <Compile Include="class\main\core\init\pages\launch\Launch.cs" />
-    <Compile Include="class\main\core\init\pages\target\Target.cs" />
-    <Compile Include="class\tool\DashBox.cs" />
-    <Compile Include="class\tool\DashControls.cs" />
-    <Compile Include="class\tool\DashDialog.cs">
+    <Compile Include="class\main\gui\InitThaDashlorisX.cs" />
+    <Compile Include="class\util\DashBox.cs" />
+    <Compile Include="class\util\DashControls.cs" />
+    <Compile Include="class\util\DashDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="class\tool\DashMenuBar.cs" />
-    <Compile Include="class\tool\DashNet.cs" />
-    <Compile Include="class\tool\DashSys.cs" />
-    <Compile Include="class\tool\DashTools.cs" />
-    <Compile Include="class\tool\DropDownMenu.cs" />
-    <Compile Include="class\tool\ErrorHandler.cs" />
-    <Compile Include="class\tool\LogContainer.cs">
+    <Compile Include="class\util\DashMenuBar.cs" />
+    <Compile Include="class\util\DashNet.cs" />
+    <Compile Include="class\util\DashSys.cs" />
+    <Compile Include="class\util\DashTools.cs" />
+    <Compile Include="class\util\DropDownMenu.cs" />
+    <Compile Include="class\util\ErrorHandler.cs" />
+    <Compile Include="class\util\LogContainer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="class\main\core\ThaDashlorisX.cs" />
-    <Compile Include="class\main\startup\Startup.cs" />
+    <Compile Include="class\main\ThaDashlorisX.cs" />
+    <Compile Include="class\startup\Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -102,9 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\LOGO.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="resources\isonline\isonline1.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
