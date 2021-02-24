@@ -48,7 +48,6 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container1 = new PictureBox();//Bottom Bar : S2Container1 = Sector 2 Container 1
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
-	private readonly PictureBox S2Container4 = new PictureBox();//Launch Container
 
 	private readonly Button S2Button1 = new Button();
 
@@ -56,20 +55,30 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(DashDialog.Width, 30);
-		var Container1Loca = new Point(0, DashDialog.Height - 30);
+		var Container1Size = new Size(DashDialog.Width, 34);
+		var Container1Loca = new Point(0, DashDialog.Height - 34);
 		var Container1BCol = DashDialog.MenuBar.Bar.BackColor;
 
 		Control.Image(DashDialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
 
-		var Container2Size = new Size(26, 24);
-		var Container2Loca = new Point(5, 3);
+		var Container2Size = new Size(26, 26);
+		var Container2Loca = new Point(5, 4);
 
-		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Container1BCol);
-		
-		var Container3Loca = new Point(0, 0);
+		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Color.Black);
+		Tool.Round(S2Container2, 6);
 
-		Control.Image(S2Container2, S2Container3, Container2Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
+		var Container3Loca = new Point(1, 1);
+		var Container3Size = new Size(24, 24);
+
+		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
+
+		var Button1Size = new Size(100, 24);
+		var Button1Loca = new Point(Container1Size.Width - 105, 5);
+
+		Control.Button(S2Container1, S2Button1, Button1Size, Button1Loca, Container1BCol, Color.White, 1, 9, ("Launch Attack"));
+		Tool.Round(S2Button1, 6);
+
+		// Status Text in the middle of bar?
 	    }
 
 	    catch (Exception E)
