@@ -49,6 +49,33 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
 
+	private void S2SetupMenuEvents()
+	{
+	    try
+	    {
+		S2Container3.MouseEnter += (s, e) =>
+		{
+		    if (!S3Container3.Visible)
+		    {
+			S3Container1.Show();
+		    }
+		};
+
+		DashDialog.MouseEnter += (s, e) =>
+		{
+		    if (S3Container1.Visible)
+		    {
+			S3Container1.Hide();
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly Button S2Button1 = new Button();
 
 	private void Init2()
@@ -71,6 +98,8 @@ namespace TheDashlorisX
 		var Container3Size = new Size(24, 24);
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
+
+		S2SetupMenuEvents();
 
 		var Button1Size = new Size(100, 24);
 		var Button1Loca = new Point(Container1Size.Width - 105, 5);
@@ -112,6 +141,7 @@ namespace TheDashlorisX
 		var Container1BCol = S2Container1.BackColor;
 
 		Control.Image(DashDialog, S3Container1, Container1Size, Container1Loca, Container1BCol);
+		S3Container1.Hide();
 
 		var Image1Imag = DashDialog.MenuBar.Logo.Image;
 		var Image1Size = DashDialog.MenuBar.Logo.Size;
@@ -139,7 +169,7 @@ namespace TheDashlorisX
 		    Tuple.Create(S3Button5, "The T.O.S"),
 		};
 
-		var ButtonBCol = DashDialog.BackColor;//S2Container1.BackColor;
+		var ButtonBCol = DashDialog.BackColor;
 		var ButtonSize = new Size(105, 24);
 
 		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
