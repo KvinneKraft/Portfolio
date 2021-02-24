@@ -149,12 +149,11 @@ namespace TheDashlorisX
 		    var ButtonText = Tuples[k].Item2;
 
 		    Control.Button(S3Container3, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
-
 		    Tool.Round(ButtonObje, 6);
 		}
 
 		var Container3Size = new Size(Container1Size.Width, Container2Size.Height + Container2Loca.Y);
-		var Container3Loca = new Point(0, 15);
+		var Container3Loca = new Point(0, 25);
 
 		Control.Image(S3Container1, S3Container2, Container3Size, Container3Loca, Container1BCol);
 	    }
