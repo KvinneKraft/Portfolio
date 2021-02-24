@@ -24,7 +24,7 @@ namespace TheDashlorisX
 	    {
 		var DialogMCol = Color.FromArgb(17, 38, 94);
 		var DialogBCol = Color.FromArgb(6, 14, 36);
-		var DialogSize = new Size(400, 350);
+		var DialogSize = new Size(400, 300);
 
 		DashDialog.JustInitialize(DialogSize, ("Tha Dashloris-X  -  3.0"), DialogBCol, DialogMCol);
 
@@ -111,7 +111,7 @@ namespace TheDashlorisX
 		};
 
 		var ButtonBCol = S2Container1.BackColor;
-		var ButtonSize = new Size(105, 24);
+		var ButtonSize = new Size(105, 24); 
 
 		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
 		{
@@ -120,6 +120,8 @@ namespace TheDashlorisX
 		    var ButtonText = Tuples[k].Item2;
 
 		    Control.Button(S3Container2, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
+
+		    Tool.Round(ButtonObje, 6);
 		}
 	    }
 
@@ -150,7 +152,7 @@ namespace TheDashlorisX
 
 		Tool.PaintLine(S3Container1, Color.Black, 1, LineLoca1, LineLoca2);
 
-		var Container2Size = new Size(Container1Size.Width - 20, 125);
+		var Container2Size = new Size(Container1Size.Width - 20, 145);
 		var Container2Loca = new Point(10, LineLoca1.Y + 9);
 
 		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, Container1BCol);
