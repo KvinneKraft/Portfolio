@@ -16,6 +16,33 @@ namespace TheDashlorisX
 {
     public class InitThaDashlorisX
     {
+	public readonly DashDialog DashDialog = new DashDialog();
 
+	private void Init1()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	public void InitializeApp()
+	{
+	    try
+	    {
+		Init1();//GUI
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
     }
 }

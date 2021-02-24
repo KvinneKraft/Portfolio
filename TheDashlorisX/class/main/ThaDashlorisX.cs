@@ -20,8 +20,9 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		InitializeApp();
 
-		//Application.Run();
+		Application.Run(DashDialog);
 	    }
 
 	    catch (Exception E)
