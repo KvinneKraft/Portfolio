@@ -101,21 +101,25 @@ namespace TheDashlorisX
 	{
 	    try 
 	    {
-		var Tuples = new List<Tuple<Button, Point, string>>()
+		var Tuples = new List<Tuple<Button, string>>()
 		{
-		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 0), "Target"),
-		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 25), "Dash Ping"),
-		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 50), "Port Scan"),
-		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 75), "About"),
-		    new Tuple<Button, Point, string>(S2Button1, new Point(0, 100), "ToS"),
+		    Tuple.Create(S3Button1, "Target"),
+		    Tuple.Create(S3Button2, "Dash Ping"),
+		    Tuple.Create(S3Button3, "Port Scan"),
+		    Tuple.Create(S3Button4, "About"),
+		    Tuple.Create(S3Button5, "ToS"),
 		};
 
 		var ButtonBCol = S2Container1.BackColor;
-		var ButtonSize = new Size(105, 20);
+		var ButtonSize = new Size(105, 24);
 
-		foreach (var Tuple in Tuples)
+		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
 		{
-		    Control.Button(S3Container2, Tuple.Item1, ButtonSize, Tuple.Item2, ButtonBCol, Color.White, 1, 8, (Tuple.Item3));
+		    var ButtonObje = Tuples[k].Item1;
+		    var ButtonLoca = new Point(0, y);
+		    var ButtonText = Tuples[k].Item2;
+
+		    Control.Button(S3Container2, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
 		}
 	    }
 
