@@ -91,6 +91,7 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container1 = new PictureBox();
 	private readonly PictureBox S3Container2 = new PictureBox();
 	private readonly PictureBox S3Container3 = new PictureBox();
+	private readonly PictureBox S3Image1 = new PictureBox();
 
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
@@ -104,33 +105,38 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height - DashDialog.MenuBar.Bar.Height);
+		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height 
+		    - DashDialog.MenuBar.Bar.Height);
+
 		var Container1Loca = new Point(2, DashDialog.MenuBar.Bar.Height);
 		var Container1BCol = S2Container1.BackColor;
 
 		Control.Image(DashDialog, S3Container1, Container1Size, Container1Loca, Container1BCol);
-		
+
+		var Image1Imag = DashDialog.MenuBar.Logo.Image;
+		var Image1Size = DashDialog.MenuBar.Logo.Size;
+
+		var Image1Loca = new Point(DashDialog.MenuBar.Logo.Left - 2, 
+		    -DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Logo.Top);
+
+		Control.Image(S3Container1, S3Image1, Image1Size, Image1Loca, Container1BCol, Image1Imag);
+
 		var Label1Loca = new Point(21, 10);
 
 		Control.Label(S3Container2, S3Label1, Size.Empty, Label1Loca, Container1BCol, Color.White, 1, 10, ("Dash Menu"));
-		
-		var LineLoca1 = new Point(16, Label1Loca.Y + S3Label1.Height + 8);
-		var LineLoca2 = new Point(Container1Size.Width - 16, LineLoca1.Y);
-
-		Tool.PaintLine(S3Container2, Color.Black, 1, LineLoca1, LineLoca2);
 
 		var Container2Size = new Size(Container1Size.Width - 20, 145);
-		var Container2Loca = new Point(10, LineLoca1.Y + 15);
+		var Container2Loca = new Point(10, Label1Loca.Y + S3Label1.Height + 15);
 
 		Control.Image(S3Container2, S3Container3, Container2Size, Container2Loca, Container1BCol);
 
 		var Tuples = new List<Tuple<Button, string>>()
 		{
-		    Tuple.Create(S3Button1, "Target"),
-		    Tuple.Create(S3Button2, "Dash Ping"),
-		    Tuple.Create(S3Button3, "Port Scan"),
-		    Tuple.Create(S3Button4, "About"),
-		    Tuple.Create(S3Button5, "ToS"),
+		    Tuple.Create(S3Button1, "Target Info"),
+		    Tuple.Create(S3Button2, "Port Scanner"),
+		    Tuple.Create(S3Button3, "Server Ping"),
+		    Tuple.Create(S3Button4, "About App"),
+		    Tuple.Create(S3Button5, "The T.O.S"),
 		};
 
 		var ButtonBCol = DashDialog.BackColor;//S2Container1.BackColor;
