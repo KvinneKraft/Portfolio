@@ -41,15 +41,35 @@ namespace TheDashlorisX
 	}
 
 
-	private readonly PictureBox S2Container1 = new PictureBox();//Sector 2 Container 1
-	private readonly PictureBox S2Container2 = new PictureBox();
-	private readonly PictureBox S2Container3 = new PictureBox();
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
+
+
+	private readonly PictureBox S2Container1 = new PictureBox();//Bottom Bar : S2Container1 = Sector 2 Container 1
+	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
+	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
+	private readonly PictureBox S2Container4 = new PictureBox();//Launch Container
+
+	private readonly Button S2Button1 = new Button();
 
 	private void Init2()
 	{
 	    try
 	    {
+		var Container1Size = new Size(DashDialog.Width, 30);
+		var Container1Loca = new Point(0, DashDialog.Height - 30);
+		var Container1BCol = DashDialog.MenuBar.Bar.BackColor;
 
+		Control.Image(DashDialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
+
+		var Container2Size = new Size(26, 24);
+		var Container2Loca = new Point(5, 3);
+
+		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Container1BCol);
+		
+		var Container3Loca = new Point(0, 0);
+
+		Control.Image(S2Container2, S2Container3, Container2Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
 	    }
 
 	    catch (Exception E)
