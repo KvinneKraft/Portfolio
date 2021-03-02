@@ -128,11 +128,11 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	private readonly LockOn S3Class1 = new LockOn();
 	private readonly ServerPing S3Class2 = new ServerPing();
 	private readonly PortScan S3Class3 = new PortScan();
 	private readonly AppInfo S3Class4 = new AppInfo();
 	private readonly AppToS S3Class5 = new AppToS();
+	private readonly LockOn S3Class1 = new LockOn();
 
 	delegate void ClassInit(DashDialog DashDialog, PictureBox Capsule);
 
