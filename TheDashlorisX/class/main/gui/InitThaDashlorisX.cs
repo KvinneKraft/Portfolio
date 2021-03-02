@@ -195,6 +195,27 @@ namespace TheDashlorisX
 	}
 
 
+	private readonly PictureBox Capsule = new PictureBox();
+
+	private void Init4()
+	{
+	    try
+	    {
+		var ContainerSize = new Size(DashDialog.Width - 30, DashDialog.Height - DashDialog.MenuBar.Bar.Height - 30 - S2Container1.Height);
+		var ContainerLoca = new Point(15, DashDialog.MenuBar.Bar.Height + 15);
+		var ContainerBCol = DashDialog.BackColor;
+
+		Control.Image(DashDialog, Capsule, ContainerSize, ContainerLoca, ContainerBCol);
+		Tool.Round(Capsule, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	public void InitializeApp()
 	{
 	    try
@@ -202,7 +223,7 @@ namespace TheDashlorisX
 		Init1();//GUI
 		Init2();//BottomBar
 		Init3();//SideMenu
-		//Init4();//Capsule
+		Init4();//Capsule
 
 		S3Container1.BringToFront();
 	    }
