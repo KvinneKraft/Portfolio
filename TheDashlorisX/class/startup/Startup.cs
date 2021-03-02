@@ -14,18 +14,11 @@ using System.Collections.Generic;
 
 namespace TheDashlorisX
 {
-    public void GamePanel()
-    {
-
-    }
-
     static class Startup
     {
 	[STAThread]
 	static void Main()
 	{
-	    GamePanel(); Application.Exit();
-
 	    Application.EnableVisualStyles();
 	    Application.SetCompatibleTextRenderingDefault(false);
 
