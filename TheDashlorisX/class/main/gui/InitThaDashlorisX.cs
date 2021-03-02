@@ -128,8 +128,45 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
+	private readonly LockOn S3Class1 = new LockOn();
+	private readonly ServerPing S3Class2 = new ServerPing();
+	private readonly PortScan S3Class3 = new PortScan();
+	private readonly AppInfo S3Class4 = new AppInfo();
+	private readonly AppToS S3Class5 = new AppToS();
+
+	delegate void ClassInit(DashDialog DashDialog, PictureBox Capsule);
+
+	private void InitS3Events()
+	{
+	    try
+	    {
+		var Initializers = new Dictionary<Button, ClassInit>()
+		{
+		    { S3Button1, S3Class1.InitializePage },
+		    { S3Button2, S3Class2.InitializePage },
+		    { S3Button3, S3Class3.InitializePage },
+		    { S3Button4, S3Class4.InitializePage },
+		    { S3Button5, S3Class5.InitializePage },
+		};
+
+		foreach (var Init in Initializers)
+		{
+		    Init.Key.Click += (s, e) =>
+		    {
+			// Hide all Dialogs?
+			Init.Value.Invoke(DashDialog, Capsule);
+		    };
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly Label S3Label1 = new Label();
-	
+
 	private void Init3()
 	{
 	    try
@@ -160,7 +197,7 @@ namespace TheDashlorisX
 
 		Control.Image(S3Container2, S3Container3, Container2Size, Container2Loca, Container1BCol);
 
-		var Tuples = new List<Tuple<Button, string>>()
+		var Buttons = new List<Tuple<Button, string>>()
 		{
 		    Tuple.Create(S3Button1, "Target Info"),
 		    Tuple.Create(S3Button2, "Port Scanner"),
@@ -172,15 +209,17 @@ namespace TheDashlorisX
 		var ButtonBCol = DashDialog.BackColor;
 		var ButtonSize = new Size(105, 24);
 
-		for (int k = 0, y = 0; k < Tuples.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
+		for (int k = 0, y = 0; k < Buttons.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
 		{
-		    var ButtonObje = Tuples[k].Item1;
+		    var ButtonObje = Buttons[k].Item1;
 		    var ButtonLoca = new Point(0, y);
-		    var ButtonText = Tuples[k].Item2;
+		    var ButtonText = Buttons[k].Item2;
 
 		    Control.Button(S3Container3, ButtonObje, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ButtonText);
 		    Tool.Round(ButtonObje, 6);
 		}
+
+		InitS3Events();
 
 		var Container3Size = new Size(Container1Size.Width, Container2Size.Height + Container2Loca.Y);
 		var Container3Loca = new Point(0, 25);
@@ -219,7 +258,7 @@ namespace TheDashlorisX
 	public void InitializeApp()
 	{
 	    try
-	    {
+	    { // Recode Util Files, Put em all into one.  Separate namespaces.
 		Init1();//GUI
 		Init2();//BottomBar
 		Init3();//SideMenu
