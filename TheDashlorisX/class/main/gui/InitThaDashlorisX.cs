@@ -122,17 +122,17 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container3 = new PictureBox();
 	private readonly PictureBox S3Image1 = new PictureBox();
 
-	private readonly Button S3Button1 = new Button();
-	private readonly Button S3Button2 = new Button();
-	private readonly Button S3Button3 = new Button();
-	private readonly Button S3Button4 = new Button();
-	private readonly Button S3Button5 = new Button();
-
 	private readonly ServerPing S3Class2 = new ServerPing();
 	private readonly PortScan S3Class3 = new PortScan();
 	private readonly AppInfo S3Class4 = new AppInfo();
 	private readonly AppToS S3Class5 = new AppToS();
 	private readonly LockOn S3Class1 = new LockOn();
+
+	private readonly Button S3Button1 = new Button();
+	private readonly Button S3Button2 = new Button();
+	private readonly Button S3Button3 = new Button();
+	private readonly Button S3Button4 = new Button();
+	private readonly Button S3Button5 = new Button();
 
 	delegate void ClassInit(DashDialog DashDialog, PictureBox Capsule);
 
@@ -171,9 +171,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height 
-		    - DashDialog.MenuBar.Bar.Height);
-
+		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height - DashDialog.MenuBar.Bar.Height);
 		var Container1Loca = new Point(2, DashDialog.MenuBar.Bar.Height);
 		var Container1BCol = S2Container1.BackColor;
 
@@ -182,10 +180,8 @@ namespace TheDashlorisX
 
 		var Image1Imag = DashDialog.MenuBar.Logo.Image;
 		var Image1Size = DashDialog.MenuBar.Logo.Size;
-
-		var Image1Loca = new Point(DashDialog.MenuBar.Logo.Left - 2, 
-		    -DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Logo.Top);
-
+		var Image1Loca = new Point(DashDialog.MenuBar.Logo.Left - 2, -DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Logo.Top);
+	   
 		Control.Image(S3Container1, S3Image1, Image1Size, Image1Loca, Container1BCol, Image1Imag);
 
 		var Label1Loca = new Point(21, 10);
