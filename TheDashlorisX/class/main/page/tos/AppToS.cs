@@ -95,6 +95,12 @@ namespace TheDashlorisX
 		Control.Image(S1Container1, S3Container1, Container1Size, Container1Loca, ContainerBCol);
 		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, ContainerBCol);
 
+		var LabelText = ("The Terms of Service");
+		var LabelSize = Tool.GetFontSize(LabelText, 9);
+		var LabelLoca = new Point(10, (S3Container1.Height - LabelSize.Height) / 2);
+
+		Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, ContainerBCol, Color.White, 1, 9, (LabelText));
+
 		var Button2Loca = new Point(50, 0);
 		var Button1Loca = new Point(0, 0);
 
