@@ -54,8 +54,13 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S4Container1 = new PictureBox();
 	private readonly PictureBox S4Container2 = new PictureBox();
+	
+	// List of Labels
 
-	private readonly TextBox S4TextBox1 = new TextBox();
+	private void MagicBoxSetup()//I love this name.
+	{
+
+	}
 
 	private void Init4()
 	{
