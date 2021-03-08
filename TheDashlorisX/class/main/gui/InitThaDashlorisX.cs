@@ -61,13 +61,24 @@ namespace TheDashlorisX
 		    }
 		};
 
-		DashDialog.MouseEnter += (s, e) =>
+		void GlobalHider(object s)
 		{
 		    if (S3Container1.Visible)
 		    {
-			S3Container1.Hide();
+			Control Control = s as Control;
+
+			if (Control.Equals(Capsule) || Capsule.Controls.Contains(Control))
+			{
+			    S3Container1.Hide();
+			}
 		    }
-		};
+		}
+
+		//S2Container1.MouseLeave += (s, e) =>
+		//    GlobalHider(s);
+		
+		S3Container1.MouseLeave += (s, e) =>
+		    GlobalHider(s);
 	    }
 
 	    catch (Exception E)
@@ -261,6 +272,7 @@ namespace TheDashlorisX
 		Init4();//Capsule
 
 		S3Container1.BringToFront();
+		S3Class5.InitializePage(DashDialog, Capsule);
 	    }
 
 	    catch (Exception E)
