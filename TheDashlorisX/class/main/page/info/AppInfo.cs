@@ -16,9 +16,30 @@ namespace TheDashlorisX
 {
     public class AppInfo
     {
+	private readonly LabelPage LabelPage = new LabelPage();
+
+	private string TermsOfServices()
+	{
+	    return string.Format
+	    (
+		"Gots to write info here\r\n\r\n" 
+	    );
+	}
+
 	public void InitializePage(DashDialog DashDialog, PictureBox Capsule)
 	{
+	    try
+	    {
+		var ContainerConfiguration = Tuple.Create("App Information", Capsule.Size, new Point(0, 0));
+		var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, TermsOfServices(), 3);
 
+		LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
 	}
     }
 }
