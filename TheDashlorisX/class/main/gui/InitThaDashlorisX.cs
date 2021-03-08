@@ -49,7 +49,7 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
 
-	private void S2SetupMenuEvents()
+	private void InitS2Events()
 	{
 	    try
 	    {
@@ -60,25 +60,6 @@ namespace TheDashlorisX
 			S3Container1.Show();
 		    }
 		};
-
-		void GlobalHider(object s)
-		{
-		    if (S3Container1.Visible)
-		    {
-			Control Control = s as Control;
-
-			if (Control.Equals(Capsule) || Capsule.Controls.Contains(Control))
-			{
-			    S3Container1.Hide();
-			}
-		    }
-		}
-
-		//S2Container1.MouseLeave += (s, e) =>
-		//    GlobalHider(s);
-		
-		S3Container1.MouseLeave += (s, e) =>
-		    GlobalHider(s);
 	    }
 
 	    catch (Exception E)
@@ -110,7 +91,7 @@ namespace TheDashlorisX
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
 
-		S2SetupMenuEvents();
+		InitS2Events();
 
 		var Button1Size = new Size(100, 24);
 		var Button1Loca = new Point(Container1Size.Width - 105, 5);
@@ -226,12 +207,12 @@ namespace TheDashlorisX
 		    Tool.Round(ButtonObje, 6);
 		}
 
-		InitS3Events();
-
 		var Container3Size = new Size(Container1Size.Width, Container2Size.Height + Container2Loca.Y);
 		var Container3Loca = new Point(0, 25);
 
 		Control.Image(S3Container1, S3Container2, Container3Size, Container3Loca, Container1BCol);
+
+		InitS3Events();
 	    }
 
 	    catch (Exception E)
@@ -242,6 +223,7 @@ namespace TheDashlorisX
 
 
 	private readonly PictureBox Capsule = new PictureBox();
+
 
 	private void Init4()
 	{
