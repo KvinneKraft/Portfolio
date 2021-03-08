@@ -23,6 +23,7 @@ namespace TheDashlorisX
 	    return string.Format
 	    (
 		"Gots to write info here\r\n\r\n" 
+		// Change page number to according amount
 	    );
 	}
 
