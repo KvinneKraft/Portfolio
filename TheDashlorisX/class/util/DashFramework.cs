@@ -932,7 +932,7 @@ namespace DashFramework
 		    return iData;
 		}
 
-		catch (Exception E)
+		catch
 		{
 		    return -1;
 		}
