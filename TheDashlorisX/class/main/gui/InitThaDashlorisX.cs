@@ -255,7 +255,7 @@ namespace TheDashlorisX
 
 		S3Container1.BringToFront();
 
-		S3Class4.InitializePage(DashDialog, Capsule);
+		S3Class1.InitializePage(DashDialog, Capsule);
 	    }
 
 	    catch (Exception E)
