@@ -6,16 +6,15 @@
 // -Dashie
 
 using System;
-using System.IO;
 using System.Net;
 using System.Linq;
 using System.Drawing;
 using System.Diagnostics;
 using System.Net.Sockets;
-using System.Collections;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using System.Security.Principal;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
@@ -940,6 +939,16 @@ namespace DashFramework
 
 	    public bool CanPort(string data) =>
 		(GetPort(data) != -1);
+	}
+    }
+
+    
+    namespace System
+    {
+	public class DashInteract
+	{
+	    public bool isAdministrator() =>
+		 new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 	}
     }
 }
