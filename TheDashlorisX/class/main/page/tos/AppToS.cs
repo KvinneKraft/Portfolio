@@ -36,7 +36,7 @@ namespace TheDashlorisX
 	    try
 	    {
 		var ContainerConfiguration = Tuple.Create("App ToS", Capsule.Size, new Point(0, 0));
-		var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, TermsOfServices(), 3);
+		var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, TermsOfServices());
 
 		LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
 	    }
