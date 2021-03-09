@@ -28,7 +28,6 @@ namespace TheDashlorisX
 		"So, you got a big list of options which you can change to whatever your preference may be (assuming it is a valid value for the given column) but that is not all!  I also implemented a proxy list, this will allow you to connect to the web server through a proxy and therefore make your connection a bit more obscure. \r\n\r\n" +
 		"Like I have said before, if you have any suggestions, let me know, I am open for them.\r\n\r\n" +
 		"----( End of Application Info )----" 
-		// Change page number to according amount
 	    );
 	}
 
