@@ -9,12 +9,15 @@ using System;
 using System.IO;
 using System.Net;
 using System.Linq;
-using System.Text;
 using System.Drawing;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Collections;
+using System.Drawing.Text;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
@@ -31,7 +34,213 @@ namespace DashFramework
 	{
 	    public class DashControls
 	    {
+		private readonly DashTools Tool = new DashTools();
 
+		public void SetUrl(Control Object, string Destination)
+		{
+		    try
+		    {
+			Object.Click += (s, e) =>
+			{
+			    using (var Process = new Process())
+			    {
+				Process.StartInfo = new ProcessStartInfo()
+				{
+				    FileName = Destination,
+				    UseShellExecute = true,
+				};
+
+				Process.Start();
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
+		{
+		    if (ObjectLocation.X == -2)
+		    {
+			ObjectLocation.X = (Top.Width - Object.Width) / 2;
+		    }
+
+		    if (ObjectLocation.Y == -2)
+		    {
+			ObjectLocation.Y = (Top.Height - Object.Height) / 2;
+		    }
+
+		    return ObjectLocation;
+		}
+
+		public readonly Dictionary<TextBox, PictureBox> TextBoxContainers = new Dictionary<TextBox, PictureBox>();
+
+		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Object.BorderStyle = BorderStyle.None;
+
+			Object.Multiline = Multiline;
+			Object.ReadOnly = ReadOnly;
+			Object.TabStop = TabStop;
+
+			if (FixedSize)
+			{
+			    var TextBoxContainer = new PictureBox();
+
+			    Tool.Resize(TextBoxContainer, ObjectSize);
+
+			    TextBoxContainer.Location = ObjectLocation;
+			    TextBoxContainer.Font = Tool.GetFont(FontTypeID, FontSize);
+
+			    TextBoxContainer.BorderStyle = BorderStyle.None;
+
+			    TextBoxContainer.BackColor = ObjectBCol;
+			    TextBoxContainer.ForeColor = ObjectFCol;
+
+			    Top.Controls.Add(TextBoxContainer);
+
+			    TextBoxContainer.Click += (s, e) =>
+			    {
+				Object.Select();
+			    };
+
+			    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize("http", FontSize).Height);
+			    var RelocatedLocation = new Point(5, (ObjectSize.Height - ResizedSize.Height) / 2 + 1);
+
+			    Object.Location = RelocatedLocation;
+
+			    Tool.Resize(Object, ResizedSize);
+
+			    TextBoxContainers.Add(Object, TextBoxContainer);
+			    TextBoxContainer.Controls.Add(Object);
+			}
+
+			else
+			{
+			    Object.Location = ObjectLocation;
+			    Object.Font = Tool.GetFont(FontTypeID, FontSize);
+
+			    if (ScrollBar)
+			    {
+				Object.ScrollBars = ScrollBars.Vertical;
+			    }
+
+			    Top.Controls.Add(Object);
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void Button(Control Top, Button Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string ButtonText, bool TabStop = false)
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Object.Font = Tool.GetFont(FontTypeID, FontSize);
+			Object.Text = ButtonText;
+
+			Object.FlatAppearance.BorderColor = ObjectBCol;
+			Object.FlatAppearance.BorderSize = 0;
+
+			Object.FlatStyle = FlatStyle.Flat;
+			Object.TabStop = TabStop;
+
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
+		{
+		    try
+		    {
+			if (ObjectSize == Size.Empty)
+			{
+			    ObjectSize = Tool.GetFontSize(LabelText, FontSize);
+			}
+
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Object.Font = Tool.GetFont(FontTypeID, FontSize);
+			Object.Text = LabelText;
+
+			Object.BorderStyle = BorderStyle.None;
+			Object.FlatStyle = FlatStyle.Flat;
+
+			Object.TabStop = TabStop;
+
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void Image(Control Top, PictureBox Object, Size ObjectSize, Point ObjectLocation, Color BackColor, Image ObjectImage = null, bool TabStop = false)
+		{
+		    try
+		    {
+			if (ObjectSize == Size.Empty)
+			{
+			    if (ObjectImage == null)
+			    {
+				throw new Exception("No image specified.");
+			    }
+
+			    ObjectSize = ObjectImage.Size;
+			}
+
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+
+			Object.BackColor = BackColor;
+			Object.TabStop = TabStop;
+
+			Object.BorderStyle = BorderStyle.None;
+			Object.Image = ObjectImage;
+
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
 	    }
 	}
 
@@ -40,7 +249,177 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public Size GetFontSize(string Text, int Size)
+		{
+		    return TextRenderer.MeasureText(Text, GetFont(1, Size));
+		}
 
+		public void Resize(Control Object, Size Size)
+		{
+		    Object.MaximumSize = Size;
+		    Object.MinimumSize = Size;
+		}
+
+		public void PaintRectangle(Control Object, int Thickness, Size Size, Point Location, Color Color)
+		{
+		    Object.Paint += (s, e) =>
+		    {
+			var graphics = e.Graphics;
+
+			graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+			using (Pen pen = new Pen(Color, Thickness))
+			{
+			    graphics.DrawRectangle(pen, new Rectangle(Location, Size));
+			};
+		    };
+		}
+
+		public void PaintLine(Control Object, Color Color, int Thickness, Point Location1, Point Location2)
+		{
+		    Object.Paint += (s, e) =>
+		    {
+			var graphics = e.Graphics;
+
+			graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+			using (Pen pen = new Pen(Color, Thickness))
+			{
+			    graphics.DrawLine(pen, Location1, Location2);
+			};
+		    };
+		}
+
+		public void PaintCircle(Control Object, Color Color, int Thickness, Point Location, Size Size)
+		{
+		    Object.Paint += (s, e) =>
+		    {
+			var graphics = e.Graphics;
+
+			graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+			using (Pen pen = new Pen(Color, Thickness))
+			{
+			    graphics.DrawEllipse(pen, new RectangleF(Location, Size));
+			};
+		    };
+		}
+
+		[DllImport("User32.dll")] static extern IntPtr CreateIconFromResource(byte[] presbits, uint dwResSize, bool fIcon, uint dwVer);
+		public void UseResourceCursor(Control Object, byte[] BYTES)
+		{
+		    var curse = new Cursor(CreateIconFromResource(BYTES, (uint)BYTES.Length, false, 0x00030000));
+
+		    Object.Cursor = curse;
+		    Object.Update();
+		}
+
+		public void Interactive(Control Object, Control Target)
+		{
+		    var Location = Point.Empty;
+
+		    Object.MouseMove += (s, e) =>
+		    {
+			if (Location.IsEmpty)
+			{
+			    return;
+			}
+
+			Target.Location = new Point(Target.Location.X + (e.X - Location.X), Target.Location.Y + (e.Y - Location.Y));
+		    };
+
+		    Object.MouseDown += (s, e) =>
+		    {
+			Location = new Point(e.X, e.Y);
+		    };
+
+		    Object.MouseUp += (s, e) =>
+		    {
+			Location = Point.Empty;
+		    };
+		}
+
+		public class ReadOnlyForm : Form
+		{
+		    public void PaintOwner(PaintEventArgs e)
+		    {
+			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+			base.OnPaint(e);
+		    }
+		}
+
+		public readonly ReadOnlyForm ReadForm = new ReadOnlyForm();
+
+		public void Round(Control Object, int Radius)
+		{
+		    Object.Paint += (s, e) =>
+		    {
+			try
+			{
+			    ReadForm.PaintOwner(e);
+
+			    GraphicsPath GraphicsPath = new GraphicsPath();
+		    
+			    var Rectangle = new Rectangle(0, 0, Object.Width, Object.Height);
+
+			    int R = Radius * 3;
+
+			    int H = Rectangle.Height;
+			    int W = Rectangle.Width;
+
+			    int X = Rectangle.X;
+			    int Y = Rectangle.X;
+
+			    GraphicsPath.AddArc(X, Y, R, R, 170, 90);
+			    GraphicsPath.AddArc(X + W - R, Y, R, R, 270, 90);
+			    GraphicsPath.AddArc(X + W - R, Y + H - R, R, R, 0, 90);
+			    GraphicsPath.AddArc(X, Y + H - R, R, R, 80, 90);
+
+			    Object.Region = new Region(GraphicsPath);
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    };
+		}
+
+		[DllImport("gdi32.dll")] private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
+		readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
+
+		public Font GetFont(int FontId, int Height)
+		{
+		    try
+		    {
+			if (FontCollection.Families.Length < 2)
+			{
+			    var RawDataCollection = new List<byte[]>()
+			    {
+				Properties.Resources.main,
+				Properties.Resources.cute,
+			    };
+
+			    for (int k = 0; k < RawDataCollection.Count; k += 1)
+			    {
+				byte[] RawData = RawDataCollection[k];
+
+				var Pointer = Marshal.AllocCoTaskMem(RawData.Length);
+
+				Marshal.Copy(RawData, 0, Pointer, RawData.Length);
+
+				uint Reference = 0;
+
+				AddFontMemResourceEx(Pointer, (uint)RawData.Length, IntPtr.Zero, ref Reference);
+				FontCollection.AddMemoryFont(Pointer, RawData.Length);
+			    };
+			};
+
+			return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
+		    }
+
+		    catch { /*Silenced for now.*/ return new Font("Modern", Height, FontStyle.Regular); };
+		}
 	    }
 	}
     }
