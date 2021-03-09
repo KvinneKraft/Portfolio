@@ -63,6 +63,7 @@
     <Compile Include="class\util\DashDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="class\util\DashFramework.cs" />
     <Compile Include="class\util\DashMenuBar.cs" />
     <Compile Include="class\util\DashNet.cs" />
     <Compile Include="class\util\DashSys.cs" />
