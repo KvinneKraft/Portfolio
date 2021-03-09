@@ -666,7 +666,7 @@ namespace DashFramework
 	    private readonly PictureBox S3Container2 = new PictureBox();
 
 	    private readonly Button S3Button1 = new Button();
-	    private readonly Button S3Button2 = new Button();//Right
+	    private readonly Button S3Button2 = new Button();
 
 	    private void S3ChangePage(bool Forward)
 	    {
