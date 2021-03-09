@@ -22,7 +22,7 @@ namespace TheDashlorisX
 	{
 	    return string.Format
 	    (
-		"----( Start of Terms of Services )----\r\n\r\n" +
+		"\r\n----( Start of Terms of Services )----\r\n\r\n" +
 		"1) Whenever you make use of this application you are automatically agreeing with any of the bellow.  Which includes me not being responsible for whatever you inflict (whether it be negative or positive) upon another using this application.  I merely claim responsibility as the owner of this software as the developer of this software.\r\n\r\n" +
 		"2) You know what you are using and why you are using it.  You also know why and how you can and cannot use this application under the law of your country.  This means you fully claim responsibility (as stated before) and hereby confirm you are aware of any missuse of this product, if any.  Missuse being any use which is not tolerated by your local government.  Local being your country, state and perhaps even city.  Depending on where you live of course.  Know that any request sent can be read and interpreted by the receiver without having to decipher any form of encryption.\r\n\r\n" +
 		"3) You know what the purpose of this project is and you also confirm that you have downloaded this piece of software from my GitHub repository.  You can find my GitHub repository at; https://github.com/KvinneKraft -Please validate any files if necessary.\r\n\r\n" +
