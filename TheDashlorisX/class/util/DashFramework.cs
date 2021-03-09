@@ -15,6 +15,10 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using DashFramework.Networking;
+using DashFramework.Erroring;
+using DashFramework.Dialog;
+
 namespace DashFramework
 {
     namespace Erroring
@@ -40,6 +44,25 @@ namespace DashFramework
 		    $"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
 		);
 	    }
+
+	    public static Exception GetException(Exception E) =>
+		new Exception(GetRawFormat(E));
+
+	    public static void Utilize(string description, string title)
+	    {
+		DashBox ErrorDialog = new DashBox();
+
+		Color ContainerBCol = Color.FromArgb(9, 39, 66);
+		Color MenuBarBCol = Color.FromArgb(19, 36, 64);
+		Color AppBCol = Color.FromArgb(6, 17, 33);
+
+		ErrorDialog.ShowMe(description, title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
+		
+		Environment.Exit(-1);
+	    }
+
+	    public static void JustDoIt(Exception E, string title = ("Error Handler")) =>
+		Utilize(GetRawFormat(E), title);
 	}
     }
 
