@@ -247,7 +247,7 @@ namespace TheDashlorisX
 	public void InitializeApp()
 	{
 	    try
-	    { // Recode Util Files, Put em all into one.  Separate namespaces.
+	    { 
 		Init1();//GUI
 		Init2();//BottomBar
 		Init3();//SideMenu
