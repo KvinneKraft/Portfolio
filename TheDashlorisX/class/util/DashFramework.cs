@@ -9,6 +9,7 @@ using System;
 using System.Net;
 using System.Linq;
 using System.Drawing;
+using System.Reflection;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Drawing.Text;
@@ -949,6 +950,9 @@ namespace DashFramework
 	{
 	    public bool isAdministrator() =>
 		 new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+	    public string getFilePath() =>
+		Assembly.GetExecutingAssembly().Location;
 	}
     }
 }
