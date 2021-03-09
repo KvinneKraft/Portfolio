@@ -15,20 +15,43 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using DashFramework.Interface.Controls;
+using DashFramework.Interface.Tools;
+
 using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
 namespace DashFramework
 {
+    namespace Interface
+    {
+	namespace Controls
+	{
+	    public class DashControls
+	    {
+
+	    }
+	}
+
+
+	namespace Tools
+	{
+	    public class DashTools
+	    {
+
+	    }
+	}
+    }
+
+
     namespace Erroring
     {
 	public class ErrorHandler
 	{
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
-
-
+	    
 	    public static string GetRawFormat(Exception E)
 	    {
 		return string.Format
