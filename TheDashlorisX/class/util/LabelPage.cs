@@ -43,8 +43,20 @@ namespace TheDashlorisX
 	private readonly Label S2Label2 = new Label();//not Necessary (1/4)
 
 	private int S2PageID = 1;
+	private int S2Pages = 0;
 
-	private void Init2(int Pages)
+	private void SetPageCount(string PageData, Size ConSize)
+	{
+	    S2Pages = (TextRenderer.MeasureText
+	    (
+		PageData, Tool.GetFont(1, 9), new Size(ConSize.Width, 800),
+		flags: TextFormatFlags.WordBreak
+	    )
+
+	    .Height / ConSize.Height) + 1; 
+	}
+
+	private void Init2(string PageData, Size ConSize)
 	{
 	    try
 	    {
@@ -53,13 +65,15 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container1, S2Container1, ContainerSize, ContainerLoca, Color.MidnightBlue);
 
+		SetPageCount(PageData, ConSize);
+
 		var Label1Size = Tool.GetFontSize("Page:", 9);
-		var Label2Size = Tool.GetFontSize($"1/{Pages} ", 9);
+		var Label2Size = Tool.GetFontSize($"1/{S2Pages} ", 9);
 
 		var Label1Loca = new Point((S2Container1.Width - (Label1Size.Width + Label2Size.Width)) / 2, (S2Container1.Height - Label1Size.Height) / 2);
 		var Label2Loca = new Point(Label1Loca.X + Label1Size.Width, Label1Loca.Y);
 
-		Control.Label(S2Container1, S2Label2, Label2Size, Label2Loca, S2Container1.BackColor, Color.White, 1, 9, $"1/{Pages}");
+		Control.Label(S2Container1, S2Label2, Label2Size, Label2Loca, S2Container1.BackColor, Color.White, 1, 9, $"1/{S2Pages}");
 		Control.Label(S2Container1, S2Label1, Label1Size, Label1Loca, S2Container1.BackColor, Color.White, 1, 9, "Page:");
 	    }
 
@@ -82,7 +96,7 @@ namespace TheDashlorisX
 	    {
 		if (Forward)
 		{
-		    if (S2PageID > 2)
+		    if (S2PageID >= S2Pages)
 		    {
 			return;
 		    }
@@ -185,12 +199,12 @@ namespace TheDashlorisX
 	}
 
 
-	public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string, int> LabelSetup) //string TopBarTitle, Color ConBCol, Color ConFCol, Size ConSize, Point ConLoca, Color LabelBCol, Color LabelFCol, string PageData, int Pages)
+	public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string> LabelSetup) //string TopBarTitle, Color ConBCol, Color ConFCol, Size ConSize, Point ConLoca, Color LabelBCol, Color LabelFCol, string PageData, int Pages)
 	{
 	    try
 	    {
 		Init1(Capsule, ContainerSetup.Item2, ContainerSetup.Item3);
-		Init2(LabelSetup.Item4);
+		Init2(LabelSetup.Item3, ContainerSetup.Item2);
 		Init3(ContainerSetup.Item1);
 		Init4(LabelSetup.Item3, LabelSetup.Item1, LabelSetup.Item2);
 	    }
