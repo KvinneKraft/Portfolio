@@ -39,7 +39,6 @@ namespace TheDashlorisX
 		Name = AppTitle;
 
 		Icon = Resources.ICON;
-
 		BackColor = AppBCol;
 
 		Tool.Round(this, 6);
