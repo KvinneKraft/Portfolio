@@ -22,7 +22,8 @@ namespace TheDashlorisX
 	    OKCancel = 0, YesNo = 1, OK = 2
 	}
 
-	public int Show(string Message, string Title, Color AppBCol, Color MenuBarBCol, Color TextContainerBCol, Color ForeColor, Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
+	public int Show(string Message, string Title, Color AppBCol, Color MenuBarBCol, Color TextContainerBCol, Color ForeColor, 
+	    Buttons Buttons = Buttons.OK, Button Optional1 = null, Button Optional2 = null, Image Icon = null)//, [Optional] Icon icon, [Optional] Point iconLocation, [Optional] List<Button> buttonList)
 	{
 	    try
 	    {
