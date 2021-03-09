@@ -11,6 +11,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Net.Sockets;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -217,8 +218,146 @@ namespace DashFramework
     {
 	public class DashNet
 	{
-	    private readonly DashBox DashBox = new DashBox();
+	    private void HandleError(Exception E) =>
+		ErrorHandler.JustDoIt(E);
+
+	    public int GetInteger(string data)
+	    {
+		try
+		{
+		    return int.Parse(data);
+		}
+
+		catch
+		{
+		    return -1;
+		}
+	    }
+
+	    public bool CanInteger(string data) =>
+		GetInteger(data) != -1;
+
+	    public bool CanDuration(string data)
+	    {
+		int duration = GetInteger(data);
+		return (duration != 1 && duration >= 10);
+	    }
+
+	    public bool CanByte(string data) =>
+		(CanDuration(data));
 	    
+	    public string GetIP(string data)
+	    {
+		try
+		{
+		    var r_host = data.ToLower();
+
+		    if (!IPAddress.TryParse(r_host, out IPAddress ham))
+		    {
+			if (!r_host.Contains("http://") && !r_host.Contains("https://"))
+			{
+			    r_host = "https://" + r_host;
+			}
+
+			if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
+			{
+			    return string.Empty;
+			};
+
+			try
+			{
+			    r_host = Dns.GetHostAddresses(bacon.Host)[0].ToString();
+			}
+
+			catch
+			{
+			    return string.Empty;
+			}
+		    }
+
+		    else
+		    {
+			r_host = ham.ToString();
+
+			if (ham.AddressFamily != AddressFamily.InterNetwork && ham.AddressFamily != AddressFamily.InterNetworkV6)
+			{
+			    return string.Empty;
+			}
+		    }
+
+		    if (r_host.Length < 7 || r_host == string.Empty)
+		    {
+			return string.Empty;
+		    }
+
+		    return r_host;
+		}
+
+		catch
+		{
+		    return string.Empty;
+		}
+	    }
+
+	    public bool CanIP(string data) =>
+		(GetIP(data) != string.Empty);
+
+	    public AddressFamily GetAddressFamily(string data)
+	    {
+		try
+		{
+		    return IPAddress.Parse(data).AddressFamily;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public bool IsHostReachable(string host, int port = 80, int timeout = 500)
+	    {
+		try
+		{
+		    using (Socket socket = new Socket(GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp))
+		    {
+			IAsyncResult socketResult = socket.BeginConnect(host, port, null, null);
+			bool socketSuccess = socketResult.AsyncWaitHandle.WaitOne(timeout, true);
+			return socket.Connected;
+		    }
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+
+	    public bool AllowedDomain(string data) =>
+		new List<string>() { ".gov", ".govt", ".edu" }.Any(data.EndsWith);
+	    
+	    public int GetPort(string data)
+	    {
+		try
+		{
+		    int iData = GetInteger(data);
+
+		    if (iData == -1 || iData < 0 || iData > 65535)
+		    {
+			return -1;
+		    }
+
+		    return iData;
+		}
+
+		catch (Exception E)
+		{
+		    return -1;
+		}
+	    }
+
+	    public bool CanPort(string data) =>
+		(GetPort(data) != -1);
 	}
     }
 }
