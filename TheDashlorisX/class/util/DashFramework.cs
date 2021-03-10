@@ -23,7 +23,7 @@ using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 
-using TheDashlorisX;
+using TheDashlorisX.Properties;
 
 // Implement DropDownMenu.cs, DashMenuBar.cs, LogContainer.cs (recode from the brain) and DashMessageBox.cs (also recode from the brain);
 
@@ -397,8 +397,8 @@ namespace DashFramework
 			{
 			    var RawDataCollection = new List<byte[]>()
 			    {
-				Properties.Resources.main,
-				Properties.Resources.cute,
+				Resources.main,
+				Resources.cute,
 			    };
 
 			    for (int k = 0; k < RawDataCollection.Count; k += 1)
@@ -473,6 +473,113 @@ namespace DashFramework
 
     namespace Dialog
     {
+	public class DashMenuBar
+	{
+	    private readonly DashControls Control = new DashControls();
+	    private readonly DashTools Tool = new DashTools();
+	    
+	    public bool Minimize = false;
+	    public bool Close = false;
+	    public bool Hide = false;
+
+	    public readonly Label MenuBarTitle = new Label();
+
+	    public DashMenuBar(string title, bool minimizeButton, bool closeButton, bool hideDialog = true)
+	    {
+		try
+		{
+		    Minimize = minimizeButton;
+		    Close = closeButton;
+		    Hide = hideDialog;
+
+		    MenuBarTitle.Text = (title);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public readonly PictureBox MenuBar = new PictureBox();
+
+	    public readonly PictureBox LogoLayer1 = new PictureBox();
+	    public readonly PictureBox LogoLayer2 = new PictureBox();
+
+	    public readonly Button Button1 = new Button();
+	    public readonly Button Button2 = new Button();
+
+	    public void AddMe(Control Surface, Color BarBCol, Color BorderBCol, int MenuBarHeight = 26)
+	    {
+		var MenuBarSize = new Size(Surface.Width, MenuBarHeight);
+		var MenuBarLoca = new Point(0, 0);
+		var MenuBarBCol = BarBCol;
+
+		Control.Image(Surface, MenuBar, MenuBarSize, MenuBarLoca, MenuBarBCol);
+		Tool.Interactive(MenuBar, Surface);
+
+		var LogoSize = new Size(38, 32);
+		var LogoLoca = new Point(5, 5);
+
+		Control.Image(Surface, LogoLayer2, LogoSize, LogoLoca, Surface.BackColor, ObjectImage: Resources.LOGO);
+		Control.Image(MenuBar, LogoLayer1, LogoSize, LogoLoca, BarBCol, ObjectImage: Resources.LOGO);
+
+		Tool.Interactive(LogoLayer1, Surface);
+		Tool.Interactive(LogoLayer2, Surface);
+		
+		var TitleSize = Tool.GetFontSize(MenuBarTitle.Text, 8);
+		var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
+
+		Control.Label(MenuBar, MenuBarTitle, TitleSize, TitleLoca, BarBCol, Color.White, 1, 8, MenuBarTitle.Text);
+		Tool.Interactive(MenuBarTitle, Surface);
+
+		var ButtonSize = new Size(65, MenuBarHeight);
+		var ButtonLoca = new Point(MenuBarSize.Width - ButtonSize.Width, 0);
+
+		if (Close)
+		{
+		    Control.Button(MenuBar, Button1, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "X");
+		    Tool.Interactive(Button1, Surface);
+
+		    Button1.Click += (s, e) =>
+		    {
+			if (!Hide)
+			{
+			    Application.Exit();
+			}
+
+			else
+			{
+			    Surface.Hide();
+			}
+		    };
+		}
+
+		if (Close && Minimize)
+		{
+		    ButtonLoca.X -= ButtonSize.Width;
+		}
+
+		else if (Minimize)
+		{
+		    Control.Button(MenuBar, Button2, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "-");
+
+		    Button2.Click += (s, e) =>
+		    {
+			Surface.SendToBack();
+		    };
+
+		    Tool.Interactive(Button2, Surface);
+		}
+
+		var RectangleSize = new Size(MenuBar.Width - 2, Surface.Height - MenuBar.Height + 1);
+		var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
+		
+		Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
+	    }
+	}
+
+
 	public class DashWindow : Form
 	{
 	    private readonly DashControls Control = new DashControls();
@@ -484,7 +591,7 @@ namespace DashFramework
 		{
 		    SuspendLayout();
 
-		    Icon = Properties.Resources.ICON;
+		    Icon = Resources.ICON;
 
 		    FormBorderStyle = AppBorderStyle;
 		    StartPosition = AppStartPosition;
