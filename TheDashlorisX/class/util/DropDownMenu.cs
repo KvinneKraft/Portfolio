@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 using TheDashlorisX.Properties;
 
-namespace TheDashlorisX
+namespace TheDashlorisXd
 {
     public class DropDownMenu
     {
