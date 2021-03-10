@@ -438,15 +438,14 @@ namespace DashFramework
 	    {
 		return string.Format
 		(
-		    $"An error has occurred and has prevented the application from functioning any further, safely.\r\n\r\nPlease send the following to KvinneKraft@protonmail.com if you wish to help me fix this issue.\r\n\r\n" +
+		    //$"An error has occurred and has prevented the application from functioning any further, safely.\r\n\r\nPlease send the following to KvinneKraft@protonmail.com if you wish to help me fix this issue.\r\n\r\n" +
 		    $"----------------------\r\n" +
 		    $"{E.StackTrace}\r\n" +
 		    $"----------------------\r\n" +
 		    $"{E.Message}\r\n" +
 		    $"----------------------\r\n" +
-		    $"{E.Source}\r\n" +
-		    $"----------------------\r\n\r\n" +
-		    $"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
+		    $"{E.Source}\r\n"
+		    //$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
 		);
 	    }
 
@@ -461,7 +460,7 @@ namespace DashFramework
 		Color MenuBarBCol = Color.FromArgb(19, 36, 64);
 		Color AppBCol = Color.FromArgb(6, 17, 33);
 
-		ErrorDialog.ShowMe(description, title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
+		//ErrorDialog.Show(Description:description, Title:title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
 		
 		Environment.Exit(-1);
 	    }
@@ -475,10 +474,124 @@ namespace DashFramework
     namespace Dialog
     {
 	public class DashDialog
-	{
-	    public DashDialog()
-	    {
+	{//Just update pre-initialized component in future.	    
+	    private readonly DashControls Control = new DashControls();
+	    private readonly DashTools Tool = new DashTools();
 
+	    public DashWindow Dialog = new DashWindow();
+
+	    public void InitS1(Size DialogSize, string Title, Color DialogBCol)
+	    {
+		try
+		{
+		    Dialog.InitializeWindow(DialogSize, Title, DialogBCol, Color.Empty, 
+			AppMenuBar:false, StartPosition:FormStartPosition.CenterParent);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public readonly PictureBox S2Container1 = new PictureBox();
+	    public readonly PictureBox S2Container2 = new PictureBox();
+
+	    public readonly TextBox S2TextBox1 = new TextBox();
+
+	    public readonly Button S2Button1 = new Button();
+	    public readonly Button S2Button2 = new Button();
+	    
+	    private int S2ButtonID = 0;
+
+	    public readonly Label S2Label1 = new Label();
+
+	    public void InitS2(Color DialogFCol, string Description, string Title, Buttons DialogButtons)
+	    {
+		try
+		{
+		    var LabelLoca = new Point(-2, 12);
+
+		    Control.Label(Dialog, S2Label1, Size.Empty, LabelLoca, Dialog.BackColor, DialogFCol, 1, 10, Title);
+
+		    var Container1Size = new Size(Dialog.Width - 20, Dialog.Height - (S2Label1.Height + 68));
+		    var Container1Loca = new Point(10, S2Label1.Height + S2Label1.Top + 10);
+		    var Container1BCol = Dialog.BackColor;
+
+		    Control.Image(Dialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
+		    Tool.Round(S2Container1, 6);
+
+		    // - Add TextBox here
+		    // - Set size to Width and Height - 8 
+		    // - Set Location to 4 and 4
+
+		    var Container2Loca = new Point(Container1Loca.X, Container1Size.Height + Container1Loca.Y + 10);
+		    var Container2Size = new Size(Container1Size.Width, 24);
+
+		    Control.Image(Dialog, S2Container2, Container2Size, Container2Loca, Container1BCol);
+
+		    var ButtonSize = new Size((Container2Size.Width / 2) - 30, 24);
+		    var ButtonBCol = Color.MidnightBlue;
+
+		    var Button2Loca = new Point(Container2Size.Width - ButtonSize.Width - 10);
+		    var Button1Loca = new Point(10, 0);
+
+		    // - Get Button Text based on enum
+		    // - Determine which button to add
+		    // - Add buttons
+		    
+		    S2Button1.Click += (s, e) =>
+		    {
+			S2ButtonID = 0;
+			Dialog.Hide();
+		    };
+
+		    S2Button2.Click += (s, e) =>
+		    {
+			S2ButtonID = 1;
+			Dialog.Hide();
+		    };
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public enum Buttons { OKCancel, YesNo, OK };
+
+	    // If already initialized, allow the ability to show already initialized dialog.  |  Assuming all parameters are given.
+	    public int Show(Color DialogBCol, Color DialogFCol, Size DialogSize, string Description, string Title, Buttons DialogButtons = Buttons.OK)
+	    {
+		try
+		{
+		    InitS1(DialogSize, Title, DialogBCol);
+		    InitS2(DialogFCol, Description, Title, DialogButtons);
+
+		    Dialog.ShowAsIs();
+
+		    return S2ButtonID;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public int Show()
+	    {
+		try
+		{
+		    Dialog.ShowAsIs();
+		    return S2ButtonID;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 	}
 
