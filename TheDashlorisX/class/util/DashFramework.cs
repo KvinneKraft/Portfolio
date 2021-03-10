@@ -596,6 +596,30 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
+	    public void UpdateColor(Color NewValue1, Color NewValue2)
+	    {
+		try
+		{
+		    foreach (Control Control in MenuBar.Controls)
+		    {
+			Control.BackColor = NewValue1;
+		    }
+
+		    LogoLayer2.BackColor = MenuBar.Parent.BackColor;
+		    MenuBar.BackColor = NewValue1;
+
+		    var RectSize = new Size(MenuBar.Width-2, MenuBar.Parent.Height - MenuBar.Height);
+		    var RectLoca = new Point(1, MenuBar.Height + MenuBar.Top - 3);
+
+		    Tool.PaintRectangle(MenuBar.Parent, 3, RectSize, RectLoca, NewValue2);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
 	}
 
 
