@@ -484,15 +484,15 @@ namespace DashFramework
 
 	    public readonly Label MenuBarTitle = new Label();
 
-	    public DashMenuBar(string title, bool minimizeButton, bool closeButton, bool hideDialog = true)
+	    public DashMenuBar(string Title, bool MinimizeButton, bool CloseButton, bool HideDialog = true)
 	    {
 		try
 		{
-		    Minimize = minimizeButton;
-		    Close = closeButton;
-		    Hide = hideDialog;
+		    Minimize = MinimizeButton;
+		    Close = CloseButton;
+		    Hide = HideDialog;
 
-		    MenuBarTitle.Text = (title);
+		    MenuBarTitle.Text = (Title);
 		}
 
 		catch (Exception E)
@@ -577,6 +577,25 @@ namespace DashFramework
 		
 		Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
 	    }
+
+	    public void UpdateTitle(string NewValue)
+	    {
+		try
+		{
+		    var NewLabelSize = Tool.GetFontSize(NewValue, 8);
+		    var NewLabelLoca = new Point(MenuBarTitle.Left, (MenuBar.Height - NewLabelSize.Height) / 2);
+
+		    MenuBarTitle.Location = NewLabelLoca;
+		    MenuBarTitle.Text = NewValue;
+
+		    Tool.Resize(MenuBarTitle, NewLabelSize);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
 	}
 
 
@@ -613,14 +632,14 @@ namespace DashFramework
 		}
 	    }
 
-	    private readonly DashMenuBar MenuBar = null;
+	    private DashMenuBar MenuBar = null;
 
 	    private void InitS2(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBCol)
 	    {
 		try
 		{
 		    MenuBar = new DashMenuBar(AppTitle, AppMinim, AppClose, AppHide);
-		    MenuBar.Add(this, 26, MenuBarBCol, MenuBarBCol);
+		    MenuBar.AddMe(this, MenuBarBCol, MenuBarBCol);
 		}
 
 		catch (Exception E)
