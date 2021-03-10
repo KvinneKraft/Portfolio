@@ -12,11 +12,17 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using DashFramework.Interface.Controls;
+using DashFramework.Interface.Tools;
+
+using DashFramework.Erroring;
+using DashFramework.Dialog;
+
 namespace TheDashlorisX
 {
     public class InitThaDashlorisX : DashGlobe
     {
-	public readonly DashDialog DashDialog = new DashDialog();
+	public readonly DashWindow DashWindow = new DashWindow();
 
 	private void Init1()
 	{
@@ -26,9 +32,9 @@ namespace TheDashlorisX
 		var DialogBCol = Color.FromArgb(6, 14, 36);
 		var DialogSize = new Size(400, 350);
 
-		DashDialog.JustInitialize(DialogSize, ("Tha Dashloris-X  -  3.0"), DialogBCol, DialogMCol);
+		DashWindow.InitializeWindow(DialogSize, ("Tha Dashloris-X  -  3.0"), DialogBCol, DialogMCol);
 
-		DashDialog.MenuBar.Close.Click += (s, e) =>
+		DashWindow.MenuBar.Button1.Click += (s, e) =>
 		{
 		    ExitApplication();
 		};
@@ -74,11 +80,11 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(DashDialog.Width, 34);
-		var Container1Loca = new Point(0, DashDialog.Height - 34);
-		var Container1BCol = DashDialog.MenuBar.Bar.BackColor;
+		var Container1Size = new Size(DashWindow.Width, 34);
+		var Container1Loca = new Point(0, DashWindow.Height - 34);
+		var Container1BCol = DashWindow.MenuBar.MenuBar.BackColor;
 
-		Control.Image(DashDialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
+		Control.Image(DashWindow, S2Container1, Container1Size, Container1Loca, Container1BCol);
 
 		var Container2Size = new Size(26, 26);
 		var Container2Loca = new Point(5, 4);
@@ -90,7 +96,6 @@ namespace TheDashlorisX
 		var Container3Size = new Size(24, 24);
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
-
 		InitS2Events();
 
 		var Button1Size = new Size(100, 24);
@@ -126,7 +131,7 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	delegate void ClassInit(DashDialog DashDialog, PictureBox Capsule);
+	delegate void ClassInit(DashWindow DashWindow, PictureBox Capsule);
 
 	private void InitS3Events()
 	{
@@ -146,7 +151,7 @@ namespace TheDashlorisX
 		    Init.Key.Click += (s, e) =>
 		    {
 			// Hide all Dialogs?
-			Init.Value.Invoke(DashDialog, Capsule);
+			Init.Value.Invoke(DashWindow, Capsule);
 		    };
 		}
 	    }
@@ -163,16 +168,16 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(125, DashDialog.Height - S2Container1.Height - DashDialog.MenuBar.Bar.Height);
-		var Container1Loca = new Point(2, DashDialog.MenuBar.Bar.Height);
+		var Container1Size = new Size(125, DashWindow.Height - S2Container1.Height - DashWindow.MenuBar.MenuBar.Height);
+		var Container1Loca = new Point(2, DashWindow.MenuBar.MenuBar.Height);
 		var Container1BCol = S2Container1.BackColor;
 
-		Control.Image(DashDialog, S3Container1, Container1Size, Container1Loca, Container1BCol);
+		Control.Image(DashWindow, S3Container1, Container1Size, Container1Loca, Container1BCol);
 		S3Container1.Hide();
 
-		var Image1Imag = DashDialog.MenuBar.Logo.Image;
-		var Image1Size = DashDialog.MenuBar.Logo.Size;
-		var Image1Loca = new Point(DashDialog.MenuBar.Logo.Left - 2, -DashDialog.MenuBar.Bar.Height + DashDialog.MenuBar.Logo.Top);
+		var Image1Imag = DashWindow.MenuBar.LogoLayer1.Image;
+		var Image1Size = DashWindow.MenuBar.LogoLayer1.Size;
+		var Image1Loca = new Point(DashWindow.MenuBar.LogoLayer1.Left - 2, -DashWindow.MenuBar.MenuBar.Height + DashWindow.MenuBar.LogoLayer1.Top);
 	   
 		Control.Image(S3Container1, S3Image1, Image1Size, Image1Loca, Container1BCol, Image1Imag);
 
@@ -194,7 +199,7 @@ namespace TheDashlorisX
 		    Tuple.Create(S3Button5, "The T.O.S"),
 		};
 
-		var ButtonBCol = DashDialog.BackColor;
+		var ButtonBCol = DashWindow.BackColor;
 		var ButtonSize = new Size(105, 24);
 
 		for (int k = 0, y = 0; k < Buttons.Count; k += 1, y = (5 * k) + (ButtonSize.Height * k))
@@ -229,11 +234,11 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var ContainerSize = new Size(DashDialog.Width - 30, DashDialog.Height - DashDialog.MenuBar.Bar.Height - 30 - S2Container1.Height);
-		var ContainerLoca = new Point(15, DashDialog.MenuBar.Bar.Height + 15);
-		var ContainerBCol = DashDialog.BackColor;
+		var ContainerSize = new Size(DashWindow.Width - 30, DashWindow.Height - DashWindow.MenuBar.MenuBar.Height - 30 - S2Container1.Height);
+		var ContainerLoca = new Point(15, DashWindow.MenuBar.MenuBar.Height + 15);
+		var ContainerBCol = DashWindow.BackColor;
 
-		Control.Image(DashDialog, Capsule, ContainerSize, ContainerLoca, ContainerBCol);
+		Control.Image(DashWindow, Capsule, ContainerSize, ContainerLoca, ContainerBCol);
 		Tool.Round(Capsule, 6);
 	    }
 
@@ -255,7 +260,7 @@ namespace TheDashlorisX
 
 		S3Container1.BringToFront();
 
-		S3Class1.InitializePage(DashDialog, Capsule);
+		S3Class1.InitializePage(DashWindow, Capsule);
 	    }
 
 	    catch (Exception E)
