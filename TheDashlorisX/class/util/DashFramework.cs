@@ -23,6 +23,8 @@ using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 
+using TheDashlorisX;
+
 // Implement DropDownMenu.cs, DashMenuBar.cs, LogContainer.cs (recode from the brain) and DashMessageBox.cs (also recode from the brain);
 
 namespace DashFramework
