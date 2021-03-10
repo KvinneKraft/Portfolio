@@ -22,10 +22,11 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
+using DashFramework.Dialog;
 
 using TheDashlorisX.Properties;
 
-// Implement DropDownMenu.cs, DashMenuBar.cs, LogContainer.cs (recode from the brain) and DashMessageBox.cs (also recode from the brain);
+// Implement DropDownMenu.cs and DashMessageBox.cs (also recode from the brain);
 
 namespace DashFramework
 {
@@ -454,7 +455,7 @@ namespace DashFramework
 
 	    public static void Utilize(string description, string title)
 	    {
-		DashBox ErrorDialog = new DashBox();
+		DashDialog ErrorDialog = new DashDialog();
 
 		Color ContainerBCol = Color.FromArgb(9, 39, 66);
 		Color MenuBarBCol = Color.FromArgb(19, 36, 64);
@@ -473,6 +474,15 @@ namespace DashFramework
 
     namespace Dialog
     {
+	public class DashDialog
+	{
+	    public DashDialog()
+	    {
+
+	    }
+	}
+
+
 	public class DashMenuBar
 	{
 	    private readonly DashControls Control = new DashControls();
@@ -656,7 +666,7 @@ namespace DashFramework
 		}
 	    }
 
-	    private DashMenuBar MenuBar = null;
+	    public DashMenuBar MenuBar = null;
 
 	    private void InitS2(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBCol)
 	    {
@@ -672,12 +682,16 @@ namespace DashFramework
 		}
 	    }
 
-	    private void DoInitializeApp(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	    public void InitializeWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true)
 	    {
 		try
 		{
 		    InitS1(AppSize, AppTitle, AppBCol, AppStartPosition: StartPosition, AppBorderStyle: FormBorderStyle);
-		    InitS2(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBCol);
+
+		    if (AppMenuBar)
+		    {
+			InitS2(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBCol);
+		    }
 		}
 
 		catch (Exception E)
@@ -688,30 +702,17 @@ namespace DashFramework
 
 	    private bool DoInitialize = true;
 
-	    public void Show(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
+	    public void ShowWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true)
 	    {
 		try
 		{
 		    if (DoInitialize)
 		    {
-			DoInitializeApp(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp);
+			InitializeWindow(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp, AppMenuBar);
 			DoInitialize = false;
 		    }
 
 		    ShowAsIs(ShowDialog);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    public void JustInitialize(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true)
-	    {
-		try
-		{
-		    DoInitializeApp(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle, MenuBarMinim: MenuBarMinim, MenuBarClose: MenuBarClose, CloseHideApp: CloseHideApp);
 		}
 
 		catch (Exception E)
@@ -748,7 +749,6 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-
 	    private readonly PictureBox S1Container1 = new PictureBox();
 
 	    private void Init1(PictureBox Capsule, Size ContainerSize, Point ContainerLoca)
@@ -764,8 +764,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-
-
+	    
 	    private readonly PictureBox S2Container1 = new PictureBox();
 
 	    private readonly Label S2Label1 = new Label();
@@ -811,8 +810,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-
-
+	    
 	    private readonly PictureBox S3Container1 = new PictureBox();
 	    private readonly PictureBox S3Container2 = new PictureBox();
 
@@ -853,8 +851,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-
-
+	    
 	    private readonly Label S3Label1 = new Label();
 
 	    private void Init3(string Title)
@@ -926,7 +923,6 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-
 
 	    public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string> LabelSetup) //string TopBarTitle, Color ConBCol, Color ConFCol, Size ConSize, Point ConLoca, Color LabelBCol, Color LabelFCol, string PageData, int Pages)
 	    {
