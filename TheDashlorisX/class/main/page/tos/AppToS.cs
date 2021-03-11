@@ -19,7 +19,7 @@ namespace TheDashlorisX
 {
     public class AppToS
     {
-	private readonly LabelPage LabelPage = new LabelPage();
+	private LabelPage LabelPage = null;
 
 	private string TermsOfServices()
 	{
@@ -38,10 +38,17 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var ContainerConfiguration = Tuple.Create("App ToS", Capsule.Size, new Point(0, 0));
-		var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, TermsOfServices());
+		if (LabelPage == null)
+		{
+		    LabelPage = new LabelPage();
 
-		LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
+		    var ContainerConfiguration = Tuple.Create("App ToS", Capsule.Size, new Point(0, 0));
+		    var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, TermsOfServices());
+
+		    LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
+		}
+
+		LabelPage.S1Container1.Show();
 	    }
 
 	    catch (Exception E)
