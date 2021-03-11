@@ -21,6 +21,8 @@ using System.Runtime.InteropServices;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
+
+using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -460,8 +462,8 @@ namespace DashFramework
 		Color MenuBarBCol = Color.FromArgb(19, 36, 64);
 		Color AppBCol = Color.FromArgb(6, 17, 33);
 
-		//ErrorDialog.Show(Description:description, Title:title, AppBCol, MenuBarBCol, ContainerBCol, Color.White);
-		
+		ErrorDialog.Show(AppBCol, Color.White, Size.Empty, description, title, DashDialog.Buttons.OK);
+
 		Environment.Exit(-1);
 	    }
 
@@ -495,7 +497,8 @@ namespace DashFramework
     namespace Dialog
     {
 	public class DashDialog
-	{//Just update pre-initialized component in future.	    
+	{//Just update pre-initialized component in future.	
+	    private readonly EfficiencyTools Efficiency = new EfficiencyTools();
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
@@ -505,6 +508,11 @@ namespace DashFramework
 	    {
 		try
 		{
+		    if (Dialog.MenuBar.MenuBar.Controls.Count > 0)
+		    {
+			Dialog = new DashWindow();
+		    }
+
 		    Dialog.InitializeWindow(DialogSize, Title, DialogBCol, Color.Empty, 
 			AppMenuBar:false, StartPosition:FormStartPosition.CenterParent);
 		}
@@ -542,27 +550,63 @@ namespace DashFramework
 		    Control.Image(Dialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
 		    Tool.Round(S2Container1, 6);
 
-		    var TextBoxSize = new Size(Container1Size.Width - 4, Container1Size.Height - 4);
-		    var TextBox
+		    var TextBoxSize = Efficiency.Resize(Container1Size, 8, 8, false);
+		    var TextBoxLoca = new Point(4, 4);
 
-		    // - Add TextBox here
-		    // - Set size to Width and Height - 8 
-		    // - Set Location to 4 and 4
+		    Control.TextBox(S2Container1, S2TextBox1, TextBoxSize, TextBoxLoca, Container1BCol, DialogFCol, 1, 8, true, true, true, false);
+		    S2TextBox1.Text = Description;
 
 		    var Container2Loca = new Point(Container1Loca.X, Container1Size.Height + Container1Loca.Y + 10);
 		    var Container2Size = new Size(Container1Size.Width, 24);
 
 		    Control.Image(Dialog, S2Container2, Container2Size, Container2Loca, Container1BCol);
 
+		    string []Texts = new string[] { "Okay", "" }; 
+
+		    switch (DialogButtons)
+		    {
+			case Buttons.OKCancel:
+	    			Texts[1] = ("Cancel");
+			    break;
+
+			case Buttons.YesNo:
+				Texts[0] = ("Yes");
+				Texts[1] = ("No");
+			    break;
+		    }
+
+		    var ButtonObjects = new List<Button>() { S2Button1 };
+
+		    if (Texts[1].Length > 0)
+		    {
+			ButtonObjects.Add(S2Button2);
+		    }
+		    
 		    var ButtonSize = new Size((Container2Size.Width / 2) - 30, 24);
 		    var ButtonBCol = Color.MidnightBlue;
 
-		    var Button2Loca = new Point(Container2Size.Width - ButtonSize.Width - 10);
-		    var Button1Loca = new Point(10, 0);
+		    Point ButtonStartPoint()
+		    {
+			if (ButtonObjects.Count <= 1)
+			{
+			    return new Point((Container2Size.Width - ButtonSize.Width) / 2);
+			}
 
-		    // - Get Button Text based on enum
-		    // - Determine which button to add
-		    // - Add buttons
+			return new Point(10);
+		    };
+
+		    var ButtonLoca = ButtonStartPoint();
+
+		    for (int k = 0; k < ButtonObjects.Count; k += 1)
+		    {
+			if (k >= 1)
+			{
+			    ButtonLoca.X = (Container2Size.Width - ButtonSize.Width - 10);
+			}
+
+			Control.Button(S2Container2, ButtonObjects[k], ButtonSize, ButtonLoca,
+			    ButtonBCol, DialogFCol, 1, 9, Texts[k]);
+		    }
 		    
 		    S2Button1.Click += (s, e) =>
 		    {
@@ -590,6 +634,11 @@ namespace DashFramework
 	    {
 		try
 		{
+		    if (DialogSize == Size.Empty)
+		    {
+			DialogSize = new Size(350, 350);
+		    }
+
 		    InitS1(DialogSize, Title, DialogBCol);
 		    InitS2(DialogFCol, Description, Title, DialogButtons);
 
