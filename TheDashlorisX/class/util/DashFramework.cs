@@ -471,6 +471,27 @@ namespace DashFramework
     }
 
 
+    namespace DashLogic
+    {
+	public class EfficiencyTools
+	{
+	    public Size Resize(Size Original, int X, int Y, bool Add = true)
+	    {
+		Original.Height += Y;
+		Original.Width += X;
+
+		if (!Add)
+		{
+		    Original.Height -= (2 * Y);
+		    Original.Width -= (2 * X);
+		}
+
+		return (Original);
+	    }
+	}
+    }
+
+
     namespace Dialog
     {
 	public class DashDialog
@@ -520,6 +541,9 @@ namespace DashFramework
 
 		    Control.Image(Dialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
 		    Tool.Round(S2Container1, 6);
+
+		    var TextBoxSize = new Size(Container1Size.Width - 4, Container1Size.Height - 4);
+		    var TextBox
 
 		    // - Add TextBox here
 		    // - Set size to Width and Height - 8 
@@ -1104,7 +1128,7 @@ namespace DashFramework
 			if (!Uri.TryCreate(r_host, UriKind.RelativeOrAbsolute, out Uri bacon))
 			{
 			    return string.Empty;
-			};
+			}
 
 			try
 			{
