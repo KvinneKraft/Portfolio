@@ -508,13 +508,15 @@ namespace DashFramework
 	    {
 		try
 		{
-		    if (Dialog.MenuBar.MenuBar.Controls.Count > 0)
+		    if (Dialog.Controls.Count < 1)
 		    {
 			Dialog = new DashWindow();
 		    }
 
 		    Dialog.InitializeWindow(DialogSize, Title, DialogBCol, Color.Empty, 
 			AppMenuBar:false, StartPosition:FormStartPosition.CenterParent);
+
+		    Tool.Interactive(Dialog, Dialog);
 		}
 
 		catch (Exception E)
@@ -649,6 +651,7 @@ namespace DashFramework
 
 		catch (Exception E)
 		{
+		    MessageBox.Show(ErrorHandler.GetRawFormat(E));
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
@@ -935,7 +938,7 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-	    private readonly PictureBox S1Container1 = new PictureBox();
+	    public readonly PictureBox S1Container1 = new PictureBox();
 
 	    private void Init1(PictureBox Capsule, Size ContainerSize, Point ContainerLoca)
 	    {
@@ -1124,6 +1127,239 @@ namespace DashFramework
 		{
 		    ErrorHandler.JustDoIt(E);
 		}
+	    }
+	}
+
+
+	public class DropMenu
+	{
+	    private readonly EfficiencyTools Efficiency = new EfficiencyTools();
+	    private readonly DashControls Control = new DashControls();
+	    private readonly DashTools Tool = new DashTools();
+
+	    public void Hide()
+	    {
+		try
+		{
+		    Container.Hide();
+		    Container.SendToBack();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public void Show()
+	    {
+		try
+		{
+		    Container.Show();
+		    Container.BringToFront();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	    
+	    public readonly PictureBox ContentContainer = new PictureBox();
+	    public readonly PictureBox Container = new PictureBox();
+
+	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
+	    {
+		var Container1Size = new Size(10, 0);
+		var Container1Loca = MenuLocation;
+		var Container1BCol = MenuColor;
+
+		Control.Image(Top, Container, Container1Size, Container1Loca, Container1BCol);
+
+		var Container2Size = Efficiency.Resize(Container1Size, 4, 4, false);
+		var Container2Loca = new Point(2, 2);
+		var Container2BCol = Color.White;
+
+		Control.Image(Container, ContentContainer, Container2Size, Container2Loca, Container2BCol);
+
+		var RectSize = Efficiency.Resize(Container1Size, 4, 4, false);
+		var RectLoca = new Point(1, 1);
+		var RectBCol = MenuBorderColor;
+
+		Tool.PaintRectangle(Container, 2, RectSize, RectLoca, RectBCol);
+
+		Top.MouseEnter += (s, e) =>
+		{
+		    if (Container.Visible)
+		    {
+			Hide();
+		    }
+		};
+
+		Hide();
+	    }
+
+	    public readonly Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
+
+	    private int GetY()
+	    {
+		if (MenuItems.Count > 0)
+		{
+		    var Item = ContentContainer.Controls[ContentContainer.Controls.Count - 1];
+		    return (Item.Top + Item.Height);
+		}
+
+		return 0;
+	    }
+
+	    public void AddItem(Label Object, string ItemName, Color ItemBCol, Color ItemFCol, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
+	    {
+		if (ItemWidth == -2 || ItemHeight == -2)
+		{
+		    if (ItemWidth == -2)
+		    {
+			ItemWidth = ContentContainer.Width;
+		    }
+
+		    if (ItemHeight == -2)
+		    {
+			ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
+		    }
+		}
+
+		var ItemSize = new Size(ItemWidth, ItemHeight);
+		var ItemLoca = new Point(0, GetY());
+
+		Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, 1, ItemTextSize, ItemName);
+		Object.TextAlign = ContentAlignment.TopCenter;
+
+		int GetContentContainerWidth()
+		{
+		    if (ItemSize.Width > ContentContainer.Width)
+		    {
+			return (ItemSize.Width);
+		    }
+
+		    return (ContentContainer.Width);
+		}
+
+		var Container2Size = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
+		var Container1Size = Efficiency.Resize(Container2Size, 4, 4);
+
+		Tool.Resize(ContentContainer, Container2Size);
+		Tool.Resize(Container, Container1Size);
+
+		if (Index == -2)
+		{
+		    Index = MenuItems.Count;
+		}
+
+		MenuItems.Add(Index, Object);
+	    }
+
+	    public Label GetItem(int Index = -2)
+	    {
+		try
+		{
+		    if (Index == -2)
+		    {
+			Index = MenuItems.Count - 1;
+		    }
+
+		    if (MenuItems.Count - 1 < Index)
+		    {
+			return null;
+		    }
+
+		    return MenuItems[Index];
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void ReloadDropDownMenu()
+	    {
+		try
+		{
+		    var ItemLoca = new Point(0, 0);
+		    var MenuItem = new List<Label>();
+
+		    foreach (Label Item in this.MenuItems.Values)
+		    {
+			Item.Location = ItemLoca;
+			ItemLoca.Y += Item.Height;
+		 
+			MenuItem.Add(Item);
+		    }
+
+		    this.MenuItems.Clear();
+
+		    for (int k = 0; k < MenuItems.Count; k += 1)
+		    {
+			this.MenuItems.Add(k, MenuItems[k]);
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public bool RemoveItem(int Index = -2)
+	    {
+		try
+		{
+		    if (Index == -2)
+		    {
+			var Count = MenuItems.Count;
+
+			if (Count >= 1)
+			{
+			    Count -= 1;
+			}
+
+			Index = Count;
+		    }
+
+		    if (!MenuItems.ContainsKey(Index))
+		    {
+			return false;
+		    }
+
+		    ContentContainer.Controls.RemoveAt(Index);
+		    MenuItems.Remove(Index);
+
+		    ReloadDropDownMenu();
+
+		    int GetMenuHeight()
+		    {
+			var Height = 0;
+
+			if (MenuItems.Count > 0)
+			{
+			    Height = MenuItems[MenuItems.Count - 1].Top + MenuItems[MenuItems.Count - 1].Height - 4;
+			}
+
+			return Height;
+		    }
+
+		    var Container2Size = new Size(ContentContainer.Width, GetMenuHeight());
+		    var Container1Size = Efficiency.Resize(Container2Size, 4, 4);
+
+		    Tool.Resize(ContentContainer, Container2Size);
+		    Tool.Resize(Container, Container1Size);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+
+		return true;
 	    }
 	}
     }
