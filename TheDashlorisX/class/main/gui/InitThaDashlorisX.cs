@@ -131,7 +131,7 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	delegate void ClassInit(DashWindow DashWindow, PictureBox Capsule);
+	private delegate void ClassInit(DashWindow DashWindow, PictureBox Capsule);
 
 	private void InitS3Events()
 	{
@@ -150,7 +150,14 @@ namespace TheDashlorisX
 		{
 		    Init.Key.Click += (s, e) =>
 		    {
-			// Hide all Dialogs?
+			foreach (Control Control in Capsule.Controls)
+			{
+			    if (Control.Visible)
+			    {
+				Control.Hide();
+			    }
+			}
+
 			Init.Value.Invoke(DashWindow, Capsule);
 		    };
 		}
