@@ -12,6 +12,8 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+using DashFramework.Erroring;
+
 namespace TheDashlorisX
 {
     public partial class ThaDashloris : InitThaDashlorisX
@@ -22,7 +24,7 @@ namespace TheDashlorisX
 	    {
 		InitializeApp();
 
-		Application.Run(DashDialog);
+		Application.Run(DashWindow);
 	    }
 
 	    catch (Exception E)
