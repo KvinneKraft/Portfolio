@@ -73,7 +73,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var TextBoxBCol = Color.MidnightBlue;//S2Container1.BackColor;
+		var TextBoxBCol = S1Container1.Parent.BackColor; //Color.MidnightBlue;//S2Container1.BackColor;
 		var TextBoxFCol = Color.White;
 
 		TextBox.TextAlign = HorizontalAlignment.Center;
@@ -153,7 +153,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private void InitS2()
+	private void InitS2(PictureBox Capsule)
 	{
 	    try
 	    {
@@ -166,7 +166,7 @@ namespace TheDashlorisX
 		var Label1Size = S2GetFontSize("Send Delay:");
 
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
-		var TextBox1Size = new Size(75, 20);
+		var TextBox1Size = new Size(70, 20);
 
 		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
 		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
@@ -184,7 +184,7 @@ namespace TheDashlorisX
 		var Label3Size = S2GetFontSize("Dash Workers:");
 
 		var TextBox3Loca = S2ControlLoca(Label3Size, Label3Loca, Label3Loca.Y, 0);
-		var TextBox3Size = new Size(65, 20);
+		var TextBox3Size = new Size(55, 20);
 
 		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
 		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
@@ -201,7 +201,7 @@ namespace TheDashlorisX
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
 		var Label5Size = S2GetFontSize("Content-Length:");
 
-		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);//new Point(0, Label5Loca.Y);
+		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);
 		var TextBox5Size = new Size(70, 20);
 
 		S2AddTextBox(S2Textbox5, TextBox5Size, TextBox5Loca, ("4012"));
@@ -219,6 +219,13 @@ namespace TheDashlorisX
 		var Label6Size = S2GetFontSize("Random-UA:");
 
 		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
+
+		var CheckBoxSize = new Size(16, 16);
+		var CheckBoxLoca = S2ControlLoca(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
+		var CheckBoxCol1 = Color.DarkMagenta;//DashWindow.MenuBar.MenuBar.BackColor;
+		var CheckBoxCol2 = Capsule.BackColor;
+
+		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, CheckBoxCol2, CheckBoxCol1, true);
 	    }
 
 	    catch (Exception E)
@@ -259,7 +266,7 @@ namespace TheDashlorisX
 	    try
 	    {
 		InitS1(Capsule, DashWindow);
-		InitS2();
+		InitS2(Capsule);
 		InitS3();
 	    }
 
