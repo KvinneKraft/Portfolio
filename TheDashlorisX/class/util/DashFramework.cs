@@ -81,7 +81,7 @@ namespace DashFramework
 		}
 
 		public void CheckBox(Control Top, PictureBox Container1, PictureBox Container2, Size Size, Point Loca, Color DeselectedBCol, [Optional] Color SelectedBCol, [Optional] bool Select)
-		{
+		{//fukin recode this, you lazy fyck.
 		    try
 		    {
 			Image(Top, Container1, Size, Loca, DeselectedBCol);
@@ -89,25 +89,25 @@ namespace DashFramework
 			Size.Height -= 4;
 			Size.Width -= 4;
 
-			Loca.X += 2;
-			Loca.Y += 2;
+			Image(Container1, Container2, Size, new Point(2, 2), DeselectedBCol);
 
-			Image(Top, Container2, Size, Loca, DeselectedBCol);
+			Tool.Round(Container1, 2);
+			Tool.Round(Container2, 2);
 
 			if (Select)
 			    Container2.BackColor = SelectedBCol;
 
 			void UpdateColor()
 			{
-			    if (Container2.BackColor == SelectedBCol)
+			    Color Col = SelectedBCol;
+
+			    if (Container2.BackColor == Col)
 			    {
-				Container2.BackColor = DeselectedBCol;
+				Col = DeselectedBCol;
 			    }
 
-			    else
-			    {
-				Container2.BackColor = SelectedBCol;
-			    }
+			    Container2.PerformLayout();
+			    Container2.BackColor = Col;
 			};
 
 			Container1.Click += (s, e) =>
