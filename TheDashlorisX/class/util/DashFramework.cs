@@ -1127,7 +1127,7 @@ namespace DashFramework
 		{
 		    var ContainerSize = new Size(S1Container1.Width - 5, S1Container1.Height - S3Container1.Height - S2Container1.Height - 4);
 		    var ContainerLoca = new Point(3, S2Container1.Height + 2);
-		    var ContainerBCol = Color.FromArgb(24, 24, 24);
+		    var ContainerBCol = LabelBCol;
 
 		    Control.Image(S1Container1, S4Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
