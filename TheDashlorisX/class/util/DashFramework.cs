@@ -153,7 +153,7 @@ namespace DashFramework
 			    };
 
 			    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize("http", FontSize).Height);
-			    var RelocatedLocation = new Point(5, (ObjectSize.Height - ResizedSize.Height) / 2 + 1);
+			    var RelocatedLocation = new Point(5, (ObjectSize.Height - ResizedSize.Height) / 2);
 
 			    Object.Location = RelocatedLocation;
 
