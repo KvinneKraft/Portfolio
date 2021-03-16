@@ -60,7 +60,8 @@ namespace TheDashlorisX
 
 
 	private readonly PictureBox S2Container1 = new PictureBox();//Configuration Container;
-	private readonly PictureBox S2CheckBox1 = new PictureBox();
+	private readonly PictureBox S2Container2 = new PictureBox();
+	private readonly PictureBox S2Container3 = new PictureBox();
 
 	private readonly TextBox S2Textbox1 = new TextBox();
 	private readonly TextBox S2Textbox2 = new TextBox();
@@ -167,11 +168,17 @@ namespace TheDashlorisX
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(75, 20);
 
+		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
+		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
+
 		var Label2Loca = S2ControlLoca(TextBox1Size, TextBox1Loca);
 		var Label2Size = S2GetFontSize("Timeout:");
 
 		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Extra: 0);
 		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
+
+		S2AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
+		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
 
 		var Label3Loca = new Point(0, Label1Size.Height + Label1Loca.Y + 10);
 		var Label3Size = S2GetFontSize("Dash Workers:");
@@ -179,29 +186,23 @@ namespace TheDashlorisX
 		var TextBox3Loca = S2ControlLoca(Label3Size, Label3Loca, Label3Loca.Y, 0);
 		var TextBox3Size = new Size(65, 20);
 
+		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
+		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
+
 		var Label4Loca = S2ControlLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y);
 		var Label4Size = S2GetFontSize("Max Connections:");
 
 		var TextBox4Loca = S2ControlLoca(Label4Size, Label4Loca, Label3Loca.Y, 0);
 		var TextBox4Size = S2TextBoxSize(Label4Size, Label4Loca);
 
+		S2AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
+		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
+
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
 		var Label5Size = S2GetFontSize("Content-Length:");
 
 		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);//new Point(0, Label5Loca.Y);
 		var TextBox5Size = new Size(70, 20);
-
-		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
-		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
-
-		S2AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
-		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
-
-		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
-		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
-
-		S2AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
-		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
 
 		S2AddTextBox(S2Textbox5, TextBox5Size, TextBox5Loca, ("4012"));
 		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("Content-Length:"));
@@ -213,6 +214,11 @@ namespace TheDashlorisX
 			Tool.Round(Control, 6);
 		    }
 		}
+
+		var Label6Loca = S2ControlLoca(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
+		var Label6Size = S2GetFontSize("Random-UA:");
+
+		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
 	    }
 
 	    catch (Exception E)
