@@ -59,11 +59,16 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		S2Container3.MouseEnter += (s, e) =>
+		S2Container3.MouseClick += (s, e) =>
 		{
 		    if (!S3Container3.Visible)
 		    {
 			S3Container1.Show();
+		    }
+
+		    else
+		    {
+			S3Container1.Hide();
 		    }
 		};
 	    }
