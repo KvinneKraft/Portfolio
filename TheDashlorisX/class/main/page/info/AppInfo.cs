@@ -43,7 +43,7 @@ namespace TheDashlorisX
 		    LabelPage = new LabelPage();
 
 		    var ContainerConfiguration = Tuple.Create("App Information", Capsule.Size, new Point(0, 0));
-		    var LabelConfiguration = Tuple.Create(Color.FromArgb(28, 28, 28), Color.White, AppInfoData());
+		    var LabelConfiguration = Tuple.Create(DashWindow.MenuBar.MenuBar.BackColor, Color.White, AppInfoData());
 
 		    LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
 		}
