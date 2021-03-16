@@ -105,8 +105,9 @@ namespace TheDashlorisX
 
 		var Button1Size = new Size(100, 24);
 		var Button1Loca = new Point(Container1Size.Width - 105, 5);
+		var Button1Cola = DashWindow.BackColor;//6, 14, 36
 
-		Control.Button(S2Container1, S2Button1, Button1Size, Button1Loca, Container1BCol, Color.White, 1, 9, ("Launch Attack"));
+		Control.Button(S2Container1, S2Button1, Button1Size, Button1Loca, Button1Cola, Color.White, 1, 9, ("Launch Attack"));
 		Tool.Round(S2Button1, 6);
 
 		// Status Text in the middle of bar?
@@ -184,21 +185,26 @@ namespace TheDashlorisX
 		var Container1Loca = new Point(2, DashWindow.MenuBar.MenuBar.Height);
 		var Container1BCol = S2Container1.BackColor;
 
+		var RectLoca1 = new Point(Container1Size.Width - 1, 0);
+		var RectLoca2 = new Point(RectLoca1.X, Container1Size.Height - 1);
+
 		Control.Image(DashWindow, S3Container1, Container1Size, Container1Loca, Container1BCol);
+		Tool.PaintLine(S3Container1, DashWindow.BackColor, 3, RectLoca1, RectLoca2);
+
 		S3Container1.Hide();
 
 		var Image1Imag = DashWindow.MenuBar.LogoLayer1.Image;
 		var Image1Size = DashWindow.MenuBar.LogoLayer1.Size;
 		var Image1Loca = new Point(DashWindow.MenuBar.LogoLayer1.Left - 2, -DashWindow.MenuBar.MenuBar.Height + DashWindow.MenuBar.LogoLayer1.Top);
-	   
+
 		Control.Image(S3Container1, S3Image1, Image1Size, Image1Loca, Container1BCol, Image1Imag);
 
-		var Label1Loca = new Point(21, 10);
+		var Label1Loca = new Point(11, 10);
 
 		Control.Label(S3Container2, S3Label1, Size.Empty, Label1Loca, Container1BCol, Color.White, 1, 10, ("Dash Menu"));
-
+		
 		var Container2Size = new Size(Container1Size.Width - 20, 145);
-		var Container2Loca = new Point(10, Label1Loca.Y + S3Label1.Height + 15);
+		var Container2Loca = new Point(0, Label1Loca.Y + S3Label1.Height + 15);
 
 		Control.Image(S3Container2, S3Container3, Container2Size, Container2Loca, Container1BCol);
 
@@ -224,8 +230,8 @@ namespace TheDashlorisX
 		    Tool.Round(ButtonObje, 6);
 		}
 
-		var Container3Size = new Size(Container1Size.Width, Container2Size.Height + Container2Loca.Y);
-		var Container3Loca = new Point(0, 25);
+		var Container3Size = new Size(Container1Size.Width - 20, Container2Size.Height + Container2Loca.Y);
+		var Container3Loca = new Point(10, 25);
 
 		Control.Image(S3Container1, S3Container2, Container3Size, Container3Loca, Container1BCol);
 
