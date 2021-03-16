@@ -80,6 +80,49 @@ namespace DashFramework
 		    return ObjectLocation;
 		}
 
+		public void CheckBox(Control Top, PictureBox Container1, PictureBox Container2, Size Size, Point Loca, Color DeselectedBCol, [Optional] Color SelectedBCol, [Optional] bool Select)
+		{
+		    try
+		    {
+			Image(Top, Container1, Size, Loca, DeselectedBCol);
+
+			Size.Height -= 4;
+			Size.Width -= 4;
+
+			Loca.X += 2;
+			Loca.Y += 2;
+
+			Image(Top, Container2, Size, Loca, DeselectedBCol);
+
+			if (Select)
+			    Container2.BackColor = SelectedBCol;
+
+			void UpdateColor()
+			{
+			    if (Container2.BackColor == SelectedBCol)
+			    {
+				Container2.BackColor = DeselectedBCol;
+			    }
+
+			    else
+			    {
+				Container2.BackColor = SelectedBCol;
+			    }
+			};
+
+			Container1.Click += (s, e) =>
+			    UpdateColor();
+			
+			Container2.Click += (s, e) =>
+			    UpdateColor();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
 		public void RichTextBox(Control Top, RichTextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool MultiLine = false, bool ScrollBar = false, bool TabStop = false)
 		{
 		    try
