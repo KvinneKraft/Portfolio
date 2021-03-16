@@ -80,6 +80,38 @@ namespace DashFramework
 		    return ObjectLocation;
 		}
 
+		public void RichTextBox(Control Top, RichTextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool MultiLine = false, bool ScrollBar = false, bool TabStop = false)
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
+			Object.Font = Tool.GetFont(FontTypeID, FontSize);
+
+			Object.BorderStyle = BorderStyle.None;
+
+			if (ScrollBar)
+			{
+			    Object.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
+			}
+
+			Object.Multiline = MultiLine;
+			Object.ReadOnly = ReadOnly;
+			Object.TabStop = TabStop;
+
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
 		public readonly Dictionary<TextBox, PictureBox> TextBoxContainers = new Dictionary<TextBox, PictureBox>();
 
 		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
