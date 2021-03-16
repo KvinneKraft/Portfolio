@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
+using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
@@ -28,11 +29,23 @@ namespace TheDashlorisX
 	private readonly PictureBox S1Container2 = new PictureBox();//Main Configuration Container
 	private readonly PictureBox S1Container3 = new PictureBox();//Main Proxy Container
 
-	private void InitS1()
+	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
+		var Container1Loca = new Point(0, 0);
+		var Container1BCol = Capsule.BackColor;
 
+		Control.Image(Capsule, S1Container1, Capsule.Size, Container1Loca, Container1BCol);
+
+		var ContainerSize = new Size(Capsule.Width, 105);//102 original calculation
+		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
+
+		var Container3Loca = new Point(0, ContainerSize.Height + 10);
+		var Container2Loca = new Point(0, 0);
+
+		Control.Image(S1Container1, S1Container3, ContainerSize, Container3Loca, ContainerBCol);
+		Control.Image(S1Container1, S1Container2, ContainerSize, Container2Loca, ContainerBCol);
 	    }
 
 	    catch (Exception E)
@@ -67,11 +80,11 @@ namespace TheDashlorisX
 	}
 
 
-	public void Initialize()
+	public void Initialize(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
-		InitS1();
+		InitS1(Capsule, DashWindow);
 		InitS2();
 		InitS3();
 	    }
