@@ -17,10 +17,6 @@ using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
-    // Dqu Color Codes:
-    //color of top, bottom bars: 41, 61, 117
-    //color of border of menu bar: 0, 0, 0
-
     public class AppInfo
     {
 	private LabelPage LabelPage = null;
