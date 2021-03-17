@@ -17,6 +17,10 @@ using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
+    // Dqu Color Codes:
+    //color of top, bottom bars: 41, 61, 117
+    //color of border of menu bar: 0, 0, 0
+
     public class AppInfo
     {
 	private LabelPage LabelPage = null;
@@ -43,7 +47,7 @@ namespace TheDashlorisX
 		    LabelPage = new LabelPage();
 
 		    var ContainerConfiguration = Tuple.Create("App Information", Capsule.Size, new Point(0, 0));
-		    var LabelConfiguration = Tuple.Create(DashWindow.MenuBar.MenuBar.BackColor, Color.White, AppInfoData());
+		    var LabelConfiguration = Tuple.Create(Color.FromArgb(17, 38, 94), Color.White, AppInfoData());
 
 		    LabelPage.SetupPages(Capsule, ContainerConfiguration, LabelConfiguration);
 		}
