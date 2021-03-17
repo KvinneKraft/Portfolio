@@ -33,21 +33,23 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Loca = new Point(0, 0);
+		var Container1Size = new Size(Capsule.Width, 201);
+		var Container1Loca = new Point(-2, -2);
 		var Container1BCol = Capsule.BackColor;
 
-		Control.Image(Capsule, S1Container1, Capsule.Size, Container1Loca, Container1BCol);
+		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Container1BCol);
 
-		var ContainerSize = new Size(Capsule.Width, 95);//102 original calculation + 20 for y:10
+		var Container2Size = new Size(Capsule.Width, 95);//102 original calculation + 20 for y:10
+		var Container3Size = new Size(Capsule.Width, 96);
+
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
 
 		var Container3Loca = new Point(0, 105);
 		var Container2Loca = new Point(0, 0);
 
-		Control.Image(S1Container1, S1Container3, ContainerSize, Container3Loca, ContainerBCol);
-		Control.Image(S1Container1, S1Container2, ContainerSize, Container2Loca, ContainerBCol);
-
-		Tool.Round(S1Container1, 6); 
+		Control.Image(S1Container1, S1Container3, Container3Size, Container3Loca, ContainerBCol);
+		Control.Image(S1Container1, S1Container2, Container2Size, Container2Loca, ContainerBCol);
+ 
 		Tool.Round(S1Container2, 6);
 		Tool.Round(S1Container3, 6);
 	    }
@@ -168,17 +170,11 @@ namespace TheDashlorisX
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(70, 20);
 
-		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
-		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
-
 		var Label2Loca = S2ControlLoca(TextBox1Size, TextBox1Loca);
 		var Label2Size = S2GetFontSize("Timeout:");
 
 		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Extra: 0);
 		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
-
-		S2AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
-		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
 
 		var Label3Loca = new Point(0, Label1Size.Height + Label1Loca.Y + 10);
 		var Label3Size = S2GetFontSize("Dash Workers:");
@@ -186,17 +182,11 @@ namespace TheDashlorisX
 		var TextBox3Loca = S2ControlLoca(Label3Size, Label3Loca, Label3Loca.Y, 0);
 		var TextBox3Size = new Size(55, 20);
 
-		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
-		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
-
 		var Label4Loca = S2ControlLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y);
 		var Label4Size = S2GetFontSize("Max Connections:");
 
 		var TextBox4Loca = S2ControlLoca(Label4Size, Label4Loca, Label3Loca.Y, 0);
 		var TextBox4Size = S2TextBoxSize(Label4Size, Label4Loca);
-
-		S2AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
-		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
 
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
 		var Label5Size = S2GetFontSize("Content-Length:");
@@ -204,7 +194,16 @@ namespace TheDashlorisX
 		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);
 		var TextBox5Size = new Size(70, 20);
 
+		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
+		S2AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
+		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
+		S2AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
 		S2AddTextBox(S2Textbox5, TextBox5Size, TextBox5Loca, ("4012"));
+
+		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
+		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
+		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
+		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
 		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("Content-Length:"));
 
 		foreach (Control Control in S2Container1.Controls)
@@ -222,10 +221,9 @@ namespace TheDashlorisX
 
 		var CheckBoxSize = new Size(16, 16);
 		var CheckBoxLoca = S2ControlLoca(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
-		var CheckBoxCol1 = Color.DarkMagenta;//DashWindow.MenuBar.MenuBar.BackColor;
 		var CheckBoxCol2 = Capsule.BackColor;
 
-		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, CheckBoxCol2, CheckBoxCol1, true);
+		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, CheckBoxCol2, Color.DarkMagenta, true);
 	    }
 
 	    catch (Exception E)
@@ -241,17 +239,117 @@ namespace TheDashlorisX
 	private readonly TextBox S3TextBox1 = new TextBox();
 	private readonly TextBox S3TextBox2 = new TextBox();
 
+	private readonly List<PictureBox> S3ContainerCollection = new List<PictureBox>();
+
 	private readonly Button S3Selector1 = new Button();
 	private readonly Button S3Selector2 = new Button();
 
+	private void S3AddTextBox(TextBox TextBox, Button Button, Size Size, Point Loca, string Text, int FontHeight = 8)
+	{
+	    try
+	    {
+		PictureBox Container = new PictureBox();
+
+		var ContainerSize = new Size(Size.Width + 20, Size.Height);
+		var BCol = S1Container1.Parent.BackColor;
+
+		Control.Image(S3Container1, Container, ContainerSize, Loca, Color.White);
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = (Text);
+
+		Control.TextBox(Container, TextBox, Size, new Point(), BCol, Color.White, 1, FontHeight);
+
+		var ButtonLoca = new Point(ContainerSize.Width - 20, 0);
+		var ButtonSize = new Size(20, 20);
+
+		Control.Button(Container, Button, ButtonSize, ButtonLoca, Color.DarkMagenta, Color.White, 1, FontHeight, ("^"));
+
+		S3ContainerCollection.Add(Container);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly Label S3Label1 = new Label();
 	private readonly Label S3Label2 = new Label();
+
+	private void S3AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
+	{
+	    try
+	    {
+		var LabelBCol = S3Container1.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(S3Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Size S3TextBoxSize(Size Size, Point Loca, int Height = 20)
+	{
+	    try
+	    {
+		int Width = (S3Container1.Width - (Size.Width + Loca.X) - 20);
+		return new Size(Width, Height);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private readonly Button S3Button1 = new Button();
+	private readonly Button S3Button2 = new Button();
 
 	private void InitS3()
 	{
 	    try
 	    {
+		var Container1Size = new Size(S1Container3.Width - 20, S1Container3.Height - 20);
+		var Container1Loca = new Point(10, 10);
 
+		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, S1Container3.BackColor);
+
+		var Label1Size = S2GetFontSize("Proxy List:");
+		var Label1Loca = new Point(0, 0);
+
+		var TextBox1Loca = S2ControlLoca(Label1Size, Label1Loca, 0, 0);
+		var TextBox1Size = S3TextBoxSize(Label1Size, Label1Loca);
+
+		var Label2Size = S2GetFontSize("Credential List:");
+		var Label2Loca = new Point(0, Label1Size.Height + 10);
+
+		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Label2Loca.Y, 0);
+		var TextBox2Size = S3TextBoxSize(Label2Size, Label2Loca);
+
+		S3AddTextBox(S3TextBox1, S3Selector1, TextBox1Size, TextBox1Loca, ("<Select Text File>"));
+		S3AddLabel(S3Label1, Label1Size, Label1Loca, ("Proxy List:"));
+
+		S3AddTextBox(S3TextBox2, S3Selector2, TextBox2Size, TextBox2Loca, ("<Select Text File>"));
+		S3AddLabel(S3Label2, Label2Size, Label2Loca, ("Credential List:"));
+
+		var ButtonSize = new Size(105, 20);
+		var ButtonBCol = S3TextBox1.BackColor;
+
+		var Button1Loca = new Point(0, Label2Loca.Y + Label2Size.Height + 10);
+		var Button2Loca = new Point(115, Button1Loca.Y);
+
+		Control.Button(S3Container1, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, "Test Servers");
+		Control.Button(S3Container1, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, "Modify Header");
+
+		Tool.Round(S3Button2, 6);
+		Tool.Round(S3Button1, 6);
+
+		MessageBox.Show($"{S3Button1.Height + S3Button1.Top}");
 	    }
 
 	    catch (Exception E)
