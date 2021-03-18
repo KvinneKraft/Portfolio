@@ -34,12 +34,12 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = Capsule.Size;
-		var Container1Loca = new Point(0, 0);
+		var Container1Size = new Size(Capsule.Width, 180);
+		var Container1Loca = new Point(0, -2);
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
-		var Container2Size = new Size(Container1Size.Width, 100);
+		var Container2Size = new Size(Container1Size.Width, 98);
 		var Container2Loca = new Point(0, 0);
 
 		var Container3Size = new Size(Container1Size.Width, 70);
@@ -152,6 +152,19 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private void S2SetupDropDownMenu()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void InitS2()
 	{
 	    try
@@ -162,13 +175,71 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var Label1Size = GetFontSize(("Host:"), 10);
+		var Label1Size = GetFontSize(("Host:"));
 		var Label1Loca = new Point(0, 0);
 
-		var TextBox1Size = new Size(125, 20);
+		var TextBox1Size = new Size(165, 20);
 		var TextBox1Loca = S2TextBoxLoca(Label1Size, Label1Loca);
 
+		var Label2Size = GetFontSize("Port:");
+		var Label2Loca = S2TextBoxLoca(TextBox1Size, TextBox1Loca, Extra: 10);
+
+		var TextBox2Size = S2GetLeftOver(Label2Size, Label2Loca);
+		var TextBox2Loca = S2TextBoxLoca(Label2Size, Label2Loca);
+
+		int GetBellow(Size Size, Point Loca)
+		{
+		    try
+		    {
+			return (Size.Height + Loca.Y + 10);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		var Label3Size = GetFontSize("Duration:");
+		var Label3Loca = new Point(0, GetBellow(TextBox1Size, TextBox1Loca));
+
+		var TextBox3Size = new Size(135, 20);
+		var TextBox3Loca = S2TextBoxLoca(Label3Size, Label3Loca, Label3Loca.Y);
+
+		var Label4Size = GetFontSize("HTTP Version:");
+		var Label4Loca = S2TextBoxLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y, 10);
+
+		var Label5Size = new Size(Label4Size.Width, 20);
+		var Label5Loca = new Point(Label4Loca.X, Label4Loca.Y + Label4Size.Height + 10);
+
+		S2AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"));
+		S2AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("65535"));
+		S2AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("45000"));
+
 		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
+		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Port:"));
+		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Duration:"));
+		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("HTTP Version:"));
+		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("--- (1.0) ---"), 8);
+
+		S2Label5.TextAlign = ContentAlignment.MiddleCenter;
+		S2Label5.BackColor = (S2TextBox1.BackColor);
+
+		var ButtonSize = new Size(110, 20);
+		var ButtonLoca = new Point(0, Label3Loca.Y + Label3Size.Height + 10);
+		var ButtonBCol = S2TextBox1.BackColor;
+
+		Control.Button(S2Container1, S2Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Is It There?"));
+
+		foreach (Control Control in S2Container1.Controls)
+		{
+		    if (Control is PictureBox || Control is Button)
+		    {
+			Tool.Round(Control, 6);
+		    }
+		}
+
+		S2SetupDropDownMenu();
 	    }
 
 	    catch (Exception E)
@@ -178,13 +249,55 @@ namespace TheDashlorisX
 	}
 
 
-	// Put all S3 objects here.
+	private readonly PictureBox S3Container1 = new PictureBox();
+
+	private readonly Button S3Button1 = new Button();
+	private readonly Button S3Button2 = new Button();
+	private readonly Button S3Button3 = new Button();
+	private readonly Button S3Button4 = new Button();
 
 	private void InitS3()
 	{
 	    try
 	    {
+		var ContainerSize = new Size(S1Container3.Width - 20, S1Container3.Height - 20);
+		var ContainerLoca = new Point(10, 10);
+		var ContainerBCol = S1Container3.BackColor;
 
+		Control.Image(S1Container3, S3Container1, ContainerSize, ContainerLoca, ContainerBCol);
+
+		Size CalculateSize()
+		{
+		    try
+		    {
+			int Width = (ContainerSize.Width / 2) - 5;
+			return (new Size(Width, 20));
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+		
+		var ButtonSize = CalculateSize();
+
+		var Button4Loca = new Point(ButtonSize.Width + 10, ButtonSize.Height + 10);
+		var Button3Loca = new Point(0, ButtonSize.Height + 10);
+		var Button2Loca = new Point(ButtonSize.Width + 10, 0);
+		var Button1Loca = new Point(0, 0);
+
+		var ButtonBCol = S2TextBox1.BackColor;
+
+		Control.Button(S3Container1, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, ("Fancy Settings Man"));
+		Control.Button(S3Container1, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, ("Whoosh IP"));
+		Control.Button(S3Container1, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, ("Geo IP"));
+		Control.Button(S3Container1, S3Button4, ButtonSize, Button4Loca, ButtonBCol, Color.White, 1, 8, ("I am Dumb!"));
+
+		foreach (Button Button in S3Container1.Controls)
+		{
+		    Tool.Round(Button, 6);
+		}
 	    }
 
 	    catch (Exception E)
