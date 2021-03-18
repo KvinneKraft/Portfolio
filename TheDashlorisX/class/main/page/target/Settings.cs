@@ -349,8 +349,6 @@ namespace TheDashlorisX
 
 		Tool.Round(S3Button2, 6);
 		Tool.Round(S3Button1, 6);
-
-		MessageBox.Show($"{S3Button1.Height + S3Button1.Top}");
 	    }
 
 	    catch (Exception E)
