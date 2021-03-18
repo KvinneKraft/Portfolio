@@ -1,6 +1,7 @@
 ﻿
 // Author: Dashie
 // Version: 3.0
+// Coded while high....
 
 using System;
 using System.IO;
