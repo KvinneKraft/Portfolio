@@ -61,13 +61,59 @@ namespace TheDashlorisX
 	}
 
 
-	//Put all S2 objects here.
+	private readonly PictureBox S2Container1 = new PictureBox();
+
+	private readonly TextBox S2TextBox1 = new TextBox();
+	private readonly TextBox S2TextBox2 = new TextBox();
+	private readonly TextBox S2TextBox3 = new TextBox();
+
+	private readonly Button S2Button1 = new Button();
+
+	private readonly Label S2Label1 = new Label();
+	private readonly Label S2Label2 = new Label();
+	private readonly Label S2Label3 = new Label();
+	private readonly Label S2Label4 = new Label();
+	private readonly Label S2Label5 = new Label();
+
+	private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
+	{
+	    try
+	    {
+		var LabelBCol = S2Container1.BackColor;
+		var LabelFCol = Color.White;
+
+		Control.Label(S2Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Size S2GetLeftOver(Size Size, Point Loca)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	private void InitS2()
 	{
 	    try
 	    {
+		var ContainerSize = new Size(S1Container2.Width - 20, S1Container2.Height - 20);
+		var ContainerLoca = new Point(10, 10);
+		var ContainerBCol = S1Container2.BackColor;
 
+		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
+		
 	    }
 
 	    catch (Exception E)
