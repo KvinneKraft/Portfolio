@@ -113,7 +113,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private Size S2GetFontSize(string Text, int FontHeight = 10)
+	private Size GetFontSize(string Text, int FontHeight = 10)
 	{
 	    try
 	    {
@@ -165,31 +165,31 @@ namespace TheDashlorisX
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, S1Container2.BackColor);
 
 		var Label1Loca = new Point(0, 0);
-		var Label1Size = S2GetFontSize("Send Delay:");
+		var Label1Size = GetFontSize("Send Delay:");
 
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(70, 20);
 
 		var Label2Loca = S2ControlLoca(TextBox1Size, TextBox1Loca);
-		var Label2Size = S2GetFontSize("Timeout:");
+		var Label2Size = GetFontSize("Timeout:");
 
 		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Extra: 0);
 		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
 
 		var Label3Loca = new Point(0, Label1Size.Height + Label1Loca.Y + 10);
-		var Label3Size = S2GetFontSize("Dash Workers:");
+		var Label3Size = GetFontSize("Dash Workers:");
 
 		var TextBox3Loca = S2ControlLoca(Label3Size, Label3Loca, Label3Loca.Y, 0);
 		var TextBox3Size = new Size(55, 20);
 
 		var Label4Loca = S2ControlLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y);
-		var Label4Size = S2GetFontSize("Max Connections:");
+		var Label4Size = GetFontSize("Max Connections:");
 
 		var TextBox4Loca = S2ControlLoca(Label4Size, Label4Loca, Label3Loca.Y, 0);
 		var TextBox4Size = S2TextBoxSize(Label4Size, Label4Loca);
 
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
-		var Label5Size = S2GetFontSize("Content-Length:");
+		var Label5Size = GetFontSize("Content-Length:");
 
 		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);
 		var TextBox5Size = new Size(70, 20);
@@ -215,7 +215,7 @@ namespace TheDashlorisX
 		}
 
 		var Label6Loca = S2ControlLoca(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
-		var Label6Size = S2GetFontSize("Random-UA:");
+		var Label6Size = GetFontSize("Random-UA:");
 
 		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
 
@@ -319,13 +319,13 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, S1Container3.BackColor);
 
-		var Label1Size = S2GetFontSize("Proxy List:");
+		var Label1Size = GetFontSize("Proxy List:");
 		var Label1Loca = new Point(0, 0);
 
 		var TextBox1Loca = S2ControlLoca(Label1Size, Label1Loca, 0, 0);
 		var TextBox1Size = S3TextBoxSize(Label1Size, Label1Loca);
 
-		var Label2Size = S2GetFontSize("Credential List:");
+		var Label2Size = GetFontSize("Credential List:");
 		var Label2Loca = new Point(0, Label1Size.Height + 10);
 
 		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Label2Loca.Y, 0);
