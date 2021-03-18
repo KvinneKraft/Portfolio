@@ -25,9 +25,9 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
-	private readonly PictureBox S1Container1 = new PictureBox();//Main Capsule Container
-	private readonly PictureBox S1Container2 = new PictureBox();//Main Configuration Container
-	private readonly PictureBox S1Container3 = new PictureBox();//Main Proxy Container
+	private readonly PictureBox S1Container1 = new PictureBox();
+	private readonly PictureBox S1Container2 = new PictureBox();
+	private readonly PictureBox S1Container3 = new PictureBox();
 
 	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
@@ -39,7 +39,7 @@ namespace TheDashlorisX
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Container1BCol);
 
-		var Container2Size = new Size(Capsule.Width, 95);//102 original calculation + 20 for y:10
+		var Container2Size = new Size(Capsule.Width, 95);
 		var Container3Size = new Size(Capsule.Width, 96);
 
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
@@ -61,7 +61,7 @@ namespace TheDashlorisX
 	}
 
 
-	private readonly PictureBox S2Container1 = new PictureBox();//Configuration Container;
+	private readonly PictureBox S2Container1 = new PictureBox();
 	private readonly PictureBox S2Container2 = new PictureBox();
 	private readonly PictureBox S2Container3 = new PictureBox();
 
@@ -75,7 +75,7 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var TextBoxBCol = S1Container1.Parent.BackColor; //Color.MidnightBlue;//S2Container1.BackColor;
+		var TextBoxBCol = S1Container1.Parent.BackColor;
 		var TextBoxFCol = Color.White;
 
 		TextBox.TextAlign = HorizontalAlignment.Center;
@@ -233,8 +233,8 @@ namespace TheDashlorisX
 	}
 
 
-	private readonly PictureBox S3Container1 = new PictureBox();//Proxy List Container
-	private readonly PictureBox S3Container2 = new PictureBox();//Proxy Option Container
+	private readonly PictureBox S3Container1 = new PictureBox();
+	private readonly PictureBox S3Container2 = new PictureBox();
 
 	private readonly TextBox S3TextBox1 = new TextBox();
 	private readonly TextBox S3TextBox2 = new TextBox();
