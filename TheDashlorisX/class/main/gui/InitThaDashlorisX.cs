@@ -278,10 +278,8 @@ namespace TheDashlorisX
 
 		S3Container1.BringToFront();
 
-		Settings Settings = new Settings();
-
-		Settings.Initialize(Capsule, DashWindow);
-		Settings.Show();
+		LockOn LockOn = new LockOn();
+		LockOn.InitializePage(DashWindow, Capsule);
 	    }
 
 	    catch (Exception E)
