@@ -277,7 +277,7 @@ namespace TheDashlorisX
 		Init4();//Capsule
 
 		S3Container1.BringToFront();
-
+		
 		LockOn LockOn = new LockOn();
 		LockOn.InitializePage(DashWindow, Capsule);
 	    }
