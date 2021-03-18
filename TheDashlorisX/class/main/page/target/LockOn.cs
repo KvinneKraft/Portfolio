@@ -91,11 +91,12 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private Size S2GetLeftOver(Size Size, Point Loca)
+	private Size S2GetLeftOver(Size Size, Point Loca, int Height = 20)
 	{
 	    try
 	    {
-
+		int Width = (S2Container1.Width - (Size.Width + Loca.X));
+		return new Size(Width, Height);
 	    }
 
 	    catch (Exception E)
@@ -113,7 +114,8 @@ namespace TheDashlorisX
 		var ContainerBCol = S1Container2.BackColor;
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
-		
+
+		var Label1Size = GetFontSize();
 	    }
 
 	    catch (Exception E)
