@@ -359,13 +359,20 @@ namespace TheDashlorisX
 	}
 
 
+	private bool isInitialized = false;
+
 	public void Initialize(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
-		InitS1(Capsule, DashWindow);
-		InitS2(Capsule);
-		InitS3();
+		if (!isInitialized)
+		{
+		    InitS1(Capsule, DashWindow);
+		    InitS2(Capsule);
+		    InitS3();
+		}
+
+		Show();
 	    }
 
 	    catch (Exception E)
