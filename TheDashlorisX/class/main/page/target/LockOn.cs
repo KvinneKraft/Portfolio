@@ -25,14 +25,33 @@ namespace TheDashlorisX
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
 
-	
-	//Put all S1 objects here.
 
-	private void InitS1()
+	private readonly PictureBox S1Container1 = new PictureBox();
+	private readonly PictureBox S1Container2 = new PictureBox();
+	private readonly PictureBox S1Container3 = new PictureBox();
+
+	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
+		var Container1Size = Capsule.Size;//Going to change this soon.
+		var Container1Loca = new Point(0, 0);//Center here.
 
+		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
+
+		var Container2Size = new Size(Container1Size.Width, 100);
+		var Container2Loca = new Point(0, 0);
+
+		var Container3Size = new Size(Container1Size.Width, 70);
+		var Container3Loca = new Point(0, 110);
+
+		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
+
+		Control.Image(S1Container1, S1Container2, Container2Size, Container2Loca, ContainerBCol);
+		Control.Image(S1Container1, S1Container3, Container3Size, Container3Loca, ContainerBCol);
+
+		Tool.Round(S1Container2, 6);
+		Tool.Round(S1Container3, 6);
 	    }
 
 	    catch (Exception E)
@@ -82,10 +101,40 @@ namespace TheDashlorisX
 	    {
 		if (!isInitialized)
 		{
-		    InitS1();
+		    InitS1(Capsule, DashWindow);
 		    InitS2();
 		    InitS3();
+
+		    isInitialized = (true);
 		}
+
+		Show();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void Show()
+	{
+	    try
+	    {
+		S1Container1.Show();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void Hide()
+	{
+	    try
+	    {
+		S1Container1.Hide();
 	    }
 
 	    catch (Exception E)
