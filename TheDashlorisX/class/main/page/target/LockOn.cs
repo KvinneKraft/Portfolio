@@ -34,8 +34,8 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = Capsule.Size;//Going to change this soon.
-		var Container1Loca = new Point(0, 0);//Center here.
+		var Container1Size = Capsule.Size;
+		var Container1Loca = new Point(0, 0);
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
@@ -66,6 +66,25 @@ namespace TheDashlorisX
 	private readonly TextBox S2TextBox1 = new TextBox();
 	private readonly TextBox S2TextBox2 = new TextBox();
 	private readonly TextBox S2TextBox3 = new TextBox();
+
+	private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
+	{
+	    try
+	    {
+		var TextBoxBCol = S1Container1.Parent.BackColor;
+		var TextBoxFCol = Color.White;
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = (Text);
+
+		Control.TextBox(S2Container1, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	private readonly Button S2Button1 = new Button();
 
@@ -105,6 +124,34 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private Size GetFontSize(string Text, int FontHeight = 10)
+	{
+	    try
+	    {
+		Font Font = Tool.GetFont(1, FontHeight);
+		return TextRenderer.MeasureText(Text, Font);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Point S2TextBoxLoca(Size Size, Point Loca, int Y = 0, int Extra = 0)
+	{
+	    try
+	    {
+		int X = (Loca.X + Size.Width) + Extra;
+		return new Point(X, Y);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void InitS2()
 	{
 	    try
@@ -115,7 +162,13 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var Label1Size = GetFontSize();
+		var Label1Size = GetFontSize(("Host:"), 10);
+		var Label1Loca = new Point(0, 0);
+
+		var TextBox1Size = new Size(125, 20);
+		var TextBox1Loca = S2TextBoxLoca(Label1Size, Label1Loca);
+
+		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
 	    }
 
 	    catch (Exception E)
