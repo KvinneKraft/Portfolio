@@ -152,11 +152,40 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private readonly DropMenu S2DropMenu = new DropMenu();
+
 	private void S2SetupDropDownMenu()
 	{
 	    try
 	    {
+		var DropMenuLoca = new Point(S1Container2.Left + S2Label5.Left + 10, S1Container2.Top + S1Container2.Height - 10);
+		var DropMenuBCol = S2Label5.BackColor;
 
+		S2DropMenu.SetupMenu(S1Container1, DropMenuLoca, DropMenuBCol, DropMenuBCol);
+
+		int ItemWidth = S2Label5.Width - 4;
+		int ItemHeight = 18;
+
+		var ItemBCol = S2Container1.BackColor;
+
+		S2DropMenu.AddItem(new Label(), ("(1991 - 0.9)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(1996 - 1.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(1997 - 1.1)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(2015 - 2.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(2020 - 3.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+
+		S2Label5.MouseEnter += (s, e) =>
+		{
+		    try
+		    {
+			S2DropMenu.Show();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
 	    }
 
 	    catch (Exception E)
@@ -256,7 +285,28 @@ namespace TheDashlorisX
 	private readonly Button S3Button3 = new Button();
 	private readonly Button S3Button4 = new Button();
 
-	private void InitS3()
+	private void HideCapsulePages(PictureBox Capsule)
+	{
+	    try
+	    {
+		foreach (Control Control in Capsule.Controls)
+		{
+		    if (Control.Visible)
+		    {
+			Control.Hide();
+		    }
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private readonly Settings S3Settings = new Settings();
+
+	private void InitS3(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
@@ -298,6 +348,20 @@ namespace TheDashlorisX
 		{
 		    Tool.Round(Button, 6);
 		}
+
+		S3Button1.Click += (s, e) =>
+		{
+		    try
+		    {
+			HideCapsulePages(Capsule);
+			S3Settings.Initialize(Capsule, DashWindow);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
 	    }
 
 	    catch (Exception E)
@@ -317,7 +381,7 @@ namespace TheDashlorisX
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2();
-		    InitS3();
+		    InitS3(Capsule, DashWindow);
 
 		    isInitialized = (true);
 		}
