@@ -55,7 +55,7 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
 
-	private void InitS2Events()
+	public void InitS2Events()
 	{
 	    try
 	    {
@@ -125,11 +125,11 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container3 = new PictureBox();
 	private readonly PictureBox S3Image1 = new PictureBox();
 
+	public static readonly LockOn S3Class1 = new LockOn();
 	private readonly ServerPing S3Class2 = new ServerPing();
 	private readonly PortScan S3Class3 = new PortScan();
 	private readonly AppInfo S3Class4 = new AppInfo();
 	private readonly AppToS S3Class5 = new AppToS();
-	private readonly LockOn S3Class1 = new LockOn();
 
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
@@ -138,6 +138,29 @@ namespace TheDashlorisX
 	private readonly Button S3Button5 = new Button();
 
 	private delegate void ClassInit(DashWindow DashWindow, PictureBox Capsule);
+
+	private void S3ButtonExecutionEvent(KeyValuePair<Button, ClassInit> Init)
+	{
+	    try
+	    {
+		foreach (Control Control in Capsule.Controls)
+		{
+		    if (Control.Visible)
+		    {
+			Control.Hide();
+		    }
+		}
+
+		Init.Value.Invoke(DashWindow, Capsule);
+
+		S3Container1.Hide();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	private void InitS3Events()
 	{
@@ -156,17 +179,7 @@ namespace TheDashlorisX
 		{
 		    Init.Key.Click += (s, e) =>
 		    {
-			foreach (Control Control in Capsule.Controls)
-			{
-			    if (Control.Visible)
-			    {
-				Control.Hide();
-			    }
-			}
-
-			Init.Value.Invoke(DashWindow, Capsule);
-
-			S3Container1.Hide();
+			S3ButtonExecutionEvent(Init);
 		    };
 		}
 	    }
