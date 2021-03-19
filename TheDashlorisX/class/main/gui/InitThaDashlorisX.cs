@@ -165,6 +165,7 @@ namespace TheDashlorisX
 			}
 
 			Init.Value.Invoke(DashWindow, Capsule);
+			S3Container1.Hide();
 		    };
 		}
 	    }
