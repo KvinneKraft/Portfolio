@@ -310,6 +310,7 @@ namespace TheDashlorisX
 
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
+	private readonly Button S3Button3 = new Button();
 
 	private void InitS3()
 	{
@@ -343,12 +344,24 @@ namespace TheDashlorisX
 
 		var Button1Loca = new Point(0, Label2Loca.Y + Label2Size.Height + 10);
 		var Button2Loca = new Point(115, Button1Loca.Y);
+		var Button3Loca = new Point(230, Button1Loca.Y);
 
 		Control.Button(S3Container1, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, "Test Servers");
 		Control.Button(S3Container1, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, "Modify Header");
+		Control.Button(S3Container1, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, "Go Back");
+		
+		foreach (Control Control in S3Container1.Controls)
+		{
+		    if (Control is Button)
+		    {
+			Tool.Round(Control, 6);
+		    }
+		}
 
-		Tool.Round(S3Button2, 6);
-		Tool.Round(S3Button1, 6);
+		S3Button3.Click += (s, e) =>
+		{
+		    InitThaDashlorisX.S3Class1.Show();
+		};
 	    }
 
 	    catch (Exception E)
