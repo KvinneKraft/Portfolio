@@ -168,8 +168,8 @@ namespace TheDashlorisX
 	    }
 	}
 
-	public readonly ServerPing S3Class2 = new ServerPing();
-	public readonly PortScan S3Class3 = new PortScan();
+	public readonly ServerPing S3Class3 = new ServerPing();
+	public readonly PortScan S3Class2 = new PortScan();
 	public readonly AppInfo S3Class4 = new AppInfo();
 	public readonly AppToS S3Class5 = new AppToS();
 	public readonly LockOn S3Class1 = new LockOn();
@@ -319,8 +319,9 @@ namespace TheDashlorisX
 		Init4();//Capsule
 
 		S3Container1.BringToFront();
-		
-		S3Class1.InitializePage(DashWindow, Capsule, this);
+
+		S3Class2.InitializePage(DashWindow, Capsule, this);
+		//S3Class1.InitializePage(DashWindow, Capsule, this);
 	    }
 
 	    catch (Exception E)
