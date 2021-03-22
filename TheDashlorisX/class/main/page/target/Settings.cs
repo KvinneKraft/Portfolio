@@ -367,6 +367,8 @@ namespace TheDashlorisX
 		{
 		    Parent.HideReference();
 		    Parent.S3Class1.Show();
+
+		    Hide();
 		};
 	    }
 
