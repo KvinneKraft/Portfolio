@@ -189,13 +189,13 @@ namespace TheDashlorisX
 		    { S3Button5, S3Class5.InitializePage },
 		};
 
-		var Buttons = new List<Tuple<Button, string>>()
+		var Buttons = new List<(Button, string)>()//Tuple<Button, string>>()
 		{
-		    Tuple.Create(S3Button1, "Target Info"),
-		    Tuple.Create(S3Button2, "Port Scanner"),
-		    Tuple.Create(S3Button3, "Server Ping"),
-		    Tuple.Create(S3Button4, "About App"),
-		    Tuple.Create(S3Button5, "The T.O.S"),
+		    (S3Button1, "Target Info"),
+		    (S3Button2, "Port Scanner"),
+		    (S3Button3, "Server Ping"),
+		    (S3Button4, "About App"),
+		    (S3Button5, "The T.O.S"),
 		};
 
 		foreach (var Init in Initializers)
@@ -250,13 +250,13 @@ namespace TheDashlorisX
 
 		Control.Image(S3Container2, S3Container3, Container2Size, Container2Loca, Container1BCol);
 
-		var Buttons = new List<Tuple<Button, string>>()
+		var Buttons = new List<(Button, string)>()
 		{
-		    Tuple.Create(S3Button1, "Target Info"),
-		    Tuple.Create(S3Button2, "Port Scanner"),
-		    Tuple.Create(S3Button3, "Server Ping"),
-		    Tuple.Create(S3Button4, "About App"),
-		    Tuple.Create(S3Button5, "The T.O.S"),
+		    (S3Button1, "Target Info"),
+		    (S3Button2, "Port Scanner"),
+		    (S3Button3, "Server Ping"),
+		    (S3Button4, "About App"),
+		    (S3Button5, "The T.O.S"),
 		};
 
 		var ButtonBCol = DashWindow.BackColor;
