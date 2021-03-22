@@ -19,7 +19,7 @@ namespace TheDashlorisX
 {
     public class ServerPing
     {
-	public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
+	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 
 	}
