@@ -339,18 +339,23 @@ namespace TheDashlorisX
 		S3AddTextBox(S3TextBox2, S3Selector2, TextBox2Size, TextBox2Loca, ("<Select Text File>"));
 		S3AddLabel(S3Label2, Label2Size, Label2Loca, ("Credential List:"));
 
+		var Container2Size = new Size(335, 20);
+		var Container2Loca = new Point(-2, Label2Loca.Y + Label2Size.Height + 10);
+
+		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, S3Container1.BackColor);
+
 		var ButtonSize = new Size(105, 20);
 		var ButtonBCol = S3TextBox1.BackColor;
 
-		var Button1Loca = new Point(0, Label2Loca.Y + Label2Size.Height + 10);
-		var Button2Loca = new Point(115, Button1Loca.Y);
-		var Button3Loca = new Point(230, Button1Loca.Y);
+		var Button1Loca = new Point(0, 0);
+		var Button2Loca = new Point(115, 0);
+		var Button3Loca = new Point(230, 0);
 
-		Control.Button(S3Container1, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, "Test Servers");
-		Control.Button(S3Container1, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, "Modify Header");
-		Control.Button(S3Container1, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, "Go Back");
+		Control.Button(S3Container2, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, "Test Servers");
+		Control.Button(S3Container2, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, "Modify Header");
+		Control.Button(S3Container2, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, "Go Back");
 		
-		foreach (Control Control in S3Container1.Controls)
+		foreach (Control Control in S3Container2.Controls)
 		{
 		    if (Control is Button)
 		    {
