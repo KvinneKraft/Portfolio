@@ -304,9 +304,9 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private readonly Settings S3Settings = new Settings();
+	public readonly Settings S3Settings = new Settings();
 
-	private void InitS3(PictureBox Capsule, DashWindow DashWindow)
+	private void InitS3(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -354,7 +354,7 @@ namespace TheDashlorisX
 		    try
 		    {
 			HideCapsulePages(Capsule);
-			S3Settings.Initialize(Capsule, DashWindow);
+			S3Settings.Initialize(Capsule, DashWindow, Parent);
 		    }
 
 		    catch (Exception E)
@@ -373,7 +373,7 @@ namespace TheDashlorisX
 
 	private bool isInitialized = false;
 
-	public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
+	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -381,7 +381,7 @@ namespace TheDashlorisX
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2();
-		    InitS3(Capsule, DashWindow);
+		    InitS3(Capsule, DashWindow, Parent);
 
 		    isInitialized = (true);
 		}
