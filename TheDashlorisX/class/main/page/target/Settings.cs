@@ -312,7 +312,7 @@ namespace TheDashlorisX
 	private readonly Button S3Button2 = new Button();
 	private readonly Button S3Button3 = new Button();
 
-	private void InitS3()
+	private void InitS3(InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -365,7 +365,8 @@ namespace TheDashlorisX
 
 		S3Button3.Click += (s, e) =>
 		{
-		    InitThaDashlorisX.S3Class1.Show();
+		    Parent.HideReference();
+		    Parent.S3Class1.Show();
 		};
 	    }
 
@@ -378,7 +379,7 @@ namespace TheDashlorisX
 
 	private bool isInitialized = false;
 
-	public void Initialize(PictureBox Capsule, DashWindow DashWindow)
+	public void Initialize(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -386,7 +387,9 @@ namespace TheDashlorisX
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2(Capsule);
-		    InitS3();
+		    InitS3(Parent);
+
+		    isInitialized = true;
 		}
 
 		Show();
@@ -394,7 +397,7 @@ namespace TheDashlorisX
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
 
