@@ -19,7 +19,7 @@ namespace TheDashlorisX
 {
     public class PortScan
     {
-	public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
+	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 
 	}
