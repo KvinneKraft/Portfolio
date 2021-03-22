@@ -125,21 +125,13 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container3 = new PictureBox();
 	private readonly PictureBox S3Image1 = new PictureBox();
 
-	public static readonly LockOn S3Class1 = new LockOn();
-	private readonly ServerPing S3Class2 = new ServerPing();
-	private readonly PortScan S3Class3 = new PortScan();
-	private readonly AppInfo S3Class4 = new AppInfo();
-	private readonly AppToS S3Class5 = new AppToS();
-
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
 	private readonly Button S3Button3 = new Button();
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	private delegate void ClassInit(DashWindow DashWindow, PictureBox Capsule);
-
-	private void S3ButtonExecutionEvent(KeyValuePair<Button, ClassInit> Init)
+	private void S3HideContainers()
 	{
 	    try
 	    {
@@ -150,10 +142,6 @@ namespace TheDashlorisX
 			Control.Hide();
 		    }
 		}
-
-		Init.Value.Invoke(DashWindow, Capsule);
-
-		S3Container1.Hide();
 	    }
 
 	    catch (Exception E)
@@ -162,11 +150,37 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private delegate void PageLink();
+
+	public void HideReference()
+	{
+	    try
+	    {
+		S3HideContainers();
+
+		S3Class1.S3Settings.Hide();
+		S3Class1.Show();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public readonly ServerPing S3Class2 = new ServerPing();
+	public readonly PortScan S3Class3 = new PortScan();
+	public readonly AppInfo S3Class4 = new AppInfo();
+	public readonly AppToS S3Class5 = new AppToS();
+	public readonly LockOn S3Class1 = new LockOn();
+
+	private delegate void PageHandle(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent);
+
 	private void InitS3Events()
 	{
 	    try
 	    {
-		var Initializers = new Dictionary<Button, ClassInit>()
+		var Initializers = new Dictionary<Button, PageHandle>()
 		{
 		    { S3Button1, S3Class1.InitializePage },
 		    { S3Button2, S3Class2.InitializePage },
@@ -175,11 +189,24 @@ namespace TheDashlorisX
 		    { S3Button5, S3Class5.InitializePage },
 		};
 
+		var Buttons = new List<Tuple<Button, string>>()
+		{
+		    Tuple.Create(S3Button1, "Target Info"),
+		    Tuple.Create(S3Button2, "Port Scanner"),
+		    Tuple.Create(S3Button3, "Server Ping"),
+		    Tuple.Create(S3Button4, "About App"),
+		    Tuple.Create(S3Button5, "The T.O.S"),
+		};
+
 		foreach (var Init in Initializers)
 		{
 		    Init.Key.Click += (s, e) =>
 		    {
-			S3ButtonExecutionEvent(Init);
+			S3HideContainers();
+			
+			Init.Value.Invoke(DashWindow, Capsule, this);
+
+			S3Container1.Hide();
 		    };
 		}
 	    }
@@ -293,8 +320,7 @@ namespace TheDashlorisX
 
 		S3Container1.BringToFront();
 		
-		LockOn LockOn = new LockOn();
-		LockOn.InitializePage(DashWindow, Capsule);
+		S3Class1.InitializePage(DashWindow, Capsule, this);
 	    }
 
 	    catch (Exception E)
