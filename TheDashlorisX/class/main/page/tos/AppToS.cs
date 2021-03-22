@@ -34,7 +34,7 @@ namespace TheDashlorisX
 	    );
 	}
 
-	public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
+	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
