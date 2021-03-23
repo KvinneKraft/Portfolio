@@ -142,7 +142,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private Point S2ControlLoca(Size Size, Point Loca, int Y = 0, int Extra = 10)
+	private Point S2ControlX(Size Size, Point Loca, int Y = 0, int Extra = 10)
 	{
 	    try
 	    {
@@ -171,28 +171,28 @@ namespace TheDashlorisX
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(70, 20);
 
-		var Label2Loca = S2ControlLoca(TextBox1Size, TextBox1Loca);
+		var Label2Loca = S2ControlX(TextBox1Size, TextBox1Loca);
 		var Label2Size = GetFontSize("Timeout:");
 
-		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Extra: 0);
+		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Extra: 0);
 		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
 
 		var Label3Loca = new Point(0, Label1Size.Height + Label1Loca.Y + 10);
 		var Label3Size = GetFontSize("Dash Workers:");
 
-		var TextBox3Loca = S2ControlLoca(Label3Size, Label3Loca, Label3Loca.Y, 0);
+		var TextBox3Loca = S2ControlX(Label3Size, Label3Loca, Label3Loca.Y, 0);
 		var TextBox3Size = new Size(55, 20);
 
-		var Label4Loca = S2ControlLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y);
+		var Label4Loca = S2ControlX(TextBox3Size, TextBox3Loca, Label3Loca.Y);
 		var Label4Size = GetFontSize("Max Connections:");
 
-		var TextBox4Loca = S2ControlLoca(Label4Size, Label4Loca, Label3Loca.Y, 0);
+		var TextBox4Loca = S2ControlX(Label4Size, Label4Loca, Label3Loca.Y, 0);
 		var TextBox4Size = S2TextBoxSize(Label4Size, Label4Loca);
 
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
 		var Label5Size = GetFontSize("Content-Length:");
 
-		var TextBox5Loca = S2ControlLoca(Label5Size, Label5Loca, Label5Loca.Y, 0);
+		var TextBox5Loca = S2ControlX(Label5Size, Label5Loca, Label5Loca.Y, 0);
 		var TextBox5Size = new Size(70, 20);
 
 		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
@@ -215,16 +215,15 @@ namespace TheDashlorisX
 		    }
 		}
 
-		var Label6Loca = S2ControlLoca(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
+		var Label6Loca = S2ControlX(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
 		var Label6Size = GetFontSize("Random-UA:");
 
 		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
 
 		var CheckBoxSize = new Size(16, 16);
-		var CheckBoxLoca = S2ControlLoca(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
-		var CheckBoxCol2 = Capsule.BackColor;
+		var CheckBoxLoca = S2ControlX(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
 
-		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, CheckBoxCol2, Color.DarkMagenta, true);
+		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, Capsule.BackColor, Color.DarkMagenta, true);
 	    }
 
 	    catch (Exception E)
@@ -324,13 +323,13 @@ namespace TheDashlorisX
 		var Label1Size = GetFontSize("Proxy List:");
 		var Label1Loca = new Point(0, 0);
 
-		var TextBox1Loca = S2ControlLoca(Label1Size, Label1Loca, 0, 0);
+		var TextBox1Loca = S2ControlX(Label1Size, Label1Loca, 0, 0);
 		var TextBox1Size = S3TextBoxSize(Label1Size, Label1Loca);
 
 		var Label2Size = GetFontSize("Credential List:");
 		var Label2Loca = new Point(0, Label1Size.Height + 10);
 
-		var TextBox2Loca = S2ControlLoca(Label2Size, Label2Loca, Label2Loca.Y, 0);
+		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Label2Loca.Y, 0);
 		var TextBox2Size = S3TextBoxSize(Label2Size, Label2Loca);
 
 		S3AddTextBox(S3TextBox1, S3Selector1, TextBox1Size, TextBox1Loca, ("<Select Text File>"));
