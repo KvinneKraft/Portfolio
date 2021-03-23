@@ -42,8 +42,8 @@ namespace TheDashlorisX
 		var Container2Size = new Size(Capsule.Width, 98);
 		var Container2Loca = new Point(0, 0);
 
-		var Container3Size = new Size(Capsule.Width, 125);
-		var Container3Loca = new Point(0, 120);
+		var Container3Size = new Size(Capsule.Width, 135);
+		var Container3Loca = new Point(0, 118);
 
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
 
@@ -157,6 +157,45 @@ namespace TheDashlorisX
 	    }
 	}
 
+	private readonly DropMenu S2DropMenu = new DropMenu();
+
+	private void S2SetupDropDownMenu()
+	{
+	    try
+	    {
+		var DropMenuLoca = new Point(S1Container2.Left + S2Label6.Left + 10, S1Container2.Top + S2Label6.Top + S2Label6.Height + 10);
+		var DropMenuBCol = S2Label6.BackColor;
+
+		S2DropMenu.SetupMenu(S1Container1, DropMenuLoca, DropMenuBCol, DropMenuBCol);
+
+		int ItemWidth = S2Label6.Width - 4;
+		int ItemHeight = 18;
+
+		var ItemBCol = S2Container1.BackColor;
+		
+		S2DropMenu.AddItem(new Label(), ("(T.C.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(U.D.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+
+		S2Label6.MouseEnter += (s, e) =>
+		{
+		    try
+		    {
+			S2DropMenu.Show();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void Init2(PictureBox Capsule)
 	{
 	    try
@@ -215,6 +254,8 @@ namespace TheDashlorisX
 
 		S2Label6.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label6.BackColor = (S2TextBox1.BackColor);
+
+		S2SetupDropDownMenu();
 
 		var CheckBoxSize = new Size(16, 16);
 		var CheckBoxLoca = new Point(Label5Size.Width, Label5Loca.Y + 2);
