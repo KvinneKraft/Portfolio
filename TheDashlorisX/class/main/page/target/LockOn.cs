@@ -168,11 +168,11 @@ namespace TheDashlorisX
 
 		var ItemBCol = S2Container1.BackColor;
 
-		S2DropMenu.AddItem(new Label(), ("(1991 - 0.9)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		S2DropMenu.AddItem(new Label(), ("(1996 - 1.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		S2DropMenu.AddItem(new Label(), ("(1997 - 1.1)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		S2DropMenu.AddItem(new Label(), ("(2015 - 2.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		S2DropMenu.AddItem(new Label(), ("(2020 - 3.0)"), ItemBCol, Color.White, Index: -2, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(1991 - 0.9)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(1996 - 1.0)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(1997 - 1.1)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(2015 - 2.0)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(2020 - 3.0)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 
 		S2Label5.MouseEnter += (s, e) =>
 		{
