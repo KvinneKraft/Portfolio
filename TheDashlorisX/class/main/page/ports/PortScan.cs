@@ -283,7 +283,36 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		var Container1Size = new Size(S1Container3.Width - 20, S1Container3.Height - 20);
+		var Container1Loca = new Point(10, 10);
+		var Container1BCol = S1Container2.BackColor;
 
+		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, Container1BCol);
+
+		var LabelSize = GetFontSize(("Scan Log"), 12);
+		var LabelLoca = new Point(0, 0);
+
+		Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, Container1BCol, Color.White, 1, 12, ("Scan Log"));
+
+		var ButtonSize = new Size(95, 20);
+		var ButtonLoca = new Point(Container1Size.Width - 95, 0);
+		var ButtonBCol = S2TextBox1.BackColor;
+
+		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Start Scan"));
+		Tool.Round(S3Button1, 6);
+
+		var Container2Size = new Size(Container1Size.Width, Container1Size.Height - 30);
+		var Container2Loca = new Point(0, 30);
+
+		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, ButtonBCol);
+
+		var TextBoxLoca = new Point(0, 0);
+
+		Control.TextBox(S3Container2, S3TextBox1, Container2Size, TextBoxLoca, ButtonBCol, Color.White, 1, 7, 
+		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+
+		Tool.Round(S3Container1, 6);
+		Tool.Round(S3Container2, 6);
 	    }
 
 	    catch (Exception E)
