@@ -56,7 +56,7 @@
     <Compile Include="class\main\page\info\AppInfo.cs" />
     <Compile Include="class\main\page\ping\ServerPing.cs" />
     <Compile Include="class\main\page\ports\PortScan.cs" />
-    <Compile Include="class\main\page\target\LockOn.cs" />
+    <Compile Include="class\main\page\ports\LockOn.cs" />
     <Compile Include="class\main\page\target\Settings.cs" />
     <Compile Include="class\main\page\tos\AppToS.cs" />
     <Compile Include="class\util\DashFramework.cs" />
