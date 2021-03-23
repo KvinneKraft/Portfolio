@@ -39,7 +39,7 @@ namespace TheDashlorisX
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
-		var Container2Size = new Size(Capsule.Width, 110);
+		var Container2Size = new Size(Capsule.Width, 98);
 		var Container2Loca = new Point(0, 0);
 
 		var Container3Size = new Size(Capsule.Width, 125);
@@ -63,10 +63,30 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S2Container1 = new PictureBox();
 	private readonly PictureBox S2Container2 = new PictureBox();
+	private readonly PictureBox S2Container3 = new PictureBox();
 
 	private readonly TextBox S2TextBox1 = new TextBox();
 	private readonly TextBox S2TextBox2 = new TextBox();
 	private readonly TextBox S2TextBox3 = new TextBox();
+
+	private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
+	{
+	    try
+	    {
+		var TextBoxBCol = S1Container1.Parent.BackColor;
+		var TextBoxFCol = Color.White;
+
+		TextBox.TextAlign = HorizontalAlignment.Center;
+		TextBox.Text = (Text);
+
+		Control.TextBox(S2Container1, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	private readonly Label S2Label1 = new Label();
 	private readonly Label S2Label2 = new Label();
@@ -75,11 +95,131 @@ namespace TheDashlorisX
 	private readonly Label S2Label5 = new Label();
 	private readonly Label S2Label6 = new Label();
 
-	private void Init2()
+	private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
 	{
 	    try
 	    {
+		var LabelBCol = S2Container1.BackColor;
+		var LabelFCol = Color.White;
 
+		Control.Label(S2Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Size GetFontSize(string Text, int FontHeight = 10)
+	{
+	    try
+	    {
+		Font Font = Tool.GetFont(1, FontHeight);
+		return TextRenderer.MeasureText(Text, Font);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Size S2TextBoxSize(Size Size, Point Loca, int Height = 20)
+	{
+	    try
+	    {
+		int Width = (S2Container1.Width - Loca.X - Size.Width);
+		return new Size(Width, Height);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private Point S2ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
+	{//Use S2ControlY as well. | for class, initialize with controls preferred.
+	    try
+	    {
+		int X = (Size.Width + Loca.X + Extra);
+
+		if (Y == -1)
+		    Y = Loca.Y;
+
+		return new Point(X, Y);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void Init2(PictureBox Capsule)
+	{
+	    try
+	    {
+		var Container1Size = new Size(S1Container2.Width - 20, S1Container2.Height);
+		var Container1Loca = new Point(10, 10);
+		var Container1BCol = S1Container2.BackColor;
+
+		Control.Image(S1Container2, S2Container1, Container1Size, Container1Loca, Container1BCol);
+
+		var Label1Loca = new Point(0, 0);
+		var Label1Size = GetFontSize("Host:");
+
+		var TextBox1Loca = new Point(Label1Size.Width, 0);
+		var TextBox1Size = new Size(165, 20);
+
+		var Label2Loca = S2ControlX(TextBox1Size, TextBox1Loca);
+		var Label2Size = GetFontSize("Ports:");
+
+		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Extra:0);
+		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
+
+		var Label3Loca = new Point(0, TextBox1Loca.Y + 30);
+		var Label3Size = GetFontSize("Timeout:");
+		
+		var TextBox3Loca = new Point(Label3Size.Width, Label3Loca.Y);
+		var TextBox3Size = new Size(125, 20);
+
+		var Label4Loca = S2ControlX(TextBox3Size, TextBox3Loca);
+		var Label4Size = GetFontSize("Protocol:");
+
+		var Label5Loca = new Point(0, Label3Loca.Y + 30);
+		var Label5Size = GetFontSize("Keep-Alive:");
+
+		var Label6Loca = S2ControlX(Label4Size, Label4Loca, Extra:0);
+		var Label6Size = S2TextBoxSize(Label4Size, Label4Loca);
+
+		S2AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("8.8.8.8"));
+		S2AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("80,443,22,21"));
+		S2AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("350"));
+
+		foreach (Control Control in S2Container1.Controls)
+		{
+		    if (Control is PictureBox)
+		    {
+			Tool.Round(Control, 6);
+		    }
+		}
+
+		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
+		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Ports:"));
+		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Timeout:"));
+		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Protocol:"));
+		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("Keep-Alive:"));
+		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("-- (TCP) --"), 8);
+
+		S2Label6.TextAlign = ContentAlignment.MiddleCenter;
+		S2Label6.BackColor = (S2TextBox1.BackColor);
+
+		var CheckBoxSize = new Size(16, 16);
+		var CheckBoxLoca = new Point(Label5Size.Width, Label5Loca.Y + 2);
+
+		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, Capsule.BackColor, Color.DarkMagenta, true);
 	    }
 
 	    catch (Exception E)
@@ -110,8 +250,7 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-
+	
 	private bool isInitialized = false;
 	
 	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
@@ -122,7 +261,7 @@ namespace TheDashlorisX
 		{
 
 		    Init1(DashWindow, Capsule);
-		    Init2();
+		    Init2(Capsule);
 		    Init3();
 
 		    isInitialized = true;
