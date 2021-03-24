@@ -72,25 +72,6 @@ namespace TheDashlorisX
 	private readonly TextBox S2Textbox4 = new TextBox();
 	private readonly TextBox S2Textbox5 = new TextBox();
 
-	private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
-	{
-	    try
-	    {
-		var TextBoxBCol = S1Container1.Parent.BackColor;
-		var TextBoxFCol = Color.White;
-
-		TextBox.TextAlign = HorizontalAlignment.Center;
-		TextBox.Text = (Text);
-
-		Control.TextBox(S2Container1, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 	private readonly Label S2Label1 = new Label();
 	private readonly Label S2Label2 = new Label();
 	private readonly Label S2Label3 = new Label();
@@ -98,63 +79,7 @@ namespace TheDashlorisX
 	private readonly Label S2Label5 = new Label();
 	private readonly Label S2Label6 = new Label();
 
-	private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		var LabelBCol = S2Container1.BackColor;
-		var LabelFCol = Color.White;
-
-		Control.Label(S2Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size GetFontSize(string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		Font Font = Tool.GetFont(1, FontHeight);
-		return TextRenderer.MeasureText(Text, Font);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size S2TextBoxSize(Size Size, Point Loca, int Height = 20)
-	{
-	    try
-	    {
-		int Width = (S2Container1.Width - Loca.X - Size.Width);
-		return new Size(Width, Height);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Point S2ControlX(Size Size, Point Loca, int Y = 0, int Extra = 10)
-	{
-	    try
-	    {
-		int X = (Size.Width + Loca.X + Extra);
-		return new Point(X, Y);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
+	private readonly ControlHelper CHelper = new ControlHelper();
 
 	private void InitS2(PictureBox Capsule)
 	{
