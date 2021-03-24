@@ -67,25 +67,6 @@ namespace TheDashlorisX
 	private readonly TextBox S2TextBox2 = new TextBox();
 	private readonly TextBox S2TextBox3 = new TextBox();
 
-	private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
-	{
-	    try
-	    {
-		var TextBoxBCol = S1Container1.Parent.BackColor;
-		var TextBoxFCol = Color.White;
-
-		TextBox.TextAlign = HorizontalAlignment.Center;
-		TextBox.Text = (Text);
-
-		Control.TextBox(S2Container1, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 	private readonly Button S2Button1 = new Button();
 
 	private readonly Label S2Label1 = new Label();
@@ -94,64 +75,7 @@ namespace TheDashlorisX
 	private readonly Label S2Label4 = new Label();
 	private readonly Label S2Label5 = new Label();
 
-	private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		var LabelBCol = S2Container1.BackColor;
-		var LabelFCol = Color.White;
-
-		Control.Label(S2Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size S2GetLeftOver(Size Size, Point Loca, int Height = 20)
-	{
-	    try
-	    {
-		int Width = (S2Container1.Width - (Size.Width + Loca.X));
-		return new Size(Width, Height);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size GetFontSize(string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		Font Font = Tool.GetFont(1, FontHeight);
-		return TextRenderer.MeasureText(Text, Font);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Point S2TextBoxLoca(Size Size, Point Loca, int Y = 0, int Extra = 0)
-	{
-	    try
-	    {
-		int X = (Loca.X + Size.Width) + Extra;
-		return new Point(X, Y);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
+	private readonly ControlHelper CHelper = new ControlHelper();
 	private readonly DropMenu S2DropMenu = new DropMenu();
 
 	private void S2SetupDropDownMenu()
@@ -204,17 +128,20 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		var Label1Size = GetFontSize(("Host:"));
+		CHelper.TextBoxParent = S2Container1;
+		CHelper.LabelParent = S2Container1;
+
+		var Label1Size = CHelper.GetFontSize(("Host:"));
 		var Label1Loca = new Point(0, 0);
 
 		var TextBox1Size = new Size(165, 20);
-		var TextBox1Loca = S2TextBoxLoca(Label1Size, Label1Loca);
+		var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca);
 
-		var Label2Size = GetFontSize("Port:");
-		var Label2Loca = S2TextBoxLoca(TextBox1Size, TextBox1Loca, Extra: 10);
+		var Label2Size = CHelper.GetFontSize("Port:");
+		var Label2Loca = CHelper.ControlX(TextBox1Size, TextBox1Loca, Extra: 10);
 
-		var TextBox2Size = S2GetLeftOver(Label2Size, Label2Loca);
-		var TextBox2Loca = S2TextBoxLoca(Label2Size, Label2Loca);
+		var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
+		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca);
 
 		int GetBellow(Size Size, Point Loca)
 		{
@@ -229,27 +156,33 @@ namespace TheDashlorisX
 		    }
 		}
 
-		var Label3Size = GetFontSize("Duration:");
+		var Label3Size = CHelper.GetFontSize("Duration:");
 		var Label3Loca = new Point(0, GetBellow(TextBox1Size, TextBox1Loca));
 
 		var TextBox3Size = new Size(135, 20);
-		var TextBox3Loca = S2TextBoxLoca(Label3Size, Label3Loca, Label3Loca.Y);
+		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca);
 
-		var Label4Size = GetFontSize("HTTP Version:");
-		var Label4Loca = S2TextBoxLoca(TextBox3Size, TextBox3Loca, Label3Loca.Y, 10);
+		var Label4Size = CHelper.GetFontSize("HTTP Version:");
+		var Label4Loca = CHelper.ControlX(TextBox3Size, TextBox3Loca, Label3Loca.Y, 10);
 
 		var Label5Size = new Size(Label4Size.Width, 20);
 		var Label5Loca = new Point(Label4Loca.X, Label4Loca.Y + Label4Size.Height + 10);
 
-		S2AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"));
-		S2AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("65535"));
-		S2AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("45000"));
+		CHelper.TextBoxBCol = S1Container1.Parent.BackColor;
+		CHelper.TextBoxFCol = Color.White;
 
-		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
-		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Port:"));
-		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Duration:"));
-		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("HTTP Version:"));
-		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("--- (1.0) ---"), 8);
+		CHelper.AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("https://pugpawz.com"));
+		CHelper.AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("65535"));
+		CHelper.AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("45000"));
+
+		CHelper.LabelBCol = S2Container1.BackColor;
+		CHelper.LabelFCol = Color.White;
+
+		CHelper.AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
+		CHelper.AddLabel(S2Label2, Label2Size, Label2Loca, ("Port:"));
+		CHelper.AddLabel(S2Label3, Label3Size, Label3Loca, ("Duration:"));
+		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("HTTP Version:"));
+		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("--- (1.0) ---"), 8);
 
 		S2Label5.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label5.BackColor = (S2TextBox1.BackColor);
