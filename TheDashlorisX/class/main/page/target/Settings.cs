@@ -90,47 +90,56 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, S1Container2.BackColor);
 
+		CHelper.TextBoxParent = S2Container1;
+		CHelper.LabelParent = S2Container1;
+
 		var Label1Loca = new Point(0, 0);
-		var Label1Size = GetFontSize("Send Delay:");
+		var Label1Size = CHelper.GetFontSize("Send Delay:");
 
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(70, 20);
 
-		var Label2Loca = S2ControlX(TextBox1Size, TextBox1Loca);
-		var Label2Size = GetFontSize("Timeout:");
+		var Label2Loca = CHelper.ControlX(TextBox1Size, TextBox1Loca);
+		var Label2Size = CHelper.GetFontSize("Timeout:");
 
-		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Extra: 0);
-		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
+		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Extra: 0);
+		var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
 
 		var Label3Loca = new Point(0, Label1Size.Height + Label1Loca.Y + 10);
-		var Label3Size = GetFontSize("Dash Workers:");
+		var Label3Size = CHelper.GetFontSize("Dash Workers:");
 
-		var TextBox3Loca = S2ControlX(Label3Size, Label3Loca, Label3Loca.Y, 0);
+		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca, Label3Loca.Y, 0);
 		var TextBox3Size = new Size(55, 20);
 
-		var Label4Loca = S2ControlX(TextBox3Size, TextBox3Loca, Label3Loca.Y);
-		var Label4Size = GetFontSize("Max Connections:");
+		var Label4Loca = CHelper.ControlX(TextBox3Size, TextBox3Loca, Label3Loca.Y);
+		var Label4Size = CHelper.GetFontSize("Max Connections:");
 
-		var TextBox4Loca = S2ControlX(Label4Size, Label4Loca, Label3Loca.Y, 0);
-		var TextBox4Size = S2TextBoxSize(Label4Size, Label4Loca);
+		var TextBox4Loca = CHelper.ControlX(Label4Size, Label4Loca, Label3Loca.Y, 0);
+		var TextBox4Size = CHelper.TextBoxSize(Label4Size, Label4Loca);
 
 		var Label5Loca = new Point(0, Label3Size.Height + Label3Loca.Y + 10);
-		var Label5Size = GetFontSize("Content-Length:");
+		var Label5Size = CHelper.GetFontSize("Content-Length:");
 
-		var TextBox5Loca = S2ControlX(Label5Size, Label5Loca, Label5Loca.Y, 0);
+		var TextBox5Loca = CHelper.ControlX(Label5Size, Label5Loca, Label5Loca.Y, 0);
 		var TextBox5Size = new Size(70, 20);
 
-		S2AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
-		S2AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
-		S2AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
-		S2AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
-		S2AddTextBox(S2Textbox5, TextBox5Size, TextBox5Loca, ("4012"));
+		CHelper.TextBoxBCol = S1Container1.Parent.BackColor;
+		CHelper.TextBoxFCol = Color.White;
 
-		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
-		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
-		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
-		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
-		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("Content-Length:"));
+		CHelper.AddTextBox(S2Textbox1, TextBox1Size, TextBox1Loca, ("500"));
+		CHelper.AddTextBox(S2Textbox2, TextBox2Size, TextBox2Loca, ("500"));
+		CHelper.AddTextBox(S2Textbox3, TextBox3Size, TextBox3Loca, ("8"));
+		CHelper.AddTextBox(S2Textbox4, TextBox4Size, TextBox4Loca, ("500"));
+		CHelper.AddTextBox(S2Textbox5, TextBox5Size, TextBox5Loca, ("4012"));
+
+		CHelper.LabelBCol = S2Container1.BackColor;
+		CHelper.LabelFCol = Color.White;
+
+		CHelper.AddLabel(S2Label1, Label1Size, Label1Loca, ("Send Delay:"));
+		CHelper.AddLabel(S2Label2, Label2Size, Label2Loca, ("Timeout:"));
+		CHelper.AddLabel(S2Label3, Label3Size, Label3Loca, ("Dash Workers:"));
+		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
+		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("Content-Length:"));
 
 		foreach (Control Control in S2Container1.Controls)
 		{ 
@@ -140,13 +149,13 @@ namespace TheDashlorisX
 		    }
 		}
 
-		var Label6Loca = S2ControlX(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
-		var Label6Size = GetFontSize("Random-UA:");
+		var Label6Loca = CHelper.ControlX(TextBox5Size, TextBox5Loca, TextBox5Loca.Y);
+		var Label6Size = CHelper.GetFontSize("Random-UA:");
 
-		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
+		CHelper.AddLabel(S2Label6, Label6Size, Label6Loca, ("Random-UA:"));
 
 		var CheckBoxSize = new Size(16, 16);
-		var CheckBoxLoca = S2ControlX(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
+		var CheckBoxLoca = CHelper.ControlX(Label6Size, Label6Loca, Label6Loca.Y + 2, 0);
 
 		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, Capsule.BackColor, Color.DarkMagenta, true);
 	    }
@@ -202,22 +211,6 @@ namespace TheDashlorisX
 	private readonly Label S3Label1 = new Label();
 	private readonly Label S3Label2 = new Label();
 
-	private void S3AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		var LabelBCol = S3Container1.BackColor;
-		var LabelFCol = Color.White;
-
-		Control.Label(S3Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 	private Size S3TextBoxSize(Size Size, Point Loca, int Height = 20)
 	{
 	    try
@@ -245,23 +238,25 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, S1Container3.BackColor);
 
-		var Label1Size = GetFontSize("Proxy List:");
+		CHelper.LabelParent = S3Container1;
+
+		var Label1Size = CHelper.GetFontSize("Proxy List:");
 		var Label1Loca = new Point(0, 0);
 
-		var TextBox1Loca = S2ControlX(Label1Size, Label1Loca, 0, 0);
+		var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca, 0, 0);
 		var TextBox1Size = S3TextBoxSize(Label1Size, Label1Loca);
 
-		var Label2Size = GetFontSize("Credential List:");
+		var Label2Size = CHelper.GetFontSize("Credential List:");
 		var Label2Loca = new Point(0, Label1Size.Height + 10);
 
-		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Label2Loca.Y, 0);
+		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Label2Loca.Y, 0);
 		var TextBox2Size = S3TextBoxSize(Label2Size, Label2Loca);
 
 		S3AddTextBox(S3TextBox1, S3Selector1, TextBox1Size, TextBox1Loca, ("<Select Text File>"));
-		S3AddLabel(S3Label1, Label1Size, Label1Loca, ("Proxy List:"));
+		CHelper.AddLabel(S3Label1, Label1Size, Label1Loca, ("Proxy List:"));
 
 		S3AddTextBox(S3TextBox2, S3Selector2, TextBox2Size, TextBox2Loca, ("<Select Text File>"));
-		S3AddLabel(S3Label2, Label2Size, Label2Loca, ("Credential List:"));
+		CHelper.AddLabel(S3Label2, Label2Size, Label2Loca, ("Credential List:"));
 
 		var Container2Size = new Size(335, 20);
 		var Container2Loca = new Point(-2, Label2Loca.Y + Label2Size.Height + 10);
