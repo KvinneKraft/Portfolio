@@ -36,6 +36,99 @@ namespace DashFramework
     {
 	namespace Controls
 	{
+	    public class ControlHelper
+	    {
+		private readonly DashControls Control = new DashControls();
+
+		//TextBoxBCol
+		public Control TextBoxParent = new Control();
+
+		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
+		public Color TextBoxFCol = Color.White;
+
+		public void AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
+		{
+		    try
+		    {
+			TextBox.TextAlign = HorizontalAlignment.Center;
+			TextBox.Text = (Text);
+
+			Control.TextBox(TextBoxParent, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public Size TextBoxSize(Size Size, Point Loca, int Height = 20)
+		{
+		    try
+		    {
+			int Width = (TextBoxParent.Width - Loca.X - Size.Width);
+			return new Size(Width, Height);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public Control LabelParent = new Control();
+
+		public Color LabelBCol = Color.FromArgb(28, 28, 28);
+		public Color LabelFCol = Color.White;
+
+		public void AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
+		{
+		    try
+		    {
+			Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		private readonly DashTools Tool = new DashTools();
+
+		public Size GetFontSize(string Text, int FontHeight = 10)
+		{
+		    try
+		    {
+			Font Font = Tool.GetFont(1, FontHeight);
+			return TextRenderer.MeasureText(Text, Font);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
+		{//Use S2ControlY as well. | for class, initialize with controls preferred.
+		    try
+		    {
+			int X = (Size.Width + Loca.X + Extra);
+
+			if (Y == -1)
+			    Y = Loca.Y;
+
+			return new Point(X, Y);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+	    }
+
 	    public class DashControls
 	    {
 		private readonly DashTools Tool = new DashTools();
