@@ -68,26 +68,7 @@ namespace TheDashlorisX
 	private readonly TextBox S2TextBox1 = new TextBox();
 	private readonly TextBox S2TextBox2 = new TextBox();
 	private readonly TextBox S2TextBox3 = new TextBox();
-
-	private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
-	{
-	    try
-	    {
-		var TextBoxBCol = S1Container1.Parent.BackColor;
-		var TextBoxFCol = Color.White;
-
-		TextBox.TextAlign = HorizontalAlignment.Center;
-		TextBox.Text = (Text);
-
-		Control.TextBox(S2Container1, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
+	
 	private readonly Label S2Label1 = new Label();
 	private readonly Label S2Label2 = new Label();
 	private readonly Label S2Label3 = new Label();
@@ -95,68 +76,7 @@ namespace TheDashlorisX
 	private readonly Label S2Label5 = new Label();
 	private readonly Label S2Label6 = new Label();
 
-	private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		var LabelBCol = S2Container1.BackColor;
-		var LabelFCol = Color.White;
-
-		Control.Label(S2Container1, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size GetFontSize(string Text, int FontHeight = 10)
-	{
-	    try
-	    {
-		Font Font = Tool.GetFont(1, FontHeight);
-		return TextRenderer.MeasureText(Text, Font);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Size S2TextBoxSize(Size Size, Point Loca, int Height = 20)
-	{
-	    try
-	    {
-		int Width = (S2Container1.Width - Loca.X - Size.Width);
-		return new Size(Width, Height);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private Point S2ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
-	{//Use S2ControlY as well. | for class, initialize with controls preferred.
-	    try
-	    {
-		int X = (Size.Width + Loca.X + Extra);
-
-		if (Y == -1)
-		    Y = Loca.Y;
-
-		return new Point(X, Y);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
+	private readonly ControlHelper CHelper = new ControlHelper();
 	private readonly DropMenu S2DropMenu = new DropMenu();
 
 	private void S2SetupDropDownMenu()
@@ -206,37 +126,43 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, Container1Size, Container1Loca, Container1BCol);
 
+		CHelper.TextBoxParent = S2Container1;
+		CHelper.LabelParent = S2Container1;
+
 		var Label1Loca = new Point(0, 0);
-		var Label1Size = GetFontSize("Host:");
+		var Label1Size = CHelper.GetFontSize("Host:");
 
 		var TextBox1Loca = new Point(Label1Size.Width, 0);
 		var TextBox1Size = new Size(165, 20);
 
-		var Label2Loca = S2ControlX(TextBox1Size, TextBox1Loca);
-		var Label2Size = GetFontSize("Ports:");
+		var Label2Loca = CHelper.ControlX(TextBox1Size, TextBox1Loca);
+		var Label2Size = CHelper.GetFontSize("Ports:");
 
-		var TextBox2Loca = S2ControlX(Label2Size, Label2Loca, Extra:0);
-		var TextBox2Size = S2TextBoxSize(Label2Size, Label2Loca);
+		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Extra:0);
+		var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
 
 		var Label3Loca = new Point(0, TextBox1Loca.Y + 30);
-		var Label3Size = GetFontSize("Timeout:");
+		var Label3Size = CHelper.GetFontSize("Timeout:");
 		
 		var TextBox3Loca = new Point(Label3Size.Width, Label3Loca.Y);
 		var TextBox3Size = new Size(125, 20);
 
-		var Label4Loca = S2ControlX(TextBox3Size, TextBox3Loca);
-		var Label4Size = GetFontSize("Protocol:");
+		var Label4Loca = CHelper.ControlX(TextBox3Size, TextBox3Loca);
+		var Label4Size = CHelper.GetFontSize("Protocol:");
 
 		var Label5Loca = new Point(0, Label3Loca.Y + 30);
-		var Label5Size = GetFontSize("Keep-Alive:");
+		var Label5Size = CHelper.GetFontSize("Keep-Alive:");
 
-		var Label6Loca = S2ControlX(Label4Size, Label4Loca, Extra:0);
-		var Label6Size = S2TextBoxSize(Label4Size, Label4Loca);
+		var Label6Loca = CHelper.ControlX(Label4Size, Label4Loca, Extra:0);
+		var Label6Size = CHelper.TextBoxSize(Label4Size, Label4Loca);
 
-		S2AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("8.8.8.8"));
-		S2AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("80,443,22,21"));
-		S2AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("350"));
+		CHelper.TextBoxBCol = S1Container1.Parent.BackColor;
+		CHelper.TextBoxFCol = Color.White;
 
+		CHelper.AddTextBox(S2TextBox1, TextBox1Size, TextBox1Loca, ("8.8.8.8"));
+		CHelper.AddTextBox(S2TextBox2, TextBox2Size, TextBox2Loca, ("80,443,22,21"));
+		CHelper.AddTextBox(S2TextBox3, TextBox3Size, TextBox3Loca, ("350"));
+		
 		foreach (Control Control in S2Container1.Controls)
 		{
 		    if (Control is PictureBox)
@@ -245,12 +171,15 @@ namespace TheDashlorisX
 		    }
 		}
 
-		S2AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
-		S2AddLabel(S2Label2, Label2Size, Label2Loca, ("Ports:"));
-		S2AddLabel(S2Label3, Label3Size, Label3Loca, ("Timeout:"));
-		S2AddLabel(S2Label4, Label4Size, Label4Loca, ("Protocol:"));
-		S2AddLabel(S2Label5, Label5Size, Label5Loca, ("Keep-Alive:"));
-		S2AddLabel(S2Label6, Label6Size, Label6Loca, ("-- (TCP) --"), 8);
+		CHelper.LabelBCol = S2Container1.BackColor;
+		CHelper.LabelFCol = Color.White;
+
+		CHelper.AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
+		CHelper.AddLabel(S2Label2, Label2Size, Label2Loca, ("Ports:"));
+		CHelper.AddLabel(S2Label3, Label3Size, Label3Loca, ("Timeout:"));
+		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("Protocol:"));
+		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("Keep-Alive:"));
+		CHelper.AddLabel(S2Label6, Label6Size, Label6Loca, ("-- (TCP) --"), 8);
 
 		S2Label6.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label6.BackColor = (S2TextBox1.BackColor);
@@ -289,7 +218,7 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, Container1BCol);
 
-		var LabelSize = GetFontSize(("Scan Log"), 12);
+		var LabelSize = CHelper.GetFontSize(("Scan Log"), 12);
 		var LabelLoca = new Point(0, 0);
 
 		Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, Container1BCol, Color.White, 1, 12, ("Scan Log"));
@@ -369,100 +298,6 @@ namespace TheDashlorisX
 	    catch (Exception E)
 	    {
 		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	//Move this, obviously:
-	public class ControlHelper
-	{
-	    private readonly DashControls Control = new DashControls();
-
-	    //TextBoxBCol
-	    public Control TextBoxParent = new Control();
-
-	    public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
-	    public Color TextBoxFCol = Color.White;
-
-	    private void S2AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
-	    {
-		try
-		{
-		    TextBox.TextAlign = HorizontalAlignment.Center;
-		    TextBox.Text = (Text);
-
-		    Control.TextBox(TextBoxParent, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    private Size TextBoxSize(Size Size, Point Loca, int Height = 20)
-	    {
-		try
-		{
-		    int Width = (TextBoxParent.Width - Loca.X - Size.Width);
-		    return new Size(Width, Height);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    public Control LabelParent = new Control();
-
-	    public Color LabelBCol = Color.FromArgb(28, 28, 28);
-	    public Color LabelFCol = Color.White;
-
-	    private void S2AddLabel(Label Label, Size Size, Point Loca, string Text, int FontHeight = 10)
-	    {
-		try
-		{
-		    Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    private readonly DashTools Tool = new DashTools();
-
-	    private Size GetFontSize(string Text, int FontHeight = 10)
-	    {
-		try
-		{
-		    Font Font = Tool.GetFont(1, FontHeight);
-		    return TextRenderer.MeasureText(Text, Font);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    private Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
-	    {//Use S2ControlY as well. | for class, initialize with controls preferred.
-		try
-		{
-		    int X = (Size.Width + Loca.X + Extra);
-
-		    if (Y == -1)
-			Y = Loca.Y;
-
-		    return new Point(X, Y);
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
 	    }
 	}
     }
