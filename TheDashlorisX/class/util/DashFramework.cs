@@ -664,18 +664,42 @@ namespace DashFramework
 
     namespace Forms
     {
-	public class DashForm
+	public class DashForm : Form
 	{
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-	    private readonly Form App = new Form();
+	    public FormStartPosition FSPos = FormStartPosition.CenterScreen;
+	    public FormBorderStyle FBSty = FormBorderStyle.None;
 
-	    public void InitializeApp(/*Add Thigns Here*/)
+	    public string AppTitle = string.Format("Dash App");
+
+	    public Color BackCol = Color.FromArgb(8, 8, 8);
+	    public Size AppSize = new Size(350, 350);
+	    
+	    public void Show(bool AsDialog = true)
 	    {
 		try
 		{
+		    if (!Size.Equals(AppSize))
+		    {
+			BackColor = BackCol;
+			Text = AppTitle;
 
+			Icon AppIco = Resources.ICON;
+
+			Icon = AppIco;
+
+			FormBorderStyle = FBSty;
+			StartPosition = FSPos;
+
+			Tool.Resize(this, AppSize);
+
+			if (AsDialog)
+			    ShowDialog();
+			else
+			    Show();
+		    }
 		}
 
 		catch (Exception E)
