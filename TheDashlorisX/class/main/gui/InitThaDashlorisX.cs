@@ -312,7 +312,7 @@ namespace TheDashlorisX
 	public void InitializeApp()
 	{
 	    try
-	    { 
+	    {
 		Init1();//GUI
 		Init2();//BottomBar
 		Init3();//SideMenu
