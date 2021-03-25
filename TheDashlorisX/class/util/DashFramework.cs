@@ -669,15 +669,34 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
+
+	    private readonly DashMenuBar MenuBar = new DashMenuBar("Dash App", false, true);
+
+	    public void AddMenubar()
+	    {
+		try
+		{
+		    Color BarBCol = Color.FromArgb(8, 8, 8);
+		    MenuBar.AddMe(this, BarBCol, BarBCol);
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
+		}
+	    }
+
+
 	    public FormStartPosition FSPos = FormStartPosition.CenterScreen;
 	    public FormBorderStyle FBSty = FormBorderStyle.None;
 
 	    public string AppTitle = string.Format("Dash App");
+	    public bool AsDialog = true;
 
-	    public Color BackCol = Color.FromArgb(8, 8, 8);
+	    public Color BackCol = Color.MidnightBlue;
 	    public Size AppSize = new Size(350, 350);
-	    
-	    public void Show(bool AsDialog = true)
+
+	    public new void Show(bool MenuBar = true)
 	    {
 		try
 		{
@@ -693,7 +712,11 @@ namespace DashFramework
 			FormBorderStyle = FBSty;
 			StartPosition = FSPos;
 
+			Tool.Interactive(this, this);
 			Tool.Resize(this, AppSize);
+
+			if (MenuBar)
+			    AddMenubar();
 
 			if (AsDialog)
 			    ShowDialog();
