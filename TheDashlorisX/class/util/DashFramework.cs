@@ -662,6 +662,31 @@ namespace DashFramework
     }
 
 
+    namespace Forms
+    {
+	public class DashForm
+	{
+	    private readonly DashControls Control = new DashControls();
+	    private readonly DashTools Tool = new DashTools();
+
+	    private readonly Form App = new Form();
+
+	    public void InitializeApp(/*Add Thigns Here*/)
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	}
+    }
+
+
     namespace Dialog
     {
 	public class DashDialog
