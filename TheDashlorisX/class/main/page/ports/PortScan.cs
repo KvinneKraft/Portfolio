@@ -34,8 +34,8 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = Capsule.Size;
-		var Container1Loca = new Point(0, 0);
+		var Container1Size = new Size(Capsule.Width, Capsule.Height - 3);
+		var Container1Loca = new Point(0, 3);
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
@@ -223,8 +223,8 @@ namespace TheDashlorisX
 
 		Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, Container1BCol, Color.White, 1, 12, ("Scan Log"));
 
-		var ButtonSize = new Size(95, 20);
-		var ButtonLoca = new Point(Container1Size.Width - 95, 0);
+		var ButtonSize = new Size(100, 21);
+		var ButtonLoca = new Point(Container1Size.Width - 100, 0);
 		var ButtonBCol = S2TextBox1.BackColor;
 
 		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Start Scan"));
@@ -265,7 +265,7 @@ namespace TheDashlorisX
 
 		    isInitialized = true;
 		}
-
+		
 		Show();
 	    }
 
