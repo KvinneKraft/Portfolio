@@ -229,6 +229,19 @@ namespace TheDashlorisX
 	    private void Print(string Data) =>
 		S3TextBox1.AppendText($"{Data}\r\n");
 
+	    private bool ScanPort(ProtocolType ProtocolType, SocketType SocketType, int Port)
+	    {
+		try
+		{
+		    return true;
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+
 	    public void ScanEvent(string Address, string Port, string Timeout, string Method, PictureBox CheckBox)
 	    {
 		try
@@ -271,18 +284,54 @@ namespace TheDashlorisX
 		    }
 
 		    bool KeepAlive = (CheckBox.BackColor == Color.DarkMagenta);
-		    
+
 		    switch (SP)
 		    {
 			case '~':
-			    // Normal Scan
+			{
+			    if (ScanPort(ProtocolType, SocketType, int.Parse(Ports[0])))
+			    {
+				// Opened
+			    }
+
+			    else
+			    {
+				// Closed
+			    }
 			    break;
+			}
 			case '-':
-			    // Count Scan
+			{
+			    for (int k = int.Parse(Ports[0]); k <= int.Parse(Ports[1]); k += 1)
+			    {
+				if (ScanPort(ProtocolType, SocketType, k))
+				{
+				    // Opened
+				}
+
+				else
+				{
+				    // Closed
+				}
+			    }
 			    break;
+			}
 			case ',':
-			    // Iterate Scan
+			{
+			    foreach (string _port in Ports)
+			    {
+				if (ScanPort(ProtocolType, SocketType, int.Parse(_port)))
+				{
+				    // Opened
+				}
+
+				else
+				{
+				    // Closed
+				}
+			    }
 			    break;
+			}
 		    }
 		}
 
