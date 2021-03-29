@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Net.Sockets;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -202,9 +204,94 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container1 = new PictureBox();
 	private readonly PictureBox S3Container2 = new PictureBox();
 
-	private readonly TextBox S3TextBox1 = new TextBox();
+	public static readonly TextBox S3TextBox1 = new TextBox();
 
 	private readonly Button S3Button1 = new Button();
+
+	private void S3Button1Event()
+	{
+	    try
+	    {
+		new PortScanner().ScanEvent(S2TextBox1.Text, S2TextBox2.Text, 
+		    S2TextBox3.Text, S2Label6.Text, S2Container3);
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
+	}
+
+	public class PortScanner
+	{
+	    private readonly DashNet DashNet = new DashNet();
+
+	    private void Print(string Data) =>
+		S3TextBox1.AppendText($"{Data}\r\n");
+
+	    public void ScanEvent(string Address, string Port, string Timeout, string Method, PictureBox CheckBox)
+	    {
+		try
+		{
+		    if (!DashNet.CanIP(Address))
+		    {
+			// Invalid Host
+			return;
+		    }
+
+		    char SP = '~';
+
+		    if (Port.Contains('-')) SP = '-';
+		    else if (Port.Contains(',')) SP = ',';
+
+		    List<string> Ports = Port.Split(SP).ToList();
+
+		    foreach (string port_ in Ports)
+		    {
+			if (!DashNet.CanPort(port_))
+			{
+			    // Invalid Port
+			    return;
+			}
+		    }
+
+		    if (!DashNet.CanInteger(Timeout))
+		    {
+			// Invalid Timeout
+			return;
+		    }
+
+		    ProtocolType ProtocolType = ProtocolType.Tcp;
+		    SocketType SocketType = SocketType.Stream;
+
+		    if (Method.Contains("U.D.P"))
+		    {
+			ProtocolType = ProtocolType.Udp;
+			SocketType = SocketType.Dgram;
+		    }
+
+		    bool KeepAlive = (CheckBox.BackColor == Color.DarkMagenta);
+		    
+		    switch (SP)
+		    {
+			case '~':
+			    // Normal Scan
+			    break;
+			case '-':
+			    // Count Scan
+			    break;
+			case ',':
+			    // Iterate Scan
+			    break;
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	}
 
 	private readonly Label S3Label1 = new Label();
 
@@ -228,6 +315,10 @@ namespace TheDashlorisX
 		var ButtonBCol = S2TextBox1.BackColor;
 
 		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Start Scan"));
+
+		S3Button1.Click += (s, e) =>
+		    S3Button1Event();
+
 		Tool.Round(S3Button1, 6);
 
 		var Container2Size = new Size(Container1Size.Width, Container1Size.Height - 30);
