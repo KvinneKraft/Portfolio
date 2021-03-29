@@ -229,15 +229,22 @@ namespace TheDashlorisX
 	    private void Print(string Data) =>
 		S3TextBox1.AppendText($"{Data}\r\n");
 
-	    private bool ScanPort(ProtocolType ProtocolType, SocketType SocketType, int Port)
+	    private bool ScanPort(ProtocolType ProtocolType, SocketType SocketType, string Address, int Port, int Timeout, bool KeepAlive)
 	    {
 		try
 		{
-		    return true;
+		    using (Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType, ProtocolType))
+		    {
+			Socket.BeginConnect(Address, Port, null, null).
+			    AsyncWaitHandle.WaitOne(Timeout, true);
+
+			return Socket.Connected;
+		    }
 		}
 
-		catch
+		catch (Exception E)
 		{
+		    MessageBox.Show($"{ErrorHandler.GetException(E)}");
 		    return false;
 		}
 	    }
@@ -267,36 +274,40 @@ namespace TheDashlorisX
 			    return;
 			}
 		    }
-
+		    
 		    if (!DashNet.CanInteger(Timeout))
 		    {
 			// Invalid Timeout
 			return;
 		    }
 
+		    int TT = int.Parse(Timeout);
+
 		    ProtocolType ProtocolType = ProtocolType.Tcp;
 		    SocketType SocketType = SocketType.Stream;
 
-		    if (Method.Contains("U.D.P"))
+		    if (Method.Contains("UDP"))
 		    {
 			ProtocolType = ProtocolType.Udp;
 			SocketType = SocketType.Dgram;
 		    }
 
-		    bool KeepAlive = (CheckBox.BackColor == Color.DarkMagenta);
+		    bool KA = (CheckBox.BackColor == Color.DarkMagenta);
+
+		    Print("Started scanning ....");
 
 		    switch (SP)
 		    {
 			case '~':
 			{
-			    if (ScanPort(ProtocolType, SocketType, int.Parse(Ports[0])))
+			    if (ScanPort(ProtocolType, SocketType, Address, int.Parse(Ports[0]), TT, KA))
 			    {
-				// Opened
+				Print($"({Ports[0]}) = Open");
 			    }
 
 			    else
 			    {
-				// Closed
+				Print($"({Ports[0]}) = Closed");
 			    }
 			    break;
 			}
@@ -304,9 +315,9 @@ namespace TheDashlorisX
 			{
 			    for (int k = int.Parse(Ports[0]); k <= int.Parse(Ports[1]); k += 1)
 			    {
-				if (ScanPort(ProtocolType, SocketType, k))
+				if (ScanPort(ProtocolType, SocketType, Address, k, TT, KA))
 				{
-				    // Opened
+				    Print($"({k}) = Open");
 				}
 
 				else
@@ -320,9 +331,9 @@ namespace TheDashlorisX
 			{
 			    foreach (string _port in Ports)
 			    {
-				if (ScanPort(ProtocolType, SocketType, int.Parse(_port)))
+				if (ScanPort(ProtocolType, SocketType, Address, int.Parse(_port), TT, KA))
 				{
-				    // Opened
+				    Print($"({_port}) = Open");
 				}
 
 				else
