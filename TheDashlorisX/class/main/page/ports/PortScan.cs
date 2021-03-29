@@ -344,6 +344,8 @@ namespace TheDashlorisX
 			    break;
 			}
 		    }
+
+		    Print("Finished scanning!");
 		}
 
 		catch (Exception E)
