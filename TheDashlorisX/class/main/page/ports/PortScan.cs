@@ -271,8 +271,6 @@ namespace TheDashlorisX
 			return;
 		    }
 
-		    Address = DashNet.GetIP(Address);
-
 		    bool GoveDomains = PortScan.GoveDomains;
 		    bool VerboseMode = PortScan.VerboseMode;
 
@@ -287,6 +285,8 @@ namespace TheDashlorisX
 			    return;
 			}
 		    }
+
+		    Address = DashNet.GetIP(Address);
 
 		    var Splitter = '~';
 
