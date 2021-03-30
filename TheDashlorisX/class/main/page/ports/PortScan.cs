@@ -233,18 +233,19 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    using (Socket Socket = new Socket(AddressFamily.InterNetwork, SocketType, ProtocolType))
+		    AddressFamily AddrFamily = DashNet.GetAddressFamily(Address);
+
+		    using (Socket Socket = new Socket(AddrFamily, SocketType, ProtocolType))
 		    {
-			Socket.BeginConnect(Address, Port, null, null).
-			    AsyncWaitHandle.WaitOne(Timeout, true);
+			IAsyncResult Async = Socket.BeginConnect(Address, Port, null, null);
+			bool Result = Async.AsyncWaitHandle.WaitOne(Timeout, true);
 
 			return Socket.Connected;
 		    }
 		}
 
-		catch (Exception E)
+		catch
 		{
-		    MessageBox.Show($"{ErrorHandler.GetException(E)}");
 		    return false;
 		}
 	    }
@@ -255,29 +256,34 @@ namespace TheDashlorisX
 		{
 		    if (!DashNet.CanIP(Address))
 		    {
-			// Invalid Host
+			Print("The host given could not be resolved.");
 			return;
 		    }
 
+		    Address = DashNet.GetIP(Address);
+
 		    char SP = '~';
 
-		    if (Port.Contains('-')) SP = '-';
-		    else if (Port.Contains(',')) SP = ',';
+		    if (Port.Contains('-'))
+			SP = '-';
 
-		    List<string> Ports = Port.Split(SP).ToList();
+		    else if (Port.Contains(','))
+			SP = ',';
 
-		    foreach (string port_ in Ports)
+		    var Ports = Port.Split(SP).ToList();
+
+		    foreach (string Port_ in Ports)
 		    {
-			if (!DashNet.CanPort(port_))
+			if (!DashNet.CanPort(Port_))
 			{
-			    // Invalid Port
+			    Print("The port value specified can not be used.");
 			    return;
 			}
 		    }
 		    
 		    if (!DashNet.CanInteger(Timeout))
 		    {
-			// Invalid Timeout
+			Print("The timeout value is invalid.");
 			return;
 		    }
 
@@ -300,52 +306,41 @@ namespace TheDashlorisX
 		    {
 			case '~':
 			{
+			    Print("Mode: Single Port");
 			    if (ScanPort(ProtocolType, SocketType, Address, int.Parse(Ports[0]), TT, KA))
 			    {
-				Print($"({Ports[0]}) = Open");
-			    }
-
-			    else
-			    {
-				Print($"({Ports[0]}) = Closed");
+				Print($"({Ports[0]}) -= Open");
 			    }
 			    break;
 			}
 			case '-':
 			{
+			    Print("Mode: Range Ports");
 			    for (int k = int.Parse(Ports[0]); k <= int.Parse(Ports[1]); k += 1)
 			    {
 				if (ScanPort(ProtocolType, SocketType, Address, k, TT, KA))
 				{
-				    Print($"({k}) = Open");
-				}
-
-				else
-				{
-				    // Closed
+				    Print($"({k}) -= Open");
 				}
 			    }
 			    break;
 			}
 			case ',':
 			{
+			    Print("Mode: Selective Ports");
 			    foreach (string _port in Ports)
 			    {
 				if (ScanPort(ProtocolType, SocketType, Address, int.Parse(_port), TT, KA))
 				{
-				    Print($"({_port}) = Open");
+				    Print($"({_port}) -= Open");
 				}
 
-				else
-				{
-				    // Closed
-				}
+				ProgressMade();
 			    }
 			    break;
 			}
 		    }
-
-		    Print("Finished scanning!");
+		    Print("Finished scanning!");//Add Timer?
 		}
 
 		catch (Exception E)
