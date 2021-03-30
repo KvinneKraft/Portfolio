@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 using System.Net.Sockets;
 using System.Collections;
 using System.Windows.Forms;
@@ -201,11 +202,7 @@ namespace TheDashlorisX
 	}
 
 
-	private readonly PictureBox S3Container1 = new PictureBox();
-	private readonly PictureBox S3Container2 = new PictureBox();
-
 	public static readonly TextBox S3TextBox1 = new TextBox();
-
 	private readonly Button S3Button1 = new Button();
 
 	private void S3Button1Event()
@@ -225,6 +222,12 @@ namespace TheDashlorisX
 	public class PortScanner
 	{
 	    private readonly DashNet DashNet = new DashNet();
+
+
+	    private void Print(string Data)
+	    {
+		S3TextBox1.AppendText($"{Data}\r\n");
+	    }
 
 
 	    private readonly List<Socket> Sockets = new List<Socket>();
@@ -256,11 +259,6 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    private void Print(string Data)
-	    {
-		S3TextBox1.AppendText($"{Data}\r\n");
-	    }
-
 	    public void ScanEvent(string Address, string Port, string Timeout, string Method, PictureBox CheckBox)
 	    {
 		try
@@ -274,6 +272,21 @@ namespace TheDashlorisX
 		    }
 
 		    Address = DashNet.GetIP(Address);
+
+		    bool GoveDomains = PortScan.GoveDomains;
+		    bool VerboseMode = PortScan.VerboseMode;
+
+		    Print($@"Goverment Domains: {(GoveDomains ? "Allowed" : "Prohibited")}");
+		    Print($@"Verbose Mode: {(GoveDomains ? "Enabled" : "Disabled")}");
+
+		    if (!DashNet.AllowedDomain(Address))
+		    {
+			if (!GoveDomains)
+			{
+			    Print("The given domain is a government domain. These are by default on the blacklist. Press 'F1' for a potential fix.");
+			    return;
+			}
+		    }
 
 		    var Splitter = '~';
 
@@ -313,13 +326,26 @@ namespace TheDashlorisX
 
 		    bool KA = (CheckBox.BackColor == Color.DarkMagenta);
 
+		    Print($"Date and Time: [{DateTime.Today}]");
 		    Print("Started scanning ....");
 
 		    void ProgressMade(int _Port)
 		    {
 			try
 			{
+			    int MP = Ports.Count / 4;
 
+			    var PortDB = new List<int>()
+			    {
+				Ports[MP * 1],
+				Ports[MP * 2],
+				Ports[MP * 3]
+			    };
+
+			    if (PortDB.Contains(_Port))
+			    {
+				Print($@"We are getting there. Stage: {PortDB.IndexOf(_Port) + 1}/3 !");
+			    }
 			}
 
 			catch (Exception E)
@@ -339,6 +365,11 @@ namespace TheDashlorisX
 				Print($"({Ports[0]}) -= Open");
 			    }
 
+			    else if (VerboseMode)
+			    {
+				Print($"({Ports[0]}) -= Closed");
+			    }
+
 			    ProgressMade(Ports[0]);
 
 			    break;
@@ -353,6 +384,11 @@ namespace TheDashlorisX
 				    Print($"({k}) -= Open");
 				}
 
+				else if (VerboseMode)
+				{
+				    Print($"({k}) -= Closed");
+				}
+
 				ProgressMade(k);
 			    }
 			    break;
@@ -365,6 +401,11 @@ namespace TheDashlorisX
 				if (ScanPort(ProtocolType, SocketType, Address, _Port, TT, KA))
 				{
 				    Print($"({_Port}) -= Open");
+				}
+
+				else if (VerboseMode)
+				{
+				    Print($"({_Port}) -= Closed");
 				}
 
 				ProgressMade(_Port);
@@ -395,6 +436,10 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+	private readonly PictureBox S3Container1 = new PictureBox();
+	private readonly PictureBox S3Container2 = new PictureBox();
+
 	private readonly Label S3Label1 = new Label();
 
 	private void Init3()
@@ -419,7 +464,25 @@ namespace TheDashlorisX
 		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Start Scan"));
 
 		S3Button1.Click += (s, e) =>
-		    S3Button1Event();
+		{
+		    if (S3Button1.Text == ("Start Scan"))
+		    {
+			new Thread(() 
+			=> 
+			    {
+				S3Button1.Text = ("Stop Scan");
+
+				S3Button1Event();
+
+				S3Button1.Text = ("Start Scan");
+			    }
+			)
+
+			{ IsBackground = true }.Start();
+		    }
+
+		    return;
+		};
 
 		Tool.Round(S3Button1, 6);
 
@@ -428,10 +491,17 @@ namespace TheDashlorisX
 
 		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, ButtonBCol);
 
-		var TextBoxLoca = new Point(0, 0);
+		var TextBoxLoca = new Point(5, 5);
+		var TextBoxSize = new Size(Container2Size.Width - 10, Container2Size.Height - 10);
 
-		Control.TextBox(S3Container2, S3TextBox1, Container2Size, TextBoxLoca, ButtonBCol, Color.White, 1, 7, 
+		Control.TextBox(S3Container2, S3TextBox1, TextBoxSize, TextBoxLoca, ButtonBCol, Color.White, 1, 7, 
 		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+
+		S3TextBox1.Text = string.Format
+		(
+		    $"Press 'F1' for optional shortcut-key functionality.\r\n" +
+		    $"Waiting for action....\r\n"
+		);
 
 		Tool.Round(S3Container1, 6);
 		Tool.Round(S3Container2, 6);
@@ -443,6 +513,155 @@ namespace TheDashlorisX
 	    }
 	}
 	
+
+	private void Print(string data)
+	{
+	    S3TextBox1.AppendText($"{data}\r\n");
+	}
+
+	public static bool VerboseMode = false;
+	public static bool GoveDomains = false;
+
+	private void SaveLogToDevice()
+	{
+	    try
+	    {
+		using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+		{
+		    saveFileDialog.Filter = ("Text File (*.txt)|*.txt");
+		    saveFileDialog.DefaultExt = ("txt");
+		    saveFileDialog.Title = ($"{DateTime.Today}");
+
+		    saveFileDialog.CheckFileExists = false;
+		    saveFileDialog.CheckPathExists = true;
+
+		    DialogResult Result = saveFileDialog.ShowDialog();
+
+		    if (Result != DialogResult.OK)
+		    {
+			Print("Process has been aborted!");
+			return;
+		    }
+		    
+		    Print("Saving file to device ....");
+
+		    File.WriteAllText(saveFileDialog.FileName, S3TextBox1.Text);
+
+		    Print("Done!");
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	private void Init4()
+	{
+	    try
+	    {
+		void AddEventHandler(Control.ControlCollection Collection, Control Control)
+		{
+		    try
+		    {
+			void SetItemEvent(Control Item)
+			{
+			    try
+			    {
+				Item.KeyDown += (s, e) =>
+				{
+				    switch (e.KeyData)
+				    {
+					case Keys.F1:
+					{
+					    Print(":Help Message:");
+					    Print("F1 = this message,");
+					    Print("F2 = allow disbanned domains,");
+					    Print("F3 = toggle verbose mode,");
+					    Print("F4 = clear this log,");
+					    Print("F5 = save this log to your device;");
+					    break;
+					}
+					case Keys.F2:
+					{
+					    GoveDomains = !GoveDomains;
+					    Print($@"Government domain specification allowance has been {(GoveDomains ? "enabled" : "disabled")}!");
+					    break;
+					}
+					case Keys.F3:
+					{
+					    VerboseMode = !VerboseMode;
+					    Print($@"Verbose mode has been {(VerboseMode ? "enabled" : "disabled")}!");
+					    break;
+					}
+					case Keys.F4:
+					{
+					    S3TextBox1.Clear();
+					    break;
+					}
+					case Keys.F5:
+					{ 
+					    SaveLogToDevice();
+					    break;
+					}
+				    }
+				};
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			}
+
+			if (Collection != null)
+			{
+			    foreach (Control Item in Collection)
+			    {
+				SetItemEvent(Item);
+			    }
+			}
+
+			if (Control != null)
+			{
+			    SetItemEvent(Control);
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		}
+
+		AddEventHandler(S1Container1.Controls, null);
+		AddEventHandler(S1Container2.Controls, null);
+		AddEventHandler(S1Container3.Controls, null);
+
+		AddEventHandler(S2Container1.Controls, null);
+		AddEventHandler(S2Container2.Controls, null);
+		AddEventHandler(S2Container3.Controls, null);
+
+		foreach (Control Control in S2Container1.Controls)
+		{
+		    if (Control is PictureBox && Control.Controls.Count > 0)
+		    {
+			AddEventHandler(null, Control.Controls[0]);
+		    }
+		}
+
+		AddEventHandler(S3Container1.Controls, null);
+		AddEventHandler(S3Container2.Controls, null);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	private bool isInitialized = false;
 	
 	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
@@ -455,6 +674,7 @@ namespace TheDashlorisX
 		    Init1(DashWindow, Capsule);
 		    Init2(Capsule);
 		    Init3();
+		    Init4();
 
 		    isInitialized = true;
 		}
