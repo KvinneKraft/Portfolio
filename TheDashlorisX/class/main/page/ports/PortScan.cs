@@ -226,8 +226,8 @@ namespace TheDashlorisX
 	{
 	    private readonly DashNet DashNet = new DashNet();
 
-	    private void Print(string Data) =>
-		S3TextBox1.AppendText($"{Data}\r\n");
+
+	    private readonly List<Socket> Sockets = new List<Socket>();
 
 	    private bool ScanPort(ProtocolType ProtocolType, SocketType SocketType, string Address, int Port, int Timeout, bool KeepAlive)
 	    {
@@ -240,6 +240,12 @@ namespace TheDashlorisX
 			IAsyncResult Async = Socket.BeginConnect(Address, Port, null, null);
 			bool Result = Async.AsyncWaitHandle.WaitOne(Timeout, true);
 
+			if (KeepAlive)
+			{
+			    Socket.Ttl = 255;
+			    Sockets.Add(Socket);
+			}
+
 			return Socket.Connected;
 		    }
 		}
@@ -250,10 +256,17 @@ namespace TheDashlorisX
 		}
 	    }
 
+	    private void Print(string Data)
+	    {
+		S3TextBox1.AppendText($"{Data}\r\n");
+	    }
+
 	    public void ScanEvent(string Address, string Port, string Timeout, string Method, PictureBox CheckBox)
 	    {
 		try
 		{
+		    Print("Validating given data ....");
+
 		    if (!DashNet.CanIP(Address))
 		    {
 			Print("The host given could not be resolved.");
@@ -262,25 +275,25 @@ namespace TheDashlorisX
 
 		    Address = DashNet.GetIP(Address);
 
-		    char SP = '~';
+		    var Splitter = '~';
 
-		    if (Port.Contains('-'))
-			SP = '-';
+		    if (!Port.Contains('~'))
+		    {
+			Splitter = Port.Contains('-') ? '-' : ',';
+		    }
 
-		    else if (Port.Contains(','))
-			SP = ',';
+		    List<int> Ports = new List<int>();
 
-		    var Ports = Port.Split(SP).ToList();
-
-		    foreach (string Port_ in Ports)
+		    foreach (var Port_ in Port.Split(Splitter))
 		    {
 			if (!DashNet.CanPort(Port_))
 			{
 			    Print("The port value specified can not be used.");
 			    return;
 			}
+			Ports.Add(int.Parse(Port_));
 		    }
-		    
+
 		    if (!DashNet.CanInteger(Timeout))
 		    {
 			Print("The timeout value is invalid.");
@@ -302,44 +315,76 @@ namespace TheDashlorisX
 
 		    Print("Started scanning ....");
 
-		    switch (SP)
+		    void ProgressMade(int _Port)
+		    {
+			try
+			{
+
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    }
+
+		    switch (Splitter)
 		    {
 			case '~':
 			{
 			    Print("Mode: Single Port");
-			    if (ScanPort(ProtocolType, SocketType, Address, int.Parse(Ports[0]), TT, KA))
+
+			    if (ScanPort(ProtocolType, SocketType, Address, Ports[0], TT, KA))
 			    {
 				Print($"({Ports[0]}) -= Open");
 			    }
+
+			    ProgressMade(Ports[0]);
+
 			    break;
 			}
 			case '-':
 			{
 			    Print("Mode: Range Ports");
-			    for (int k = int.Parse(Ports[0]); k <= int.Parse(Ports[1]); k += 1)
+			    for (int k = Ports[0]; k <= Ports[1]; k += 1)
 			    {
 				if (ScanPort(ProtocolType, SocketType, Address, k, TT, KA))
 				{
 				    Print($"({k}) -= Open");
 				}
+
+				ProgressMade(k);
 			    }
 			    break;
 			}
 			case ',':
 			{
 			    Print("Mode: Selective Ports");
-			    foreach (string _port in Ports)
+			    foreach (var _Port in Ports)
 			    {
-				if (ScanPort(ProtocolType, SocketType, Address, int.Parse(_port), TT, KA))
+				if (ScanPort(ProtocolType, SocketType, Address, _Port, TT, KA))
 				{
-				    Print($"({_port}) -= Open");
+				    Print($"({_Port}) -= Open");
 				}
 
-				ProgressMade();
+				ProgressMade(_Port);
 			    }
 			    break;
 			}
 		    }
+
+		    if (KA)
+		    {
+			Print("Done scanning, flushing connections!");
+
+			foreach (var Socket in Sockets)
+			{
+			    Socket.Close();
+			}
+
+			Sockets.Clear();
+		    }
+
 		    Print("Finished scanning!");//Add Timer?
 		}
 
