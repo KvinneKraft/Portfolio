@@ -1725,7 +1725,7 @@ namespace DashFramework
 	    }
 
 	    public bool AllowedDomain(string data) =>
-		new List<string>() { ".gov", ".govt", ".edu" }.Any(data.EndsWith);
+		!new List<string>() { ".gov", ".govt", ".edu" }.Any(data.EndsWith);
 	    
 	    public int GetPort(string data)
 	    {
