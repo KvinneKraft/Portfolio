@@ -99,6 +99,22 @@ namespace TheDashlorisX
 		S2DropMenu.AddItem(new Label(), ("(T.C.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		S2DropMenu.AddItem(new Label(), ("(U.D.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 
+		foreach (Control Item in S2DropMenu.ContentContainer.Controls)
+		{
+		    try
+		    {
+			Item.Click += (s, e) =>
+			{
+			    S2Label6.Text = $"--{Item.Text.Replace(".", string.Empty)}--";
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
 		S2Label6.MouseEnter += (s, e) =>
 		{
 		    try
@@ -183,7 +199,7 @@ namespace TheDashlorisX
 		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("Protocol:"));
 		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("Keep-Alive:"));
 		CHelper.AddLabel(S2Label6, Label6Size, Label6Loca, ("-- (TCP) --"), 8);
-
+		
 		S2Label6.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label6.BackColor = (S2TextBox1.BackColor);
 
@@ -374,9 +390,8 @@ namespace TheDashlorisX
 			    else if (VerboseMode)
 			    {
 				Print($"({Ports[0]}) -= Closed");
+				ProgressMade(Ports[0]);
 			    }
-
-			    ProgressMade(Ports[0]);
 
 			    break;
 			}
@@ -399,6 +414,7 @@ namespace TheDashlorisX
 				else if (VerboseMode)
 				{
 				    Print($"({k}) -= Closed");
+				    ProgressMade(k);
 				}
 
 				ProgressMade(k);
