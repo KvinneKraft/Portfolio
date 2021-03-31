@@ -240,6 +240,12 @@ namespace TheDashlorisX
 
 		    using (Socket Socket = new Socket(AddrFamily, SocketType, ProtocolType))
 		    {
+			Socket.LingerState = new LingerOption(true, 0);
+			Socket.NoDelay = true;
+
+			Socket.ReceiveTimeout = 0;
+			Socket.SendTimeout = 0;
+
 			IAsyncResult Async = Socket.BeginConnect(Address, Port, null, null);
 			bool Result = Async.AsyncWaitHandle.WaitOne(Timeout, true);
 
@@ -379,7 +385,13 @@ namespace TheDashlorisX
 			    Print("Mode: Range Ports");
 			    for (int k = Ports[0]; k <= Ports[1]; k += 1)
 			    {
-				if (ScanPort(ProtocolType, SocketType, Address, k, TT, KA))
+				if (!DoScanning)
+				{
+				    Print("Scan has been cancelled.");
+				    break;
+				}
+
+				else if (ScanPort(ProtocolType, SocketType, Address, k, TT, KA))
 				{
 				    Print($"({k}) -= Open");
 				}
@@ -398,7 +410,13 @@ namespace TheDashlorisX
 			    Print("Mode: Selective Ports");
 			    foreach (var _Port in Ports)
 			    {
-				if (ScanPort(ProtocolType, SocketType, Address, _Port, TT, KA))
+				if (!DoScanning)
+				{
+				    Print("Scan has been cancelled.");
+				    break;
+				}
+
+				else if (ScanPort(ProtocolType, SocketType, Address, _Port, TT, KA))
 				{
 				    Print($"({_Port}) -= Open");
 				}
@@ -475,10 +493,17 @@ namespace TheDashlorisX
 				S3Button1Event();
 
 				S3Button1.Text = ("Start Scan");
+
+				DoScanning = true;
 			    }
 			)
 
 			{ IsBackground = true }.Start();
+		    }
+
+		    else
+		    {
+			DoScanning = false;
 		    }
 
 		    return;
@@ -521,6 +546,7 @@ namespace TheDashlorisX
 
 	public static bool VerboseMode = false;
 	public static bool GoveDomains = false;
+	public static bool DoScanning = true;
 
 	private void SaveLogToDevice()
 	{
