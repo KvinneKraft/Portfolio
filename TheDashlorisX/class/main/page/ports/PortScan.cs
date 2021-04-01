@@ -416,7 +416,9 @@ namespace TheDashlorisX
 			    };
 			    
 			    Only if the amount of ports is > 8 and if the amount
-			    of ports is dividable by 4; A thread for each list.*/
+			    of ports is dividable by 4; A thread for each list.
+			    
+			    Timer is two parted code, should work nicely.  Add to log.*/
 
 			    Print("Mode: Range Ports");
 			    for (int k = Ports[0]; k <= Ports[1]; k += 1)
