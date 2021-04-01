@@ -240,9 +240,9 @@ namespace TheDashlorisX
 	    private readonly DashNet DashNet = new DashNet();
 
 
-	    private void Print(string Data)
+	    private void Print(string Data, bool NewLine = true)
 	    {
-		S3TextBox1.AppendText($"{Data}\r\n");
+		S3TextBox1.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
 	    }
 
 
