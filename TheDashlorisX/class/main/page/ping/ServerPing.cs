@@ -8,6 +8,8 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
+using System.Net.Sockets;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ using System.Collections.Generic;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -199,13 +202,74 @@ namespace TheDashlorisX
 	}
 
 
+	private void S3Button1Event()
+	{
+	    try
+	    {
+		new ServerPinger().PingEvent(S2TextBox1.Text, S2TextBox2.Text,
+		    S2TextBox3.Text, S2TextBox4.Text, S2Label6.Text);
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
+	}
+
+	public class ServerPinger
+	{
+	    private readonly DashNet DashNet = new DashNet();
+
+	    public bool PingHost(ProtocolType ProtocolType, SocketType SocketType, string Address, int Port, int PacketSize, int TTL, int Timeout = 5000)
+	    {
+		try
+		{
+		    AddressFamily AddrFamily = DashNet.GetAddressFamily(Address);
+
+		    using (Socket Socket = new Socket(AddrFamily, SocketType, ProtocolType))
+		    {
+			Socket.LingerState = new LingerOption(true, 0);
+			Socket.NoDelay = true;
+
+			Socket.ReceiveTimeout = Timeout / 2;
+			Socket.SendTimeout = Timeout / 2;
+
+			Socket.SendBufferSize = PacketSize;
+			Socket.Ttl = (short) TTL;
+
+			IAsyncResult Async = Socket.BeginConnect(Address, Port, null, null);
+			bool Result = Async.AsyncWaitHandle.WaitOne(Timeout, true);
+
+			return Socket.Connected;
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    return false;
+		}
+	    }
+
+	    public void PingEvent(string Address, string Port, string PacketSize, string TTL, string Protocol)
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	}
+
 	private readonly PictureBox S3Container1 = new PictureBox();
-
 	private readonly TextBox S3TextBox1 = new TextBox();
-
 	private readonly Button S3Button1 = new Button();
-
 	private readonly Label S3Label1 = new Label();
+
+	public static bool DoPinging = true;
 
 	private void Init3(PictureBox Capsule)
 	{
@@ -228,6 +292,35 @@ namespace TheDashlorisX
 		var ButtonBCol = Capsule.BackColor;
 
 		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Start Pinging"));
+
+		S3Button1.Click += (s, e) =>
+		{
+		    if (S3Button1.Text == ("Start Scan"))
+		    {
+			new Thread(()
+			=>
+			    {
+				S3Button1.Text = ("Stop Scan");
+
+				S3Button1Event();
+
+				S3Button1.Text = ("Start Scan");
+
+				DoPinging = true;
+			    }
+			)
+
+			{ IsBackground = true }.Start();
+		    }
+
+		    else
+		    {
+			DoPinging = false;
+		    }
+
+		    return;
+		};
+
 		Tool.Round(S3Button1, 6);
 		
 		var TextBoxSize = new Size(Container1Size.Width, Container1Size.Height - (10 + LabelSize.Height));
