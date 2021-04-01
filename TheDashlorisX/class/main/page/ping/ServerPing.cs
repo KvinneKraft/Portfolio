@@ -10,6 +10,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Net.Sockets;
+using System.Diagnostics;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -97,6 +98,22 @@ namespace TheDashlorisX
 		S2DropMenu.AddItem(new Label(), ("(T.C.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		S2DropMenu.AddItem(new Label(), ("(U.D.P)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		S2DropMenu.AddItem(new Label(), ("(ICMPv)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+
+		foreach (Control Item in S2DropMenu.ContentContainer.Controls)
+		{
+		    try
+		    {
+			Item.Click += (s, e) =>
+			{
+			    S2Label6.Text = $"--{Item.Text.Replace(".", string.Empty)}--";
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
 
 		S2Label6.MouseEnter += (s, e) =>
 		{
@@ -228,9 +245,6 @@ namespace TheDashlorisX
 
 		    using (Socket Socket = new Socket(AddrFamily, SocketType, ProtocolType))
 		    {
-			Socket.LingerState = new LingerOption(true, 0);
-			Socket.NoDelay = true;
-
 			Socket.ReceiveTimeout = Timeout / 2;
 			Socket.SendTimeout = Timeout / 2;
 
@@ -240,21 +254,108 @@ namespace TheDashlorisX
 			IAsyncResult Async = Socket.BeginConnect(Address, Port, null, null);
 			bool Result = Async.AsyncWaitHandle.WaitOne(Timeout, true);
 
+			if (Socket.Connected)
+			{
+			    Thread.Sleep(1000); // Do not want to flood the fucking server.
+			}
+
 			return Socket.Connected;
 		    }
 		}
 
 		catch (Exception E)
 		{
+		    Print("The selected protocol is not supported by your operating system.  Cancelling ....");
+		    DoPinging = false;
+
 		    return false;
 		}
+	    }
+
+	    private void Print(string Data, bool NewLine = true)
+	    {
+		S3TextBox1.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
 	    }
 
 	    public void PingEvent(string Address, string Port, string PacketSize, string TTL, string Protocol)
 	    {
 		try
 		{
+		    Print("Validating given data ....");
 
+		    if (!DashNet.CanIP(Address))
+		    {
+			Print("The host given could not be resolved.");
+			return;
+		    }
+
+		    else if (!DashNet.CanPort(Port))
+		    {
+			Print("The port value specified can not be used.");
+			return;
+		    }
+		    
+		    else if (!DashNet.CanInteger(PacketSize))
+		    {
+			Print("The packet size value specified can not be used.");
+			return;
+		    }
+
+		    else if (!DashNet.CanInteger(TTL))
+		    {
+			Print("The T.T.L value specified can not be used.");
+			return;
+		    }
+
+		    Address = DashNet.GetIP(Address);
+
+		    int _PacketSize = int.Parse(PacketSize);
+		    int _Port = int.Parse(Port);
+		    int _TTL = int.Parse(TTL);
+
+		    ProtocolType ProtocolType = ProtocolType.Tcp;
+		    SocketType SocketType = SocketType.Stream;
+
+		    if (Protocol.ToLower().Contains("icmpv"))
+		    {
+			ProtocolType = ProtocolType.IcmpV6;
+			//SocketType = SocketType.Seqpacket;
+		    }
+
+		    else if (Protocol.Contains("UDP"))
+		    {
+			ProtocolType = ProtocolType.Udp;
+			SocketType = SocketType.Dgram;
+		    }
+
+		    Print($"Started pinging {Address}:{Port} ....");
+		    
+		    for (int r = 1; ; r += 1)
+		    {
+			if (!DoPinging)
+			{
+			    break;
+			}
+
+			var StopWatch = new Stopwatch();
+			
+			StopWatch.Start();
+
+			if (PingHost(ProtocolType, SocketType, Address, _Port, _PacketSize, _TTL))
+			{
+			    int time = (int) StopWatch.ElapsedMilliseconds - (StopWatch.ElapsedMilliseconds > 1000 ? 1002 : 1000);
+			    Print($"Received reply from {Address}:{Port} -req={r} -bytes={PacketSize} -ttl={TTL} in {time}ms");
+			}
+
+			else
+			{
+			    Print($"Request {r} timed out!");
+			}
+
+			StopWatch.Stop();
+		    }
+
+		    Print($"Finished pinging {Address}:{Port}.");
 		}
 
 		catch (Exception E)
@@ -264,8 +365,10 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+	public static readonly TextBox S3TextBox1 = new TextBox();
+
 	private readonly PictureBox S3Container1 = new PictureBox();
-	private readonly TextBox S3TextBox1 = new TextBox();
 	private readonly Button S3Button1 = new Button();
 	private readonly Label S3Label1 = new Label();
 
@@ -295,16 +398,16 @@ namespace TheDashlorisX
 
 		S3Button1.Click += (s, e) =>
 		{
-		    if (S3Button1.Text == ("Start Scan"))
+		    if (S3Button1.Text == ("Start Pinging"))
 		    {
 			new Thread(()
 			=>
 			    {
-				S3Button1.Text = ("Stop Scan");
+				S3Button1.Text = ("Stop Pinging");
 
 				S3Button1Event();
 
-				S3Button1.Text = ("Start Scan");
+				S3Button1.Text = ("Start Pinging");
 
 				DoPinging = true;
 			    }
