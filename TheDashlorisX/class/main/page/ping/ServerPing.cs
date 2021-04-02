@@ -487,10 +487,11 @@ namespace TheDashlorisX
 					    Print("Host=target specification,");
 					    Print("Port=port to be used to ping,");
 					    Print("Packet Size=size of packet to send,");
-					    Print("");
+					    Print("T.T.L=time to live for each connection,");
+					    Print("Protocol=the protocol to use. TCP is recommended due to is compatibility;");
 					    break;
 					case Keys.F3:
-
+					    S3TextBox1.Clear();
 					    break;
 				    }
 				};
