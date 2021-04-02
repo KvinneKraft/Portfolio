@@ -645,31 +645,42 @@ namespace TheDashlorisX
 					{
 					    Print(":Help Message:");
 					    Print("F1 = this message,");
-					    Print("F2 = allow disbanned domains,");
-					    Print("F3 = toggle verbose mode,");
-					    Print("F4 = clear this log,");
-					    Print("F5 = save this log to your device;");
+					    Print("F2 = scan usage help,");
+					    Print("F3 = allow disbanned domains,");
+					    Print("F4 = toggle verbose mode,");
+					    Print("F5 = clear this log,");
+					    Print("F6 = save this log to your device;");
 					    //add scan help
 					    break;
 					}
 					case Keys.F2:
 					{
+					    Print(":Settings Rundown:");
+					    Print("Host=target specification,");
+					    Print("Ports=port(s) to be scanned. supports ranges using '-' and supports specification using the ',',");
+					    Print("Timeout=the amount of miliseconds to wait before returning false,");
+					    Print("Protocol=the protocol to use. TCP is recommended due to its compatibility,");
+					    Print("Keep-Alive=whether the connections made should be kept until the scan finishes;");
+					    break;
+					}
+					case Keys.F3:
+					{
 					    GoveDomains = !GoveDomains;
 					    Print($@"Government domain specification allowance has been {(GoveDomains ? "enabled" : "disabled")}!");
 					    break;
 					}
-					case Keys.F3:
+					case Keys.F4:
 					{
 					    VerboseMode = !VerboseMode;
 					    Print($@"Verbose mode has been {(VerboseMode ? "enabled" : "disabled")}!");
 					    break;
 					}
-					case Keys.F4:
+					case Keys.F5:
 					{
 					    S3TextBox1.Clear();
 					    break;
 					}
-					case Keys.F5:
+					case Keys.F6:
 					{ 
 					    SaveLogToDevice();
 					    break;
