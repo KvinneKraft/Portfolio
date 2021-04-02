@@ -522,6 +522,35 @@ namespace TheDashlorisX
 			ErrorHandler.JustDoIt(E);
 		    }
 		}
+
+		AddEventHandler(S1Container1.Controls, null);
+		AddEventHandler(S1Container2.Controls, null);
+		AddEventHandler(S1Container3.Controls, null);
+		
+		AddEventHandler(S2Container1.Controls, null);
+		AddEventHandler(S3Container1.Controls, null);
+
+		foreach (Control Control in S2Container1.Controls)
+		{
+		    if (Control is PictureBox && Control.Controls.Count > 0)
+		    {
+			AddEventHandler(null, Control.Controls[0]);
+		    }
+		}
+
+		AddEventHandler(null, S1Container1);
+		AddEventHandler(null, S1Container2);
+		AddEventHandler(null, S1Container3);
+		AddEventHandler(null, S2Container1);
+		AddEventHandler(null, S3Container1);
+
+		S1Container1.VisibleChanged += (s, e) =>
+		{
+		    if (S1Container1.Visible)
+		    {
+			S1Container1.Select();
+		    }
+		};
 	    }
 
 	    catch (Exception E)
@@ -542,6 +571,7 @@ namespace TheDashlorisX
 		    Init1(DashWindow, Capsule);
 		    Init2(Capsule);
 		    Init3(Capsule);
+		    Init4();
 
 		    isInitialized = true;
 		}
