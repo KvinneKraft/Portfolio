@@ -263,7 +263,7 @@ namespace TheDashlorisX
 		    }
 		}
 
-		catch (Exception E)
+		catch
 		{
 		    Print("The selected protocol is not supported by your operating system.  Cancelling ....");
 		    DoPinging = false;
@@ -343,7 +343,7 @@ namespace TheDashlorisX
 
 			if (PingHost(ProtocolType, SocketType, Address, _Port, _PacketSize, _TTL))
 			{
-			    int time = (int) StopWatch.ElapsedMilliseconds - (StopWatch.ElapsedMilliseconds > 1000 ? 1002 : 1000);
+			    int time = (int) StopWatch.ElapsedMilliseconds - (StopWatch.ElapsedMilliseconds > 1000 ? 1001 : 1000);
 			    Print($"Received reply from {Address}:{Port} -req={r} -bytes={PacketSize} -ttl={TTL} in {time}ms");
 			}
 
