@@ -566,8 +566,8 @@ namespace TheDashlorisX
 
 		S3TextBox1.Text = string.Format
 		(
-		    $"Press 'F1' for optional shortcut-key functionality.\r\n" +
-		    $"Waiting for action....\r\n"
+		    "Press 'F1' for optional shortcut-key functionality.\r\n" +
+		    "Waiting for action....\r\n"
 		);
 
 		Tool.Round(S3Container1, 6);
@@ -649,6 +649,7 @@ namespace TheDashlorisX
 					    Print("F3 = toggle verbose mode,");
 					    Print("F4 = clear this log,");
 					    Print("F5 = save this log to your device;");
+					    //add scan help
 					    break;
 					}
 					case Keys.F2:
