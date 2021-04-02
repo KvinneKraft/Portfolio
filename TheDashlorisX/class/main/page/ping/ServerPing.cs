@@ -256,6 +256,13 @@ namespace TheDashlorisX
 
 			if (Socket.Connected)
 			{
+			    byte[] Bytes = Encoding.ASCII.GetBytes
+			    (
+				new string('+', PacketSize)
+			    );
+
+			    Socket.Send(Bytes);
+
 			    Thread.Sleep(1000); // Do not want to flood the fucking server.
 			}
 
@@ -383,7 +390,6 @@ namespace TheDashlorisX
 		var Container1BCol = S1Container3.BackColor;
 
 		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, Container1BCol);
-		Tool.Round(S3Container1, 6);
 
 		var LabelSize = Tool.GetFontSize("Ping Log", 12);
 		var LabelLoca = new Point(0, 0);
@@ -423,8 +429,6 @@ namespace TheDashlorisX
 
 		    return;
 		};
-
-		Tool.Round(S3Button1, 6);
 		
 		var TextBoxSize = new Size(Container1Size.Width, Container1Size.Height - (10 + LabelSize.Height));
 		var TextBoxLoca = new Point(0, LabelSize.Height + 10);
@@ -432,6 +436,91 @@ namespace TheDashlorisX
 
 		Control.TextBox(S3Container1, S3TextBox1, TextBoxSize, TextBoxLoca, TextBoxBCol, Color.White, 1, 7,
 		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+
+		S3TextBox1.Text = string.Format
+		(
+		    "I am waiting for action. Learn how to use the pinger by experimenting with it. Or be lazy and press F1.\r\n" 
+		);
+
+		Tool.Round(S3Container1, 6);
+		Tool.Round(S3Button1, 6);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	
+	private void Print(string data)
+	{
+	    S3TextBox1.AppendText($"{data}\r\n");
+	}
+
+
+
+	private void Init4()
+	{
+	    try
+	    {
+		void AddEventHandler(Control.ControlCollection Collection = null, Control Control = null)
+		{
+		    try
+		    {
+			void SetItemEvent(Control Item)
+			{
+			    try
+			    {
+				Item.KeyDown += (s, e) =>
+				{
+				    switch (e.KeyData)
+				    {
+					case Keys.F1:
+					    Print(":Help Message:");
+					    Print("F1 = this message,");
+					    Print("F2 = ping usage help,");
+					    Print("F3 = clear this log;");
+					    break;
+					case Keys.F2:
+					    Print(":Settings Rundown:");
+					    Print("Host=target specification,");
+					    Print("Port=port to be used to ping,");
+					    Print("Packet Size=size of packet to send,");
+					    Print("");
+					    break;
+					case Keys.F3:
+
+					    break;
+				    }
+				};
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			}
+
+			if (Collection != null)
+			{
+			    foreach (Control Item in Collection)
+			    {
+				SetItemEvent(Item);
+			    }
+			}
+
+			if (Control != null)
+			{
+			    SetItemEvent(Control);
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		}
 	    }
 
 	    catch (Exception E)
