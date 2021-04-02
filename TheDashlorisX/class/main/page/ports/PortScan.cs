@@ -733,6 +733,23 @@ namespace TheDashlorisX
 
 		AddEventHandler(S3Container1.Controls, null);
 		AddEventHandler(S3Container2.Controls, null);
+
+		AddEventHandler(null, S1Container1);
+		AddEventHandler(null, S1Container2);
+		AddEventHandler(null, S1Container3);
+		AddEventHandler(null, S2Container1);
+		AddEventHandler(null, S2Container2);
+		AddEventHandler(null, S2Container3);
+		AddEventHandler(null, S3Container1);
+		AddEventHandler(null, S3Container2);
+
+		S1Container1.VisibleChanged += (s, e) =>
+		{
+		    if (S1Container1.Visible)
+		    {
+			S1Container1.Select();
+		    }
+		};
 	    }
 
 	    catch (Exception E)
