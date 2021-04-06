@@ -167,7 +167,7 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container1 = new PictureBox();
 	private readonly PictureBox S3Container2 = new PictureBox();
 	private readonly PictureBox S3Container3 = new PictureBox();
-	private readonly PictureBox S3Image1 = new PictureBox();
+	private readonly PictureBox S3Image = new PictureBox();
 
 	private readonly Button S3Button1 = new Button();
 	private readonly Button S3Button2 = new Button();
@@ -284,7 +284,7 @@ namespace TheDashlorisX
 		var Image1Size = DashWindow.MenuBar.LogoLayer1.Size;
 		var Image1Loca = new Point(DashWindow.MenuBar.LogoLayer1.Left - 2, -DashWindow.MenuBar.MenuBar.Height + DashWindow.MenuBar.LogoLayer1.Top);
 
-		Control.Image(S3Container1, S3Image1, Image1Size, Image1Loca, Container1BCol, Image1Imag);
+		Control.Image(S3Container1, S3Image, Image1Size, Image1Loca, Container1BCol, Image1Imag);
 
 		var Label1Loca = new Point(11, 10);
 
