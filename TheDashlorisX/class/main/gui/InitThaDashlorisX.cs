@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -79,15 +80,42 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private readonly Button S2Button1 = new Button();
+	private readonly AttaccLog S2Log = new AttaccLog();
+	private readonly Button S2Button = new Button(); 
 
 	private void S2SetupAttackEvent()
 	{
 	    try
 	    {
-		S2Button1.Click += (s, e) =>
+		S2Button.Click += (s, e) =>
 		{
+		    if (S2Button.Text == "Launch Attack")
+		    {
+			new Thread(() =>
+			{
+			    S2Button.Text = ("Stop Attack");
 
+			    S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
+
+			    S2Button.Text = ("Launch Attack");
+			})
+
+			{ IsBackground = true }.Start();
+		    }
+
+		    else if (S2Button.Text == "Stop Attack") 
+		    {
+			new Thread(() =>
+			{
+			    S2Button.Text = ("Stopping Attack");
+
+			    S2Log.StopAttack();
+
+			    S2Button.Text = ("Launch Attack");
+			})
+
+			{ IsBackground = true }.Start();
+		    }
 		};
 	    }
 
@@ -122,8 +150,8 @@ namespace TheDashlorisX
 		var Button1Loca = new Point(Container1Size.Width - 105, 5);
 		var Button1Cola = DashWindow.BackColor;//6, 14, 36
 
-		Control.Button(S2Container1, S2Button1, Button1Size, Button1Loca, Button1Cola, Color.White, 1, 9, ("Launch Attack"));
-		Tool.Round(S2Button1, 6);
+		Control.Button(S2Container1, S2Button, Button1Size, Button1Loca, Button1Cola, Color.White, 1, 9, ("Launch Attack"));
+		Tool.Round(S2Button, 6);
 
 		S2SetupHoverEvents();
 		S2SetupAttackEvent();
@@ -174,7 +202,8 @@ namespace TheDashlorisX
 	    {
 		S3HideContainers();
 
-		S3Class1.S3Settings.Hide();
+		LockOn.S3Settings.Hide();
+
 		S3Class1.Show();
 	    }
 
