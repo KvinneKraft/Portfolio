@@ -30,8 +30,10 @@ namespace TheDashlorisX
 
 
 	    private readonly PictureBox S1Container1 = new PictureBox();
+	    private readonly PictureBox S1Container2 = new PictureBox();
+	    private readonly PictureBox S1Container3 = new PictureBox();
 
-	    private void Init1(PictureBox Capsule, DashWindow DashWindow)
+	    private void Init1(DashWindow DashWindow, PictureBox Capsule)
 	    {
 		try
 		{
@@ -39,8 +41,20 @@ namespace TheDashlorisX
 		    var Container1Loca = new Point(0, 0);
 
 		    Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
-		    
 
+		    var Container2Size = new Size(Capsule.Width, 70);
+		    var Container2Loca = new Point(0, 0);
+
+		    var Container3Size = new Size(Capsule.Width, 135);
+		    var Container3Loca = new Point(0, 90);
+
+		    var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
+
+		    Control.Image(S1Container1, S1Container2, Container2Size, Container2Loca, ContainerBCol);
+		    Control.Image(S1Container1, S1Container3, Container3Size, Container3Loca, ContainerBCol);
+
+		    Tool.Round(S1Container2, 6);
+		    Tool.Round(S1Container3, 6);
 		}
 
 		catch (Exception E)
@@ -49,6 +63,13 @@ namespace TheDashlorisX
 		}
 	    }
 
+
+	    private readonly PictureBox S2Container = new PictureBox();
+
+	    private readonly Button S2Button1 = new Button();
+	    private readonly Button S2Button2 = new Button();
+	    private readonly Button S2Button3 = new Button();
+	    private readonly Button S2Button4 = new Button();
 
 	    private void Init2()
 	    {
@@ -84,7 +105,7 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    Init1();
+		    Init1(DashWindow, Capsule);
 		    Init2();
 		    Init3();
 		}
@@ -137,13 +158,26 @@ namespace TheDashlorisX
 		{
 		    if (SpruceLog.RequiresInit)
 		    {
-			SpruceLog.InitializePage(DashWindow, Capsule);
+			void Invoker()
+			{
+			    SpruceLog.InitializePage(DashWindow, Capsule);
+			}
+
+			Capsule.Invoke(new MethodInvoker(Invoker));
+		    }
+
+		    foreach (Control Control in Capsule.Controls)
+		    {
+			if (Control.Visible)
+			{
+			    Control.Hide();
+			}
 		    }
 
 		    SpruceLog.Show();
 		})
 
-		{ IsBackground = true };
+		{ IsBackground = true }.Start();
 
 		/*
 		 * Method 1:
