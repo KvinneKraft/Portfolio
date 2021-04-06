@@ -248,7 +248,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	public readonly Settings S3Settings = new Settings();
+	public static readonly Settings S3Settings = new Settings();
 
 	private void InitS3(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
