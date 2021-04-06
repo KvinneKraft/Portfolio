@@ -55,7 +55,7 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
 
-	public void InitS2Events()
+	public void S2SetupHoverEvents()
 	{
 	    try
 	    {
@@ -81,6 +81,22 @@ namespace TheDashlorisX
 
 	private readonly Button S2Button1 = new Button();
 
+	private void S2SetupAttackEvent()
+	{
+	    try
+	    {
+		S2Button1.Click += (s, e) =>
+		{
+
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private void Init2()
 	{
 	    try
@@ -101,7 +117,6 @@ namespace TheDashlorisX
 		var Container3Size = new Size(24, 24);
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
-		InitS2Events();
 
 		var Button1Size = new Size(100, 24);
 		var Button1Loca = new Point(Container1Size.Width - 105, 5);
@@ -110,7 +125,8 @@ namespace TheDashlorisX
 		Control.Button(S2Container1, S2Button1, Button1Size, Button1Loca, Button1Cola, Color.White, 1, 9, ("Launch Attack"));
 		Tool.Round(S2Button1, 6);
 
-		// Status Text in the middle of bar?
+		S2SetupHoverEvents();
+		S2SetupAttackEvent();
 	    }
 
 	    catch (Exception E)
