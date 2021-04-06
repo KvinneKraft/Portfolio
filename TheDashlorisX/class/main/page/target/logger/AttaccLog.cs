@@ -29,26 +29,96 @@ namespace TheDashlorisX
 	    private readonly DashTools Tool = new DashTools();
 
 
+	    private readonly PictureBox S1Container1 = new PictureBox();
+
+	    private void Init1()
+	    {
+		try
+		{
+		    
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    private void Init2()
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    private void Init3()
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    public bool RequiresInit = true;
+
+	    public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
+	    {
+		try
+		{
+		    Init1();
+		    Init2();
+		    Init3();
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
+		}
+	    }
+
+
 	    public void Show()
 	    {
+		try
+		{
+		    S1Container1.Show();
+		}
 
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public void Hide()
+	    {
+		try
+		{
+		    S1Container1.Hide();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 	}
 
-	public AttaccLog()
-	{
-	    try
-	    {
-
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-
+	private readonly LogGUI SpruceLog = new LogGUI();
 	public bool KeepStressing = true;
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
@@ -58,7 +128,30 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
+		new Thread(() =>
+		{
+		    if (SpruceLog.RequiresInit)
+		    {
+			SpruceLog.InitializePage(DashWindow, Capsule);
+		    }
 
+		    SpruceLog.Show();
+		})
+
+		{ IsBackground = true };
+
+		/*
+		 * Method 1:
+		 * Returns a tuple with parsed Host, Port, Duration and HTTPv.
+		 * 
+		 * Method 2:
+		 * Returns a tuple with parsed SendDelay, Timeout, DashWorkers,
+		 * Max Connections, Content Length and UAR.
+		 * 
+		 * Method 3:
+		 * Returns a tuple with a list of proxies and credentials for these
+		 * potential proxies.
+		 */
 	    }
 
 	    catch (Exception E)
