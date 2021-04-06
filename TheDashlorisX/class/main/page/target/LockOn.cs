@@ -34,16 +34,16 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(Capsule.Width, 180);
+		var Container1Size = new Size(Capsule.Width, 160);
 		var Container1Loca = new Point(0, -2);
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
-		var Container2Size = new Size(Container1Size.Width, 98);
+		var Container2Size = new Size(Container1Size.Width, 70);
 		var Container2Loca = new Point(0, 0);
 
 		var Container3Size = new Size(Container1Size.Width, 70);
-		var Container3Loca = new Point(0, 110);
+		var Container3Loca = new Point(0, 90);
 
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
 
@@ -98,6 +98,23 @@ namespace TheDashlorisX
 		S2DropMenu.AddItem(new Label(), ("(2015 - 2.0)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		S2DropMenu.AddItem(new Label(), ("(2020 - 3.0)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 
+		foreach (Control Item in S2DropMenu.ContentContainer.Controls)
+		{
+		    try
+		    {
+			Item.Click += (s, e) =>
+			{
+			    string Name = (Item.Text.Remove(0, Item.Text.Length - 4));
+			    S2Label5.Text = $"---({Name}---";
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
 		S2Label5.MouseEnter += (s, e) =>
 		{
 		    try
@@ -135,13 +152,13 @@ namespace TheDashlorisX
 		var Label1Loca = new Point(0, 0);
 
 		var TextBox1Size = new Size(165, 20);
-		var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca);
+		var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca, Extra:0);
 
 		var Label2Size = CHelper.GetFontSize("Port:");
 		var Label2Loca = CHelper.ControlX(TextBox1Size, TextBox1Loca, Extra: 10);
 
 		var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
-		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca);
+		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Extra:0);
 
 		int GetBellow(Size Size, Point Loca)
 		{
@@ -159,14 +176,14 @@ namespace TheDashlorisX
 		var Label3Size = CHelper.GetFontSize("Duration:");
 		var Label3Loca = new Point(0, GetBellow(TextBox1Size, TextBox1Loca));
 
-		var TextBox3Size = new Size(135, 20);
-		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca);
+		var TextBox3Size = new Size(110, 20);
+		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca, Extra:0);
 
-		var Label4Size = CHelper.GetFontSize("HTTP Version:");
+		var Label4Size = CHelper.GetFontSize("HTTPv:");
 		var Label4Loca = CHelper.ControlX(TextBox3Size, TextBox3Loca, Label3Loca.Y, 10);
 
-		var Label5Size = new Size(Label4Size.Width, 20);
-		var Label5Loca = new Point(Label4Loca.X, Label4Loca.Y + Label4Size.Height + 10);
+		var Label5Size = CHelper.TextBoxSize(Label4Size, Label4Loca);
+		var Label5Loca = new Point(Label4Loca.X + Label4Size.Width, Label4Loca.Y);
 
 		CHelper.TextBoxBCol = S1Container1.Parent.BackColor;
 		CHelper.TextBoxFCol = Color.White;
@@ -181,17 +198,11 @@ namespace TheDashlorisX
 		CHelper.AddLabel(S2Label1, Label1Size, Label1Loca, ("Host:"));
 		CHelper.AddLabel(S2Label2, Label2Size, Label2Loca, ("Port:"));
 		CHelper.AddLabel(S2Label3, Label3Size, Label3Loca, ("Duration:"));
-		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("HTTP Version:"));
+		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("HTTPv:"));
 		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("--- (1.0) ---"), 8);
 
 		S2Label5.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label5.BackColor = (S2TextBox1.BackColor);
-
-		var ButtonSize = new Size(110, 20);
-		var ButtonLoca = new Point(0, Label3Loca.Y + Label3Size.Height + 10);
-		var ButtonBCol = S2TextBox1.BackColor;
-
-		Control.Button(S2Container1, S2Button1, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 8, ("Is It There?"));
 
 		foreach (Control Control in S2Container1.Controls)
 		{
