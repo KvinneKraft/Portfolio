@@ -37,8 +37,8 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    var Container1Size = new Size(Capsule.Width, Capsule.Height);
-		    var Container1Loca = new Point(0, 0);
+		    var Container1Size = new Size(Capsule.Width, 225);
+		    var Container1Loca = new Point(0, -2);
 
 		    Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
@@ -71,11 +71,33 @@ namespace TheDashlorisX
 	    private readonly Button S2Button3 = new Button();
 	    private readonly Button S2Button4 = new Button();
 
-	    private void Init2()
+	    private void Init2(DashWindow DashWindow)
 	    {
 		try
 		{
+		    var ContainerSize = new Size(210, 50);
+		    var ContainerLoca = new Point(-2, -2);
 
+		    Control.Image(S1Container2, S2Container, ContainerSize, ContainerLoca, S1Container2.BackColor);
+
+		    var ButtonSize = new Size(100, 20);
+		    var ButtonBCol = DashWindow.BackColor;
+		    var ButtonFCol = Color.White;
+
+		    var Button2Loca = new Point(ButtonSize.Width + 10, 0);
+		    var Button4Loca = new Point(Button2Loca.X, 30);
+		    var Button3Loca = new Point(0, 30);
+		    var Button1Loca = new Point(0, 0);
+
+		    Control.Button(S2Container, S2Button1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 8, ("Clear Log"));
+		    Control.Button(S2Container, S2Button2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 8, ("Save Log"));
+		    Control.Button(S2Container, S2Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 8, ("Verbose"));
+		    Control.Button(S2Container, S2Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 8, ("Cancel"));
+
+		    foreach (Button Button in S2Container.Controls)
+		    {
+			Tool.Round(Button, 6);
+		    }
 		}
 
 		catch (Exception E)
@@ -85,11 +107,30 @@ namespace TheDashlorisX
 	    }
 
 
+	    private readonly PictureBox S3Container = new PictureBox();
+	    private readonly TextBox S3TextBox = new TextBox();
+
 	    private void Init3()
 	    {
 		try
 		{
+		    var ContainerSize = new Size(S1Container3.Width - 20, S1Container3.Height - 20);
+		    var ContainerLoca = new Point(10, 10);
 
+		    Control.Image(S1Container3, S3Container, ContainerSize, ContainerLoca, S2Button1.BackColor);
+		    Tool.Round(S3Container, 6);
+
+		    var TextBoxSize = new Size(ContainerSize.Width - 10, ContainerSize.Height - 10);
+		    var TextBoxLoca = new Point(5, 5);
+
+		    Control.TextBox(S3Container, S3TextBox, TextBoxSize, TextBoxLoca, S2Button1.BackColor, Color.White, 1, 8, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+
+		    S3TextBox.Text = string.Format
+		    (
+			$"+ I am waiting for you to fukin press that button, ye?\r\n" +
+			$"+ Current Date: {DateTime.Now}\r\n" +
+	    		$"+ Verbose = OFF\r\n"
+		    );
 		}
 
 		catch (Exception E)
@@ -106,7 +147,7 @@ namespace TheDashlorisX
 		try
 		{
 		    Init1(DashWindow, Capsule);
-		    Init2();
+		    Init2(DashWindow);
 		    Init3();
 		}
 
