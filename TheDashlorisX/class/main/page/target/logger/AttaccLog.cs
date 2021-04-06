@@ -31,11 +31,16 @@ namespace TheDashlorisX
 
 	    private readonly PictureBox S1Container1 = new PictureBox();
 
-	    private void Init1()
+	    private void Init1(PictureBox Capsule, DashWindow DashWindow)
 	    {
 		try
 		{
+		    var Container1Size = new Size(Capsule.Width, Capsule.Height);
+		    var Container1Loca = new Point(0, 0);
+
+		    Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 		    
+
 		}
 
 		catch (Exception E)
