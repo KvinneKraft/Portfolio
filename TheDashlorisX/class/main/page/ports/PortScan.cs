@@ -351,7 +351,7 @@ namespace TheDashlorisX
 
 		    bool KA = (CheckBox.BackColor == Color.DarkMagenta);
 
-		    Print($"Date and Time: [{DateTime.Today}]");
+		    Print($"Date and Time: [{DateTime.Now}]");
 		    Print("Started scanning ....");
 
 		    void ProgressMade(int _Port)
@@ -598,7 +598,7 @@ namespace TheDashlorisX
 		{
 		    saveFileDialog.Filter = ("Text File (*.txt)|*.txt");
 		    saveFileDialog.DefaultExt = ("txt");
-		    saveFileDialog.Title = ($"{DateTime.Today}");
+		    saveFileDialog.Title = ($"{DateTime.Now}");
 
 		    saveFileDialog.CheckFileExists = false;
 		    saveFileDialog.CheckPathExists = true;
