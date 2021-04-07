@@ -111,7 +111,7 @@ namespace TheDashlorisX
 			    {
 				S2Button.Text = ("Stopping Attack");
 
-				S2Log.StopAttack();
+				S2Log.SprucyLog.StopAttack();
 
 				S2Button.Text = ("Launch Attack");
 			    })
