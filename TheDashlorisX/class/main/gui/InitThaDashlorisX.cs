@@ -89,32 +89,35 @@ namespace TheDashlorisX
 	    {
 		S2Button.Click += (s, e) =>
 		{
-		    if (S2Button.Text == "Launch Attack")
-		    {
-			new Thread(() =>
+		    if (S3Class1.S1Container1.Visible)
+		    { 
+			if (S2Button.Text == "Launch Attack")
 			{
-			    S2Button.Text = ("Stop Attack");
+			    new Thread(() =>
+			    {
+				S2Button.Text = ("Stop Attack");
 
-			    S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
+				S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
 
-			    S2Button.Text = ("Launch Attack");
-			})
+				S2Button.Text = ("Launch Attack");
+			    })
 
-			{ IsBackground = true }.Start();
-		    }
+			    { IsBackground = true }.Start();
+			}
 
-		    else if (S2Button.Text == "Stop Attack") 
-		    {
-			new Thread(() =>
+			else if (S2Button.Text == "Stop Attack")
 			{
-			    S2Button.Text = ("Stopping Attack");
+			    new Thread(() =>
+			    {
+				S2Button.Text = ("Stopping Attack");
 
-			    S2Log.StopAttack();
+				S2Log.StopAttack();
 
-			    S2Button.Text = ("Launch Attack");
-			})
+				S2Button.Text = ("Launch Attack");
+			    })
 
-			{ IsBackground = true }.Start();
+			    { IsBackground = true }.Start();
+			}
 		    }
 		};
 	    }
