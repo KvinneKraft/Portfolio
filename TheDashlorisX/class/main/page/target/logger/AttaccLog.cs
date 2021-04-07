@@ -61,6 +61,21 @@ namespace TheDashlorisX
 		})
 
 		{ IsBackground = true }.Start();
+		
+		(string, int, int, string) ParseSect1()
+		{
+		    return ("8.8.8.8", 80, 2000, "1.0");
+		}
+		
+		(int, int, int, int, int, bool) ParseSect2()
+		{
+		    return (200, 500, 8, 16, 5012, true);
+		}
+
+		(List<string>, List<string>) ParseSect3()
+		{
+		    return (new List<string>() { "172.0.0.1" }, new List<string>() { "somepass" });
+		}
 
 		/*
 		 * Sources: S3Class1, S3Class2
