@@ -22,8 +22,8 @@ using DashFramework.Dialog;
 namespace TheDashlorisX
 {
     public class AttaccLog
-    {
-	public class LogGUI
+    { 
+	public class SpruceLog
 	{
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
@@ -71,6 +71,27 @@ namespace TheDashlorisX
 	    private readonly Button S2Button3 = new Button();
 	    private readonly Button S2Button4 = new Button();
 
+	    public bool KeepVerbosing = false;
+	    public bool KeepStressing = true;
+
+	    public void StopAttack()
+	    {
+		try
+		{
+		    SendLog("- I am asking the Commander to quit shelling ....");
+
+		    KeepStressing = false;
+		    Thread.Sleep(1250);
+
+		    SendLog("+ Artillery has retreated successfully!");
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	    
 	    private void SendLog(string Data, bool newLine = true)
 	    {
 		try
@@ -101,7 +122,8 @@ namespace TheDashlorisX
 
 		    S2Button3.Click += (s, e) =>
 		    {
-
+			KeepVerbosing = (!KeepVerbosing ? true : false);
+			SendLog($"+ Verbose = {(KeepVerbosing ? "ON" : "OFF")}");
 		    };
 
 		    S2Button4.Click += (s, e) =>
@@ -176,7 +198,7 @@ namespace TheDashlorisX
 		    (
 			$"+ I am waiting for you to fukin press that button, ye?\r\n" +
 			$"+ Current Date: {DateTime.Now}\r\n" +
-	    		$"+ Verbose = OFF\r\n"
+			$"+ Verbose = OFF\r\n"
 		    );
 		}
 
@@ -234,10 +256,8 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private readonly LogGUI SpruceLog = new LogGUI();
 
-	public bool KeepVerbosing = false;
-	public bool KeepStressing = true;
+	public readonly SpruceLog SprucyLog = new SpruceLog();
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
 	    //string Host, string Port, string Duration, string HTTPv, string SendDelay, string Timeout, 
@@ -248,13 +268,13 @@ namespace TheDashlorisX
 	    {
 		new Thread(() =>
 		{
-		    if (SpruceLog.RequiresInit)
+		    if (SprucyLog.RequiresInit)
 		    {
 			void Invoker()
 			{
 			    try
 			    {
-				SpruceLog.InitializePage(DashWindow, Capsule);
+				SprucyLog.InitializePage(DashWindow, Capsule);
 			    }
 
 			    catch (Exception E)
@@ -274,7 +294,7 @@ namespace TheDashlorisX
 			}
 		    }
 
-		    SpruceLog.Show();
+		    SprucyLog.Show();
 		})
 
 		{ IsBackground = true }.Start();
@@ -291,20 +311,6 @@ namespace TheDashlorisX
 		 * Returns a tuple with a list of proxies and credentials for these
 		 * potential proxies.
 		 */
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	public void StopAttack()
-	{
-	    try
-	    {
-		KeepStressing = false;
-		Thread.Sleep(1250);
 	    }
 
 	    catch (Exception E)
