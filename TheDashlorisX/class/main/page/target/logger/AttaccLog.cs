@@ -123,7 +123,7 @@ namespace TheDashlorisX
 		    var TextBoxSize = new Size(ContainerSize.Width - 10, ContainerSize.Height - 10);
 		    var TextBoxLoca = new Point(5, 5);
 
-		    Control.TextBox(S3Container, S3TextBox, TextBoxSize, TextBoxLoca, S2Button1.BackColor, Color.White, 1, 8, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+		    Control.TextBox(S3Container, S3TextBox, TextBoxSize, TextBoxLoca, S2Button1.BackColor, Color.White, 1, 7, ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 
 		    S3TextBox.Text = string.Format
 		    (
