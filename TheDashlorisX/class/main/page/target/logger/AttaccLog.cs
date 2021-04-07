@@ -71,6 +71,51 @@ namespace TheDashlorisX
 	    private readonly Button S2Button3 = new Button();
 	    private readonly Button S2Button4 = new Button();
 
+	    private void SendLog(string Data, bool newLine = true)
+	    {
+		try
+		{
+		    S3TextBox.AppendText($"{Data}{(newLine ? "\r\n" : string.Empty)}");
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void S2SetupButtonEvents()
+	    {
+		try
+		{
+		    S2Button1.Click += (s, e) =>
+		    {
+			S3TextBox.Clear();
+			SendLog("+ Ah mate, you gotta lock on...still!");
+		    };
+
+		    S2Button2.Click += (s, e) =>
+		    {
+			// SaveFileDialog
+		    };
+
+		    S2Button3.Click += (s, e) =>
+		    {
+
+		    };
+
+		    S2Button4.Click += (s, e) =>
+		    {
+
+		    };
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
 	    private void Init2(DashWindow DashWindow)
 	    {
 		try
@@ -98,6 +143,8 @@ namespace TheDashlorisX
 		    {
 			Tool.Round(Button, 6);
 		    }
+
+		    S2SetupButtonEvents();
 		}
 
 		catch (Exception E)
@@ -149,6 +196,8 @@ namespace TheDashlorisX
 		    Init1(DashWindow, Capsule);
 		    Init2(DashWindow);
 		    Init3();
+
+		    RequiresInit = false;
 		}
 
 		catch (Exception E)
@@ -186,6 +235,8 @@ namespace TheDashlorisX
 	}
 
 	private readonly LogGUI SpruceLog = new LogGUI();
+
+	public bool KeepVerbosing = false;
 	public bool KeepStressing = true;
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
@@ -201,7 +252,15 @@ namespace TheDashlorisX
 		    {
 			void Invoker()
 			{
-			    SpruceLog.InitializePage(DashWindow, Capsule);
+			    try
+			    {
+				SpruceLog.InitializePage(DashWindow, Capsule);
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
 			}
 
 			Capsule.Invoke(new MethodInvoker(Invoker));
