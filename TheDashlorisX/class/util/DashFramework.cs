@@ -295,7 +295,7 @@ namespace DashFramework
 
 			    Tool.Resize(Object, ResizedSize);
 
-			    TextBoxContainers.Add(Object, TextBoxContainer);
+			    //TextBoxContainers.Add(Object, TextBoxContainer);
 			    TextBoxContainer.Controls.Add(Object);
 			}
 
