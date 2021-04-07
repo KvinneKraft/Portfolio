@@ -37,7 +37,7 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    var Container1Size = new Size(Capsule.Width, 225);
+		    var Container1Size = new Size(Capsule.Width, 220);
 		    var Container1Loca = new Point(0, -2);
 
 		    Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
@@ -135,7 +135,7 @@ namespace TheDashlorisX
 		    var ButtonBCol = DashWindow.BackColor;
 		    var ButtonFCol = Color.White;
 
-		    var Button2Loca = new Point(ButtonSize.Width + 10, 0);
+		    var Button2Loca = new Point(ButtonSize.Width + 5, 0);
 		    var Button4Loca = new Point(Button2Loca.X, 30);
 		    var Button3Loca = new Point(0, 30);
 		    var Button1Loca = new Point(0, 0);
@@ -229,7 +229,36 @@ namespace TheDashlorisX
 	    {
 		try
 		{
+		    ControlHelper CHelper = new ControlHelper();
 
+		    var ContainerSize = new Size(S1Container2.Width - S2Container.Width + 3, S2Container.Height);
+		    var ContainerLoca = new Point(S2Container.Width - 13, 10);
+
+		    Control.Image(S1Container2, S4Container, ContainerSize, ContainerLoca, Color.White); //S3Container.BackColor);
+
+		    var LabelBCol = S4Container.BackColor;
+		    var LabelFCol = Color.White;
+
+		    var Label1Size = CHelper.GetFontSize("Cons:", 8);
+		    var Label1Loca = new Point(0, 0);
+
+		    var Label2Size = CHelper.GetFontSize("Reqs:", 8);
+		    var Label2Loca = new Point(0, S4Container.Height - Label1Size.Height);
+
+		    var TextBoxBCol = DashWindow.MenuBar.MenuBar.BackColor;
+		    var TextBoxFCol = Color.White;
+
+		    var TextBox1Size = CHelper.TextBoxSize(Label1Size, Label1Loca);
+		    var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca, Extra: 0);
+
+		    var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
+		    var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Extra: 0);
+
+		    Control.TextBox(S4Container, S4TextBox1, TextBox1Size, TextBox1Loca, TextBoxBCol, TextBoxFCol, 1, 7);
+		    Control.TextBox(S4Container, S4TextBox1, TextBox1Size, TextBox2Loca, TextBoxBCol, TextBoxFCol, 1, 7);
+
+		    Control.Label(S4Container, S4Label1, Label1Size, Label1Loca, LabelBCol, LabelFCol, 1, 8, ("Cons:"));
+		    Control.Label(S4Container, S4Label2, Label2Size, Label2Loca, LabelBCol, LabelFCol, 1, 8, ("Reqs:"));
 		}
 
 		catch (Exception E)
