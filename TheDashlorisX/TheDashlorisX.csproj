@@ -58,6 +58,7 @@
     <Compile Include="class\main\page\ports\PortScan.cs" />
     <Compile Include="class\main\page\target\logger\AttaccLog.cs" />
     <Compile Include="class\main\page\target\LockOn.cs" />
+    <Compile Include="class\main\page\target\logger\SprucyLoggy.cs" />
     <Compile Include="class\main\page\target\Settings.cs" />
     <Compile Include="class\main\page\tos\AppToS.cs" />
     <Compile Include="class\util\DashFramework.cs" />
