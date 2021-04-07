@@ -71,40 +71,6 @@ namespace TheDashlorisX
 	    private readonly Button S2Button3 = new Button();
 	    private readonly Button S2Button4 = new Button();
 
-	    public bool KeepVerbosing = false;
-	    public bool KeepStressing = true;
-
-	    public void StopAttack()
-	    {
-		try
-		{
-		    SendLog("- I am asking the Commander to quit shelling ....");
-
-		    KeepStressing = false;
-		    Thread.Sleep(1250);
-
-		    SendLog("+ Artillery has retreated successfully!");
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-	    
-	    private void SendLog(string Data, bool newLine = true)
-	    {
-		try
-		{
-		    S3TextBox.AppendText($"{Data}{(newLine ? "\r\n" : string.Empty)}");
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
 	    private void S2SetupButtonEvents()
 	    {
 		try
@@ -117,7 +83,15 @@ namespace TheDashlorisX
 
 		    S2Button2.Click += (s, e) =>
 		    {
-			// SaveFileDialog
+			try
+			{
+			    // SaveFileDialog
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
 		    };
 
 		    S2Button3.Click += (s, e) =>
@@ -128,13 +102,23 @@ namespace TheDashlorisX
 
 		    S2Button4.Click += (s, e) =>
 		    {
+			try
+			{
+			    SendLog($"- Resetting statistics ....", true);
+			    UpdateStats();
+			    SendLog($"+ Statistics have been reset successfully!", true);
+			}
 
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
 		    };
 		}
 
 		catch (Exception E)
 		{
-		    throw (ErrorHandler.GetException(E));
+		    ErrorHandler.JustDoIt(E);
 		}
 	    }
 
@@ -143,7 +127,7 @@ namespace TheDashlorisX
 		try
 		{
 		    var ContainerSize = new Size(210, 50);
-		    var ContainerLoca = new Point(-2, -2);
+		    var ContainerLoca = new Point(10, -2);
 
 		    Control.Image(S1Container2, S2Container, ContainerSize, ContainerLoca, S1Container2.BackColor);
 
@@ -159,7 +143,7 @@ namespace TheDashlorisX
 		    Control.Button(S2Container, S2Button1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 8, ("Clear Log"));
 		    Control.Button(S2Container, S2Button2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 8, ("Save Log"));
 		    Control.Button(S2Container, S2Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 8, ("Verbose"));
-		    Control.Button(S2Container, S2Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 8, ("Cancel"));
+		    Control.Button(S2Container, S2Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 8, ("Reset Stats"));
 
 		    foreach (Button Button in S2Container.Controls)
 		    {
@@ -209,6 +193,52 @@ namespace TheDashlorisX
 	    }
 
 
+	    private readonly Dictionary<string, int> Stats = new Dictionary<string, int>()
+	    {		// Pass as 'ref' for external modification.
+		{ "connections", 0 },
+		{ "requests", 0 }
+	    };
+
+	    private void UpdateStats(int Value1 = 0, int Value2 = 0)
+	    {
+		try
+		{
+		    Stats["connections"] = Value1;
+		    Stats["requests"] = Value2;
+
+		    S4TextBox1.Text = $"{Stats["connections"]}";
+		    S4TextBox2.Text = $"{Stats["requests"]}";
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    private readonly PictureBox S4Container = new PictureBox();
+
+	    private readonly TextBox S4TextBox1 = new TextBox();
+	    private readonly TextBox S4TextBox2 = new TextBox();
+
+	    private readonly Label S4Label1 = new Label();
+	    private readonly Label S4Label2 = new Label();
+
+	    private void Init4(DashWindow DashWindow)
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public bool RequiresInit = true;
 
 	    public void InitializePage(DashWindow DashWindow, PictureBox Capsule)
@@ -218,6 +248,7 @@ namespace TheDashlorisX
 		    Init1(DashWindow, Capsule);
 		    Init2(DashWindow);
 		    Init3();
+		    Init4(DashWindow);
 
 		    RequiresInit = false;
 		}
@@ -229,6 +260,47 @@ namespace TheDashlorisX
 	    }
 
 
+	    public bool KeepVerbosing = false;
+	    public bool KeepStressing = true;
+
+	    public void StopAttack()
+	    {
+		try
+		{
+		    SendLog("- I am asking the Commander to quit shelling ....");
+		    SendLog("- Processing forceful command ....", true);
+
+		    KeepStressing = false;
+		    Thread.Sleep(1500);
+
+		    SendLog("+ Forceful command has been executed!", true);
+		    SendLog("+ Artillery has retreated successfully!");
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void SendLog(string Data, bool checkVerbose = false, bool newLine = true)
+	    {
+		try
+		{
+		    if (checkVerbose && !KeepVerbosing)
+		    {
+			return;
+		    };
+
+		    S3TextBox.AppendText($"{Data}{(newLine ? "\r\n" : string.Empty)}");
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	    
 	    public void Show()
 	    {
 		try
