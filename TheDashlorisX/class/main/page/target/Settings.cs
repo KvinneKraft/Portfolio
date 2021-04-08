@@ -64,13 +64,14 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S2Container1 = new PictureBox();
 	private readonly PictureBox S2Container2 = new PictureBox();
-	private readonly PictureBox S2Container3 = new PictureBox();
 
-	private readonly TextBox S2Textbox1 = new TextBox();
-	private readonly TextBox S2Textbox2 = new TextBox();
-	private readonly TextBox S2Textbox3 = new TextBox();
-	private readonly TextBox S2Textbox4 = new TextBox();
-	private readonly TextBox S2Textbox5 = new TextBox();
+	public readonly PictureBox S2Container3 = new PictureBox();
+
+	public readonly TextBox S2Textbox1 = new TextBox();
+	public readonly TextBox S2Textbox2 = new TextBox();
+	public readonly TextBox S2Textbox3 = new TextBox();
+	public readonly TextBox S2Textbox4 = new TextBox();
+	public readonly TextBox S2Textbox5 = new TextBox();
 
 	private readonly Label S2Label1 = new Label();
 	private readonly Label S2Label2 = new Label();
