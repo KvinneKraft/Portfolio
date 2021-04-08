@@ -30,18 +30,18 @@ namespace TheDashlorisX
 	    try
 	    {
 		if (!DashNet.CanIP(S3Class1.S2TextBox1.Text))
-		{
-		    return (string.Empty, -1, -1, null);
+		{//individual parameters with values for identification externally.
+		    return (null, -1, -1, null);
 		}
 
 		if (!DashNet.CanPort(S3Class1.S2TextBox2.Text))
 		{
-		    return (null, -100, -1, null);
+		    return (null, -1, -1, null);
 		}
 
 		if (!DashNet.CanDuration(S3Class1.S2TextBox3.Text))
 		{
-		    return (null, -1, -100, null);
+		    return (null, -1, -1, null);
 		}
 
 		int Duration = DashNet.GetInteger(S3Class1.S2TextBox3.Text);
@@ -117,9 +117,17 @@ namespace TheDashlorisX
 	    }
 	}
 
-	(List<string>, List<string>) ParseSect3()
+	(List<string>, List<string>) ParseSect3(Settings S3Class2)
 	{
-	    return (new List<string>() { "172.0.0.1" }, new List<string>() { "somepass" });
+	    try
+	    {
+		return S3Class2.GetProxyData();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
 	}
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
@@ -159,24 +167,14 @@ namespace TheDashlorisX
 
 		{ IsBackground = true }.Start();
 
-		var Tupler = ParseSect1(S3Class1);
+		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/
+		(int, int, int, int, int, bool) Tier2Configuration = ParseSect2(S3Class2);
+		/*Proxy Hosts and Proxy Credentials*/
+		(List<string>, List<string>) Tier3Configuration = ParseSect3(S3Class2);
+		/*Host, Port, Duration and HTTP Version*/
+		(string, int, int, string) Tier1Configuration = ParseSect1(S3Class1);
+		
 
-		MessageBox.Show($"{Tupler.Item1}, {Tupler.Item2}, {Tupler.Item3}, {Tupler.Item4}");
-
-		/*
-		 * Sources: S3Class1, S3Class2
-		 * 
-		 * Method 1:
-		 * Returns a tuple with parsed Host, Port, Duration and HTTPv.
-		 * 
-		 * Method 2:
-		 * Returns a tuple with parsed SendDelay, Timeout, DashWorkers,
-		 * Max Connections, Content Length and UAR.
-		 * 
-		 * Method 3:
-		 * Returns a tuple with a list of proxies and credentials for these
-		 * potential proxies.
-		 */
 	    }
 
 	    catch (Exception E)
