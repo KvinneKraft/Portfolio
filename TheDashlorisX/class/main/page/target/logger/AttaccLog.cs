@@ -13,9 +13,7 @@ using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-using DashFramework.Interface.Controls;
-using DashFramework.Interface.Tools;
-
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -24,6 +22,105 @@ namespace TheDashlorisX
     public class AttaccLog
     { 
 	public readonly SpruceLog SprucyLog = new SpruceLog();
+
+	private readonly DashNet DashNet = new DashNet();
+
+	(string, int, int, string) ParseSect1(LockOn S3Class1)
+	{
+	    try
+	    {
+		if (!DashNet.CanIP(S3Class1.S2TextBox1.Text))
+		{
+		    return (string.Empty, -1, -1, null);
+		}
+
+		if (!DashNet.CanPort(S3Class1.S2TextBox2.Text))
+		{
+		    return (null, -100, -1, null);
+		}
+
+		if (!DashNet.CanDuration(S3Class1.S2TextBox3.Text))
+		{
+		    return (null, -1, -100, null);
+		}
+
+		int Duration = DashNet.GetInteger(S3Class1.S2TextBox3.Text);
+		int Port = DashNet.GetPort(S3Class1.S2TextBox2.Text);
+
+		string Replace(string Variable, string newValue, params string[] replaceValues)
+		{
+		    try
+		    {
+			foreach (string value in replaceValues)
+			{
+			    Variable = Variable.Replace(value, newValue);
+			}
+
+			return Variable;
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		string HTTPv = Replace(S3Class1.S2Label5.Text, "", "(", ")", "---", " ");
+		string Host = DashNet.GetIP(S3Class1.S2TextBox1.Text);
+
+		return (Host, Port, Duration, HTTPv);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	(int, int, int, int, int, bool) ParseSect2(Settings S3Class2)
+	{
+	    try
+	    {
+		var possibleInts = new TextBox[]
+		{
+		    S3Class2.S2Textbox1,
+		    S3Class2.S2Textbox2,
+		    S3Class2.S2Textbox3,
+		    S3Class2.S2Textbox4,
+		    S3Class2.S2Textbox5
+		};
+
+		var Collection = new List<int>();
+
+		foreach (TextBox TextBox in possibleInts)
+		{
+		    string Text = TextBox.Text;
+
+		    if (!DashNet.CanInteger(Text))
+		    {
+			return (-1, -1, -1, -1, -1, false);
+		    }
+
+		    Collection.Add(DashNet.GetInteger(Text));
+		}
+
+		bool UAR = (S3Class2.S2Container3.BackColor == 
+		    Color.DarkMagenta ? true : false);
+
+		return (Collection[0], Collection[1], 
+		    Collection[2], Collection[3], Collection[4], UAR);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	(List<string>, List<string>) ParseSect3()
+	{
+	    return (new List<string>() { "172.0.0.1" }, new List<string>() { "somepass" });
+	}
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
 	{
@@ -61,21 +158,10 @@ namespace TheDashlorisX
 		})
 
 		{ IsBackground = true }.Start();
-		
-		(string, int, int, string) ParseSect1()
-		{
-		    return ("8.8.8.8", 80, 2000, "1.0");
-		}
-		
-		(int, int, int, int, int, bool) ParseSect2()
-		{
-		    return (200, 500, 8, 16, 5012, true);
-		}
 
-		(List<string>, List<string>) ParseSect3()
-		{
-		    return (new List<string>() { "172.0.0.1" }, new List<string>() { "somepass" });
-		}
+		var Tupler = ParseSect1(S3Class1);
+
+		MessageBox.Show($"{Tupler.Item1}, {Tupler.Item2}, {Tupler.Item3}, {Tupler.Item4}");
 
 		/*
 		 * Sources: S3Class1, S3Class2
