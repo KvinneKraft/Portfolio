@@ -63,9 +63,9 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S2Container1 = new PictureBox();
 
-	private readonly TextBox S2TextBox1 = new TextBox();
-	private readonly TextBox S2TextBox2 = new TextBox();
-	private readonly TextBox S2TextBox3 = new TextBox();
+	public readonly TextBox S2TextBox1 = new TextBox();
+	public readonly TextBox S2TextBox2 = new TextBox();
+	public readonly TextBox S2TextBox3 = new TextBox();
 
 	private readonly Button S2Button1 = new Button();
 
@@ -73,7 +73,8 @@ namespace TheDashlorisX
 	private readonly Label S2Label2 = new Label();
 	private readonly Label S2Label3 = new Label();
 	private readonly Label S2Label4 = new Label();
-	private readonly Label S2Label5 = new Label();
+
+	public readonly Label S2Label5 = new Label();
 
 	private readonly ControlHelper CHelper = new ControlHelper();
 	private readonly DropMenu S2DropMenu = new DropMenu();
