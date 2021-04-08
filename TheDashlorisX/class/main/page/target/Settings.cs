@@ -209,6 +209,19 @@ namespace TheDashlorisX
 	    }
 	}
 
+	public (List<string>, List<string>) GetProxyData()
+	{//---Change here:
+	    try
+	    {
+		return (null, null);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private readonly Label S3Label1 = new Label();
 	private readonly Label S3Label2 = new Label();
 
