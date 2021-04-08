@@ -174,7 +174,8 @@ namespace TheDashlorisX
 		/*Host, Port, Duration and HTTP Version*/
 		(string, int, int, string) Tier1Configuration = ParseSect1(S3Class1);
 		
-
+		// Check for -1, NULL and NULL, if so, print to log.
+		// While attacking, disallow navigation
 	    }
 
 	    catch (Exception E)
