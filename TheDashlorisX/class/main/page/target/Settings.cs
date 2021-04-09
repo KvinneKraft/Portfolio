@@ -73,7 +73,7 @@ namespace TheDashlorisX
 	public readonly TextBox S2Textbox4 = new TextBox();
 	public readonly TextBox S2Textbox5 = new TextBox();
 
-	private readonly Label S2Label1 = new Label();
+	public readonly Label S2Label1 = new Label();
 	private readonly Label S2Label2 = new Label();
 	private readonly Label S2Label3 = new Label();
 	private readonly Label S2Label4 = new Label();
@@ -213,7 +213,7 @@ namespace TheDashlorisX
 	{//---Change here:
 	    try
 	    {
-		return (null, null);
+		return (new List<string>(), new List<string>());
 	    }
 
 	    catch (Exception E)
@@ -324,10 +324,10 @@ namespace TheDashlorisX
 		    InitS2(Capsule);
 		    InitS3(Parent);
 
+		    Hide();
+
 		    isInitialized = true;
 		}
-
-		Show();
 	    }
 
 	    catch (Exception E)
