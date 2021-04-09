@@ -27,7 +27,7 @@ namespace TheDashlorisX
 
 
 	private void Print(string Data, bool NewLine = true) =>
-	    SprucyLog.Print(Data, NewLine);
+	    SprucyLog.SendLog(Data, NewLine);
 
 	public bool Visible() =>
 	    (SprucyLog.S1Container1.Visible);
