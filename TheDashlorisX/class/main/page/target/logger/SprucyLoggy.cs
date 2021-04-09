@@ -198,9 +198,6 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S3Container = new PictureBox();
 	private readonly TextBox S3TextBox = new TextBox();
-
-	public void Print(string Data, bool NewLine = true) =>
-	    S3TextBox.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
 	
 	private void Init3()
 	{
@@ -362,7 +359,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private void SendLog(string Data, bool checkVerbose = false, bool newLine = true)
+	public void SendLog(string Data, bool checkVerbose = false, bool newLine = true)
 	{
 	    try
 	    {
