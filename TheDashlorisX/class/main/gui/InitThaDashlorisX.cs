@@ -100,7 +100,15 @@ namespace TheDashlorisX
 			    {
 				S2Button.Text = ("Stop Attack");
 
-				S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
+				try
+				{
+				    S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
+				}
+
+				catch (Exception E)
+				{
+				    ErrorHandler.JustDoIt(E);
+				}
 
 				S2Button.Text = ("Launch Attack");
 			    })
