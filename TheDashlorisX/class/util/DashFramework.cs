@@ -696,6 +696,7 @@ namespace DashFramework
 	    public Color BackCol = Color.MidnightBlue;
 	    public Size AppSize = new Size(350, 350);
 
+	    #pragma warning disable CS0109
 	    public new void Show(bool MenuBar = true)
 	    {
 		try
@@ -730,6 +731,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+	    #pragma warning restore CS0109
 	}
     }
 
@@ -1757,10 +1759,10 @@ namespace DashFramework
     {
 	public class DashInteract
 	{
-	    public bool isAdministrator() =>
+	    public bool IsAdministrator() =>
 		 new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
-	    public string getFilePath() =>
+	    public string GetFilePath() =>
 		Assembly.GetExecutingAssembly().Location;
 	}
     }
