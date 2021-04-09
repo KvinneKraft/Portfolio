@@ -22,11 +22,15 @@ namespace TheDashlorisX
     public class AttaccLog
     { 
 	public readonly SpruceLog SprucyLog = new SpruceLog();
+	private readonly DashNet DashNet = new DashNet();
+
+
+	private void Print(string Data, bool NewLine = true) =>
+	    SprucyLog.Print(Data, NewLine);
 
 	public bool Visible() =>
 	    (SprucyLog.S1Container1.Visible);
 
-	private readonly DashNet DashNet = new DashNet();
 
 	(string, int, int, string) ParseSect1(LockOn S3Class1)
 	{
@@ -131,8 +135,8 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private void Print(string Data, bool NewLine = true) =>
-	    SprucyLog.Print(Data, NewLine);
+
+	private readonly DashArtillery Artillery = new DashArtillery();
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
 	{
@@ -199,12 +203,70 @@ namespace TheDashlorisX
 		}
 
 		Print("No errors found! proceeding with execution ....");
-		// While attacking, disallow navigation
+
+		//---: Pass configuration to attack method in here.
+		//---: In attack method, start treating the configuration
+		//---: sets based on tier wise order.
+
+		Artillery.Launch(this, SprucyLog);
 	    }
 
 	    catch (Exception E)
 	    {
 		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	public class DashArtillery
+	{
+	    private void StartDurationCounter()
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void StopDurationCounter()
+	    {
+		try
+		{
+
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public void Launch(AttaccLog Inst, SpruceLog Logy)
+	    {
+		try
+		{
+		    StartDurationCounter();
+
+		    while (Logy.KeepStressing)
+		    {
+
+		    }
+
+		    if (!Logy.KeepStressing)
+		    {
+			StopDurationCounter();//Only if Forcibly stopped.
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 	}
     }
