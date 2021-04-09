@@ -205,15 +205,12 @@ namespace TheDashlorisX
 
 		Print("No errors found! proceeding with execution ....");
 
-		// Check if Workers < Max Connections
-		//
-
 		Artillery.Launch(this, SprucyLog, Tier1, Tier2, Tier3);
 	    }
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
 
@@ -226,7 +223,7 @@ namespace TheDashlorisX
 	    private readonly System.Timers.Timer Timer = new System.Timers.Timer()
 	    {
 		AutoReset = false,
-		Interval = 0001,
+		Interval = int.MaxValue -1,
 		Enabled = false
 	    };
 
@@ -234,7 +231,7 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    if (Timer.Interval == 0001)
+		    if (Timer.Interval == int.MaxValue -1)
 		    {
 			Timer.Elapsed += (s, e) =>
 			{
@@ -261,7 +258,7 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    Timer.Interval = 0000;
+		    Timer.Interval = int.MaxValue;
 		    Timer.Enabled = false;
 
 		    Timer.Stop();
@@ -274,10 +271,7 @@ namespace TheDashlorisX
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-
-
-	    private readonly List<Thread> DashWorkers = new List<Thread>();
-
+	    
 	    Socket GetSocket(string host, int port)
 	    {
 		try
@@ -333,6 +327,24 @@ namespace TheDashlorisX
 		{
 		    StartDurationCounter(Tier1.Item3, Logy);
 
+		    void SendLog(string Message, bool MustVerbose = false)
+		    {
+			try
+			{
+			    if (MustVerbose && !Logy.KeepVerbosing)
+			    {
+				return;
+			    }
+
+			    Logy.SendLog($@"{Message}");
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    }
+
 		    int SendDelay = Tier2.Item1;
 		    int Timeout = Tier2.Item2;
 		    int MaxCons = Tier2.Item4;
@@ -340,6 +352,10 @@ namespace TheDashlorisX
 		    int Port = Tier1.Item2;
 
 		    string Host = Tier1.Item1;
+
+		    SendLog($"Starting {Workers} Dash Workers ....", true);
+
+		    List<Thread> DashWorkers = new List<Thread>();
 
 		    for (int Worker = 1; Worker <= Workers; Worker += 1)
 		    {
@@ -416,6 +432,9 @@ namespace TheDashlorisX
 			DashWorker.IsBackground = true;
 			DashWorker.Start();
 		    }
+
+		    SendLog("Done starting Dash Workers!", true);
+		    SendLog("Waiting for Dash Workers to finish ....");
 
 		    foreach (Thread DashWorker in DashWorkers)
 		    {
