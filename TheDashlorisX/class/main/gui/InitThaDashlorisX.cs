@@ -92,7 +92,7 @@ namespace TheDashlorisX
 	    {
 		S2Button.Click += (s, e) =>
 		{
-		    if (S3Class1.S1Container1.Visible)
+		    if (S3Class1.S1Container1.Visible || S2Log.Visible())
 		    { 
 			if (S2Button.Text == "Launch Attack")
 			{
