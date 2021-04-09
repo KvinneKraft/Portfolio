@@ -23,6 +23,9 @@ namespace TheDashlorisX
     { 
 	public readonly SpruceLog SprucyLog = new SpruceLog();
 
+	public bool Visible() =>
+	    (SprucyLog.S1Container1.Visible);
+
 	private readonly DashNet DashNet = new DashNet();
 
 	(string, int, int, string) ParseSect1(LockOn S3Class1)
@@ -92,16 +95,14 @@ namespace TheDashlorisX
 
 		var Collection = new List<int>();
 
-		foreach (TextBox TextBox in possibleInts)
+		foreach (var TextBox in possibleInts)
 		{
-		    string Text = TextBox.Text;
-
-		    if (!DashNet.CanInteger(Text))
+		    if (!DashNet.CanInteger(TextBox.Text))
 		    {
 			return (-1, -1, -1, -1, -1, false);
 		    }
 
-		    Collection.Add(DashNet.GetInteger(Text));
+		    Collection.Add(DashNet.GetInteger(TextBox.Text));
 		}
 
 		bool UAR = (S3Class2.S2Container3.BackColor == 
@@ -129,6 +130,9 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
+	private void Print(string Data, bool NewLine = true) =>
+	    SprucyLog.Print(Data, NewLine);
 
 	public void CommenceLaunch(LockOn S3Class1, Settings S3Class2, DashWindow DashWindow, PictureBox Capsule)
 	{
@@ -162,6 +166,8 @@ namespace TheDashlorisX
 			}
 		    }
 
+		    Print("Validating configuration ....");
+
 		    SprucyLog.Show();
 		})
 
@@ -173,8 +179,26 @@ namespace TheDashlorisX
 		(List<string>, List<string>) Tier3Configuration = ParseSect3(S3Class2);
 		/*Host, Port, Duration and HTTP Version*/
 		(string, int, int, string) Tier1Configuration = ParseSect1(S3Class1);
-		
-		// Check for -1, NULL and NULL, if so, print to log.
+
+		if (Tier1Configuration.Item1 == null)
+		{
+		    Print("The main host panel settings section was found incorrectly setup. Invalid values detected!");
+		    return;
+		}
+
+		else if (Tier2Configuration.Item1 == -1)
+		{
+		    Print("The main fancy settings section was found incorrectly setup. Invalid values detected!");
+		    return;
+		}
+
+		else if (Tier3Configuration.Item1 == null)
+		{
+		    Print("The proxy configuration section was found incorrectly setup. Invalid values detected!");
+		    return;
+		}
+
+		Print("No errors found! proceeding with execution ....");
 		// While attacking, disallow navigation
 	    }
 
