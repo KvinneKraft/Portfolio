@@ -255,8 +255,8 @@ namespace TheDashlorisX
 
 	private readonly PictureBox S4Container = new PictureBox();
 
-	private readonly TextBox S4TextBox1 = new TextBox();
-	private readonly TextBox S4TextBox2 = new TextBox();
+	public readonly TextBox S4TextBox1 = new TextBox();
+	public readonly TextBox S4TextBox2 = new TextBox();
 
 	private readonly Label S4Label1 = new Label();
 	private readonly Label S4Label2 = new Label();
