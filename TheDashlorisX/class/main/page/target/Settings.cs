@@ -26,7 +26,7 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
-	private readonly PictureBox S1Container1 = new PictureBox();
+	public readonly PictureBox S1Container1 = new PictureBox();
 	private readonly PictureBox S1Container2 = new PictureBox();
 	private readonly PictureBox S1Container3 = new PictureBox();
 
