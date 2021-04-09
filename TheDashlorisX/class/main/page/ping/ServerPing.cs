@@ -452,13 +452,9 @@ namespace TheDashlorisX
 	    }
 	}
 
-	
-	private void Print(string data)
-	{
-	    S3TextBox1.AppendText($"{data}\r\n");
-	}
 
-
+	private void Print(string Data, bool NewLine = true) =>
+	    S3TextBox1.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
 
 	private void Init4()
 	{
