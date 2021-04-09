@@ -299,7 +299,7 @@ namespace TheDashlorisX
 		    try
 		    {
 			HideCapsulePages(Capsule);
-			S3Settings.Initialize(Capsule, DashWindow, Parent);
+			S3Settings.Show();
 		    }
 
 		    catch (Exception E)
@@ -327,6 +327,8 @@ namespace TheDashlorisX
 		    InitS1(Capsule, DashWindow);
 		    InitS2();
 		    InitS3(Capsule, DashWindow, Parent);
+
+		    S3Settings.Initialize(Capsule, DashWindow, Parent);
 
 		    isInitialized = (true);
 		}
