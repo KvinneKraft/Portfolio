@@ -29,7 +29,7 @@ namespace TheDashlorisX
 	public readonly PictureBox S1Container1 = new PictureBox();
 	private readonly PictureBox S1Container2 = new PictureBox();
 	private readonly PictureBox S1Container3 = new PictureBox();
-
+	
 	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
