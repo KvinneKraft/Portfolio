@@ -27,7 +27,7 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
-	private readonly PictureBox S1Container1 = new PictureBox();
+	public readonly PictureBox S1Container1 = new PictureBox();
 	private readonly PictureBox S1Container2 = new PictureBox();
 	private readonly PictureBox S1Container3 = new PictureBox();
 
@@ -199,6 +199,9 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container = new PictureBox();
 	private readonly TextBox S3TextBox = new TextBox();
 
+	public void Print(string Data, bool NewLine = true) =>
+	    S3TextBox.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
+	
 	private void Init3()
 	{
 	    try
@@ -230,10 +233,10 @@ namespace TheDashlorisX
 
 
 	private readonly Dictionary<string, int> Stats = new Dictionary<string, int>()
-	    {		// Pass as 'ref' for external modification.
-		{ "connections", 0 },
-		{ "requests", 0 }
-	    };
+	{		// Pass as 'ref' for external modification.
+	    { "connections", 0 },
+	    { "requests", 0 }
+	};
 
 	private void UpdateStats(int Value1 = 0, int Value2 = 0)
 	{
