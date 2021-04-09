@@ -241,13 +241,9 @@ namespace TheDashlorisX
 	public class PortScanner
 	{
 	    private readonly DashNet DashNet = new DashNet();
-
-
-	    private void Print(string Data, bool NewLine = true)
-	    {
+	    
+	    private void Print(string Data, bool NewLine = true) =>
 		S3TextBox1.AppendText($@"{Data}{(NewLine ? "\r\n" : string.Empty)}");
-	    }
-
 
 	    private readonly List<Socket> Sockets = new List<Socket>();
 
