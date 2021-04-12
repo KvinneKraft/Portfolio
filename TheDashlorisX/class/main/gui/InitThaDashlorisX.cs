@@ -106,6 +106,16 @@ namespace TheDashlorisX
 			}
 		    };
 
+		    void UpdateButton(string New, Button Button)
+		    {
+			void ChangeText()
+			{
+			    Button.Text = New;
+			}
+
+			Capsule.Invoke(new MethodInvoker(ChangeText));
+		    }
+
 		    S2Button1.Click += (s, e) =>
 		    {
 			if (S3Class1.S1Container1.Visible || S2Log.Visible())
@@ -114,7 +124,7 @@ namespace TheDashlorisX
 			    {
 				new Thread(() =>
 				{
-				    S2Button1.Text = ("Stop Attack");
+				    UpdateButton("Stop Attack", S2Button1);
 
 				    try
 				    {
@@ -126,7 +136,7 @@ namespace TheDashlorisX
 					ErrorHandler.JustDoIt(E);
 				    }
 
-				    S2Button1.Text = ("Launch Attack");
+				    UpdateButton("Launch Attack", S2Button1);
 				})
 
 				{ IsBackground = true }.Start();
@@ -136,11 +146,11 @@ namespace TheDashlorisX
 			    {
 				new Thread(() =>
 				{
-				    S2Button1.Text = ("Stopping Attack");
+				    UpdateButton("Stopping Attack", S2Button1);
 
 				    S2Log.SprucyLog.StopAttack();
 
-				    S2Button1.Text = ("Launch Attack");
+				    UpdateButton("Launch Attack", S2Button1);
 				})
 
 				{ IsBackground = true }.Start();
