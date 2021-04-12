@@ -150,6 +150,14 @@ namespace TheDashlorisX
 			try
 			{
 			    SprucyLog.InitializePage(DashWindow, Capsule);
+
+			    foreach (Control Control in Capsule.Controls)
+			    {
+				if (Control.Visible)
+				{
+				    Control.Hide();
+				}
+			    }
 			}
 
 			catch (Exception E)
@@ -159,14 +167,6 @@ namespace TheDashlorisX
 		    }
 
 		    Capsule.Invoke(new MethodInvoker(Invoker));
-
-		    foreach (Control Control in Capsule.Controls)
-		    {
-			if (Control.Visible)
-			{
-			    Control.Hide();
-			}
-		    }
 
 		    SprucyLog.Show();
 		}
@@ -272,7 +272,7 @@ namespace TheDashlorisX
 		try
 		{
 		    return (new Socket(DashNet.GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp)
-			{ Blocking = true, LingerState = new LingerOption(true, 0), SendTimeout = 0, ReceiveTimeout = 0, NoDelay = true });
+			{ Ttl = 255, LingerState = new LingerOption(true, 0) });
 		}
 
 		catch (Exception E)
@@ -343,8 +343,13 @@ namespace TheDashlorisX
 		    {
 			StatTimer.Elapsed += (s, e) =>
 			{
-			    Logy.S4TextBox1.Text = ($"{CurrentConnections}");
-			    Logy.S4TextBox2.Text = ($"{CurrentRequests}");
+			    void ChangeText()
+			    {
+				Logy.S4TextBox1.Text = ($"{CurrentConnections}");
+				Logy.S4TextBox2.Text = ($"{CurrentRequests}");
+			    }
+
+			    Logy.S4TextBox1.Parent.Invoke(new MethodInvoker(ChangeText));
 			};
 		    }
 
@@ -454,9 +459,9 @@ namespace TheDashlorisX
 					if (DashShell.Connected)
 					{
 					    SendArtilleryShell(DashShell, Tier1, Tier2);
-					    ReportStatics(Logy, true);//Add 
-
 					    Connections.Add(DashShell);
+
+					    ReportStatics(Logy, true);
 					}
 
 					else
@@ -465,21 +470,21 @@ namespace TheDashlorisX
 					}
 
 					CurrentRequests += 1;
-
+					
 					Thread.Sleep(SendDelay);
 				    }
 
 				    for (int Id = 0; Id < Connections.Count; Id += 1)
 				    {
-					if (!Connections[Id].Connected)
+					if (Connections[Id].)
 					{
 					    Connections[Id].Close();
 					    Connections.RemoveAt(Id);
 
-					    ReportStatics(Logy, false);//Remove
+					    ReportStatics(Logy, false);
 					}
 				    }
-
+				    
 				    Thread.Sleep(SendDelay);
 				}
 
@@ -520,7 +525,7 @@ namespace TheDashlorisX
 
 			    catch (Exception E)
 			    {
-				throw (ErrorHandler.GetException(E));
+				ErrorHandler.JustDoIt(E);
 			    }
 			}));
 		    }
@@ -536,12 +541,9 @@ namespace TheDashlorisX
 
 		    foreach (Thread DashWorker in DashWorkers)
 		    {
-			if (DashWorker.IsAlive)
-			{
-			    DashWorker.Join();
-			}
+			DashWorker.Join();
 		    }
-		    
+
 		    StopDurationCounter();
 		    StopStatUpdater();
 		}
