@@ -59,6 +59,7 @@
     <Compile Include="class\main\page\target\logger\AttaccLog.cs" />
     <Compile Include="class\main\page\target\LockOn.cs" />
     <Compile Include="class\main\page\target\logger\SprucyLoggy.cs" />
+    <Compile Include="class\main\page\target\logger\UserAgents.cs" />
     <Compile Include="class\main\page\target\Settings.cs" />
     <Compile Include="class\main\page\tos\AppToS.cs" />
     <Compile Include="class\util\DashFramework.cs" />
@@ -98,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\MenuBarIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\useragents.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
