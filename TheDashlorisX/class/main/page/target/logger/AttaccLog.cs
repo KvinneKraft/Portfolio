@@ -396,9 +396,6 @@ namespace TheDashlorisX
 	    {
 		try
 		{
-		    for (int k = 0; k < 8; k += 1)
-		    MessageBox.Show($"{GetRandomUA()}");
-
 		    StartDurationCounter(Tier1.Item3, Logy);
 		    StartStatUpdater(Logy);
 
