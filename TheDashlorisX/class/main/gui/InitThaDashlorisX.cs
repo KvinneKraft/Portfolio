@@ -84,58 +84,80 @@ namespace TheDashlorisX
 	}
 
 	private readonly AttaccLog S2Log = new AttaccLog();
-	private readonly Button S2Button = new Button(); 
+
+	private readonly Button S2Button1 = new Button();
+	private readonly Button S2Button2 = new Button();
 
 	private void S2SetupAttackEvent()
 	{
 	    try
 	    {
-		S2Button.Click += (s, e) =>
+		try
 		{
-		    if (S3Class1.S1Container1.Visible || S2Log.Visible())
-		    { 
-			if (S2Button.Text == "Launch Attack")
+		    S2Button2.Click += (s, e) =>
+		    {
+			if (S3Class1.S1Container1.Visible || S2Log.Visible())
 			{
-			    new Thread(() =>
+			    if (S2Button1.Text == "Launch Attack")
 			    {
-				S2Button.Text = ("Stop Attack");
-
-				try
-				{
-				    S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
-				}
-
-				catch (Exception E)
-				{
-				    ErrorHandler.JustDoIt(E);
-				}
-
-				S2Button.Text = ("Launch Attack");
-			    })
-
-			    { IsBackground = true }.Start();
+				S3HideContainers();
+				S3Class1.Show();
+			    }
 			}
+		    };
 
-			else if (S2Button.Text == "Stop Attack")
+		    S2Button1.Click += (s, e) =>
+		    {
+			if (S3Class1.S1Container1.Visible || S2Log.Visible())
 			{
-			    new Thread(() =>
+			    if (S2Button1.Text == "Launch Attack")
 			    {
-				S2Button.Text = ("Stopping Attack");
+				new Thread(() =>
+				{
+				    S2Button1.Text = ("Stop Attack");
 
-				S2Log.SprucyLog.StopAttack();
+				    try
+				    {
+					S2Log.CommenceLaunch(S3Class1, LockOn.S3Settings, DashWindow, Capsule);
+				    }
 
-				S2Button.Text = ("Launch Attack");
-			    })
+				    catch (Exception E)
+				    {
+					ErrorHandler.JustDoIt(E);
+				    }
 
-			    { IsBackground = true }.Start();
+				    S2Button1.Text = ("Launch Attack");
+				})
+
+				{ IsBackground = true }.Start();
+			    }
+
+			    else if (S2Button1.Text == "Stop Attack")
+			    {
+				new Thread(() =>
+				{
+				    S2Button1.Text = ("Stopping Attack");
+
+				    S2Log.SprucyLog.StopAttack();
+
+				    S2Button1.Text = ("Launch Attack");
+				})
+
+				{ IsBackground = true }.Start();
+			    }
 			}
-		    }
-		};
+		    };
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
 
@@ -160,12 +182,17 @@ namespace TheDashlorisX
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
 
-		var Button1Size = new Size(100, 24);
-		var Button1Loca = new Point(Container1Size.Width - 105, 5);
-		var Button1Cola = DashWindow.BackColor;//6, 14, 36
+		var ButtonSize = new Size(100, 24);
+		var ButtonBCol = DashWindow.BackColor;//6, 14, 36
 
-		Control.Button(S2Container1, S2Button, Button1Size, Button1Loca, Button1Cola, Color.White, 1, 9, ("Launch Attack"));
-		Tool.Round(S2Button, 6);
+		var Button1Loca = new Point(Container1Size.Width - 105, 5);
+		var Button2Loca = new Point(Container1Size.Width - 220, 5);
+
+		Control.Button(S2Container1, S2Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 9, ("Launch Attack"));
+		Control.Button(S2Container1, S2Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 9, ("Main Panel"));
+
+		Tool.Round(S2Button1, 6);
+		Tool.Round(S2Button2, 6);
 
 		S2SetupHoverEvents();
 		S2SetupAttackEvent();
