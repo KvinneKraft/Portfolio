@@ -230,7 +230,7 @@ namespace TheDashlorisX
 		    {
 			WorkTimer.Elapsed += (s, e) =>
 			{
-			    Logy.SendLog("+ Timer finished 'Dashlorising' the given host!", true);
+			    Logy.SendLog("+ Timer finished 'Dashlorising' the given host!");
 			    Logy.SendLog("- Give me a moment to catch my breath ....");
 
 			    Logy.KeepStressing = false;
