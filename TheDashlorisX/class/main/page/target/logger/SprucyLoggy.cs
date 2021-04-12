@@ -141,7 +141,9 @@ namespace TheDashlorisX
 		    try
 		    {
 			SendLog($"- Resetting statistics ....", true);
+
 			UpdateStats();
+
 			SendLog($"+ Statistics have been reset successfully!", true);
 		    }
 
@@ -366,9 +368,14 @@ namespace TheDashlorisX
 		if (checkVerbose && !KeepVerbosing)
 		{
 		    return;
-		};
+		}
 
-		S3TextBox.AppendText($"{Data}{(newLine ? "\r\n" : string.Empty)}");
+		void SendIt()
+		{
+		    S3TextBox.AppendText($"{Data}{(newLine ? "\r\n" : string.Empty)}");
+		}
+
+		S3TextBox.Parent.Invoke(new MethodInvoker(SendIt));
 	    }
 
 	    catch (Exception E)
@@ -381,7 +388,8 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		S1Container1.Show();
+		S1Container1.Parent.Invoke(
+		    new MethodInvoker(S1Container1.Show));
 	    }
 
 	    catch (Exception E)
@@ -394,7 +402,8 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		S1Container1.Hide();
+		S1Container1.Parent.Invoke(
+		    new MethodInvoker(S1Container1.Hide));
 	    }
 
 	    catch (Exception E)
