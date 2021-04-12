@@ -100,8 +100,5 @@
   <ItemGroup>
     <None Include="resources\MenuBarIcon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="resources\useragents.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
