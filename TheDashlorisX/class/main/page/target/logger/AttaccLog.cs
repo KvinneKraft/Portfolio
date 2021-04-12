@@ -237,7 +237,7 @@ namespace TheDashlorisX
 			};
 		    }
 
-		    WorkTimer.Interval = Duration;
+		    WorkTimer.Interval = Duration * 1000;
 		    WorkTimer.Enabled = true;
 
 		    WorkTimer.Start();
