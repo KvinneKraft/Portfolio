@@ -397,6 +397,22 @@ namespace TheDashlorisX
 		}
 	    }
 
+	    private bool SocketConnected(Socket Socket)
+	    {
+		try
+		{
+		    return (Socket.Receive(Encoding.ASCII
+			.GetBytes("Are you still there?")) != 0);
+		}
+
+		catch
+		{
+		    Socket.Close(0);
+
+		    return false;
+		}
+	    }
+
 	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2, (List<string>, List<string>) Tier3)
 	    {
 		try
@@ -474,14 +490,19 @@ namespace TheDashlorisX
 					Thread.Sleep(SendDelay);
 				    }
 
+				    byte[] byteSet = new byte[4];
+
 				    for (int Id = 0; Id < Connections.Count; Id += 1)
 				    {
-					if (Connections[Id].)
+					if (!SocketConnected(Connections[Id]))
 					{
-					    Connections[Id].Close();
 					    Connections.RemoveAt(Id);
-
 					    ReportStatics(Logy, false);
+					}
+
+					else
+					{
+					    SendArtilleryShell(Connections[Id], Tier1, Tier2);
 					}
 				    }
 				    
