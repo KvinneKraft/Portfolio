@@ -40,6 +40,21 @@ namespace TheDashlorisX
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Capsule.BackColor);
 
+		S1Container1.VisibleChanged += (s, e) =>
+		{
+		    if (!S1Container1.Visible)
+		    {
+			InitThaDashlorisX.S2Button1.Hide();
+			InitThaDashlorisX.S2Button2.Hide();
+		    }
+
+		    else
+		    {
+			InitThaDashlorisX.S2Button1.Show();
+			InitThaDashlorisX.S2Button2.Show();
+		    }
+		};
+
 		var Container2Size = new Size(Capsule.Width, 70);
 		var Container2Loca = new Point(0, 0);
 
