@@ -126,19 +126,6 @@ namespace TheDashlorisX
 	    }
 	}
 
-	(List<string>, List<string>) ParseSect3(Settings S3Class2)
-	{
-	    try
-	    {
-		return S3Class2.GetProxyData();
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 
 	private readonly DashArtillery Artillery = new DashArtillery();
 
@@ -170,8 +157,6 @@ namespace TheDashlorisX
 
 		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/                
 		(int, int, int, int, int, bool) Tier2 = ParseSect2(S3Class2);
-		/*Proxy Hosts and Proxy Credentials*/
-		(List<string>, List<string>) Tier3 = ParseSect3(S3Class2);
 		/*Host, Port, Duration and HTTP Version*/
 		(string, int, int, string) Tier1 = ParseSect1(S3Class1);
 
@@ -187,15 +172,9 @@ namespace TheDashlorisX
 		    return;
 		}
 
-		else if (Tier3.Item1 == null)
-		{
-		    SendLog("! The proxy configuration section was found incorrectly setup. Invalid values detected!");
-		    return;
-		}
-
 		SendLog("+ No errors found! proceeding with execution ....");
 
-		Artillery.Launch(this, SprucyLog, Tier1, Tier2, Tier3);
+		Artillery.Launch(this, SprucyLog, Tier1, Tier2);
 	    }
 
 	    catch (Exception E)
@@ -467,7 +446,7 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2, (List<string>, List<string>) Tier3)
+	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
 	    {
 		try
 		{
