@@ -62,9 +62,9 @@ namespace TheDashlorisX
 	    {
 		S2Container3.MouseClick += (s, e) =>
 		{
-		    if (S2Log.Visible())
+		    if (!S2Log.Visible())
 		    {
-			if (!S3Container3.Visible)
+			if (!S3Container1.Visible)
 			{
 			    S3Container1.Show();
 			}
@@ -101,8 +101,6 @@ namespace TheDashlorisX
 			    if (S2Button1.Text == "Launch Attack")
 			    {
 				S3HideContainers();
-
-				S2Log.SprucyLog.S1Container1.Hide();//fix this
 
 				S3Class1.Show();
 			    }
