@@ -245,22 +245,12 @@ namespace TheDashlorisX
 	    }
 	}
 
-
-	private readonly Dictionary<string, int> Stats = new Dictionary<string, int>()
-	{		// Pass as 'ref' for external modification.
-	    { "connections", 0 },
-	    { "requests", 0 }
-	};
-
 	private void UpdateStats(int Value1 = 0, int Value2 = 0)
 	{
 	    try
 	    {
-		Stats["connections"] = Value1;
-		Stats["requests"] = Value2;
-
-		S4TextBox1.Text = $"{Stats["connections"]}";
-		S4TextBox2.Text = $"{Stats["requests"]}";
+		S4TextBox1.Text = $"{Value1}";
+		S4TextBox2.Text = $"{Value2}";
 	    }
 
 	    catch (Exception E)
@@ -367,7 +357,9 @@ namespace TheDashlorisX
 		SendLog("- Processing forceful command ....", true);
 
 		KeepStressing = false;
+
 		Thread.Sleep(2500);
+
 		KeepStressing = true;
 
 		SendLog("+ Forceful command has been executed!", true);
