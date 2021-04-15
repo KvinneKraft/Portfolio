@@ -338,12 +338,15 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		Init1(DashWindow, Capsule);
-		Init2(DashWindow);
-		Init3();
-		Init4(DashWindow);
+		if (RequiresInit)
+		{
+		    Init1(DashWindow, Capsule);
+		    Init2(DashWindow);
+		    Init3();
+		    Init4(DashWindow);
 
-		RequiresInit = false;
+		    RequiresInit = false;
+		}
 	    }
 
 	    catch (Exception E)
