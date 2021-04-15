@@ -15,6 +15,7 @@ using System.Collections.Generic;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -28,31 +29,25 @@ namespace TheDashlorisX
 
 	public readonly PictureBox S1Container1 = new PictureBox();
 	private readonly PictureBox S1Container2 = new PictureBox();
-	private readonly PictureBox S1Container3 = new PictureBox();
 
 	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
 	    {
-		var Container1Size = new Size(Capsule.Width, 201);
+		var Container1Size = new Size(Capsule.Width, 120);
 		var Container1Loca = new Point(-2, -2);
 		var Container1BCol = Capsule.BackColor;
 
 		Control.Image(Capsule, S1Container1, Container1Size, Container1Loca, Container1BCol);
 
-		var Container2Size = new Size(Capsule.Width, 95);
-		var Container3Size = new Size(Capsule.Width, 96);
-
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
 
-		var Container3Loca = new Point(0, 105);
+		var Container2Size = new Size(Capsule.Width, 120);//95);
 		var Container2Loca = new Point(0, 0);
-
-		Control.Image(S1Container1, S1Container3, Container3Size, Container3Loca, ContainerBCol);
+		
 		Control.Image(S1Container1, S1Container2, Container2Size, Container2Loca, ContainerBCol);
  
 		Tool.Round(S1Container2, 6);
-		Tool.Round(S1Container3, 6);
 	    }
 
 	    catch (Exception E)
@@ -209,108 +204,6 @@ namespace TheDashlorisX
 	    }
 	}
 
-	public (List<string>, List<string>) GetProxyData()
-	{//---Change here:
-	    try
-	    {
-		return (new List<string>(), new List<string>());
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private readonly Label S3Label1 = new Label();
-	private readonly Label S3Label2 = new Label();
-
-	private Size S3TextBoxSize(Size Size, Point Loca, int Height = 20)
-	{
-	    try
-	    {
-		int Width = (S3Container1.Width - (Size.Width + Loca.X) - 20);
-		return new Size(Width, Height);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	private readonly Button S3Button1 = new Button();
-	private readonly Button S3Button2 = new Button();
-	private readonly Button S3Button3 = new Button();
-
-	private void InitS3(InitThaDashlorisX Parent)
-	{
-	    try
-	    {
-		var Container1Size = new Size(S1Container3.Width - 20, S1Container3.Height - 20);
-		var Container1Loca = new Point(10, 10);
-
-		Control.Image(S1Container3, S3Container1, Container1Size, Container1Loca, S1Container3.BackColor);
-
-		CHelper.LabelParent = S3Container1;
-
-		var Label1Size = CHelper.GetFontSize("Proxy List:");
-		var Label1Loca = new Point(0, 0);
-
-		var TextBox1Loca = CHelper.ControlX(Label1Size, Label1Loca, 0, 0);
-		var TextBox1Size = S3TextBoxSize(Label1Size, Label1Loca);
-
-		var Label2Size = CHelper.GetFontSize("Credential List:");
-		var Label2Loca = new Point(0, Label1Size.Height + 10);
-
-		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Label2Loca.Y, 0);
-		var TextBox2Size = S3TextBoxSize(Label2Size, Label2Loca);
-
-		S3AddTextBox(S3TextBox1, S3Selector1, TextBox1Size, TextBox1Loca, ("<Select Text File>"));
-		CHelper.AddLabel(S3Label1, Label1Size, Label1Loca, ("Proxy List:"));
-
-		S3AddTextBox(S3TextBox2, S3Selector2, TextBox2Size, TextBox2Loca, ("<Select Text File>"));
-		CHelper.AddLabel(S3Label2, Label2Size, Label2Loca, ("Credential List:"));
-
-		var Container2Size = new Size(335, 20);
-		var Container2Loca = new Point(-2, Label2Loca.Y + Label2Size.Height + 10);
-
-		Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, S3Container1.BackColor);
-
-		var ButtonSize = new Size(105, 20);
-		var ButtonBCol = S3TextBox1.BackColor;
-
-		var Button1Loca = new Point(0, 0);
-		var Button2Loca = new Point(115, 0);
-		var Button3Loca = new Point(230, 0);
-
-		Control.Button(S3Container2, S3Button1, ButtonSize, Button1Loca, ButtonBCol, Color.White, 1, 8, "Test Servers");
-		Control.Button(S3Container2, S3Button2, ButtonSize, Button2Loca, ButtonBCol, Color.White, 1, 8, "Modify Header");
-		Control.Button(S3Container2, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, "Go Back");
-		
-		foreach (Control Control in S3Container2.Controls)
-		{
-		    if (Control is Button)
-		    {
-			Tool.Round(Control, 6);
-		    }
-		}
-
-		S3Button3.Click += (s, e) =>
-		{
-		    Parent.HideReference();
-		    Parent.S3Class1.Show();
-
-		    Hide();
-		};
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
 
 	private bool isInitialized = false;
 
@@ -322,7 +215,6 @@ namespace TheDashlorisX
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2(Capsule);
-		    InitS3(Parent);
 
 		    Hide();
 
