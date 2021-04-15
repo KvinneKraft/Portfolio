@@ -62,7 +62,7 @@ namespace TheDashlorisX
 	    {
 		S2Container3.MouseClick += (s, e) =>
 		{
-		    if (!S2Log.Visible())
+		    if (S2Log.Visible())
 		    {
 			if (!S3Container3.Visible)
 			{
@@ -85,8 +85,8 @@ namespace TheDashlorisX
 
 	private readonly AttaccLog S2Log = new AttaccLog();
 
-	private readonly Button S2Button1 = new Button();
-	private readonly Button S2Button2 = new Button();
+	public static readonly Button S2Button1 = new Button();
+	public static readonly Button S2Button2 = new Button();
 
 	private void S2SetupAttackEvent()
 	{
@@ -101,6 +101,9 @@ namespace TheDashlorisX
 			    if (S2Button1.Text == "Launch Attack")
 			    {
 				S3HideContainers();
+
+				S2Log.SprucyLog.S1Container1.Hide();//fix this
+
 				S3Class1.Show();
 			    }
 			}
@@ -203,6 +206,9 @@ namespace TheDashlorisX
 
 		Tool.Round(S2Button1, 6);
 		Tool.Round(S2Button2, 6);
+
+		S2Button1.Hide();
+		S2Button2.Hide();
 
 		S2SetupHoverEvents();
 		S2SetupAttackEvent();
