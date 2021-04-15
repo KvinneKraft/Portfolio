@@ -367,7 +367,8 @@ namespace TheDashlorisX
 		SendLog("- Processing forceful command ....", true);
 
 		KeepStressing = false;
-		Thread.Sleep(1500);
+		Thread.Sleep(2500);
+		KeepStressing = true;
 
 		SendLog("+ Forceful command has been executed!", true);
 		SendLog("+ Artillery has retreated successfully!");
