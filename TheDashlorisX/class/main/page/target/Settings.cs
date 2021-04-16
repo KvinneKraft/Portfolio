@@ -90,13 +90,13 @@ namespace TheDashlorisX
 		DropMenu.SetupMenu(S1Container1, DropMenuLoca, DropMenuBCol, DropMenuBCol);
 
 		int ItemWidth = S2Label7.Width - 4;
-		int ItemHeight = 16;
+		int ItemHeight = 17;
 
 		var ItemBCol = S2Container1.BackColor;
 
-		DropMenu.AddItem(new Label(), ("(POST)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 6);
-		DropMenu.AddItem(new Label(), ("(PUT)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 6);
-		DropMenu.AddItem(new Label(), ("(GET)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 6);
+		DropMenu.AddItem(new Label(), ("(POST)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		DropMenu.AddItem(new Label(), ("(PUT)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		DropMenu.AddItem(new Label(), ("(GET)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		
 		foreach (Control Item in DropMenu.ContentContainer.Controls)
 		{
@@ -200,7 +200,7 @@ namespace TheDashlorisX
 		CHelper.AddLabel(S2Label4, Label4Size, Label4Loca, ("Max Connections:"));
 		CHelper.AddLabel(S2Label5, Label5Size, Label5Loca, ("Content-Length:"));
 		CHelper.AddLabel(S2Label6, Label6Size, Label6Loca, ("Method:"));
-		CHelper.AddLabel(S2Label7, Label7Size, Label7Loca, ("--- (POST) ---"), 7);
+		CHelper.AddLabel(S2Label7, Label7Size, Label7Loca, ("--- (POST) ---"), 8);
 
 		S2Label7.TextAlign = ContentAlignment.MiddleCenter;
 		S2Label7.BackColor = (S2Textbox1.BackColor);
@@ -224,48 +224,6 @@ namespace TheDashlorisX
 		var CheckBoxLoca = CHelper.ControlX(Label8Size, Label8Loca, Label8Loca.Y + 2, 0);
 
 		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, Capsule.BackColor, Color.DarkMagenta, true);
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-
-	private readonly PictureBox S3Container1 = new PictureBox();
-	private readonly PictureBox S3Container2 = new PictureBox();
-
-	private readonly TextBox S3TextBox1 = new TextBox();
-	private readonly TextBox S3TextBox2 = new TextBox();
-
-	private readonly List<PictureBox> S3ContainerCollection = new List<PictureBox>();
-
-	private readonly Button S3Selector1 = new Button();
-	private readonly Button S3Selector2 = new Button();
-
-	private void S3AddTextBox(TextBox TextBox, Button Button, Size Size, Point Loca, string Text, int FontHeight = 8)
-	{
-	    try
-	    {
-		PictureBox Container = new PictureBox();
-
-		var ContainerSize = new Size(Size.Width + 20, Size.Height);
-		var BCol = S1Container1.Parent.BackColor;
-
-		Control.Image(S3Container1, Container, ContainerSize, Loca, Color.White);
-
-		TextBox.TextAlign = HorizontalAlignment.Center;
-		TextBox.Text = (Text);
-
-		Control.TextBox(Container, TextBox, Size, new Point(), BCol, Color.White, 1, FontHeight);
-
-		var ButtonLoca = new Point(ContainerSize.Width - 20, 0);
-		var ButtonSize = new Size(20, 20);
-
-		Control.Button(Container, Button, ButtonSize, ButtonLoca, Color.DarkMagenta, Color.White, 1, FontHeight, ("^"));
-
-		S3ContainerCollection.Add(Container);
 	    }
 
 	    catch (Exception E)
