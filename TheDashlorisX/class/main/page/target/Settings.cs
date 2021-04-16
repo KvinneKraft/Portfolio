@@ -42,7 +42,7 @@ namespace TheDashlorisX
 
 		var ContainerBCol = DashWindow.MenuBar.MenuBar.BackColor;
 
-		var Container2Size = new Size(Capsule.Width, 140);//95);
+		var Container2Size = new Size(Capsule.Width, 124);//95);
 		var Container2Loca = new Point(0, 0);
 		
 		Control.Image(S1Container1, S1Container2, Container2Size, Container2Loca, ContainerBCol);
@@ -57,9 +57,10 @@ namespace TheDashlorisX
 	}
 
 
+	private readonly ControlHelper CHelper = new ControlHelper();
+
 	private readonly PictureBox S2Container1 = new PictureBox();
 	private readonly PictureBox S2Container2 = new PictureBox();
-
 	public readonly PictureBox S2Container3 = new PictureBox();
 
 	public readonly TextBox S2Textbox1 = new TextBox();
@@ -68,7 +69,10 @@ namespace TheDashlorisX
 	public readonly TextBox S2Textbox4 = new TextBox();
 	public readonly TextBox S2Textbox5 = new TextBox();
 
-	public readonly Label S2Label1 = new Label();
+	private readonly DropMenu S2DropMenu = new DropMenu();
+
+	private readonly Button S2Button = new Button();
+
 	private readonly Label S2Label2 = new Label();
 	private readonly Label S2Label3 = new Label();
 	private readonly Label S2Label4 = new Label();
@@ -76,9 +80,7 @@ namespace TheDashlorisX
 	private readonly Label S2Label6 = new Label();
 	private readonly Label S2Label7 = new Label();
 	private readonly Label S2Label8 = new Label();
-
-	private readonly ControlHelper CHelper = new ControlHelper();
-	private readonly DropMenu DropMenu = new DropMenu();
+	public readonly Label S2Label1 = new Label();
 
 	private void S2SetupDropDownMenu()
 	{
@@ -87,18 +89,18 @@ namespace TheDashlorisX
 		var DropMenuLoca = new Point(S1Container2.Left + S2Label7.Left + 10, 10 + S1Container2.Top + S2Label7.Top + S2Label7.Height);
 		var DropMenuBCol = S2Textbox4.BackColor;
 
-		DropMenu.SetupMenu(S1Container1, DropMenuLoca, DropMenuBCol, DropMenuBCol);
+		S2DropMenu.SetupMenu(S1Container1, DropMenuLoca, DropMenuBCol, DropMenuBCol);
 
 		int ItemWidth = S2Label7.Width - 4;
 		int ItemHeight = 17;
 
 		var ItemBCol = S2Container1.BackColor;
 
-		DropMenu.AddItem(new Label(), ("(POST)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		DropMenu.AddItem(new Label(), ("(PUT)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
-		DropMenu.AddItem(new Label(), ("(GET)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(POST)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(PUT)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
+		S2DropMenu.AddItem(new Label(), ("(GET)"), ItemBCol, Color.White, ItemWidth: ItemWidth, ItemHeight: ItemHeight, ItemTextSize: 7);
 		
-		foreach (Control Item in DropMenu.ContentContainer.Controls)
+		foreach (Control Item in S2DropMenu.ContentContainer.Controls)
 		{
 		    try
 		    {
@@ -118,7 +120,7 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-			DropMenu.Show();
+			S2DropMenu.Show();
 		    }
 
 		    catch (Exception E)
@@ -134,7 +136,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	private void InitS2(PictureBox Capsule)
+	private void InitS2(PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -215,13 +217,26 @@ namespace TheDashlorisX
 
 		S2SetupDropDownMenu();
 
-		var Label8Loca = new Point(0, TextBox5Loca.Y + TextBox5Size.Height + 10);
+		var ButtonLoca = new Point(0, S2Container1.Height - 20);
+		var ButtonSize = new Size(100, 20);
+
+		Control.Button(S2Container1, S2Button, ButtonSize, ButtonLoca, S2Textbox1.BackColor, Color.White, 1, 8, "Go Back");
+
+		S2Button.Click += (s, e) =>
+		{
+		    Parent.S3Class1.Show();
+		    S1Container1.Hide();
+		};
+
+		Tool.Round(S2Button, 6);
+
+		var Label8Loca = new Point(ButtonLoca.X + 110, ButtonLoca.Y);
 		var Label8Size = CHelper.GetFontSize("Random-UA:");
 
 		CHelper.AddLabel(S2Label8, Label8Size, Label8Loca, ("Random-UA:"));
 
-		var CheckBoxSize = new Size(16, 16);
 		var CheckBoxLoca = CHelper.ControlX(Label8Size, Label8Loca, Label8Loca.Y + 2, 0);
+		var CheckBoxSize = new Size(16, 16);
 
 		Control.CheckBox(S2Container1, S2Container2, S2Container3, CheckBoxSize, CheckBoxLoca, Capsule.BackColor, Color.DarkMagenta, true);
 	    }
@@ -242,7 +257,7 @@ namespace TheDashlorisX
 		if (!isInitialized)
 		{
 		    InitS1(Capsule, DashWindow);
-		    InitS2(Capsule);
+		    InitS2(Capsule, Parent);
 
 		    Hide();
 
