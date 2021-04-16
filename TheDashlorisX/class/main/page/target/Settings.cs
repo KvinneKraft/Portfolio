@@ -78,8 +78,8 @@ namespace TheDashlorisX
 	private readonly Label S2Label4 = new Label();
 	private readonly Label S2Label5 = new Label();
 	private readonly Label S2Label6 = new Label();
-	private readonly Label S2Label7 = new Label();
 	private readonly Label S2Label8 = new Label();
+	public readonly Label S2Label7 = new Label();
 	public readonly Label S2Label1 = new Label();
 
 	private void S2SetupDropDownMenu()
