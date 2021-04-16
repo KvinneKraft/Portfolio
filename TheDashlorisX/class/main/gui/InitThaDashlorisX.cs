@@ -56,24 +56,42 @@ namespace TheDashlorisX
 	private readonly PictureBox S2Container2 = new PictureBox();//Icon Container
 	private readonly PictureBox S2Container3 = new PictureBox();//Icon Itself
 
-	public void S2SetupHoverEvents()
+	public void S2SetupSideBarEvents()
 	{
 	    try
 	    {
-		S2Container3.MouseClick += (s, e) =>
+		void HandleSideBar()
 		{
-		    if (!S2Log.Visible())
+		    try
 		    {
-			if (!S3Container1.Visible)
+			if (!S2Button2.Visible)
 			{
-			    S3Container1.Show();
-			}
+			    if (!S3Container1.Visible)
+			    {
+				S3Container1.Show();
+			    }
 
-			else
-			{
-			    S3Container1.Hide();
+			    else
+			    {
+				S3Container1.Hide();
+			    }
 			}
 		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		S2Container2.MouseClick += (s, e) =>
+		{
+		    HandleSideBar();
+		};
+
+		S2Container3.MouseClick += (s, e) =>
+		{
+		    HandleSideBar();
 		};
 	    }
 
@@ -191,6 +209,7 @@ namespace TheDashlorisX
 		var Container3Size = new Size(24, 24);
 
 		Control.Image(S2Container2, S2Container3, Container3Size, Container3Loca, Container1BCol, Properties.Resources.MenuBarIcon);
+		S2SetupSideBarEvents();
 
 		var ButtonSize = new Size(100, 24);
 		var ButtonBCol = DashWindow.BackColor;//6, 14, 36
@@ -207,7 +226,6 @@ namespace TheDashlorisX
 		S2Button1.Hide();
 		S2Button2.Hide();
 
-		S2SetupHoverEvents();
 		S2SetupAttackEvent();
 	    }
 
