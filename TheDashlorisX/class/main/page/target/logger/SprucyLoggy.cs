@@ -334,7 +334,7 @@ namespace TheDashlorisX
 		    Init2(DashWindow);
 		    Init3();
 		    Init4(DashWindow);
-
+		    
 		    RequiresInit = false;
 		}
 	    }
