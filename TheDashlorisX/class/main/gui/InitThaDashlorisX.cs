@@ -101,7 +101,6 @@ namespace TheDashlorisX
 			    if (S2Button1.Text == "Launch Attack")
 			    {
 				S3HideContainers();
-
 				S3Class1.Show();
 			    }
 			}
