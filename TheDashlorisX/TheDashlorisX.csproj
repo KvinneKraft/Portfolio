@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="class\main\gui\InitThaDashlorisX.cs" />
+    <Compile Include="class\main\gui\StartGUIs.cs" />
     <Compile Include="class\main\page\info\AppInfo.cs" />
     <Compile Include="class\main\page\ping\ServerPing.cs" />
     <Compile Include="class\main\page\ports\PortScan.cs" />
