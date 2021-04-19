@@ -590,7 +590,10 @@ namespace DashFramework
 			return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
 		    }
 
-		    catch { /*Silenced for now.*/ return new Font("Modern", Height, FontStyle.Regular); };
+		    catch
+		    {
+			return new Font("Modern", Height, FontStyle.Regular);
+		    };
 		}
 	    }
 	}
