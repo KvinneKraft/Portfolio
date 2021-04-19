@@ -133,30 +133,30 @@ namespace DashFramework
 	    {
 		private readonly DashTools Tool = new DashTools();
 
-		public void SetUrl(Control Object, string Destination)
+	    public void SetUrl(Control Object, string Destination)
+	    {
+		try
 		{
-		    try
+		    Object.Click += (s, e) =>
 		    {
-			Object.Click += (s, e) =>
+			using (var Process = new Process())
 			{
-			    using (var Process = new Process())
+			    Process.StartInfo = new ProcessStartInfo()
 			    {
-				Process.StartInfo = new ProcessStartInfo()
-				{
-				    FileName = Destination,
-				    UseShellExecute = true,
-				};
+				FileName = Destination,
+				UseShellExecute = true,
+			    };
 
-				Process.Start();
-			    }
-			};
-		    }
-
-		    catch (Exception E)
-		    {
-			throw (ErrorHandler.GetException(E));
-		    }
+			    Process.Start();
+			}
+		    };
 		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
 
 		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 		{
