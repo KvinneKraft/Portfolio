@@ -24,6 +24,9 @@ namespace TheDashlorisX
 	    {
 		InitializeApp();
 
+		new InsufficientPermissions();
+		new AlreadyRunning();
+
 		Application.Run(DashWindow);
 	    }
 
