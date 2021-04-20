@@ -1767,6 +1767,9 @@ namespace DashFramework
 
 	    public string GetFilePath() =>
 		Assembly.GetExecutingAssembly().Location;
+
+	    public bool IsRunning(string ProcessName) =>
+		Process.GetProcessesByName("TheDashlorisX-X").Length > 1;
 	}
     }
 }
