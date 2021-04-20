@@ -302,11 +302,6 @@ namespace TheDashlorisX
 		Control.Button(S3Container1, S3Button3, ButtonSize, Button3Loca, ButtonBCol, Color.White, 1, 8, ("Geo IP"));
 		Control.Button(S3Container1, S3Button4, ButtonSize, Button4Loca, ButtonBCol, Color.White, 1, 8, ("I am Dumb!"));
 
-		foreach (Button Button in S3Container1.Controls)
-		{
-		    Tool.Round(Button, 6);
-		}
-
 		S3Button1.Click += (s, e) =>
 		{
 		    try
@@ -320,6 +315,37 @@ namespace TheDashlorisX
 			throw (ErrorHandler.GetException(E));
 		    }
 		};
+
+		S3Button2.Click += (s, e) =>
+		{
+		    try
+		    {
+
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
+
+		S3Button3.Click += (s, e) =>
+		{
+		    try
+		    {
+
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
+
+		foreach (Button Button in S3Container1.Controls)
+		{
+		    Tool.Round(Button, 6);
+		}
 	    }
 
 	    catch (Exception E)
