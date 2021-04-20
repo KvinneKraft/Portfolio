@@ -25,7 +25,7 @@ namespace TheDashlorisX
 	    {
 		DashInteract Interact = new DashInteract();
 
-		if (!Interact.IsAdministrator())
+		if (/*!*/Interact.IsAdministrator())
 		{
 		    new InsufficientPermissions();
 		}
