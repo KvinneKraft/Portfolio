@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 
 using DashFramework.Erroring;
+using DashFramework.System;
 
 namespace TheDashlorisX
 {
@@ -22,10 +23,19 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		InitializeApp();
+		DashInteract Interact = new DashInteract();
 
-		new InsufficientPermissions();
-		new AlreadyRunning();
+		if (!Interact.IsAdministrator())
+		{
+		    new InsufficientPermissions();
+		}
+
+		else if (Interact.IsRunning("TheDashloris-X"))
+		{
+		    new AlreadyRunning();
+		}
+
+		InitializeApp();
 
 		Application.Run(DashWindow);
 	    }
