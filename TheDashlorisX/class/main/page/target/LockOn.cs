@@ -264,6 +264,8 @@ namespace TheDashlorisX
 
 	public static readonly Settings S3Settings = new Settings();
 
+	private readonly GEOWhoosh GeoWhoosh = new GEOWhoosh();
+
 	private void InitS3(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
 	    try
@@ -333,7 +335,8 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-
+			GeoWhoosh.geoip.Show(Capsule, DashWindow, Parent);
+			Hide();
 		    }
 
 		    catch (Exception E)
