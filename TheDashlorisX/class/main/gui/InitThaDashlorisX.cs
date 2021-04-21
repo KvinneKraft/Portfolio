@@ -436,12 +436,8 @@ namespace TheDashlorisX
 		Init4();//Capsule
 
 		S3Container1.BringToFront();
-
-		GEOWhoosh geoWhoosh = new GEOWhoosh();
-
-		geoWhoosh.geoip.Show(Capsule, DashWindow, this);
-
-		//S3Class1.InitializePage(DashWindow, Capsule, this);
+		
+		S3Class1.InitializePage(DashWindow, Capsule, this);
 	    }
 
 	    catch (Exception E)
