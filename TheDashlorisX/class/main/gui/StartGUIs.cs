@@ -22,7 +22,7 @@ using DashFramework.System;
 using DashFramework.Dialog;
 
 namespace TheDashlorisX
-{//put into single class:
+{
     public class InsufficientPermissions
     {
 	private readonly DashControls Control = new DashControls();
