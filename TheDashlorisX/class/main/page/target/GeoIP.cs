@@ -122,7 +122,7 @@ namespace TheDashlorisX
 			}
 		    }
 
-		    Parent.S3Class1.Show();
+		    Parent.S3Class1.Show(Parent);
 		};
 
 		Tool.Round(S1Button1, 6);
@@ -199,7 +199,7 @@ namespace TheDashlorisX
 		    needInit = false;
 		}
 
-		S1Container1.BringToFront();
+		Parent.HideContainers();
 		S1Container1.Show();
 	    }
 
