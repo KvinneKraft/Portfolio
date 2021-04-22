@@ -20,5 +20,62 @@ using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
+    public class WHOIS
+    {
+	private readonly DashControls Control = new DashControls();
+	private readonly DashTools Tool = new DashTools();
 
+
+	private readonly PictureBox S1Container1 = new PictureBox();
+
+	private void Init1()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	private bool needInit = true;
+
+	public void Show(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
+	{
+	    try
+	    {
+		if (needInit)
+		{
+
+
+		    needInit = false;
+		}
+
+		Parent.HideContainers();
+		S1Container1.Show();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void Hide()
+	{
+	    try
+	    {
+		S1Container1.Hide();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+    }
 }
