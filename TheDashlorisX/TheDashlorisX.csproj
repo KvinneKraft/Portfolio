@@ -57,12 +57,13 @@
     <Compile Include="class\main\page\info\AppInfo.cs" />
     <Compile Include="class\main\page\ping\ServerPing.cs" />
     <Compile Include="class\main\page\ports\PortScan.cs" />
-    <Compile Include="class\main\page\target\GEOWhoosh.cs" />
+    <Compile Include="class\main\page\target\GeoIP.cs" />
     <Compile Include="class\main\page\target\logger\AttaccLog.cs" />
     <Compile Include="class\main\page\target\LockOn.cs" />
     <Compile Include="class\main\page\target\logger\SprucyLoggy.cs" />
     <Compile Include="class\main\page\target\logger\UserAgents.cs" />
     <Compile Include="class\main\page\target\Settings.cs" />
+    <Compile Include="class\main\page\target\WhoIS.cs" />
     <Compile Include="class\main\page\tos\AppToS.cs" />
     <Compile Include="class\util\DashFramework.cs" />
     <Compile Include="class\main\ThaDashlorisX.cs" />
