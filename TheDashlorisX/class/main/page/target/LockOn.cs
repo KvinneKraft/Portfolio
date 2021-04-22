@@ -338,13 +338,13 @@ namespace TheDashlorisX
 	}
 
 
-	private bool needInit = false;
+	private bool needInit = true;
 
 	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
-		if (!needInit)
+		if (needInit)
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2();
