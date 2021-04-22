@@ -135,6 +135,9 @@ namespace TheDashlorisX
 	    }
 	}
 
+
+	private readonly ControlHelper CHelper = new ControlHelper();
+
 	private void Init2(PictureBox Capsule)
 	{
 	    try
@@ -145,16 +148,13 @@ namespace TheDashlorisX
 
 		Control.Image(S1Container2, S2Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
-		ControlHelper CHelper = new ControlHelper()
-		{
-		    TextBoxBCol = Capsule.BackColor,
-		    TextBoxParent = S2Container1,
-		    TextBoxFCol = Color.White,
+		CHelper.TextBoxBCol = Capsule.BackColor;
+		CHelper.TextBoxParent = S2Container1;
+		CHelper.TextBoxFCol = Color.White;
 
-		    LabelParent = S2Container1,
-		    LabelBCol = ContainerBCol,
-		    LabelFCol = Color.White
-		};
+		CHelper.LabelParent = S2Container1;
+		CHelper.LabelBCol = ContainerBCol;
+		CHelper.LabelFCol = Color.White;
 
 		var Label1Size = CHelper.GetFontSize("Host:");
 		var Label1Loca = new Point(0, 0);
