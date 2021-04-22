@@ -224,8 +224,7 @@ namespace TheDashlorisX
 
 		S2Button.Click += (s, e) =>
 		{
-		    Parent.S3Class1.Show();
-		    S1Container1.Hide();
+		    Parent.S3Class1.Show(Parent);
 		};
 
 		Tool.Round(S2Button, 6);
@@ -271,10 +270,11 @@ namespace TheDashlorisX
 	    }
 	}
 
-	public void Show()
+	public void Show(InitThaDashlorisX Parent)
 	{
 	    try
 	    {
+		Parent.HideContainers();
 		S1Container1.Show();
 	    }
 
