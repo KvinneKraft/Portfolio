@@ -243,26 +243,6 @@ namespace TheDashlorisX
 	private readonly Button S3Button3 = new Button();
 	private readonly Button S3Button4 = new Button();
 
-	private void HideCapsulePages(PictureBox Capsule)
-	{
-	    try
-	    {
-		foreach (Control Control in Capsule.Controls)
-		{
-		    if (Control.Visible)
-		    {
-			Control.Hide();
-		    }
-		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-
 	public static readonly Settings S3Settings = new Settings();
 
 	private readonly GEOIP GeoIP = new GEOIP();
@@ -310,8 +290,7 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-			HideCapsulePages(Capsule);
-			S3Settings.Show();
+			S3Settings.Show(Parent);
 		    }
 
 		    catch (Exception E)
@@ -324,7 +303,7 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-			WhoIS.Show();
+			WhoIS.Show(Capsule, DashWindow, Parent);
 		    }
 
 		    catch (Exception E)
@@ -359,13 +338,13 @@ namespace TheDashlorisX
 	}
 
 
-	private bool isInitialized = false;
+	private bool needInit = false;
 
 	public void InitializePage(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
-		if (!isInitialized)
+		if (!needInit)
 		{
 		    InitS1(Capsule, DashWindow);
 		    InitS2();
@@ -373,10 +352,11 @@ namespace TheDashlorisX
 
 		    S3Settings.Initialize(Capsule, DashWindow, Parent);
 
-		    isInitialized = (true);
+		    needInit = (false);
 		}
 
-		Show();
+		S1Container1.BringToFront();
+		S1Container1.Show();
 	    }
 
 	    catch (Exception E)
@@ -385,10 +365,11 @@ namespace TheDashlorisX
 	    }
 	}
 
-	public void Show()
+	public void Show(InitThaDashlorisX Parent)
 	{
 	    try
 	    {
+		Parent.HideContainers();
 		S1Container1.Show();
 	    }
 
