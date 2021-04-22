@@ -248,7 +248,7 @@ namespace DashFramework
 		    }
 		}
 
-		public readonly Dictionary<TextBox, PictureBox> TextBoxContainers = new Dictionary<TextBox, PictureBox>();
+		public readonly Dictionary<TextBox, int> TextBoxContainers = new Dictionary<TextBox, int>();
 
 		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
 		{
@@ -295,7 +295,7 @@ namespace DashFramework
 
 			    Tool.Resize(Object, ResizedSize);
 
-			    //TextBoxContainers.Add(Object, TextBoxContainer);
+			    TextBoxContainers.Add(Object, TextBoxContainers.Count + 1);
 			    TextBoxContainer.Controls.Add(Object);
 			}
 
