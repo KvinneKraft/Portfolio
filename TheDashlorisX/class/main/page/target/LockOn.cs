@@ -26,10 +26,10 @@ namespace TheDashlorisX
 	private readonly DashTools Tool = new DashTools();
 
 
-	public readonly PictureBox S1Container1 = new PictureBox();
 	private readonly PictureBox S1Container2 = new PictureBox();
 	private readonly PictureBox S1Container3 = new PictureBox();
-	
+	public readonly PictureBox S1Container1 = new PictureBox();
+
 	private void InitS1(PictureBox Capsule, DashWindow DashWindow)
 	{
 	    try
@@ -74,6 +74,9 @@ namespace TheDashlorisX
 	}
 
 
+	private readonly ControlHelper CHelper = new ControlHelper();
+	private readonly DropMenu S2DropMenu = new DropMenu();
+
 	private readonly PictureBox S2Container1 = new PictureBox();
 
 	public readonly TextBox S2TextBox1 = new TextBox();
@@ -88,9 +91,6 @@ namespace TheDashlorisX
 	private readonly Label S2Label4 = new Label();
 
 	public readonly Label S2Label5 = new Label();
-
-	private readonly ControlHelper CHelper = new ControlHelper();
-	private readonly DropMenu S2DropMenu = new DropMenu();
 
 	private void S2SetupDropDownMenu()
 	{
@@ -262,9 +262,11 @@ namespace TheDashlorisX
 	    }
 	}
 
+
 	public static readonly Settings S3Settings = new Settings();
 
-	private readonly GEOWhoosh GeoWhoosh = new GEOWhoosh();
+	private readonly GEOIP GeoIP = new GEOIP();
+	private readonly WHOIS WhoIS = new WHOIS();
 
 	private void InitS3(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
@@ -322,7 +324,7 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-
+			WhoIS.Show();
 		    }
 
 		    catch (Exception E)
@@ -335,8 +337,7 @@ namespace TheDashlorisX
 		{
 		    try
 		    {
-			GeoWhoosh.geoip.Show(Capsule, DashWindow, Parent);
-			Hide();
+			GeoIP.Show(Capsule, DashWindow, Parent);
 		    }
 
 		    catch (Exception E)
