@@ -106,7 +106,7 @@ namespace TheDashlorisX
 	public static readonly Button S2Button1 = new Button();
 	public static readonly Button S2Button2 = new Button();
 
-	private void S2SetupAttackEvent()
+	private void SetupAttackEvent(InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -118,8 +118,7 @@ namespace TheDashlorisX
 			{
 			    if (S2Button1.Text == "Launch Attack")
 			    {
-				S3HideContainers();
-				S3Class1.Show();
+				S3Class1.Show(Parent);
 			    }
 			}
 		    };
@@ -226,7 +225,7 @@ namespace TheDashlorisX
 		S2Button1.Hide();
 		S2Button2.Hide();
 
-		S2SetupAttackEvent();
+		SetupAttackEvent(this);
 	    }
 
 	    catch (Exception E)
@@ -247,7 +246,7 @@ namespace TheDashlorisX
 	private readonly Button S3Button4 = new Button();
 	private readonly Button S3Button5 = new Button();
 
-	private void S3HideContainers()
+	public void HideContainers()
 	{
 	    try
 	    {
@@ -265,25 +264,9 @@ namespace TheDashlorisX
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+	
 
-	private delegate void PageLink();
-
-	public void HideReference()
-	{
-	    try
-	    {
-		S3HideContainers();
-
-		LockOn.S3Settings.Hide();
-
-		S3Class1.Show();
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
+	private delegate void PageHandle(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent);
 
 	public readonly ServerPing S3Class3 = new ServerPing();
 	public readonly PortScan S3Class2 = new PortScan();
@@ -291,7 +274,7 @@ namespace TheDashlorisX
 	public readonly AppToS S3Class5 = new AppToS();
 	public readonly LockOn S3Class1 = new LockOn();
 
-	private delegate void PageHandle(DashWindow DashWindow, PictureBox Capsule, InitThaDashlorisX Parent);
+	private delegate void PageLink();
 
 	private void InitS3Events()
 	{
@@ -319,7 +302,7 @@ namespace TheDashlorisX
 		{
 		    Init.Key.Click += (s, e) =>
 		    {
-			S3HideContainers();
+			HideContainers();
 			
 			Init.Value.Invoke(DashWindow, Capsule, this);
 
