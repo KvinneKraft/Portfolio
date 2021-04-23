@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Collections;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -23,14 +24,14 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		DashInteract Interact = new DashInteract();
+		var Interact = new DashInteract();
 
 		if (/*!*/Interact.IsAdministrator())
 		{
 		    new InsufficientPermissions();
 		}
 
-		else if (Interact.IsRunning("TheDashloris-X"))
+		else if (Interact.IsRunning(Process.GetCurrentProcess().ProcessName))
 		{
 		    new AlreadyRunning();
 		}
