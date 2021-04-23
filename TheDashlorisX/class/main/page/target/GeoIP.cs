@@ -186,6 +186,19 @@ namespace TheDashlorisX
 	}
 
 
+	private void RefreshIPData(InitThaDashlorisX Parent)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	private bool needInit = true;
 
 	public void Show(PictureBox Capsule, DashWindow DashWindow, InitThaDashlorisX Parent)
@@ -198,8 +211,11 @@ namespace TheDashlorisX
 
 		    needInit = false;
 		}
-
+		
 		Parent.HideContainers();
+
+		RefreshIPData(Parent);
+
 		S1Container1.Show();
 	    }
 
