@@ -66,7 +66,7 @@ namespace TheDashlorisX
 		var Label3Size = CHelper.GetFontSize("Region Name:");
 		var Label3Loca = new Point(0, 30);
 
-		var TextBox3Size = new Size(100, 20);
+		var TextBox3Size = new Size(125, 20);
 		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca, Extra: 0);
 
 		var Label4Size = CHelper.GetFontSize("Metro:");
@@ -78,7 +78,7 @@ namespace TheDashlorisX
 		var Label5Size = CHelper.GetFontSize("Zip Code:");
 		var Label5Loca = new Point(0, 60);
 
-		var TextBox5Size = new Size(110, 20);
+		var TextBox5Size = new Size(75, 20);
 		var TextBox5Loca = CHelper.ControlX(Label5Size, Label5Loca, Extra: 0);
 
 		var Label6Size = CHelper.GetFontSize("Time Zone:");
@@ -94,11 +94,16 @@ namespace TheDashlorisX
 		CHelper.AddTextBox(S1TextBox5, TextBox5Size, TextBox5Loca, ("Loading ...."));
 		CHelper.AddTextBox(S1TextBox6, TextBox6Size, TextBox6Loca, ("Loading ...."));
 
-		foreach (Control TextBox in S1Container3.Controls)
+		foreach (Control Control in S1Container3.Controls)
 		{
-		    if (TextBox is TextBox)
+		    if (Control is PictureBox)
 		    {
-			((TextBox)TextBox).TextAlign = HorizontalAlignment.Center;
+			if (Control.Controls.Count > 0)
+			{
+			    TextBox SControl = Control.Controls[0] as TextBox;
+			    SControl.TextAlign = HorizontalAlignment.Center;
+			    Tool.Round(SControl, 6);
+			}
 		    }
 		}
 
@@ -268,7 +273,22 @@ namespace TheDashlorisX
 
 					raw.Add(format);
 				    }
-					
+
+				    /*
+				     0 "ip":"1.1.1.1",
+				     1 "country_code":"AU",
+				     2 "country_name":"Australia",
+				     3 "region_code":"",
+				     4 "region_name":"",
+				     5 "city":"",
+				     6 "zip_code":"",
+				     7 "time_zone":"Australia/Sydney",
+				     8 "latitude":-33.494,
+				     9 "longitude":143.2104,
+				     10 "metro_code":0
+				     });
+				     */
+
 				    string p1 = (raw[2]);//country_name 2
 				    string p2 = (raw[5]);//city 5
 				    string p3 = (raw[4]);//region_name 4
@@ -276,12 +296,12 @@ namespace TheDashlorisX
 				    string p5 = (raw[6]);//zip_code 6
 				    string p6 = (raw[7]);//time_zone 7
 				     // Loop?  One Liners?  Come on man, lazy past Dashie, the fuck.
-				    S1TextBox1.Text = p1;
-				    S1TextBox2.Text = p2;
-				    S1TextBox3.Text = p3;
-				    S1TextBox4.Text = p4;
-				    S1TextBox5.Text = p5;
-				    S1TextBox6.Text = p6;
+				    S1TextBox1.Text = (p1.Length < 1 ? "N/A" : p1);
+				    S1TextBox2.Text = (p2.Length < 1 ? "N/A" : p2);
+				    S1TextBox3.Text = (p3.Length < 1 ? "N/A" : p3);
+				    S1TextBox4.Text = (p4.Length < 1 ? "N/A" : p4);
+				    S1TextBox5.Text = (p5.Length < 1 ? "N/A" : p5);
+				    S1TextBox6.Text = (p6.Length < 1 ? "N/A" : p6);
 				}
 			    }
 			}
