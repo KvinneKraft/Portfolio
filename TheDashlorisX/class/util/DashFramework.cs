@@ -524,37 +524,45 @@ namespace DashFramework
 
 		public void Round(Control Object, int Radius)
 		{
-		    Object.Paint += (s, e) =>
+		    try
 		    {
-			try
+			Object.Paint += (s, e) =>
 			{
-			    ReadForm.PaintOwner(e);
+			    try
+			    {
+				ReadForm.PaintOwner(e);
 
-			    GraphicsPath GraphicsPath = new GraphicsPath();
-		    
-			    var Rectangle = new Rectangle(0, 0, Object.Width, Object.Height);
+				GraphicsPath GraphicsPath = new GraphicsPath();
 
-			    int R = Radius * 3;
+				var Rectangle = new Rectangle(0, 0, Object.Width, Object.Height);
 
-			    int H = Rectangle.Height;
-			    int W = Rectangle.Width;
+				int R = Radius * 3;
 
-			    int X = Rectangle.X;
-			    int Y = Rectangle.X;
+				int H = Rectangle.Height;
+				int W = Rectangle.Width;
 
-			    GraphicsPath.AddArc(X, Y, R, R, 170, 90);
-			    GraphicsPath.AddArc(X + W - R, Y, R, R, 270, 90);
-			    GraphicsPath.AddArc(X + W - R, Y + H - R, R, R, 0, 90);
-			    GraphicsPath.AddArc(X, Y + H - R, R, R, 80, 90);
+				int X = Rectangle.X;
+				int Y = Rectangle.X;
 
-			    Object.Region = new Region(GraphicsPath);
-			}
+				GraphicsPath.AddArc(X, Y, R, R, 170, 90);
+				GraphicsPath.AddArc(X + W - R, Y, R, R, 270, 90);
+				GraphicsPath.AddArc(X + W - R, Y + H - R, R, R, 0, 90);
+				GraphicsPath.AddArc(X, Y + H - R, R, R, 80, 90);
 
-			catch (Exception E)
-			{
-			    throw (ErrorHandler.GetException(E));
-			}
-		    };
+				Object.Region = new Region(GraphicsPath);
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
 		}
 
 		[DllImport("gdi32.dll")] private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
@@ -955,71 +963,79 @@ namespace DashFramework
 
 	    public void AddMe(Control Surface, Color BarBCol, Color BorderBCol, int MenuBarHeight = 26)
 	    {
-		var MenuBarSize = new Size(Surface.Width, MenuBarHeight);
-		var MenuBarLoca = new Point(0, 0);
-		var MenuBarBCol = BarBCol;
-
-		Control.Image(Surface, MenuBar, MenuBarSize, MenuBarLoca, MenuBarBCol);
-		Tool.Interactive(MenuBar, Surface);
-
-		var LogoSize = new Size(38, 32);
-		var LogoLoca = new Point(5, 5);
-
-		Control.Image(Surface, LogoLayer2, LogoSize, LogoLoca, Surface.BackColor, ObjectImage: Resources.LOGO);
-		Control.Image(MenuBar, LogoLayer1, LogoSize, LogoLoca, BarBCol, ObjectImage: Resources.LOGO);
-
-		Tool.Interactive(LogoLayer1, Surface);
-		Tool.Interactive(LogoLayer2, Surface);
-		
-		var TitleSize = Tool.GetFontSize(MenuBarTitle.Text, 8);
-		var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
-
-		Control.Label(MenuBar, MenuBarTitle, TitleSize, TitleLoca, BarBCol, Color.White, 1, 8, MenuBarTitle.Text);
-		Tool.Interactive(MenuBarTitle, Surface);
-
-		var ButtonSize = new Size(65, MenuBarHeight);
-		var ButtonLoca = new Point(MenuBarSize.Width - ButtonSize.Width, 0);
-
-		if (Close)
+		try
 		{
-		    Control.Button(MenuBar, Button1, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "X");
-		    Tool.Interactive(Button1, Surface);
+		    var MenuBarSize = new Size(Surface.Width, MenuBarHeight);
+		    var MenuBarLoca = new Point(0, 0);
+		    var MenuBarBCol = BarBCol;
 
-		    Button1.Click += (s, e) =>
+		    Control.Image(Surface, MenuBar, MenuBarSize, MenuBarLoca, MenuBarBCol);
+		    Tool.Interactive(MenuBar, Surface);
+
+		    var LogoSize = new Size(38, 32);
+		    var LogoLoca = new Point(5, 5);
+
+		    Control.Image(Surface, LogoLayer2, LogoSize, LogoLoca, Surface.BackColor, ObjectImage: Resources.LOGO);
+		    Control.Image(MenuBar, LogoLayer1, LogoSize, LogoLoca, BarBCol, ObjectImage: Resources.LOGO);
+
+		    Tool.Interactive(LogoLayer1, Surface);
+		    Tool.Interactive(LogoLayer2, Surface);
+
+		    var TitleSize = Tool.GetFontSize(MenuBarTitle.Text, 8);
+		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
+
+		    Control.Label(MenuBar, MenuBarTitle, TitleSize, TitleLoca, BarBCol, Color.White, 1, 8, MenuBarTitle.Text);
+		    Tool.Interactive(MenuBarTitle, Surface);
+
+		    var ButtonSize = new Size(65, MenuBarHeight);
+		    var ButtonLoca = new Point(MenuBarSize.Width - ButtonSize.Width, 0);
+
+		    if (Close)
 		    {
-			if (!Hide)
+			Control.Button(MenuBar, Button1, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "X");
+			Tool.Interactive(Button1, Surface);
+
+			Button1.Click += (s, e) =>
 			{
-			    Application.Exit();
-			}
+			    if (!Hide)
+			    {
+				Application.Exit();
+			    }
 
-			else
-			{
-			    Surface.Hide();
-			}
-		    };
-		}
+			    else
+			    {
+				Surface.Hide();
+			    }
+			};
+		    }
 
-		if (Close && Minimize)
-		{
-		    ButtonLoca.X -= ButtonSize.Width;
-		}
-
-		else if (Minimize)
-		{
-		    Control.Button(MenuBar, Button2, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "-");
-
-		    Button2.Click += (s, e) =>
+		    if (Close && Minimize)
 		    {
-			Surface.SendToBack();
-		    };
+			ButtonLoca.X -= ButtonSize.Width;
+		    }
 
-		    Tool.Interactive(Button2, Surface);
+		    else if (Minimize)
+		    {
+			Control.Button(MenuBar, Button2, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "-");
+
+			Button2.Click += (s, e) =>
+			{
+			    Surface.SendToBack();
+			};
+
+			Tool.Interactive(Button2, Surface);
+		    }
+
+		    var RectangleSize = new Size(MenuBar.Width - 2, Surface.Height - MenuBar.Height + 1);
+		    var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
+
+		    Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
 		}
 
-		var RectangleSize = new Size(MenuBar.Width - 2, Surface.Height - MenuBar.Height + 1);
-		var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
-		
-		Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 
 	    public void UpdateTitle(string NewValue)
@@ -1209,13 +1225,21 @@ namespace DashFramework
 
 	    private void SetPageCount(string PageData, Size ConSize)
 	    {
-		S2Pages = (TextRenderer.MeasureText
-		(
-		    PageData, Tool.GetFont(1, 9), new Size(ConSize.Width, 800),
-		    flags: TextFormatFlags.WordBreak
-		)
+		try
+		{
+		    S2Pages = (TextRenderer.MeasureText
+		    (
+			PageData, Tool.GetFont(1, 9), new Size(ConSize.Width, 800),
+			flags: TextFormatFlags.WordBreak
+		    )
 
-		.Height / ConSize.Height) + 1;
+		    .Height / ConSize.Height) + 1;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 
 	    private void Init2(string PageData, Size ConSize)
@@ -1415,91 +1439,115 @@ namespace DashFramework
 
 	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
 	    {
-		var Container1Size = new Size(10, 0);
-		var Container1Loca = MenuLocation;
-		var Container1BCol = MenuColor;
-
-		Control.Image(Top, Container, Container1Size, Container1Loca, Container1BCol);
-
-		var Container2Size = Efficiency.Resize(Container1Size, 4, 4, false);
-		var Container2Loca = new Point(2, 2);
-		var Container2BCol = Color.White;
-
-		Control.Image(Container, ContentContainer, Container2Size, Container2Loca, Container2BCol);
-
-		var RectSize = Efficiency.Resize(Container1Size, 4, 4, false);
-		var RectLoca = new Point(1, 1);
-		var RectBCol = MenuBorderColor;
-
-		Tool.PaintRectangle(Container, 2, RectSize, RectLoca, RectBCol);
-
-		Top.MouseEnter += (s, e) =>
+		try
 		{
-		    if (Container.Visible)
-		    {
-			Hide();
-		    }
-		};
+		    var Container1Size = new Size(10, 0);
+		    var Container1Loca = MenuLocation;
+		    var Container1BCol = MenuColor;
 
-		Hide();
+		    Control.Image(Top, Container, Container1Size, Container1Loca, Container1BCol);
+
+		    var Container2Size = Efficiency.Resize(Container1Size, 4, 4, false);
+		    var Container2Loca = new Point(2, 2);
+		    var Container2BCol = Color.White;
+
+		    Control.Image(Container, ContentContainer, Container2Size, Container2Loca, Container2BCol);
+
+		    var RectSize = Efficiency.Resize(Container1Size, 4, 4, false);
+		    var RectLoca = new Point(1, 1);
+		    var RectBCol = MenuBorderColor;
+
+		    Tool.PaintRectangle(Container, 2, RectSize, RectLoca, RectBCol);
+
+		    Top.MouseEnter += (s, e) =>
+		    {
+			if (Container.Visible)
+			{
+			    Hide();
+			}
+		    };
+
+		    Hide();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 
 	    public readonly Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
 
 	    private int GetY()
 	    {
-		if (MenuItems.Count > 0)
+		try
 		{
-		    var Item = ContentContainer.Controls[ContentContainer.Controls.Count - 1];
-		    return (Item.Top + Item.Height);
+		    if (MenuItems.Count > 0)
+		    {
+			var Item = ContentContainer.Controls[ContentContainer.Controls.Count - 1];
+			return (Item.Top + Item.Height);
+		    }
+
+		    return 0;
 		}
 
-		return 0;
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 
 	    public void AddItem(Label Object, string ItemName, Color ItemBCol, Color ItemFCol, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
 	    {
-		if (ItemWidth == -2 || ItemHeight == -2)
+		try
 		{
-		    if (ItemWidth == -2)
+		    if (ItemWidth == -2 || ItemHeight == -2)
 		    {
-			ItemWidth = ContentContainer.Width;
+			if (ItemWidth == -2)
+			{
+			    ItemWidth = ContentContainer.Width;
+			}
+
+			if (ItemHeight == -2)
+			{
+			    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
+			}
 		    }
 
-		    if (ItemHeight == -2)
+		    var ItemSize = new Size(ItemWidth, ItemHeight);
+		    var ItemLoca = new Point(0, GetY());
+
+		    Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, 1, ItemTextSize, ItemName);
+		    Object.TextAlign = ContentAlignment.TopCenter;
+
+		    int GetContentContainerWidth()
 		    {
-			ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
-		    }
-		}
+			if (ItemSize.Width > ContentContainer.Width)
+			{
+			    return (ItemSize.Width);
+			}
 
-		var ItemSize = new Size(ItemWidth, ItemHeight);
-		var ItemLoca = new Point(0, GetY());
-
-		Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, 1, ItemTextSize, ItemName);
-		Object.TextAlign = ContentAlignment.TopCenter;
-
-		int GetContentContainerWidth()
-		{
-		    if (ItemSize.Width > ContentContainer.Width)
-		    {
-			return (ItemSize.Width);
+			return (ContentContainer.Width);
 		    }
 
-		    return (ContentContainer.Width);
+		    var Container2Size = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
+		    var Container1Size = Efficiency.Resize(Container2Size, 4, 4);
+
+		    Tool.Resize(ContentContainer, Container2Size);
+		    Tool.Resize(Container, Container1Size);
+
+		    if (Index == -2)
+		    {
+			Index = MenuItems.Count;
+		    }
+
+		    MenuItems.Add(Index, Object);
 		}
 
-		var Container2Size = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
-		var Container1Size = Efficiency.Resize(Container2Size, 4, 4);
-
-		Tool.Resize(ContentContainer, Container2Size);
-		Tool.Resize(Container, Container1Size);
-
-		if (Index == -2)
+		catch (Exception E)
 		{
-		    Index = MenuItems.Count;
+		    throw (ErrorHandler.GetException(E));
 		}
-
-		MenuItems.Add(Index, Object);
 	    }
 
 	    public Label GetItem(int Index = -2)
@@ -1769,7 +1817,7 @@ namespace DashFramework
 		Assembly.GetExecutingAssembly().Location;
 
 	    public bool IsRunning(string ProcessName) =>
-		Process.GetProcessesByName("TheDashlorisX-X").Length > 1;
+		Process.GetProcessesByName(ProcessName).Length > 1;
 	}
     }
 }
