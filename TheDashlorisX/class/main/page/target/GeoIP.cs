@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 using System.Collections;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -61,13 +63,13 @@ namespace TheDashlorisX
 		var TextBox2Size = CHelper.TextBoxSize(Label2Size, Label2Loca);
 		var TextBox2Loca = CHelper.ControlX(Label2Size, Label2Loca, Extra: 0);
 
-		var Label3Size = CHelper.GetFontSize("Address:");
+		var Label3Size = CHelper.GetFontSize("Region Name:");
 		var Label3Loca = new Point(0, 30);
 
 		var TextBox3Size = new Size(100, 20);
 		var TextBox3Loca = CHelper.ControlX(Label3Size, Label3Loca, Extra: 0);
 
-		var Label4Size = CHelper.GetFontSize("Postal Code:");
+		var Label4Size = CHelper.GetFontSize("Metro:");
 		var Label4Loca = CHelper.ControlX(TextBox3Size, TextBox3Loca);
 
 		var TextBox4Size = CHelper.TextBoxSize(Label4Size, Label4Loca);
@@ -102,8 +104,8 @@ namespace TheDashlorisX
 
 		CHelper.AddLabel(S1Label2, Label1Size, Label1Loca, ("Country:"));
 		CHelper.AddLabel(S1Label3, Label2Size, Label2Loca, ("City:"));
-		CHelper.AddLabel(S1Label4, Label3Size, Label3Loca, ("Address:"));
-		CHelper.AddLabel(S1Label5, Label4Size, Label4Loca, ("Postal Code:"));
+		CHelper.AddLabel(S1Label4, Label3Size, Label3Loca, ("Region Name:"));
+		CHelper.AddLabel(S1Label5, Label4Size, Label4Loca, ("Metro:"));
 		CHelper.AddLabel(S1Label6, Label5Size, Label5Loca, ("Zip Code:"));
 		CHelper.AddLabel(S1Label7, Label6Size, Label6Loca, ("Time Zone:"));
 
@@ -186,11 +188,112 @@ namespace TheDashlorisX
 	}
 
 
-	private void RefreshIPData(InitThaDashlorisX Parent)
+	private readonly DashNet DashNet = new DashNet();
+
+	private void RefreshIPData(InitThaDashlorisX Parent)//you lazy fuck, you will have to recode this one.
 	{
 	    try
 	    {
+		new Thread(() =>
+		{
+		    try
+		    {
+			foreach (Control Control in S1Container3.Controls)
+			{
+			    if (Control is PictureBox)
+			    {
+				if (Control.Controls.Count > 0)
+				{
+				    Control SControl = Control.Controls[0];
 
+				    if (SControl is TextBox)
+				    {
+					if (!SControl.Text.Equals("Loading ...."))
+					{
+					    SControl.Text = ("Loading ....");
+					}
+				    }
+				}
+			    }
+			}
+			
+			string getHost()
+			{
+			    try
+			    {
+				string host = (Parent.S3Class1.S2TextBox1.Text);
+
+				if (!DashNet.CanIP(host))
+				{
+				    // Error
+				}
+
+				return DashNet.GetIP(host);
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			}
+
+			string url = ($"https://freegeoip.app/json/{getHost()}?callback=GeoIP");
+
+			HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
+
+			requestor.AutomaticDecompression = DecompressionMethods.GZip;
+
+			using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
+			{
+			    using (Stream streamor = responsor.GetResponseStream())
+			    {
+				using (StreamReader reador = new StreamReader(streamor))
+				{
+				    List<string> raw = new List<string>();
+					
+				    string[] getRid = new string[]//add a method for this to DashFramework
+				    {
+					"GeoIP({", ":", "\"", "}", ")", ";", "country_name",
+					"city", "region_name", "metro_code", "zip_code", "time_zone"
+				    };
+
+				    foreach (string p in reador.ReadToEnd().Split(','))
+				    {
+					string format = p;
+
+					foreach (string fukYou in getRid)
+					{
+					    format = format.Replace(fukYou, "");
+					}
+
+					raw.Add(format);
+				    }
+					
+				    string p1 = (raw[2]);//country_name 2
+				    string p2 = (raw[5]);//city 5
+				    string p3 = (raw[4]);//region_name 4
+				    string p4 = (raw[10]);//metro_code 10 
+				    string p5 = (raw[6]);//zip_code 6
+				    string p6 = (raw[7]);//time_zone 7
+				     // Loop?  One Liners?  Come on man, lazy past Dashie, the fuck.
+				    S1TextBox1.Text = p1;
+				    S1TextBox2.Text = p2;
+				    S1TextBox3.Text = p3;
+				    S1TextBox4.Text = p4;
+				    S1TextBox5.Text = p5;
+				    S1TextBox6.Text = p6;
+				}
+			    }
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		})
+
+		{ IsBackground = true }.Start();
 	    }
 
 	    catch (Exception E)
