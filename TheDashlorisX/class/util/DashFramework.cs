@@ -883,8 +883,7 @@ namespace DashFramework
 	    }
 
 	    public enum Buttons { OKCancel, YesNo, OK };
-
-	    // If already initialized, allow the ability to show already initialized dialog.  |  Assuming all parameters are given.
+	    
 	    public int Show(Color DialogBCol, Color DialogFCol, Size DialogSize, string Description, string Title, Buttons DialogButtons = Buttons.OK)
 	    {
 		try
