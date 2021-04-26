@@ -28,10 +28,56 @@ using DashFramework.Dialog;
 
 using TheDashlorisX.Properties;
 
-// Implement DropDownMenu.cs and DashMessageBox.cs (also recode from the brain);
-
 namespace DashFramework
 {
+    namespace Data
+    {
+	public class Dashlet<A, B, C>//Three Datatype Storage
+	{
+	    public A a;
+	    public B b;
+	    public C c;
+
+	    public A Item1() => a;
+	    public B Item2() => b;
+	    public C Item3() => c;
+
+	    public Dashlet(A a, B b, C c)
+	    {
+		this.a = a;
+		this.b = b;
+		this.c = c;
+	    }
+	}
+
+	public class DashList<A>//One Datatype Storage
+	{
+	    private readonly List<A> a = new List<A>();
+
+	    public A Get(int id)
+	    {
+		if (a.Count - 1 < id)
+		{
+		    return default(A);
+		}
+
+		return a[id];
+	    }
+
+	    public bool Remove(int id)
+	    {
+		if (a.Count - 1 < id)
+		{
+		    return false;
+		}
+
+		a.RemoveAt(id);
+
+		return true;
+	    }
+	}
+    }
+
     namespace Interface
     {
 	namespace Controls
@@ -421,6 +467,49 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public void AlignContainerTextBoxes(Control container, HorizontalAlignment alignment)
+		{
+		    try
+		    {
+			foreach (Control a1 in container.Controls)
+			{
+			    foreach (Control a2 in a1.Controls)
+			    {
+				if (a2 is TextBox)
+				{
+				    ((TextBox)a2).TextAlign = alignment;
+				}
+			    }
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void RoundContainerControls(Control container)
+		{
+		    try
+		    {
+			foreach (Control a1 in container.Controls)
+			{
+			    foreach (Control a2 in a1.Controls)
+			    {
+				Round(a2, 6);
+			    }
+
+			    Round(a1, 6);
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+		
 		public Size GetFontSize(string Text, int Size)
 		{
 		    return TextRenderer.MeasureText(Text, GetFont(1, Size));
