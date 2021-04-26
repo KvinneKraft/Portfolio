@@ -94,18 +94,8 @@ namespace TheDashlorisX
 		CHelper.AddTextBox(S1TextBox5, TextBox5Size, TextBox5Loca, ("Loading ...."));
 		CHelper.AddTextBox(S1TextBox6, TextBox6Size, TextBox6Loca, ("Loading ...."));
 
-		foreach (Control Control in S1Container3.Controls)
-		{
-		    if (Control is PictureBox)
-		    {
-			if (Control.Controls.Count > 0)
-			{
-			    TextBox SControl = Control.Controls[0] as TextBox;
-			    SControl.TextAlign = HorizontalAlignment.Center;
-			    Tool.Round(SControl, 6);
-			}
-		    }
-		}
+		Tool.AlignContainerTextBoxes(S1Container3, HorizontalAlignment.Center);
+		Tool.RoundContainerControls(S1Container3);
 
 		CHelper.AddLabel(S1Label2, Label1Size, Label1Loca, ("Country:"));
 		CHelper.AddLabel(S1Label3, Label2Size, Label2Loca, ("City:"));
@@ -115,20 +105,13 @@ namespace TheDashlorisX
 		CHelper.AddLabel(S1Label7, Label6Size, Label6Loca, ("Time Zone:"));
 
 		var ButtonSize = new Size(100, 20);
-		var ButtonLoca = new Point((S1Container3.Width - 100) / 2, 90);
+		var ButtonLoca = new Point((S1Container3.Width - 100) / 2, 100);
 
 		Control.Button(S1Container3, S1Button1, ButtonSize, ButtonLoca, S1Container1.BackColor, Color.White, 1, 8, "Go Back");
 
 		S1Button1.Click += (s, e) =>
 		{
-		    foreach (Control Control in Capsule.Controls)
-		    {
-			if (Control.Visible)
-			{
-			    Control.Hide();
-			}
-		    }
-
+		    Parent.HideContainers();
 		    Parent.S3Class1.Show(Parent);
 		};
 
@@ -152,8 +135,8 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Container1Size = new Size(Capsule.Width, 165);
-		var Container1Loca = new Point(0, (Capsule.Height - 185) / 2);
+		var Container1Size = new Size(Capsule.Width, 175);
+		var Container1Loca = new Point(0, (Capsule.Height - 195) / 2);
 		var Container1BCol = Capsule.BackColor;
 
 		var Container2Size = new Size(Container1Size.Width, Container1Size.Height - 35);
