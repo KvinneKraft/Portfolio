@@ -1,0 +1,15 @@
+﻿<Window x:Class="SDScan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SDScan"
+        mc:Ignorable="d"
+        Title="Dash SDScanner" Height="400" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+	<Image HorizontalAlignment="Left" Margin="10,10,0,165" Width="372"/>
+	<DockPanel Margin="26,27,246,319">
+	    <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+	</DockPanel>
+    </Grid>
+</Window>
