@@ -20,7 +20,10 @@ namespace SDScan
 	public MainWindow()
 	{
 	    InitializeComponent();
-	    
+
+	    Image image = new Image();
+
+	    image.RenderSize = new Size(200, 200);
 	}
     }
 }
