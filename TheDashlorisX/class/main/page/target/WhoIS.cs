@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 using System.Diagnostics;
 using System.Collections;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -93,7 +95,7 @@ namespace TheDashlorisX
 
 		S2TextBox1.Text = string.Format
 		(
-		    "[!]: This functionality is experimental!"
+		    "[!]: This functionality is experimental!\r\n"
 		);
 	    }
 
@@ -107,9 +109,10 @@ namespace TheDashlorisX
 	private readonly PictureBox S3Container1 = new PictureBox();
 	private readonly PictureBox S3Container2 = new PictureBox();
 
+	private readonly Button S3Button1 = new Button();
 	private readonly Label S3Label1 = new Label();
 
-	private void InitS3Con(DashWindow DashWindow)
+	private void InitS3Con(DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
@@ -126,7 +129,20 @@ namespace TheDashlorisX
 
 		var LabelLoca = new Point(10, 0);
 
-		Control.Label(S3Container1, S3Label1, Size.Empty, LabelLoca, S3Container1.BackColor, Color.White, 1, 15, ("DNS Lookup"));
+		Control.Label(S3Container1, S3Label1, Size.Empty, LabelLoca, S3Container1.BackColor, Color.White, 1, 15, ("Whoosh Lookup"));
+
+		var ButtonSize = new Size(85, 20);
+		var ButtonLoca = new Point(S3Label1.Width + 20, 4);
+
+		Control.Button(S3Container1, S3Button1, ButtonSize, ButtonLoca, S3Container2.BackColor, Color.White, 1, 8, ("Go Back"));
+
+		S3Button1.Click += (s, e) =>
+		{
+		    Parent.HideContainers();
+		    Parent.S3Class1.Show(Parent);
+		};
+
+		Tool.Round(S3Button1, 6);
 	    }
 
 	    catch (Exception E)
@@ -137,11 +153,11 @@ namespace TheDashlorisX
 
 	private readonly TextBox S3TextBox1 = new TextBox();
 
-	private void Init3(DashWindow DashWindow)
+	private void Init3(DashWindow DashWindow, InitThaDashlorisX Parent)
 	{
 	    try
 	    {
-		InitS3Con(DashWindow);
+		InitS3Con(DashWindow, Parent);
 
 		var TextBoxSize = new Size(S3Container2.Width - 20, S3Container2.Height - 20);
 		var TextBoxLoca = new Point(10, 10);
@@ -150,7 +166,7 @@ namespace TheDashlorisX
 
 	    	S3TextBox1.Text = string.Format
 		(
-		    "[!]: This functionality is experimental!"
+		    "[!]: This functionality is experimental!\r\n"
 		);
 	    }
 
@@ -161,30 +177,87 @@ namespace TheDashlorisX
 	}
 
 
+	private readonly DashNet DashNet = new DashNet();
+
 	private void RefreshIPData(InitThaDashlorisX Parent)
 	{
 	    try
 	    {
+		string getHost()
+		{
+		    try
+		    {
+			string host = (Parent.S3Class1.S2TextBox1.Text);
+
+			if (!DashNet.CanIP(host))
+			{
+			    SendLog(S2TextBox1, ("[!]: Invalid host was specified."));
+			    SendLog(S3TextBox1, ("[!]: Invalid host was specified."));
+
+			    return string.Empty;
+			}
+
+			return host;
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		var Host = getHost().Replace("https://", "").Replace("http://", "");
+
+		if (Host == string.Empty)
+		{
+		    return;
+		}
+
+		void SendLog(TextBox TextBox, string Message)
+		{
+		    TextBox.Parent.Invoke
+		    (
+			new MethodInvoker
+			(
+			    () => TextBox.AppendText($"{Message}\r\n")
+			)
+		    );
+		}
+
+		SendLog(S2TextBox1, ($"Loading data for {Host} ...."));
+		SendLog(S3TextBox1, ($"Loading data for {Host} ...."));
+
 		using (Process proc = new Process())
 		{
 		    proc.StartInfo = new ProcessStartInfo()
 		    {
-			UseShellExecute = false,
+			FileName = $"C:\\Windows\\System32\\nslookup.exe",
+			Arguments = ($"-opt {Host}"),
 
 			RedirectStandardOutput = true,
 			RedirectStandardError = true,
 
-			Arguments = "8.8.8.8",
-			FileName = $"C:\\Windows\\System32\\nslookup.exe"
+			UseShellExecute = false,
+			CreateNoWindow = true,
 		    };
 
 		    proc.OutputDataReceived += (s, e) =>
-			S2TextBox1.AppendText(e.Data);
+		    {
+			var data = e.Data;
+
+			if (data != null && data.Length > 1)
+			{
+			    SendLog(S2TextBox1, data);
+			}
+		    };
 
 		    proc.Start();
 
+		    proc.BeginOutputReadLine();
 		    proc.WaitForExit();
 		}
+		
+		// WHOIS
 	    }
 
 	    catch (Exception E)
@@ -204,7 +277,7 @@ namespace TheDashlorisX
 		{
 		    Init1(Capsule, DashWindow);
 		    Init2(Capsule, DashWindow);
-		    Init3(DashWindow);
+		    Init3(DashWindow, Parent);
 
 		    Tool.Round(S2Container2, 6);
 		    Tool.Round(S3Container2, 6);
@@ -212,7 +285,8 @@ namespace TheDashlorisX
 		    needInit = false;
 		}
 
-		RefreshIPData(Parent);
+		new Thread(() => RefreshIPData(Parent))
+		{ IsBackground = true }.Start();
 
 		Parent.HideContainers();
 
