@@ -213,7 +213,8 @@ namespace TheDashlorisX
 
 				if (!DashNet.CanIP(host))
 				{
-				    // Error
+				    S1Button1.PerformClick();
+				    return string.Empty;
 				}
 
 				return DashNet.GetIP(host);
@@ -225,7 +226,14 @@ namespace TheDashlorisX
 			    }
 			}
 
-			string url = ($"https://freegeoip.app/json/{getHost()}?callback=GeoIP");
+			var tmp = getHost();
+
+			if (tmp == string.Empty)
+			{
+			    return;
+			}
+
+			string url = ($"https://freegeoip.app/json/{tmp}?callback=GeoIP");
 
 			HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
 
