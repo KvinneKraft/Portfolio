@@ -256,8 +256,23 @@ namespace TheDashlorisX
 		    proc.BeginOutputReadLine();
 		    proc.WaitForExit();
 		}
-		
-		// WHOIS
+
+		string url = ($"http://ip-api.com/xml/{Host}");
+
+		HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
+
+		requestor.AutomaticDecompression = DecompressionMethods.GZip;
+
+		using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
+		{
+		    using (Stream streamor = responsor.GetResponseStream())
+		    {
+			using (StreamReader reador = new StreamReader(streamor))
+			{
+			    SendLog(S3TextBox1, reador.ReadToEnd().Replace("  ", "\r\n"));
+			}
+		    }
+		}
 	    }
 
 	    catch (Exception E)
