@@ -236,6 +236,59 @@ namespace TheDashlorisX
 	}
 
 
+	private class YouAreDumb
+	{
+	    private readonly DashControls Control = new DashControls();
+
+
+	    private readonly Label Label = new Label();
+
+	    private void InitDashWindow()
+	    {
+		try
+		{
+		    var AppMCol = Color.FromArgb(17, 38, 94);
+		    var AppBCol = Color.FromArgb(6, 14, 36);
+		    var AppSize = new Size(200, 60);
+
+		    DashWindow.InitializeWindow(AppSize, ("You are Dumb!"), AppBCol, AppMCol);
+
+		    var LabelLoca = new Point(-2, -2);
+
+		    Control.Label(DashWindow, Label, Size.Empty, LabelLoca, AppBCol, Color.White, 1, 8, ("Simply cuz nothing is here?"));
+
+		    Label.Top += DashWindow.MenuBar.MenuBar.Height / 2;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    private readonly DashWindow DashWindow = new DashWindow();
+
+	    public void Show()
+	    {
+		try
+		{
+		    if (DashWindow.Width != 200)
+		    {
+			InitDashWindow();
+		    }
+
+		    DashWindow.ShowAsIs();
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
+		}
+	    }
+	}
+
+
 	private readonly PictureBox S3Container1 = new PictureBox();
 
 	private readonly Button S3Button1 = new Button();
@@ -245,6 +298,7 @@ namespace TheDashlorisX
 
 	public static readonly Settings S3Settings = new Settings();
 
+	private readonly YouAreDumb DumberDumb = new YouAreDumb();
 	private readonly GEOIP GeoIP = new GEOIP();
 	private readonly WHOIS WhoIS = new WHOIS();
 
@@ -317,6 +371,19 @@ namespace TheDashlorisX
 		    try
 		    {
 			GeoIP.Show(Capsule, DashWindow, Parent);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
+
+		S3Button4.Click += (s, e) =>
+		{
+		    try
+		    {
+			DumberDumb.Show();
 		    }
 
 		    catch (Exception E)
