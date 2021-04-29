@@ -233,68 +233,76 @@ namespace TheDashlorisX
 			    return;
 			}
 
-			string url = ($"https://freegeoip.app/json/{tmp}?callback=GeoIP");
-
-			HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
-
-			requestor.AutomaticDecompression = DecompressionMethods.GZip;
-
-			using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
+			try
 			{
-			    using (Stream streamor = responsor.GetResponseStream())
+			    string url = ($"https://freegeoip.app/json/{tmp}?callback=GeoIP");
+
+			    HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
+
+			    requestor.AutomaticDecompression = DecompressionMethods.GZip;
+
+			    using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
 			    {
-				using (StreamReader reador = new StreamReader(streamor))
+				using (Stream streamor = responsor.GetResponseStream())
 				{
-				    List<string> raw = new List<string>();
-					
-				    string[] getRid = new string[]//add a method for this to DashFramework
+				    using (StreamReader reador = new StreamReader(streamor))
 				    {
+					List<string> raw = new List<string>();
+
+					string[] getRid = new string[]//add a method for this to DashFramework
+					{
 					"GeoIP({", ":", "\"", "}", ")", ";", "country_name",
 					"city", "region_name", "metro_code", "zip_code", "time_zone"
-				    };
+					};
 
-				    foreach (string p in reador.ReadToEnd().Split(','))
-				    {
-					string format = p;
-
-					foreach (string fukYou in getRid)
+					foreach (string p in reador.ReadToEnd().Split(','))
 					{
-					    format = format.Replace(fukYou, "");
+					    string format = p;
+
+					    foreach (string fukYou in getRid)
+					    {
+						format = format.Replace(fukYou, "");
+					    }
+
+					    raw.Add(format);
 					}
 
-					raw.Add(format);
+					/*
+					 0 "ip":"1.1.1.1",
+					 1 "country_code":"AU",
+					 2 "country_name":"Australia",
+					 3 "region_code":"",
+					 4 "region_name":"",
+					 5 "city":"",
+					 6 "zip_code":"",
+					 7 "time_zone":"Australia/Sydney",
+					 8 "latitude":-33.494,
+					 9 "longitude":143.2104,
+					 10 "metro_code":0
+					 });
+					 */
+
+					string p1 = (raw[2]);//country_name 2
+					string p2 = (raw[5]);//city 5
+					string p3 = (raw[4]);//region_name 4
+					string p4 = (raw[10]);//metro_code 10 
+					string p5 = (raw[6]);//zip_code 6
+					string p6 = (raw[7]);//time_zone 7
+							     // Loop?  One Liners?  Come on man, lazy past Dashie, the fuck.
+					S1TextBox1.Text = (p1.Length < 1 ? "N/A" : p1);
+					S1TextBox2.Text = (p2.Length < 1 ? "N/A" : p2);
+					S1TextBox3.Text = (p3.Length < 1 ? "N/A" : p3);
+					S1TextBox4.Text = (p4.Length < 1 ? "N/A" : p4);
+					S1TextBox5.Text = (p5.Length < 1 ? "N/A" : p5);
+					S1TextBox6.Text = (p6.Length < 1 ? "N/A" : p6);
 				    }
-
-				    /*
-				     0 "ip":"1.1.1.1",
-				     1 "country_code":"AU",
-				     2 "country_name":"Australia",
-				     3 "region_code":"",
-				     4 "region_name":"",
-				     5 "city":"",
-				     6 "zip_code":"",
-				     7 "time_zone":"Australia/Sydney",
-				     8 "latitude":-33.494,
-				     9 "longitude":143.2104,
-				     10 "metro_code":0
-				     });
-				     */
-
-				    string p1 = (raw[2]);//country_name 2
-				    string p2 = (raw[5]);//city 5
-				    string p3 = (raw[4]);//region_name 4
-				    string p4 = (raw[10]);//metro_code 10 
-				    string p5 = (raw[6]);//zip_code 6
-				    string p6 = (raw[7]);//time_zone 7
-				     // Loop?  One Liners?  Come on man, lazy past Dashie, the fuck.
-				    S1TextBox1.Text = (p1.Length < 1 ? "N/A" : p1);
-				    S1TextBox2.Text = (p2.Length < 1 ? "N/A" : p2);
-				    S1TextBox3.Text = (p3.Length < 1 ? "N/A" : p3);
-				    S1TextBox4.Text = (p4.Length < 1 ? "N/A" : p4);
-				    S1TextBox5.Text = (p5.Length < 1 ? "N/A" : p5);
-				    S1TextBox6.Text = (p6.Length < 1 ? "N/A" : p6);
 				}
 			    }
+			}
+
+			catch
+			{
+			    S1Button1.PerformClick();
 			}
 		    }
 
