@@ -227,51 +227,68 @@ namespace TheDashlorisX
 		SendLog(S2TextBox1, ($"Loading data for {Host} ...."));
 		SendLog(S3TextBox1, ($"Loading data for {Host} ...."));
 
-		using (Process proc = new Process())
+		try
 		{
-		    proc.StartInfo = new ProcessStartInfo()
+		    using (Process proc = new Process())
 		    {
-			FileName = $"C:\\Windows\\System32\\nslookup.exe",
-			Arguments = ($"-opt {Host}"),
-
-			RedirectStandardOutput = true,
-			RedirectStandardError = true,
-
-			UseShellExecute = false,
-			CreateNoWindow = true,
-		    };
-
-		    proc.OutputDataReceived += (s, e) =>
-		    {
-			var data = e.Data;
-
-			if (data != null && data.Length > 1)
+			proc.StartInfo = new ProcessStartInfo()
 			{
-			    SendLog(S2TextBox1, data);
-			}
-		    };
+			    FileName = $"C:\\Windows\\System32\\nslookup.exe",
+			    Arguments = ($"-opt {Host}"),
 
-		    proc.Start();
+			    RedirectStandardOutput = true,
+			    RedirectStandardError = true,
 
-		    proc.BeginOutputReadLine();
-		    proc.WaitForExit();
+			    UseShellExecute = false,
+			    CreateNoWindow = true,
+			};
+
+			proc.OutputDataReceived += (s, e) =>
+			{
+			    var data = e.Data;
+
+			    if (data != null && data.Length > 1)
+			    {
+				SendLog(S2TextBox1, data);
+			    }
+			};
+
+			proc.Start();
+
+			proc.BeginOutputReadLine();
+			proc.WaitForExit();
+		    }
 		}
 
-		string url = ($"http://ip-api.com/xml/{Host}");
-
-		HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
-
-		requestor.AutomaticDecompression = DecompressionMethods.GZip;
-
-		using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
+		catch
 		{
-		    using (Stream streamor = responsor.GetResponseStream())
+		    SendLog(S2TextBox1, ($"Unable to resolve {Host}!"));
+		}
+
+
+		try
+		{
+		    string url = ($"http://ip-api.com/xml/{Host}");
+
+		    HttpWebRequest requestor = (WebRequest.Create(url) as HttpWebRequest);
+
+		    requestor.AutomaticDecompression = DecompressionMethods.GZip;
+
+		    using (HttpWebResponse responsor = requestor.GetResponse() as HttpWebResponse)
 		    {
-			using (StreamReader reador = new StreamReader(streamor))
+			using (Stream streamor = responsor.GetResponseStream())
 			{
-			    SendLog(S3TextBox1, reador.ReadToEnd().Replace("  ", "\r\n"));
+			    using (StreamReader reador = new StreamReader(streamor))
+			    {
+				SendLog(S3TextBox1, reador.ReadToEnd().Replace("  ", "\r\n"));
+			    }
 			}
 		    }
+		}
+
+		catch
+		{
+		    SendLog(S3TextBox1, ($"Unable to resolve {Host}!"));
 		}
 	    }
 
