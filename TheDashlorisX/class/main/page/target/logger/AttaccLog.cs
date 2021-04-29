@@ -542,17 +542,20 @@ namespace TheDashlorisX
 					{
 					    for (int Id = (Connections.Count / 4) * Connection; Id <= (Connections.Count / 4) * Connection; Id += 1)
 					    {
-						if (Connections[Id].Connected)
+						if (Connections.Count > Id)
 						{
-						    Connections[Id].Close(0);
+						    if (Connections[Id].Connected)
+						    {
+							Connections[Id].Close(0);
+						    }
 						}
 					    }
-
-					    Connections.Clear();
 					})
 
 					{ IsBackground = true }.Start();
 				    }
+
+				    Connections.Clear();
 				}
 
 				else
