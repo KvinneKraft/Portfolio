@@ -555,7 +555,7 @@ namespace TheDashlorisX
 					{ IsBackground = true }.Start();
 				    }
 
-				    Connections.Clear();
+				    Connections.Clear();//May not cause any issues, may have to fix this if it does <<<<
 				}
 
 				else
