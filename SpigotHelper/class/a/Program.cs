@@ -77,7 +77,15 @@ namespace SpigotHelper
 	{
 	    try
 	    {
+		var Container1Size = new Size(Main.Width, Main.Height - S1Container.Height - S1Container.Top - 15);
+		var Container1Loca = new Point(-2, S1Container.Height + S1Container.Top + 15);
 
+		Control.Image(Main, S2Container1, Container1Size, Container1Loca, Color.Transparent, S1Container.BackgroundImage);
+
+		var Label1Loca = new Point(15, 0);
+
+		Control.Label(S2Container1, S2Label1, Size.Empty, Label1Loca, Color.Transparent, Color.White, 1, 14, ("Server Console:"));
+		S2Label1.Image = S1Container.BackgroundImage;
 	    }
 
 	    catch (Exception E)
