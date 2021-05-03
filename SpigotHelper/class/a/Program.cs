@@ -82,20 +82,21 @@ namespace SpigotHelper
 
 		var LabelSize = new Size(15, 20);
 		var LabelLoca = new Point(0, 0);
-		var LabelBCol = Color.MidnightBlue;
+		var LabelBCol = Color.FromArgb(10, 10, 10);
 
 		Control.Label(S2Container2, S2Label2, LabelSize, LabelLoca, LabelBCol, Color.White, 1, 11, ("$:"));
 		S2Label2.TextAlign = ContentAlignment.MiddleCenter;
 
 		var TextBox2Size = new Size(S2Container2.Width - 90, 20);
-		var TextBox2BCol = Color.MidnightBlue;
+		var TextBox2BCol = Color.FromArgb(16, 16, 16);
 		var TextBox2Loca = new Point(15, 0);
 
 		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9, ReadOnly: true);
+		S2TextBox2.Text = ("/my_command");
 
 		var ButtonSize = new Size(75, 20);
 		var ButtonLoca = new Point(S2Container2.Width - 75, 0);
-		var ButtonBCol = Color.MidnightBlue;
+		var ButtonBCol = Color.FromArgb(10, 10, 10);
 
 		Control.Button(S2Container2, S2Button, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ("Execute"));
 		S2Button.TextAlign = ContentAlignment.MiddleCenter;
