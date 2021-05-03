@@ -62,16 +62,56 @@ namespace SpigotHelper
 	}
 
 
-	readonly PictureBox S2Container1 = new PictureBox();
-	readonly PictureBox S2Container2 = new PictureBox();
-
-	readonly TextBox S2TextBox = new TextBox();
+	readonly TextBox S2TextBox1 = new TextBox();
+	readonly TextBox S2TextBox2 = new TextBox();
 
 	readonly Button S2Button = new Button();
 
-	readonly Label S2Label1 = new Label();
 	readonly Label S2Label2 = new Label();
-	readonly Label S2Label3 = new Label();
+
+	private void InitSector2ConsoleOutput()
+	{
+	    try
+	    {
+		var TextBox1Size = new Size(S2Container2.Width, S2Container2.Height - 20);
+		var TextBox1BCol = Color.FromArgb(6, 6, 6);
+		var TextBox1Loca = new Point(0, 20);
+
+		Control.TextBox(S2Container2, S2TextBox1, TextBox1Size, TextBox1Loca, TextBox1BCol, Color.White, 1, 8,
+		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
+
+		var LabelSize = new Size(15, 20);
+		var LabelLoca = new Point(0, 0);
+		var LabelBCol = Color.MidnightBlue;
+
+		Control.Label(S2Container2, S2Label2, LabelSize, LabelLoca, LabelBCol, Color.White, 1, 11, ("$:"));
+		S2Label2.TextAlign = ContentAlignment.MiddleCenter;
+
+		var TextBox2Size = new Size(S2Container2.Width - 90, 20);
+		var TextBox2BCol = Color.MidnightBlue;
+		var TextBox2Loca = new Point(15, 0);
+
+		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9, ReadOnly: true);
+
+		var ButtonSize = new Size(75, 20);
+		var ButtonLoca = new Point(S2Container2.Width - 75, 0);
+		var ButtonBCol = Color.MidnightBlue;
+
+		Control.Button(S2Container2, S2Button, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ("Execute"));
+		S2Button.TextAlign = ContentAlignment.MiddleCenter;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	readonly PictureBox S2Container1 = new PictureBox();
+	readonly PictureBox S2Container2 = new PictureBox();
+
+	readonly Label S2Label1 = new Label();
 
 	public void InitSector2(DashWindow App, PictureBox Main)
 	{
@@ -82,10 +122,17 @@ namespace SpigotHelper
 
 		Control.Image(Main, S2Container1, Container1Size, Container1Loca, Color.Transparent, S1Container.BackgroundImage);
 
-		var Label1Loca = new Point(15, 0);
+		var Label1Loca = new Point(5, 0);
 
 		Control.Label(S2Container1, S2Label1, Size.Empty, Label1Loca, Color.Transparent, Color.White, 1, 14, ("Server Console:"));
 		S2Label1.Image = S1Container.BackgroundImage;
+
+		var Container2Size = new Size(Main.Width, S2Container1.Height - Label1Loca.Y - S2Label1.Height - 5);
+		var Container2Loca = new Point(0, S2Label1.Height + S2Label1.Top + 5);
+
+		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Color.Transparent, S2Label1.Image);
+		
+		InitSector2ConsoleOutput();
 	    }
 
 	    catch (Exception E)
