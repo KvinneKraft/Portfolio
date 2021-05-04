@@ -9,9 +9,6 @@ using DashFramework.Dialog;
 
 namespace SpigotHelper
 {
-    // Stone / Oak themed buttons
-    // Minecraft Font Style
-
     public class SectorInitor
     {
 	readonly DashControls Control = new DashControls();
@@ -30,28 +27,34 @@ namespace SpigotHelper
 	    try
 	    {
 		var ContainerImag = Properties.Resources.containerWallpaper as Image;
-		var ContainerSize = new Size(250, 50);
+		var ContainerSize = new Size(252, 48);
 		var ContainerLoca = new Point(-2, 15);
 
 		Control.Image(Main, S1Container, ContainerSize, ContainerLoca, Color.White, ContainerImag);
 
-		var ButtonSize = new Size(120, 20);
+		var ButtonSize = new Size(120, 18);
 		var ButtonBCol = App.MenuBar.MenuBar.BackColor;
-		var ButtonFCol = Color.White;
+		var ButtonFCol = Color.LightGray;
 
-		var Button1Loca = new Point(0, 0);
-		var Button2Loca = new Point(130, 0);
-		var Button3Loca = new Point(0, 30);
-		var Button4Loca = new Point(130, 30);
+		var Button1Loca = new Point(1, 1);
+		var Button2Loca = new Point(130, 1);
+		var Button3Loca = new Point(1, 28);
+		var Button4Loca = new Point(130, 28);
 
-		Control.Button(S1Container, S1Button1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 7, ("Start Server"));
-		Control.Button(S1Container, S1Button2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 7, ("Config Server"));
-		Control.Button(S1Container, S1Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 7, ("Update Plugins"));
-		Control.Button(S1Container, S1Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 7, ("API Downloads"));
+		Control.Button(S1Container, S1Button1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 9, ("Start Server"));
+		Control.Button(S1Container, S1Button2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 9, ("Config Server"));
+		Control.Button(S1Container, S1Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 9, ("Update Plugins"));
+		Control.Button(S1Container, S1Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 9, ("API Downloads"));
 
 		foreach (Button Button in S1Container.Controls)
 		{
-		    Tool.Round(Button, 6);
+		    Button.BackgroundImage = Properties.Resources.buttonWallpaper;
+		    Button.TextAlign = ContentAlignment.BottomCenter;
+
+		    var Loca = new Point(Button.Left - 1, Button.Top - 1);
+		    var Size = new Size(121, 19);
+
+		    Tool.PaintRectangle(S1Container, 1, Size, Loca, Color.MidnightBlue);
 		}
 	    }
 
@@ -91,7 +94,7 @@ namespace SpigotHelper
 		var TextBox2BCol = Color.FromArgb(16, 16, 16);
 		var TextBox2Loca = new Point(15, 0);
 
-		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9, ReadOnly: true);
+		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9);
 		S2TextBox2.Text = ("/my_command");
 
 		var ButtonSize = new Size(75, 20);
@@ -118,14 +121,14 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		var Container1Size = new Size(Main.Width, Main.Height - S1Container.Height - S1Container.Top - 15);
-		var Container1Loca = new Point(-2, S1Container.Height + S1Container.Top + 15);
+		var Container1Size = new Size(Main.Width, Main.Height - S1Container.Height - S1Container.Top - 25);
+		var Container1Loca = new Point(-2, S1Container.Height + S1Container.Top + 25);
 
 		Control.Image(Main, S2Container1, Container1Size, Container1Loca, Color.Transparent, S1Container.BackgroundImage);
 
 		var Label1Loca = new Point(5, 0);
 
-		Control.Label(S2Container1, S2Label1, Size.Empty, Label1Loca, Color.Transparent, Color.White, 1, 14, ("Server Console:"));
+		Control.Label(S2Container1, S2Label1, Size.Empty, Label1Loca, Color.Transparent, Color.White, 1, 16, ("Server Console"));
 		S2Label1.Image = S1Container.BackgroundImage;
 
 		var Container2Size = new Size(Main.Width, S2Container1.Height - Label1Loca.Y - S2Label1.Height - 5);
@@ -157,7 +160,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		var AppMCol = Color.FromArgb(153, 54, 54);//(132, 66, 245);
+		var AppMCol = Color.FromArgb(53, 37, 89);//(132, 66, 245);
 		var AppBCol = Color.FromArgb(54, 160, 255);
 		var AppSize = new Size(300, 350);
 
@@ -172,10 +175,10 @@ namespace SpigotHelper
 
 		Control.Image(DashWindow, DashWindowContainer, ContainerSize, ContainerLoca, AppBCol, ContainerImag);
 
-		Tool.Round(DashWindowContainer, 8);
-
 		DashInit.InitSector1(DashWindow, DashWindowContainer);
 		DashInit.InitSector2(DashWindow, DashWindowContainer);
+
+		Tool.Round(DashWindowContainer, 8);
 
 		return DashWindow;
 	    }
