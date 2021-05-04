@@ -73,6 +73,16 @@ namespace SpigotHelper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap buttonWallpaper {
+            get {
+                object obj = ResourceManager.GetObject("buttonWallpaper", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap containerWallpaper {
             get {
                 object obj = ResourceManager.GetObject("containerWallpaper", resourceCulture);
