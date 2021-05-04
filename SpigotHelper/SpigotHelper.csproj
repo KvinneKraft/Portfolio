@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Properties\resources\ICON.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="class\a\SpigotHelper.cs" />
     <Compile Include="class\a\Program.cs" />
     <Compile Include="class\b\DashFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\resources\appWallpaper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\resources\buttonWallpaper.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
