@@ -684,7 +684,7 @@ namespace DashFramework
 			    };
 			};
 
-			return new Font(FontCollection.Families[FontId], Height, FontStyle.Regular);
+			return new Font(FontCollection.Families[FontId], Height);
 		    }
 
 		    catch
@@ -835,7 +835,7 @@ namespace DashFramework
 	}
     }
 
-
+    
     namespace Dialog
     {
 	public class DashDialog
@@ -1060,8 +1060,8 @@ namespace DashFramework
 		    Control.Image(Surface, MenuBar, MenuBarSize, MenuBarLoca, MenuBarBCol);
 		    Tool.Interactive(MenuBar, Surface);
 
-		    var LogoSize = new Size(38, 32);
-		    var LogoLoca = new Point(5, 5);
+		    var LogoSize = Resources.LOGO.Size;
+		    var LogoLoca = new Point(5, 2);
 
 		    Control.Image(Surface, LogoLayer2, LogoSize, LogoLoca, Surface.BackColor, ObjectImage: Resources.LOGO);
 		    Control.Image(MenuBar, LogoLayer1, LogoSize, LogoLoca, BarBCol, ObjectImage: Resources.LOGO);
@@ -1081,6 +1081,7 @@ namespace DashFramework
 		    if (Close)
 		    {
 			Control.Button(MenuBar, Button1, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "X");
+
 			Tool.Interactive(Button1, Surface);
 
 			Button1.Click += (s, e) =>
@@ -1113,6 +1114,8 @@ namespace DashFramework
 
 			Tool.Interactive(Button2, Surface);
 		    }
+
+		    Button1.TextAlign = ContentAlignment.BottomCenter;
 
 		    var RectangleSize = new Size(MenuBar.Width - 2, Surface.Height - MenuBar.Height + 1);
 		    var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
@@ -1195,7 +1198,7 @@ namespace DashFramework
 		    Text = AppTitle;
 		    Name = AppTitle;
 
-		    Tool.Round(this, 6);
+		    Tool.Round(this, 8);
 		}
 
 		catch (Exception E)
