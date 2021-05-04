@@ -77,7 +77,7 @@ namespace SpigotHelper
 	    try
 	    {
 		var TextBox1Size = new Size(S2Container2.Width, S2Container2.Height - 20);
-		var TextBox1BCol = Color.FromArgb(6, 6, 6);
+		var TextBox1BCol = Color.FromArgb(18, 18, 18);
 		var TextBox1Loca = new Point(0, 20);
 
 		Control.TextBox(S2Container2, S2TextBox1, TextBox1Size, TextBox1Loca, TextBox1BCol, Color.White, 1, 8,
@@ -87,11 +87,11 @@ namespace SpigotHelper
 		var LabelLoca = new Point(0, 0);
 		var LabelBCol = Color.FromArgb(10, 10, 10);
 
-		Control.Label(S2Container2, S2Label2, LabelSize, LabelLoca, LabelBCol, Color.White, 1, 11, ("$:"));
+		Control.Label(S2Container2, S2Label2, LabelSize, LabelLoca, LabelBCol, Color.White, 1, 9, ("$:"));
 		S2Label2.TextAlign = ContentAlignment.MiddleCenter;
 
 		var TextBox2Size = new Size(S2Container2.Width - 90, 20);
-		var TextBox2BCol = Color.FromArgb(16, 16, 16);
+		var TextBox2BCol = Color.FromArgb(10, 10, 10);
 		var TextBox2Loca = new Point(15, 0);
 
 		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9);
