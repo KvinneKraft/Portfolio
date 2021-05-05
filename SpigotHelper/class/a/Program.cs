@@ -17,13 +17,6 @@ namespace SpigotHelper
 	readonly DashTools Tool = new DashTools();
 
 
-	readonly PictureBox S1Container = new PictureBox();
-
-	readonly Button S1Button1 = new Button();
-	readonly Button S1Button2 = new Button();
-	readonly Button S1Button3 = new Button();
-	readonly Button S1Button4 = new Button();
-
 	readonly System.Timers.Timer ConfigTimer = new System.Timers.Timer() { Enabled = false };
 
 	string serverBatLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server\run.bat");
@@ -39,9 +32,6 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		Voyant.IncludeSubdirectories = true;
-		Voyant.EnableRaisingEvents = true;
-
 		Voyant.Filter = ("*.jar");
 		Voyant.Path = (updateDirLocation);
 
@@ -49,6 +39,9 @@ namespace SpigotHelper
 		{
 		    // Move NEW Jar File to Plugins Folder (serverDirLocation + \plugins)
 		};
+
+		Voyant.IncludeSubdirectories = true;
+		Voyant.EnableRaisingEvents = true;
 	    }
 
 	    catch (Exception E)
@@ -98,6 +91,13 @@ namespace SpigotHelper
 	    }
 	}
 
+
+	readonly PictureBox S1Container = new PictureBox();
+
+	readonly Button S1Button1 = new Button();
+	readonly Button S1Button2 = new Button();
+	readonly Button S1Button3 = new Button();
+
 	public void InitSector1(DashWindow App, PictureBox Main)
 	{
 	    try
@@ -114,13 +114,11 @@ namespace SpigotHelper
 
 		var Button1Loca = new Point(1, 1);
 		var Button2Loca = new Point(130, 1);
-		var Button3Loca = new Point(1, 28);
-		var Button4Loca = new Point(130, 28);
+		var Button3Loca = new Point(-2, 28);
 
 		Control.Button(S1Container, S1Button1, ButtonSize, Button1Loca, ButtonBCol, ButtonFCol, 1, 9, ("Start Server"));
 		Control.Button(S1Container, S1Button2, ButtonSize, Button2Loca, ButtonBCol, ButtonFCol, 1, 9, ("Config Server"));
-		Control.Button(S1Container, S1Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 9, ("Update Plugins"));
-		Control.Button(S1Container, S1Button4, ButtonSize, Button4Loca, ButtonBCol, ButtonFCol, 1, 9, ("API Downloads"));
+		Control.Button(S1Container, S1Button3, ButtonSize, Button3Loca, ButtonBCol, ButtonFCol, 1, 9, ("API Downloads"));
 
 		foreach (Button Button in S1Container.Controls)
 		{
@@ -172,10 +170,8 @@ namespace SpigotHelper
 			ErrorHandler.JustDoIt(E);
 		    }
 		};
-
-		S1Button3.Click += (s, e) => { };
-
-		S1Button4.Click += (s, e) => 
+		
+		S1Button3.Click += (s, e) => 
 		{
 		    try
 		    {
