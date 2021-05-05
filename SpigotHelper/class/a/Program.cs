@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using DashFramework.Interface.Controls;
@@ -21,6 +23,80 @@ namespace SpigotHelper
 	readonly Button S1Button2 = new Button();
 	readonly Button S1Button3 = new Button();
 	readonly Button S1Button4 = new Button();
+
+	readonly System.Timers.Timer ConfigTimer = new System.Timers.Timer() { Enabled = false };
+
+	string serverBatLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server\run.bat");
+	string serverDirLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server");
+	string updateDirLocation = (@"F:\Programming\MCSpigot\VoyantSMP");
+
+	int configLoadInterval = 30;
+	int pluginLoadInterval = 30;
+
+	FileSystemWatcher Voyant = new FileSystemWatcher();
+
+	void StartServerLoader()
+	{
+	    try
+	    {
+		Voyant.IncludeSubdirectories = true;
+		Voyant.EnableRaisingEvents = true;
+
+		Voyant.Filter = ("*.jar");
+		Voyant.Path = (updateDirLocation);
+
+		Voyant.Created += (s, e) =>
+		{
+		    // Move NEW Jar File to Plugins Folder (serverDirLocation + \plugins)
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	
+	void StartConfigLoader()
+	{
+	    try
+	    {
+		void UpdateConfiguration()
+		{
+		    try
+		    {
+			// Load Config | Update Voyant.Path and Local Variables
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		UpdateConfiguration();
+
+		if (!ConfigTimer.Enabled)
+		{
+		    ConfigTimer.Interval = (configLoadInterval * 1000);
+
+		    ConfigTimer.Elapsed += (s, e) =>
+		    {
+			UpdateConfiguration();
+		    };
+
+		    ConfigTimer.AutoReset = true;
+		    ConfigTimer.Enabled = true;
+		}
+
+		ConfigTimer.Start();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 	public void InitSector1(DashWindow App, PictureBox Main)
 	{
@@ -56,6 +132,70 @@ namespace SpigotHelper
 
 		    Tool.PaintRectangle(S1Container, 1, Size, Loca, Color.MidnightBlue);
 		}
+
+		S1Button1.Click += (s, e) => { };
+
+		if (!File.Exists("SpigotHelper.conf"))
+		{
+		    using (StreamWriter writer = File.CreateText("SpigotHelper.conf"))
+		    {
+			writer.WriteLine($"config_loader_interval={configLoadInterval}");
+			writer.WriteLine($"plugin_loader_interval={pluginLoadInterval}");
+			writer.WriteLine($"server_bat={serverBatLocation}");
+			writer.WriteLine($"server_dir={serverDirLocation}");
+			writer.WriteLine($"update_dir={updateDirLocation}");
+			writer.Close();
+		    }
+		}
+
+		StartConfigLoader();
+		StartServerLoader();
+
+		S1Button2.Click += (s, e) => 
+		{
+		    try
+		    { 
+			using (Process proc = new Process())
+			{
+			    proc.StartInfo = new ProcessStartInfo()
+			    {
+				UseShellExecute = true,
+				FileName = "SpigotHelper.conf"
+			    };
+
+			    proc.Start();
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		};
+
+		S1Button3.Click += (s, e) => { };
+
+		S1Button4.Click += (s, e) => 
+		{
+		    try
+		    {
+			using (Process proc = new Process())
+			{
+			    proc.StartInfo = new ProcessStartInfo()
+			    {
+				UseShellExecute = true,
+				FileName = "https://papermc.io/downloads"
+			    };
+
+			    proc.Start();
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		};
 	    }
 
 	    catch (Exception E)
