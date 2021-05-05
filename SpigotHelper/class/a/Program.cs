@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
@@ -23,10 +25,15 @@ namespace SpigotHelper
 	string serverDirLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server");
 	string updateDirLocation = (@"F:\Programming\MCSpigot\VoyantSMP");
 
-	int configLoadInterval = 30;
-	int pluginLoadInterval = 30;
+	bool usePlugMan = true;
+
+	int configLoadInterval = 10;
+	int pluginLoadInterval = 10;
 
 	FileSystemWatcher Voyant = new FileSystemWatcher();
+
+	void SendLog(string data) =>
+	    S2TextBox2.Text += ($"{data}\r\n");
 
 	void StartServerLoader()
 	{
@@ -37,7 +44,50 @@ namespace SpigotHelper
 
 		Voyant.Created += (s, e) =>
 		{
-		    // Move NEW Jar File to Plugins Folder (serverDirLocation + \plugins)
+		    new Thread(() =>
+		    {
+			try
+			{
+			    SendLog($"- Loading plugin {e.Name} into server ....");
+
+			    Thread.Sleep(1000);
+
+			    if (usePlugMan)
+			    {
+				SendLog($"- Running plugman commands ....");
+				// Run plug-unload
+				SendLog($"+ Done!");
+			    }
+
+			    else
+			    {
+				SendLog($"- Restarting server ....");
+				// Stop server
+				SendLog($"- Done!");
+			    }
+
+			    string getName(string fullName)
+			    {
+				var data = e.Name.Split('\\');
+
+				if (data.Length > 1)
+				{
+				    return data[1];
+				}
+
+				return data[0];
+			    }
+			    
+			    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}");
+
+			    SendLog("+ Plugin has been loaded into server!");
+			}
+
+			catch (Exception E)
+			{
+			    ErrorHandler.JustDoIt(E);
+			}
+		    }).Start();
 		};
 
 		Voyant.IncludeSubdirectories = true;
@@ -49,7 +99,37 @@ namespace SpigotHelper
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-	
+
+	void CreateDefaultConfig()
+	{
+	    try
+	    {
+		if (!File.Exists("SpigotHelper.conf"))
+		{
+		    SendLog("- SpigotHelper.conf does not exist!");
+		    SendLog("- Creating one just for you ....");
+
+		    using (StreamWriter writer = File.CreateText("SpigotHelper.conf"))
+		    {
+			writer.WriteLine($"config_loader_interval={configLoadInterval}");
+			writer.WriteLine($"plugin_loader_interval={pluginLoadInterval}");
+			writer.WriteLine($"use_plugman={usePlugMan}");
+			writer.WriteLine($"server_bat={serverBatLocation}");
+			writer.WriteLine($"server_dir={serverDirLocation}");
+			writer.WriteLine($"update_dir={updateDirLocation}");
+			writer.Close();
+		    }
+
+		    SendLog("+ Done!");
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	void StartConfigLoader()
 	{
 	    try
@@ -58,12 +138,59 @@ namespace SpigotHelper
 		{
 		    try
 		    {
-			// Load Config | Update Voyant.Path and Local Variables
+			CreateDefaultConfig();
+			
+			var fileLines = new List<string>();
+
+			string data = string.Empty;
+
+			foreach (string line in File.ReadAllLines("SpigotHelper.conf"))
+			{
+			    fileLines.Add(line.Split('=')[1]);
+			    data += line;
+			}
+			
+			if (fileLines.Count != 6)
+			{
+			    throw new Exception("!");
+			}
+
+			int asInt(string entry) =>
+			    int.Parse(entry);
+
+			configLoadInterval = asInt(fileLines[0]);
+			pluginLoadInterval = asInt(fileLines[1]);
+			
+			usePlugMan = (fileLines[2].ToLower() == "true") 
+			    ? true : false;
+
+			for (int i = 4; i <= 5; i += 1)
+			{
+			    if (!Directory.Exists(fileLines[i]))
+			    {
+				throw new Exception ("!");
+			    }
+			}
+
+			if (!File.Exists(fileLines[3]))
+			{
+			    throw new Exception("!");
+			}
+
+			serverBatLocation = fileLines[3];
+			serverDirLocation = fileLines[4];
+			updateDirLocation = fileLines[5];
+
+			if (!File.Exists($"{serverDirLocation}\\plugins\\plugman.jar"))
+			{
+			    throw new Exception("!");
+			}
 		    }
 
-		    catch (Exception E)
+		    catch
 		    {
-			throw (ErrorHandler.GetException(E));
+			MessageBox.Show($"There was an error while trying to load SpigotHelper.conf!\r\n\r\nPlease ensure that all directories and files exist.\r\n\r\nAlso make sure Plugman.jar is in your plugins directory under the given name, whenever using this setting in the configuration file (default=true).", "Oh no!");
+			Environment.Exit(-1);
 		    }
 		}
 
@@ -131,20 +258,12 @@ namespace SpigotHelper
 		    Tool.PaintRectangle(S1Container, 1, Size, Loca, Color.MidnightBlue);
 		}
 
-		S1Button1.Click += (s, e) => { };
-
-		if (!File.Exists("SpigotHelper.conf"))
+		S1Button1.Click += (s, e) => 
 		{
-		    using (StreamWriter writer = File.CreateText("SpigotHelper.conf"))
-		    {
-			writer.WriteLine($"config_loader_interval={configLoadInterval}");
-			writer.WriteLine($"plugin_loader_interval={pluginLoadInterval}");
-			writer.WriteLine($"server_bat={serverBatLocation}");
-			writer.WriteLine($"server_dir={serverDirLocation}");
-			writer.WriteLine($"update_dir={updateDirLocation}");
-			writer.Close();
-		    }
-		}
+		    // Start Server, Read Output, Accept Commands
+		};
+
+		CreateDefaultConfig();
 
 		StartConfigLoader();
 		StartServerLoader();
