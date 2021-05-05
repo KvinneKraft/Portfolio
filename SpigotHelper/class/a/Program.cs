@@ -33,7 +33,7 @@ namespace SpigotHelper
 	FileSystemWatcher Voyant = new FileSystemWatcher();
 
 	void SendLog(string data) =>
-	    S2TextBox2.Text += ($"{data}\r\n");
+	    S2TextBox1.AppendText($"{data}\r\n");
 
 	void StartServerLoader()
 	{
@@ -48,22 +48,22 @@ namespace SpigotHelper
 		    {
 			try
 			{
-			    SendLog($"- Loading plugin {e.Name} into server ....");
+			    SendLog($"(-) Loading plugin {e.Name} into server ....");
 
 			    Thread.Sleep(1000);
 
 			    if (usePlugMan)
 			    {
-				SendLog($"- Running plugman commands ....");
+				SendLog($"(-) Running plugman commands ....");
 				// Run plug-unload
-				SendLog($"+ Done!");
+				SendLog($"(+) Done!");
 			    }
 
 			    else
 			    {
-				SendLog($"- Restarting server ....");
+				SendLog($"(-) Restarting server ....");
 				// Stop server
-				SendLog($"- Done!");
+				SendLog($"(-) Done!");
 			    }
 
 			    string getName(string fullName)
@@ -80,7 +80,7 @@ namespace SpigotHelper
 			    
 			    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}");
 
-			    SendLog("+ Plugin has been loaded into server!");
+			    SendLog("(+) Plugin has been loaded into server!");
 			}
 
 			catch (Exception E)
@@ -106,8 +106,8 @@ namespace SpigotHelper
 	    {
 		if (!File.Exists("SpigotHelper.conf"))
 		{
-		    SendLog("- SpigotHelper.conf does not exist!");
-		    SendLog("- Creating one just for you ....");
+		    SendLog("(!) SpigotHelper.conf does not exist!");
+		    SendLog("(-) Creating one just for you ....");
 
 		    using (StreamWriter writer = File.CreateText("SpigotHelper.conf"))
 		    {
@@ -120,7 +120,7 @@ namespace SpigotHelper
 			writer.Close();
 		    }
 
-		    SendLog("+ Done!");
+		    SendLog("(+) Done!");
 		}
 	    }
 
@@ -260,13 +260,8 @@ namespace SpigotHelper
 
 		S1Button1.Click += (s, e) => 
 		{
-		    // Start Server, Read Output, Accept Commands
+		    // Button Switch, Start Server, Read Output, Accept Commands
 		};
-
-		CreateDefaultConfig();
-
-		StartConfigLoader();
-		StartServerLoader();
 
 		S1Button2.Click += (s, e) => 
 		{
@@ -335,7 +330,7 @@ namespace SpigotHelper
 		var TextBox1BCol = Color.FromArgb(18, 18, 18);
 		var TextBox1Loca = new Point(0, 20);
 
-		Control.TextBox(S2Container2, S2TextBox1, TextBox1Size, TextBox1Loca, TextBox1BCol, Color.White, 1, 8,
+		Control.TextBox(S2Container2, S2TextBox1, TextBox1Size, TextBox1Loca, TextBox1BCol, Color.White, 1, 7,
 		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 
 		var LabelSize = new Size(15, 20);
@@ -358,6 +353,17 @@ namespace SpigotHelper
 
 		Control.Button(S2Container2, S2Button, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ("Execute"));
 		S2Button.TextAlign = ContentAlignment.MiddleCenter;
+
+		CreateDefaultConfig();
+
+		StartConfigLoader();
+		StartServerLoader();
+
+		SendLog($"(!) Hey there {Environment.UserName}, thank you for using my Spigot Helper!");
+		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+		SendLog($"(!) Configuration has been loaded succesfully, you may now make use of the panel safely.");
+		SendLog($"(!) If you have any questions, please message me at KvinneKraft@protonmail.com. Thank you fluffz.  -Dashie");
+		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 	    }
 
 	    catch (Exception E)
