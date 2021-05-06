@@ -225,33 +225,26 @@ namespace SpigotHelper
 	readonly Button S1Button2 = new Button();
 	readonly Button S1Button3 = new Button();
 
-	readonly static Process ServerProc = new Process()
-	{
-	    StartInfo = new ProcessStartInfo()
-	    {
-		RedirectStandardOutput = true,
-		RedirectStandardError = true,
-		RedirectStandardInput = true,
-		UseShellExecute = false,
-		//CreateNoWindow = true
-	    }
-	};
+	Process ServerProc = new Process();
 	
 	void ServerCommand(string command)
 	{
 	    try
 	    {
-		StreamWriter ServerStream = new StreamWriter(ServerProc.StandardInput.BaseStream);
+		var obj = ServerProc.StandardInput.BaseStream;
 
-		if (ServerStream.BaseStream.CanWrite)
+		using (StreamWriter ServerStream = new StreamWriter(obj))
 		{
-		    SendLog($"(!) Executing: {command} ....");
-		    ServerStream.WriteLine(command.Replace("/", ""));
-		}
+		    if (ServerStream.BaseStream.CanWrite)
+		    {
+			SendLog($"(!) Executing: {command} ....");
+			ServerStream.WriteLine(command.Replace("/", ""));
+		    }
 
-		else
-		{
-		    SendLog($"(!) Server refused to accept your command!");
+		    else
+		    {
+			SendLog($"(!) Server refused to accept your command!");
+		    }
 		}
 	    }
 
@@ -294,11 +287,6 @@ namespace SpigotHelper
 		    Tool.PaintRectangle(S1Container, 1, Size, Loca, Color.MidnightBlue);
 		}
 
-		ServerProc.Exited += (s, e) =>
-		{
-		    S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
-		};
-
 		S1Button1.Click += (s, e) => 
 		{
 		    try
@@ -307,16 +295,54 @@ namespace SpigotHelper
 			{
 			    if (IsServerRunning())
 			    {
-				ServerProc.CloseMainWindow();
 				ServerCommand("stop");
 			    }
 			}
 
 			else
 			{
-			    ServerProc.StartInfo.WorkingDirectory = ($"{serverDirLocation}");
-			    ServerProc.StartInfo.FileName = ($"{serverBatLocation}");
-			    ServerProc.Start();
+			    ServerProc = new Process()
+			    {
+				StartInfo = new ProcessStartInfo()
+				{
+				    RedirectStandardOutput = true,
+				    RedirectStandardError = true,
+				    RedirectStandardInput = true,
+				    UseShellExecute = false,
+				    CreateNoWindow = true
+				}
+			    };
+
+			    ServerProc.OutputDataReceived += (ss, ee) =>
+			    {
+				SendLog(ee.Data);
+			    };
+
+			    void ButtonSwitch()
+			    {
+				if (!S1Button1.Text.Equals("Start Server"))
+				{
+				    S1Button1.Text = ("Start Server");
+				}
+			    }
+
+			    ServerProc.ErrorDataReceived += (ss, ee) =>
+				ButtonSwitch();
+
+			    ServerProc.Exited += (ss, ee) =>
+				ButtonSwitch();
+
+			    new Thread
+			    (
+				() =>
+				{
+				    ServerProc.StartInfo.WorkingDirectory = ($"{serverDirLocation}");
+				    ServerProc.StartInfo.FileName = ($"{serverBatLocation}");
+				    ServerProc.Start();
+
+				    ServerProc.BeginOutputReadLine();
+				}
+			    ).Start();
 			}
 
 			S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
@@ -500,6 +526,14 @@ namespace SpigotHelper
 		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Color.Transparent, S2Label1.Image);
 		
 		InitSector2ConsoleOutput();
+
+		App.FormClosing += (s, e) =>
+		{
+		    if (IsServerRunning())
+		    {
+			ServerCommand("stop");
+		    }
+		};
 	    }
 
 	    catch (Exception E)
