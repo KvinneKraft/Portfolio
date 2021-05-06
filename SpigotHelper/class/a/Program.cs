@@ -225,6 +225,42 @@ namespace SpigotHelper
 	readonly Button S1Button2 = new Button();
 	readonly Button S1Button3 = new Button();
 
+	readonly static Process ServerProc = new Process()
+	{
+	    StartInfo = new ProcessStartInfo()
+	    {
+		RedirectStandardOutput = true,
+		RedirectStandardError = true,
+		RedirectStandardInput = true,
+		UseShellExecute = false,
+		//CreateNoWindow = true
+	    }
+	};
+	
+	void ServerCommand(string command)
+	{
+	    try
+	    {
+		StreamWriter ServerStream = new StreamWriter(ServerProc.StandardInput.BaseStream);
+
+		if (ServerStream.BaseStream.CanWrite)
+		{
+		    SendLog($"(!) Executing: {command} ....");
+		    ServerStream.WriteLine(command.Replace("/", ""));
+		}
+
+		else
+		{
+		    SendLog($"(!) Server refused to accept your command!");
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 	public void InitSector1(DashWindow App, PictureBox Main)
 	{
 	    try
@@ -258,9 +294,38 @@ namespace SpigotHelper
 		    Tool.PaintRectangle(S1Container, 1, Size, Loca, Color.MidnightBlue);
 		}
 
+		ServerProc.Exited += (s, e) =>
+		{
+		    S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
+		};
+
 		S1Button1.Click += (s, e) => 
 		{
-		    // Button Switch, Start Server, Read Output, Accept Commands
+		    try
+		    {
+			if (!S1Button1.Text.Equals("Start Server"))
+			{
+			    if (IsServerRunning())
+			    {
+				ServerProc.CloseMainWindow();
+				ServerCommand("stop");
+			    }
+			}
+
+			else
+			{
+			    ServerProc.StartInfo.WorkingDirectory = ($"{serverDirLocation}");
+			    ServerProc.StartInfo.FileName = ($"{serverBatLocation}");
+			    ServerProc.Start();
+			}
+
+			S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
 		};
 
 		S1Button2.Click += (s, e) => 
@@ -322,6 +387,21 @@ namespace SpigotHelper
 
 	readonly Label S2Label2 = new Label();
 
+	bool IsServerRunning()
+	{
+	    try
+	    {
+		Process.GetProcessById(ServerProc.Id);
+	    }
+
+	    catch
+	    {
+		return false;
+	    }
+
+	    return true;
+	}
+
 	private void InitSector2ConsoleOutput()
 	{
 	    try
@@ -352,6 +432,28 @@ namespace SpigotHelper
 		var ButtonBCol = Color.FromArgb(10, 10, 10);
 
 		Control.Button(S2Container2, S2Button, ButtonSize, ButtonLoca, ButtonBCol, Color.White, 1, 9, ("Execute"));
+
+		S2Button.Click += (s, e) =>
+		{
+		    try
+		    {
+			if (IsServerRunning())
+			{ 
+			    ServerCommand(S2TextBox2.Text);
+			}
+
+			else
+			{
+			    SendLog("(!) Cannot execute command; server is not running.");
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		};
+
 		S2Button.TextAlign = ContentAlignment.MiddleCenter;
 
 		CreateDefaultConfig();
