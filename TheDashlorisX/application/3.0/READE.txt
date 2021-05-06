@@ -1,3 +1,0 @@
-- Add to Website
-- Change README to a bit more friendly thing
-- New screenshots!
