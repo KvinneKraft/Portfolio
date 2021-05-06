@@ -32,9 +32,24 @@ namespace SpigotHelper
 
 	FileSystemWatcher Voyant = new FileSystemWatcher();
 
-	void SendLog(string data) =>
-	    S2TextBox1.AppendText($"{data}\r\n");
+	void SendLog(string data)
+	{
+	    if (S2TextBox1.InvokeRequired)
+	    {
+		S2TextBox1.Parent.Invoke
+		(
+		    new MethodInvoker
+		    (
+			() => S2TextBox1.AppendText($"{data}\r\n")
+		    )
+		);
+	    }
 
+	    else
+	    {
+		S2TextBox1.AppendText($"{data}\r\n");
+	    }
+	}
 	void StartServerLoader()
 	{
 	    try
@@ -52,20 +67,6 @@ namespace SpigotHelper
 
 			    Thread.Sleep(1000);
 
-			    if (usePlugMan)
-			    {
-				SendLog($"(-) Running plugman commands ....");
-				// Run plug-unload
-				SendLog($"(+) Done!");
-			    }
-
-			    else
-			    {
-				SendLog($"(-) Restarting server ....");
-				// Stop server
-				SendLog($"(-) Done!");
-			    }
-
 			    string getName(string fullName)
 			    {
 				var data = e.Name.Split('\\');
@@ -77,10 +78,33 @@ namespace SpigotHelper
 
 				return data[0];
 			    }
-			    
-			    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}");
 
-			    SendLog("(+) Plugin has been loaded into server!");
+			    if (IsServerRunning())
+			    {
+				if (usePlugMan)
+				{
+				    SendLog($"(-) Running plugman commands ....");
+				    ServerCommand($"plugman unload {getName(e.Name).Replace(".jar", "")}");
+
+				    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
+
+				    ServerCommand($"plugman load {getName(e.Name).Replace(".jar", "")}");
+				    SendLog($"(+) Done!");
+				}
+
+				else
+				{
+				    SendLog($"(-) Restarting server ....");
+				    ServerCommand("stop");
+
+				    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
+
+				    ServerCommand("start");
+				    SendLog($"(-) Done!");
+				}
+			    }
+
+			    SendLog("(+) Plugin has been loaded into plugins folder!");
 			}
 
 			catch (Exception E)
@@ -231,21 +255,64 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		var obj = ServerProc.StandardInput.BaseStream;
+		var Streampy = ServerProc.StandardInput.BaseStream;
 
-		using (StreamWriter ServerStream = new StreamWriter(obj))
+		if (Streampy.CanWrite)
 		{
-		    if (ServerStream.BaseStream.CanWrite)
-		    {
-			SendLog($"(!) Executing: {command} ....");
-			ServerStream.WriteLine(command.Replace("/", ""));
-		    }
+		    StreamWriter ServerStream = new StreamWriter(Streampy);
 
-		    else
+		    ServerStream.WriteLine(command.Replace("/", ""));
+		    ServerStream.AutoFlush = true;
+
+		    SendLog($"(!) Executing: {command} ....");
+		}
+
+		else
+		{
+		    SendLog($"(!) Server refused to accept your command!");
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void RefreshServerProcess()
+	{
+	    try
+	    {
+		ServerProc = new Process()
+		{
+		    StartInfo = new ProcessStartInfo()
 		    {
-			SendLog($"(!) Server refused to accept your command!");
+			RedirectStandardOutput = true,
+			RedirectStandardError = true,
+			RedirectStandardInput = true,
+			UseShellExecute = false,
+			CreateNoWindow = true
+		    }
+		};
+
+		ServerProc.OutputDataReceived += (ss, ee) =>
+		{
+		    SendLog(ee.Data);
+		};
+
+		void ButtonSwitch()
+		{
+		    if (!S1Button1.Text.Equals("Start Server"))
+		    {
+			S1Button1.Text = ("Start Server");
 		    }
 		}
+
+		ServerProc.ErrorDataReceived += (ss, ee) =>
+		    ButtonSwitch();
+
+		ServerProc.Exited += (ss, ee) =>
+		    ButtonSwitch();
 	    }
 
 	    catch (Exception E)
@@ -301,36 +368,7 @@ namespace SpigotHelper
 
 			else
 			{
-			    ServerProc = new Process()
-			    {
-				StartInfo = new ProcessStartInfo()
-				{
-				    RedirectStandardOutput = true,
-				    RedirectStandardError = true,
-				    RedirectStandardInput = true,
-				    UseShellExecute = false,
-				    CreateNoWindow = true
-				}
-			    };
-
-			    ServerProc.OutputDataReceived += (ss, ee) =>
-			    {
-				SendLog(ee.Data);
-			    };
-
-			    void ButtonSwitch()
-			    {
-				if (!S1Button1.Text.Equals("Start Server"))
-				{
-				    S1Button1.Text = ("Start Server");
-				}
-			    }
-
-			    ServerProc.ErrorDataReceived += (ss, ee) =>
-				ButtonSwitch();
-
-			    ServerProc.Exited += (ss, ee) =>
-				ButtonSwitch();
+			    RefreshServerProcess();
 
 			    new Thread
 			    (
@@ -451,6 +489,15 @@ namespace SpigotHelper
 		var TextBox2Loca = new Point(15, 0);
 
 		Control.TextBox(S2Container2, S2TextBox2, TextBox2Size, TextBox2Loca, TextBox2BCol, Color.White, 1, 9);
+
+		S2TextBox2.KeyDown += (s, e) =>
+		{
+		    if (e.KeyData == Keys.Enter)
+		    {
+			S2Button.PerformClick();
+		    }
+		};
+
 		S2TextBox2.Text = ("/my_command");
 
 		var ButtonSize = new Size(75, 20);
