@@ -81,12 +81,25 @@ namespace SpigotHelper
 
 			    if (IsServerRunning())
 			    {
+				void Copy()
+				{
+				    try
+				    {
+					File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
+				    }
+
+				    catch
+				    {
+					SendLog("(!) Could not copy new file!");
+				    }
+				}
+
 				if (usePlugMan)
 				{
 				    SendLog($"(-) Running plugman commands ....");
 				    ServerCommand($"plugman unload {getName(e.Name).Replace(".jar", "")}");
 
-				    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
+				    Copy();
 
 				    ServerCommand($"plugman load {getName(e.Name).Replace(".jar", "")}");
 				    SendLog($"(+) Done!");
@@ -97,14 +110,12 @@ namespace SpigotHelper
 				    SendLog($"(-) Restarting server ....");
 				    ServerCommand("stop");
 
-				    File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
+				    Copy();
 
 				    ServerCommand("start");
 				    SendLog($"(-) Done!");
 				}
 			    }
-
-			    SendLog("(+) Plugin has been loaded into plugins folder!");
 			}
 
 			catch (Exception E)
