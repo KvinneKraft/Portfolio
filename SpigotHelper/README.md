@@ -11,6 +11,16 @@
 ##
 > The terminal and other parts of this application are going to be improved (perhaps even completely recoded) in the near future, when new updates surface the new functionality does as well.  If any issues are found or you have any suggestions then please let me know at KvinneKraft@protonmail.com. Thank you.
 ##
+### Default Configuration File
+```txt
+config_loader_interval=10
+plugin_loader_interval=10
+use_plugman=True
+server_bat=F:\Programming\PrivateSociety\Minecraft\Server\run.bat
+server_dir=F:\Programming\PrivateSociety\Minecraft\Server
+update_dir=F:\Programming\MCSpigot\VoyantSMP
+```
+##
 ## The Requirements
 > You will need The .NET Framework version 4.7 or above, you can find The .NET Framework version 4.7 [Here](https://dotnet.microsoft.com/download/dotnet-framework/net47).
 
