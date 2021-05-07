@@ -10,3 +10,8 @@
 ![Main GUI](screenshots/main-gui.png)
 ##
 > The terminal and other parts of this application are going to be improved (perhaps even completely recoded) in the near future, when new updates surface the new functionality does as well.  If any issues are found or you have any suggestions then please let me know at KvinneKraft@protonmail.com. Thank you.
+##
+## The Requirements
+> You will need The .NET Framework version 4.7 or above, you can find The .NET Framework version 4.7 [Here](https://dotnet.microsoft.com/download/dotnet-framework/net47).
+
+> You will also need Windows x64 bit, which you can find [Here](https://www.microsoft.com/en-us/windows) if you do not have it already.
