@@ -155,7 +155,7 @@ namespace SpigotHelper
 			writer.Close();
 		    }
 
-		    SendLog("(+) Done!");
+		    SendLog("(+) Done!\r\n");
 		}
 	    }
 
@@ -477,7 +477,7 @@ namespace SpigotHelper
 	    return true;
 	}
 
-	private void InitSector2ConsoleOutput()
+	private void InitSector2ConsoleOutput(PictureBox Main)
 	{
 	    try
 	    {
@@ -544,12 +544,145 @@ namespace SpigotHelper
 
 		StartConfigLoader();
 		StartServerLoader();
-
-		SendLog($"(!) Hey there {Environment.UserName}, thank you for using my Spigot Helper!");
+		
 		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-		SendLog($"(!) Configuration has been loaded succesfully, you may now make use of the panel safely.");
+		SendLog($"(!) Configuration has been loaded succesfully, you may now make use of this panel safely.\r\n");
+		SendLog($"(!) For optional shortcut keys, press F1, you will be surprised.  (Sarcastic laugh insertion)\r\n");
 		SendLog($"(!) If you have any questions, please message me at KvinneKraft@protonmail.com. Thank you fluffz.  -Dashie");
 		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+
+		void SetEventHandler(Control To)
+		{
+		    try
+		    {
+			To.KeyDown += (s, e) =>
+			{
+			    void OpenLocation(string Path, bool isDirectory = true)
+			    {
+				// Check if folder exists, if not say so0
+				if (isDirectory)
+				{
+				    if (!Directory.Exists(Path))
+				    {
+					SendLog($"(!) Unable to find the folder path: {Path}");
+					return;
+				    }
+				}
+
+				else
+				{
+				    if (!File.Exists(Path))
+				    {
+					SendLog($"(!) Unable to find the file path: {Path}");
+					return;
+				    }
+				}
+
+				SendLog($"(-) Opening ({(isDirectory ? "folder" : "file")}) {Path} ....");
+
+				using (Process proc = new Process())
+				{
+				    proc.StartInfo = new ProcessStartInfo()
+				    {
+					UseShellExecute = true,
+					FileName = Path,
+				    };
+
+				    proc.Start();
+				}
+			    }
+
+			    switch (e.KeyCode)
+			    {
+				case Keys.F1:
+				    SendLog("\r\nShortcut Keys:");
+				    SendLog("(F1)=this text.");
+				    SendLog("(F2)=open your .minecraft folder.");
+				    SendLog("(F3)=open your /plugins folder.");
+				    SendLog("(F4)=open the latest client log.");
+				    SendLog("(F5)=open the latest server log.");
+				    SendLog("(F6)=accept EULA.");
+				    SendLog("(F7)=clear log.\r\n");
+				    break;
+				case Keys.F2:
+				    string dotminecraft = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft");
+				    OpenLocation(dotminecraft);
+				    break;
+				case Keys.F3:
+				    string plugins = ($@"{serverDirLocation}\plugins");
+				    OpenLocation(plugins);
+				    break;
+				case Keys.F4:
+				    string clientLog = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft\logs\latest.log");
+				    OpenLocation(clientLog, false);
+				    break;
+				case Keys.F5:
+				    string serverLog = ($@"{serverDirLocation}\logs\latest.log");
+				    OpenLocation(serverLog, false);
+				    break;
+				case Keys.F6:
+				    string EULAPath = ($@"{serverDirLocation}\eula.txt");
+
+				    if (!File.Exists(EULAPath))
+				    {
+					SendLog($@"(!) The path {serverDirLocation}\eula.txt does not exist.");
+					break;
+				    }
+
+				    string[] eula = File.ReadAllLines(EULAPath);
+
+				    for (int k = 0, u = 0; k < eula.Length; k += 1)
+				    {
+					if (eula[k].ToLower().Contains("eula="))
+					{
+					    eula[k] = ("eula=true");
+					    u = k;
+
+					    File.WriteAllLines(EULAPath, eula);
+
+					    SendLog("(!) EULA has been set to true!");
+					}
+
+					if (k == eula.Length - 1)
+					{
+					    if (!eula[u].Equals("eula=true"))
+					    {
+						SendLog("(!) File did not contain line: eula=false");
+					    }
+					}
+				    }
+				    break;
+				case Keys.F7:
+				    S2TextBox1.Clear();
+				    SendLog("(!) Cleared log!");
+				    break;
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		foreach (Control a in Main.Controls)
+		{
+		    foreach (Control b in a.Controls)
+		    {
+			foreach (Control c in b.Controls)
+			{
+			    SetEventHandler(c);
+			}
+
+			SetEventHandler(b);
+		    }
+
+		    SetEventHandler(a);
+		}
+
+		SetEventHandler(S1Container);
+		SetEventHandler(Main);
 	    }
 
 	    catch (Exception E)
@@ -583,7 +716,7 @@ namespace SpigotHelper
 
 		Control.Image(S2Container1, S2Container2, Container2Size, Container2Loca, Color.Transparent, S2Label1.Image);
 		
-		InitSector2ConsoleOutput();
+		InitSector2ConsoleOutput(Main);
 
 		App.FormClosing += (s, e) =>
 		{
@@ -592,6 +725,8 @@ namespace SpigotHelper
 			ServerCommand("stop");
 		    }
 		};
+
+		S2TextBox1.Select();
 	    }
 
 	    catch (Exception E)
