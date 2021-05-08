@@ -6,6 +6,7 @@
 // -Dashie
 
 using System;
+using System.IO;
 using System.Net;
 using System.Linq;
 using System.Drawing;
@@ -50,6 +51,7 @@ namespace DashFramework
 	    }
 	}
 
+
 	public class DashList<A>//One Datatype Storage
 	{
 	    private readonly List<A> a = new List<A>();
@@ -74,6 +76,77 @@ namespace DashFramework
 		a.RemoveAt(id);
 
 		return true;
+	    }
+	}
+
+
+	public class Manipulation
+	{
+	    public List<string> GetLineIf(string file, string contains)
+	    {
+		try
+		{
+		    var lines = new List<string>();
+
+		    if (!File.Exists(file))
+		    {
+			return null;
+		    }
+
+		    foreach (string line in File.ReadAllLines(file))
+		    {
+			if (line.Contains(contains))
+			{
+			    lines.Add(line);
+			}
+		    }
+
+		    return lines;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public List<object> ListRemove(List<object> obj, object criteria)
+	    {
+		try
+		{
+		    for (int id = 0; id < obj.Count; id += 1)
+		    {
+			if (obj[id] == criteria)
+			{
+			    obj.RemoveAt(id);
+			}
+		    }
+
+		    return obj;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public string Replace(string obj, string to, params string[] wha)
+	    {
+		try
+		{
+		    foreach (string criteria in wha)
+		    {
+			obj = obj.Replace(criteria, to);
+		    }
+
+		    return obj;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
 	    }
 	}
     }
