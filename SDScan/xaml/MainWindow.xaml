@@ -10,8 +10,14 @@
 	Background="Transparent">
 
     <Grid>
-	<Canvas Background="#040404">
-	    
+	<Canvas Height="26" VerticalAlignment="Top" Background="#040404" MouseDown="mBarDrag">
+	    <Canvas.Children>
+		<Button Background="#040404" Foreground="White" 
+		    Height="26" Width="32" FontSize="17" 
+		    MouseDown="mBarExit" Content="X" 
+		    BorderThickness="0" HorizontalAlignment="Right">
+		</Button>
+	    </Canvas.Children>
 	</Canvas>
 
 	<Canvas Height="374" Margin="0,26,0,0" Background="#0f0f0f" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">

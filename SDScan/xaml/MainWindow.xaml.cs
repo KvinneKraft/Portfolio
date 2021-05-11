@@ -26,9 +26,17 @@ namespace SDScan
 	    image.RenderSize = new Size(200, 200);
 	}
 
-	void MenuBarExit(object sender, RoutedEventArgs e)
+	void mBarExit(object sender, RoutedEventArgs e)
 	{
 	    Environment.Exit(-1);
+	}
+
+	private void mBarDrag(object sender, MouseButtonEventArgs e)
+	{
+	    if (e.ChangedButton == MouseButton.Left)
+	    {
+		DragMove();
+	    }
 	}
     }
 }
