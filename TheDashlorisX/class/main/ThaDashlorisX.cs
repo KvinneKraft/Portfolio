@@ -31,6 +31,7 @@ namespace TheDashlorisX
 
 		InitializeApp();
 
+		new SplashScreen(DashWindow);
 		Application.Run(DashWindow);
 	    }
 
