@@ -126,7 +126,7 @@ namespace TheDashlorisX
     }
 
 
-    public class AlreadyRunning
+    /*public class AlreadyRunning
     {
 	private readonly DashControls Control = new DashControls();
 	private readonly DashTools Tool = new DashTools();
@@ -202,5 +202,5 @@ namespace TheDashlorisX
 		ErrorHandler.JustDoIt(E);
 	    }
 	}
-    }
+    }*/
 }
