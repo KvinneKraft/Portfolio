@@ -10,19 +10,19 @@
 	Background="Transparent">
 
     <Grid>
-	<Canvas Height="26" VerticalAlignment="Top" Background="#040404" MouseDown="mBarDrag">
+	<Canvas Height="26" Width="400" VerticalAlignment="Top" Background="#040404" MouseDown="mBarDrag">
 	    <Canvas.Children>
 		<Button Background="#040404" Foreground="White" 
 		    Height="26" Width="32" FontSize="17" 
 		    MouseDown="mBarExit" Content="X" 
-		    BorderThickness="0" HorizontalAlignment="Right">
+		    BorderThickness="0" HorizontalAlignment="Right" Canvas.Left="367">
 		</Button>
 	    </Canvas.Children>
 	</Canvas>
 
-	<Canvas Height="374" Margin="0,26,0,0" Background="#0f0f0f" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">
-	    <Border BorderThickness="2" BorderBrush="#040404" CornerRadius="8">
-		
+	<Canvas Height="375" Margin="0,25,0,0" Background="#0f0f0f" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">
+	    <Border Height="375" Width="400" BorderThickness="2" BorderBrush="#040404">
+
 	    </Border>
 	</Canvas>
     </Grid>
