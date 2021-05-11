@@ -421,6 +421,8 @@ namespace TheDashlorisX
 		S3Container1.BringToFront();
 		
 		S3Class1.InitializePage(DashWindow, Capsule, this);
+
+		DashWindow.Hide();
 	    }
 
 	    catch (Exception E)
