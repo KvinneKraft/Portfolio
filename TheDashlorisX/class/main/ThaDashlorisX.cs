@@ -24,16 +24,9 @@ namespace TheDashlorisX
 	{
 	    try
 	    {
-		var Interact = new DashInteract();
-
-		if (/*!*/Interact.IsAdministrator())
+		if (!new DashInteract().IsAdministrator())
 		{
 		    new InsufficientPermissions();
-		}
-
-		else if (Interact.IsRunning(Process.GetCurrentProcess().ProcessName))
-		{
-		    new AlreadyRunning();
 		}
 
 		InitializeApp();
