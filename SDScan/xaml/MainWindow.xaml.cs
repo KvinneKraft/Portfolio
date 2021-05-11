@@ -25,5 +25,10 @@ namespace SDScan
 
 	    image.RenderSize = new Size(200, 200);
 	}
+
+	void MenuBarExit(object sender, RoutedEventArgs e)
+	{
+	    Environment.Exit(-1);
+	}
     }
 }
