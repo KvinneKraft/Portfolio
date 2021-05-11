@@ -1904,8 +1904,20 @@ namespace DashFramework
 	    public string GetFilePath() =>
 		Assembly.GetExecutingAssembly().Location;
 
-	    public bool IsRunning(string ProcessName) =>
-		Process.GetProcessesByName(ProcessName).Length > 1;
+	    public bool IsRunning(string ProcessName)
+	    {
+		int instances = 0;
+
+		foreach (Process proc in Process.GetProcesses())
+		{
+		    if (proc.ProcessName.ToLower().Equals(ProcessName.ToLower()))
+		    {
+			instances += 1;
+		    }
+		}
+		
+		return (instances > 1);
+	    }
 	}
     }
 }
