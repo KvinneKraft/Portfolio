@@ -23,6 +23,47 @@ using DashFramework.Dialog;
 
 namespace TheDashlorisX
 {
+    public class SplashScreen
+    {
+	private readonly DashTools Tool = new DashTools();
+
+	public SplashScreen(DashWindow App)
+	{
+	    try
+	    {
+		using (DashWindow DashWindow = new DashWindow())
+		{
+		    var windowSize = new Size(250, 136);
+
+		    DashWindow.InitializeWindow(windowSize, ("Da Splash"), Color.White, Color.Empty, AppMenuBar:false);
+		    DashWindow.BackgroundImage = (Properties.Resources.Splash);
+
+		    System.Timers.Timer timer = new System.Timers.Timer()
+		    {
+			AutoReset = false,
+			Interval = 3500,
+			Enabled = true,
+		    };
+
+		    timer.Elapsed += (s, e) =>
+		    {
+			DashWindow.Hide();
+		    };
+
+		    timer.Start();
+
+		    DashWindow.ShowAsIs();
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
+	}
+    }
+
+
     public class InsufficientPermissions
     {
 	private readonly DashControls Control = new DashControls();
