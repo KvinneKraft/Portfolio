@@ -12,6 +12,10 @@
 > This release took a few months to put together, this is because version three of the Dashloris-X is very advanced in comparison to its previous versions.  When I talk about advanced, I am implying the availability of new functionality and a completely redone interface + code (check bellow screenshots).
 
 > This release includes a decent Port Scanner, Server Pinger and a Nameserver Lookup and Geo IP Tool.  Plus a ton more things, you will have to experiment with this application if you want to discover these things. 
+### Version [3.1](https://github.com/KvinneKraft/Software/raw/main/TheDashlorisX/application/3.1/TheDashloris-X.exe?raw=true)
+> This update fixes some bugs and adds a splash screen.  It also will no longer complain about a second instance running, you can now have as many concurrents as you wish!  The splash screen will most likely change in the future.  I did not create this image, but I did find it on the public web.  I purposely left the creators name on the splash image.  
+
+> For the next update I will need suggestions, I really want the make the application user-friendly for all users.
 ##
 ## Future of The Dashloris-X
 >To be honest, I have a lot of designs laying around and a lot of things on my to-do list.  On a daily I am able to mark off atleast 10 things, that may seem like a lot until you realize I add about 20 new ideas to my to-do list on a daily, ahaha.  An endless circle of self satisfaction is what I consider it to be.
@@ -43,6 +47,11 @@
 ![Port GUI3](Screenshots/portscan-gui3.png)
 ### Ping GUI:
 ![Ping GUI3](Screenshots/ping-gui3.png)
+## Screenshot of The Dashloris-X 3.1
+### Splash Screen
+![Splash GUI31](Screenshots/splash31.png)
+### Insufficient Privileges Notice
+![Admin GUI31](Screenshots/admin31.png)
 ##
 ## Information about The Dashloris-X
 >Hey there, even though there is a special dialog dedicated to the information that I want to share about this application within the application already, I still feel like I have to address a few things.  This application was made for personal use only until I discovered the use others may see within its shadow.  Therefore I present to you the official (long postponed) Dashloris-X!  
