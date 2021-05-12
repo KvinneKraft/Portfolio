@@ -29,6 +29,9 @@ using DashFramework.Dialog;
 
 using SubdomainScanner.resources;
 
+// - Rounded Rectangle Functionality
+// - 
+
 namespace DashFramework
 {
     namespace Data
@@ -252,30 +255,30 @@ namespace DashFramework
 	    {
 		private readonly DashTools Tool = new DashTools();
 
-	    public void SetUrl(Control Object, string Destination)
-	    {
-		try
+		public void SetUrl(Control Object, string Destination)
 		{
-		    Object.Click += (s, e) =>
+		    try
 		    {
-			using (var Process = new Process())
+			Object.Click += (s, e) =>
 			{
-			    Process.StartInfo = new ProcessStartInfo()
+			    using (var Process = new Process())
 			    {
-				FileName = Destination,
-				UseShellExecute = true,
-			    };
+				Process.StartInfo = new ProcessStartInfo()
+				{
+				    FileName = Destination,
+				    UseShellExecute = true,
+				};
 
-			    Process.Start();
-			}
-		    };
-		}
+				Process.Start();
+			    }
+			};
+		    }
 
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
 		}
-	    }
 
 		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 		{
@@ -368,6 +371,26 @@ namespace DashFramework
 		}
 
 		public readonly Dictionary<TextBox, int> TextBoxContainers = new Dictionary<TextBox, int>();
+
+		/*class round : TextBox //----: Replace Original TextBox with this, make it functional with the round customization.  RECODE IT COMPLETELY
+		{
+		    [DllImport("gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+		    private static extern IntPtr CreateRoundRectRgn
+		    (
+			int nLeftRect, // X-coordinate of upper-left corner or padding at start
+			int nTopRect,// Y-coordinate of upper-left corner or padding at the top of the textbox
+			int nRightRect, // X-coordinate of lower-right corner or Width of the object
+			int nBottomRect,// Y-coordinate of lower-right corner or Height of the object
+					//RADIUS, how round do you want it to be?
+			int nheightRect, //height of ellipse 
+			int nweightRect //width of ellipse
+		    );
+		    protected override void OnCreateControl()
+		    {
+			base.OnCreateControl();
+			this.Region = Region.FromHrgn(CreateRoundRectRgn(2, 3, this.Width, this.Height, 15, 15)); //play with these values till you are happy
+		    }
+		}*/
 
 		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
 		{
