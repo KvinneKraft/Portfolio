@@ -27,7 +27,7 @@ using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-using SpigotHelper.Properties;
+using SubdomainScanner.resources;
 
 namespace DashFramework
 {
@@ -1143,7 +1143,7 @@ namespace DashFramework
 		    Tool.Interactive(LogoLayer2, Surface);
 
 		    var TitleSize = Tool.GetFontSize(MenuBarTitle.Text, 8);
-		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
+		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, -2);//(MenuBarSize.Height - TitleSize.Height) / 2);
 
 		    Control.Label(MenuBar, MenuBarTitle, TitleSize, TitleLoca, BarBCol, Color.White, 1, 8, MenuBarTitle.Text);
 		    Tool.Interactive(MenuBarTitle, Surface);
