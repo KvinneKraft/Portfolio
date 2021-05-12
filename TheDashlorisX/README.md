@@ -1,7 +1,7 @@
 ## Download the The Dashloris-X
->I would recommend checking the information section first before downloading The Dashloris.
+>I would recommend checking the information section first before downloading The Dashloris-X.
 
->You can find all (including unstable) builds [Here](https://github.com/KvinneKraft/Software/tree/main/TheDashlorisX/application) on my GitHub but also [Here](https://pugpawz.com) on my website.  Please know that some versions may contain bugs, if you do find any, please reach out to me at KvinneKraft@protonmail.com about the matter, I want to squash them all and throw salt on them lil bastards (It is worth mentioning that, I would never do such a thing to a living being).
+>You can find all (including unstable) builds [Here](https://github.com/KvinneKraft/Software/tree/main/TheDashlorisX/application) in the corresponding repository but also [Here](https://pugpawz.com) on my website.  Please know that some versions may contain bugs, if you do find any, please reach out to me at KvinneKraft@protonmail.com about the matter, I want to squash them all and throw salt on them lil bastards (It is worth mentioning that, I would never do such a thing to a living being).  It is also worth mentioning that I keep the bugged versions intentionally, I feel like it is nice to look back at my work when I get older.  That future comparison will grow motivation.
 ##
 ## Release information about the Dashloris-X
 ### Version [1.0](https://github.com/KvinneKraft/Software/raw/main/TheDashlorisX/application/1.0/Dashloris-X.exe?raw=true)
