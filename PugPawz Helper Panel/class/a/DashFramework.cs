@@ -27,7 +27,7 @@ using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-using PugPawz_Helper_Panel.resources;
+using DashApplication.resources;
 
 namespace DashFramework
 {

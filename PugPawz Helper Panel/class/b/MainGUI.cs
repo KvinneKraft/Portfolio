@@ -17,7 +17,7 @@ using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-namespace PugPawz_Helper_Panel
+namespace DashApplication
 {
     public partial class MainGUI
     {

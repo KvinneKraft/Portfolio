@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{76211A5F-22C6-42FF-92FE-1C2F7B1D6A3E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PugPawz_Helper_Panel</RootNamespace>
+    <RootNamespace>DashApplication</RootNamespace>
     <AssemblyName>FormTemplate</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
