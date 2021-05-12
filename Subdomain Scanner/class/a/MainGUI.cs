@@ -18,7 +18,7 @@ using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-namespace Subdomain_Scanner
+namespace SubdomainScanner
 {
     public partial class MainGUI
     {
@@ -62,7 +62,7 @@ namespace Subdomain_Scanner
 
 	    catch (Exception E)
 	    {
-		throw (GetExp(E));
+		throw (GetExep(E));
 	    }
 	}
 
@@ -90,7 +90,7 @@ namespace Subdomain_Scanner
 	{
 	    try
 	    {
-
+		// Shortcut Key
 	    }
 
 	    catch (Exception E)
@@ -99,16 +99,36 @@ namespace Subdomain_Scanner
 	    }
 	}
 
-	
+
+	public readonly DashWindow DashApp = new DashWindow();
+
 	readonly DashControls Controls = new DashControls();
-	readonly DashWindow DashApp = new DashWindow();
 	readonly DashTools Tools = new DashTools();
 
 	public MainGUI()
 	{
 	    try
 	    {
+		var AppABCo = Color.FromArgb(243, 255, 189);
+		var AppMBCo = Color.FromArgb(1, 93, 145);
+		var AppFGCo = Color.White;
+		var AppSize = new Size(300, 350);
+
+		DashApp.InitializeWindow(AppSize, ("Subdomain Scanner"), AppABCo, AppMBCo, CloseHideApp:false);
+
+		DashApp.MenuBar.LogoLayer1.Top -= 3;
+		DashApp.MenuBar.LogoLayer2.Top -= 3;
+
+		DashApp.MenuBar.LogoLayer1.Left = 3;
+		DashApp.MenuBar.LogoLayer2.Left = 3;
+
+		DashApp.FormClosing += (s, e) =>
+		{
+		    Environment.Exit(-1);
+		};
+
 		InitA();
+		InitB();
 	    }
 
 	    catch (Exception E)
