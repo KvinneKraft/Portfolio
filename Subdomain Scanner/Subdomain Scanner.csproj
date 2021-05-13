@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{91C9CC4D-91BD-4C2C-B43B-FFE958B3106C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SubdomainScanner</RootNamespace>
-    <AssemblyName>Subdomain Scanner</AssemblyName>
+    <RootNamespace>SubdomainAnalyzer</RootNamespace>
+    <AssemblyName>Subdomain Analyzer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
