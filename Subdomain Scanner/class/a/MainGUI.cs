@@ -95,7 +95,7 @@ namespace SubdomainAnalyzer
 		var Lab3Size = ConHelp.GetFontSize(Lab3Text);
 		var Lab3Loca = new Point(0, Lab2Loca.Y + Lab2Size.Height + 8);
 
-		var Tex3Text = ($@"C:\Users\{Environment.UserName}\Desktop\sub domains.txt");
+		var Tex3Text = ($@"<select location>");
 		var Tex3Size = ConHelp.TextBoxSize(Lab3Size, Lab3Loca);
 		var Tex3Loca = ConHelp.ControlX(Lab3Size, Lab3Loca, Extra: 0);
 
@@ -226,8 +226,6 @@ namespace SubdomainAnalyzer
 		InitB2();
 
 		Tools.Round(ContainerB1, 6);
-
-		// Shortcut Key
 	    }
 
 	    catch (Exception E)
@@ -237,11 +235,152 @@ namespace SubdomainAnalyzer
 	}
 
 
-	void HookA(KeyEventArgs e)
+	void HookA()
 	{
 	    try
 	    {
+		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		SendLog("+ F1  ->  display this help menu.");
+		SendLog("+ F2  ->  select your subdomain list from explorer.");
+		SendLog("+ F3  ->  create and select the default subdomain list from memory.");
+		SendLog("+ F4  ->  start/stop scanning the target website.");
+		SendLog("+ F6  ->  save the current log to your harddrive.");
+		SendLog("+ F5  ->  clear this log.");
+		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+	    }
 
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+
+	static List<string> defaultSubdomains()
+	{
+	    return new List<string>()
+	    {
+		"mail", "admin", "control", "controls", "panel", "border", "us",
+		"raptor", "login", "guest", "user", "server", "remote", "peer",
+		"applejuice", "smtp", "apache", "search", "forum", "forums", "game",
+		"video", "play", "music", "reply", "confirm", "creation", "apple"
+	    };
+	}
+
+	public List<string> subDomains = defaultSubdomains();
+
+	void HookB()
+	{
+	    try
+	    {
+		using (OpenFileDialog diag = new OpenFileDialog())
+		{
+		    diag.CheckFileExists = true;
+		    diag.CheckPathExists = true;
+
+		    diag.Filter = ("Text File|*.txt");
+		    diag.Title = ("Load File Dialog");
+
+		    DialogResult resu = diag.ShowDialog();
+
+		    if (resu == DialogResult.OK)
+		    {
+			SendLog($"(!) Reading file: {diag.FileName} ....");
+
+			var inst = new DashFramework.Data.Manipulation();
+
+			subDomains.Clear();
+
+			foreach (string line in File.ReadAllLines(diag.FileName))
+			{
+			    subDomains.Add(inst.Replace(line, "", ".", " "));
+			}
+
+			TextBoxA3.Text = diag.FileName;
+
+			SendLog($"(+) Operation has been completed.  {subDomains.Count} potential subdomains loaded!");
+		    }
+
+		    else
+		    {
+			SendLog("(!) Operation has been canceled.");
+		    }
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+	
+	void HookC()
+	{
+	    try
+	    {
+		// Create Default Subdomain List | Put sub domains into list and write it to file
+
+
+
+		SendLog($"(+) Operation has been completed. {subDomains.Count} subdomains loaded!");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+	
+	void HookD()
+	{
+	    try
+	    {
+		// Toggle Scan
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+	
+	void HookE()
+	{
+	    try
+	    {
+		using (SaveFileDialog diag = new SaveFileDialog())
+		{
+		    diag.OverwritePrompt = true;
+		    diag.CheckPathExists = true;
+
+		    diag.Filter = ("Any File|*.*");
+		    diag.Title = ("Save Log Dialog");
+
+		    DialogResult resu = diag.ShowDialog();
+
+		    if (resu == DialogResult.OK)
+		    {
+			File.WriteAllText(diag.FileName, TextBoxB1.Text);
+			SendLog($"(!) Operation complete!  File has been saved to: ({diag.FileName})!");
+		    }
+
+		    else
+		    {
+			SendLog("(!) Operation has been canceled.");
+		    }
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+
+	void HookF()
+	{
+	    try
+	    {
+		TextBoxB1.Clear();
 	    }
 
 	    catch (Exception E)
@@ -258,7 +397,15 @@ namespace SubdomainAnalyzer
 		{
 		    try
 		    {
-			HookA(e);
+			switch (e.KeyCode)
+			{
+			    case Keys.F1: HookA();  break; // Help
+			    case Keys.F2: HookB();  break; // Select SD List
+			    case Keys.F3: HookC();  break; // Create DEF SD
+			    case Keys.F4: HookD();  break; // Toggle Scan
+			    case Keys.F5: HookE();  break; // Save Log
+			    case Keys.F6: HookF();  break; // Clear Log
+			}
 		    }
 
 		    catch (Exception E)
@@ -278,20 +425,38 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
-		foreach (Control a in Capsule.Controls)
+		for (int a = 0; a < ContainerA1.Controls.Count; a += 1)
 		{
-		    foreach (Control b in a.Controls)
+		    for (int b = 0; b < ContainerA1.Controls[a].Controls.Count; b += 1)
 		    {
-			foreach (Control c in b.Controls)
+			for (int c = 0; c < ContainerA1.Controls[a].Controls[b].Controls.Count; c += 1)
 			{
-			    SetHook(c);
+			    SetHook(ContainerA1.Controls[a].Controls[b].Controls[c]);
 			}
 
-			SetHook(b);
+			SetHook(ContainerA1.Controls[a].Controls[b]);
 		    }
 
-		    SetHook(a);
+		    SetHook(ContainerA1.Controls[a]);
 		}
+
+		for (int a = 0; a < ContainerB1.Controls.Count; a += 1)
+		{
+		    for (int b = 0; b < ContainerB1.Controls[a].Controls.Count; b += 1)
+		    {
+			for (int c = 0; c < ContainerB1.Controls[a].Controls[b].Controls.Count; c += 1)
+			{
+			    SetHook(ContainerB1.Controls[a].Controls[b].Controls[c]);
+			}
+
+			SetHook(ContainerB1.Controls[a].Controls[b]);
+		    }
+
+		    SetHook(ContainerB1.Controls[a]);
+		}
+
+		SetHook(ContainerA1);
+		SetHook(ContainerA2);
 	    }
 
 	    catch (Exception E)
