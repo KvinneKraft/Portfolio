@@ -18,12 +18,37 @@ using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-namespace SubdomainScanner
+namespace SubdomainAnalyzer
 {
     public partial class MainGUI
     {
 	Exception GetExep(Exception E) =>
 	    ErrorHandler.GetException(E);
+
+
+	readonly ControlHelper ConHelp = new ControlHelper();
+
+	void InitConHelper()
+	{
+	    try
+	    {
+		ConHelp.TextBoxParent = ContainerA2;
+		ConHelp.LabelParent = ContainerA2;
+
+		ConHelp.TextBoxBCol = Color.FromArgb(41, 44, 89);
+		ConHelp.TextBoxFCol = Color.White;
+
+		ConHelp.LabelBCol = ContainerA1.BackColor;
+		ConHelp.LabelFCol = Color.White;
+
+		ConHelp.FontID = 0;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
 
 
 	readonly TextBox TextBoxA1 = new TextBox();
@@ -36,13 +61,61 @@ namespace SubdomainScanner
 	readonly Label LabelA3 = new Label();
 	readonly Label LabelA4 = new Label();
 	readonly Label LabelA5 = new Label();
-	
+
 	void InitA2()
 	{
 	    try
 	    {
-		// Add TextBoxes
-		// Add Labels
+		InitConHelper();
+
+		var Lab1Text = ("Website:");
+		var Lab1Size = ConHelp.GetFontSize(Lab1Text);
+		var Lab1Loca = new Point(0, 0);
+
+		var Tex1Text = ("pugpawz.com");
+		var Tex1Size = new Size(135, 20);
+		var Tex1Loca = ConHelp.ControlX(Lab1Size, Lab1Loca, Extra: 0);
+
+		var Lab2Text = ("Ports:");
+		var Lab2Size = ConHelp.GetFontSize(Lab2Text);
+		var Lab2Loca = ConHelp.ControlX(Tex1Size, Tex1Loca);
+
+		var Tex2Text = ("80,443");
+		var Tex2Size = ConHelp.TextBoxSize(Lab2Size, Lab2Loca);
+		var Tex2Loca = ConHelp.ControlX(Lab2Size, Lab2Loca, Extra: 0);
+
+		ConHelp.AddTextBox(TextBoxA1, Tex1Size, Tex1Loca, Tex1Text);
+		ConHelp.AddTextBox(TextBoxA2, Tex2Size, Tex2Loca, Tex2Text);
+
+		ConHelp.AddLabel(LabelA1, Lab1Size, Lab1Loca, Lab1Text);
+		ConHelp.AddLabel(LabelA2, Lab2Size, Lab2Loca, Lab2Text);
+
+		var Lab3Text = ("Sub Domain List:");
+		var Lab3Size = ConHelp.GetFontSize(Lab3Text);
+		var Lab3Loca = new Point(0, Lab2Loca.Y + Lab2Size.Height + 8);
+
+		var Tex3Text = ($@"C:\Users\{Environment.UserName}\Desktop\sub domains.txt");
+		var Tex3Size = ConHelp.TextBoxSize(Lab3Size, Lab3Loca);
+		var Tex3Loca = ConHelp.ControlX(Lab3Size, Lab3Loca, Extra: 0);
+
+		var Lab4Text = ("Connect Timeout:");
+		var Lab4Size = ConHelp.GetFontSize(Lab4Text);
+		var Lab4Loca = new Point(0, Lab3Loca.Y + Lab3Size.Height + 8);
+
+		var Tex4Text = ("400");
+		var Tex4Size = new Size(45, 20);
+		var Tex4Loca = ConHelp.ControlX(Lab4Size, Lab4Loca, Extra: 0);
+
+		ConHelp.AddTextBox(TextBoxA3, Tex3Size, Tex3Loca, Tex3Text);
+		ConHelp.AddTextBox(TextBoxA4, Tex4Size, Tex4Loca, Tex4Text);
+
+		ConHelp.AddLabel(LabelA3, Lab3Size, Lab3Loca, Lab3Text);
+		ConHelp.AddLabel(LabelA4, Lab4Size, Lab4Loca, Lab4Text);
+		
+
+		//+ Shortcut Key for Sub Domain List
+		//+ Shortcut Key for loading default Sub Domain List
+		//+ 
 	    }
 
 	    catch (Exception E)
@@ -64,7 +137,7 @@ namespace SubdomainScanner
 	    {
 		var Cont1Size = new Size(Capsule.Width, 115);
 		var Cont1Loca = new Point(0, 10);
-		var Cont1BCol = Color.FromArgb(88, 184, 142);//(127, 219, 136);//100, 161, 106);
+		var Cont1BCol = Color.FromArgb(112, 74, 125);//(127, 219, 136);//100, 161, 106);
 
 		var Cont2Size = new Size(Cont1Size.Width - 20, 95);
 		var Cont2Loca = new Point(10, 10);
@@ -95,9 +168,8 @@ namespace SubdomainScanner
 	    {
 		var TextBoxSize = ContainerB2.Size;
 		var TextBoxLoca = new Point(0, 0);
-		//var TextBoxBCol = Color.FromArgb(100, 161, 106);
 
-		Controls.TextBox(ContainerB3, TextBoxB1, TextBoxSize, TextBoxLoca, ContainerA2.BackColor, Color.Black, 1, 8, 
+		Controls.TextBox(ContainerB3, TextBoxB1, TextBoxSize, TextBoxLoca, ContainerA2.BackColor, Color.White, 1, 8, 
 		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 
 		SendLog("(!)  Hey there!  Press \'F1\' for more options.  I did not take the time to add buttons but rather shortcut keys.");
@@ -163,7 +235,7 @@ namespace SubdomainScanner
 		var AppFGCo = Color.White;
 		var AppSize = new Size(350, 325);
 
-		DashApp.InitializeWindow(AppSize, ("Subdomain Scanner"), AppABCo, AppMBCo, CloseHideApp:false);
+		DashApp.InitializeWindow(AppSize, ("Subdomain Connector"), AppABCo, AppMBCo, CloseHideApp:false);
 
 		DashApp.MenuBar.LogoLayer1.Top -= 3;
 		DashApp.MenuBar.LogoLayer2.Top -= 3;
