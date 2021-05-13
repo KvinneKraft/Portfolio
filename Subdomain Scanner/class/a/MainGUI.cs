@@ -317,11 +317,24 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
-		// Create Default Subdomain List | Put sub domains into list and write it to file
+		try
+		{
+		    SendLog($"(!) Creating the default subdomains list for you ....");
 
+		    File.WriteAllLines("log.txt", defaultSubdomains());
 
+		    subDomains.Clear();
+		    subDomains.AddRange(defaultSubdomains());
 
-		SendLog($"(+) Operation has been completed. {subDomains.Count} subdomains loaded!");
+		    TextBoxA3.Text = ($@"{Environment.CurrentDirectory}\log.txt");
+
+		    SendLog($"(+) Operation has been completed. {subDomains.Count} subdomains have been loaded!");
+		}
+
+		catch
+		{
+		    SendLog("");
+		}
 	    }
 
 	    catch (Exception E)
@@ -334,7 +347,7 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
-		// Toggle Scan
+		// Toggle Scan | Check if RUN | Check VERBOSE | TRY-CATCH fail = no work else mean work
 	    }
 
 	    catch (Exception E)
