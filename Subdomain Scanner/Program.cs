@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SubdomainScanner
+namespace SubdomainAnalyzer
 {
     static class Program
     {
