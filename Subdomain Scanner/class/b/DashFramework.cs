@@ -27,7 +27,7 @@ using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-using SubdomainScanner.resources;
+using SubdomainAnalyzer.resources;
 
 // - Rounded Rectangle Functionality
 // - 
@@ -161,8 +161,7 @@ namespace DashFramework
 	    public class ControlHelper
 	    {
 		private readonly DashControls Control = new DashControls();
-
-		//TextBoxBCol
+		
 		public Control TextBoxParent = new Control();
 
 		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
@@ -175,7 +174,7 @@ namespace DashFramework
 			TextBox.TextAlign = HorizontalAlignment.Center;
 			TextBox.Text = (Text);
 
-			Control.TextBox(TextBoxParent, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 1, FontHeight);
+			Control.TextBox(TextBoxParent, TextBox, Size, Loca, TextBoxBCol, TextBoxFCol, 0, FontHeight);
 		    }
 
 		    catch (Exception E)
@@ -207,7 +206,7 @@ namespace DashFramework
 		{
 		    try
 		    {
-			Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+			Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, 0, FontHeight, Text);
 		    }
 
 		    catch (Exception E)
@@ -218,11 +217,13 @@ namespace DashFramework
 
 		private readonly DashTools Tool = new DashTools();
 
+		public int FontID = 1;
+
 		public Size GetFontSize(string Text, int FontHeight = 10)
 		{
 		    try
 		    {
-			Font Font = Tool.GetFont(1, FontHeight);
+			Font Font = Tool.GetFont(FontID, FontHeight);
 			return TextRenderer.MeasureText(Text, Font);
 		    }
 
@@ -392,7 +393,7 @@ namespace DashFramework
 		    }
 		}*/
 
-		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
+		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, string FontHeight = "HTTP://", bool TabStop = false)
 		{
 		    try
 		    {
@@ -430,7 +431,7 @@ namespace DashFramework
 				Object.Select();
 			    };
 
-			    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize("http", FontSize).Height);
+			    var ResizedSize = new Size(ObjectSize.Width - 10, Tool.GetFontSize(FontHeight, FontSize, FontTypeID).Height);
 			    var RelocatedLocation = new Point(5, (ObjectSize.Height - ResizedSize.Height) / 2);
 
 			    Object.Location = RelocatedLocation;
@@ -496,7 +497,7 @@ namespace DashFramework
 		    {
 			if (ObjectSize == Size.Empty)
 			{
-			    ObjectSize = Tool.GetFontSize(LabelText, FontSize);
+			    ObjectSize = Tool.GetFontSize(LabelText, FontSize, FontTypeID);
 			}
 
 			Tool.Resize(Object, ObjectSize);
@@ -606,9 +607,9 @@ namespace DashFramework
 		    }
 		}
 		
-		public Size GetFontSize(string Text, int Size)
+		public Size GetFontSize(string Text, int Size, int Id = 1)
 		{
-		    return TextRenderer.MeasureText(Text, GetFont(1, Size));
+		    return TextRenderer.MeasureText(Text, GetFont(Id, Size));
 		}
 
 		public void Resize(Control Object, Size Size)
@@ -1407,6 +1408,8 @@ namespace DashFramework
 	    private readonly Label S2Label1 = new Label();
 	    private readonly Label S2Label2 = new Label();
 
+	    public int FontID = 1;
+
 	    private int S2PageID = 1;
 	    private int S2Pages = 0;
 
@@ -1440,8 +1443,8 @@ namespace DashFramework
 
 		    SetPageCount(PageData, ConSize);
 
-		    var Label1Size = Tool.GetFontSize("Page:", 9);
-		    var Label2Size = Tool.GetFontSize($"1/{S2Pages} ", 9);
+		    var Label1Size = Tool.GetFontSize("Page:", 9, FontID);
+		    var Label2Size = Tool.GetFontSize($"1/{S2Pages} ", 9, FontID);
 
 		    var Label1Loca = new Point((S2Container1.Width - (Label1Size.Width + Label2Size.Width)) / 2, (S2Container1.Height - Label1Size.Height) / 2);
 		    var Label2Loca = new Point(Label1Loca.X + Label1Size.Width, Label1Loca.Y);
@@ -1515,7 +1518,7 @@ namespace DashFramework
 		    Control.Image(S3Container1, S3Container2, Container2Size, Container2Loca, ContainerBCol);
 
 		    var LabelText = ($"{Title}");
-		    var LabelSize = Tool.GetFontSize(LabelText, 9);
+		    var LabelSize = Tool.GetFontSize(LabelText, 9, FontID);
 		    var LabelLoca = new Point(10, (S3Container1.Height - LabelSize.Height) / 2);
 
 		    Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, ContainerBCol, Color.White, 1, 9, (LabelText));
@@ -1684,6 +1687,8 @@ namespace DashFramework
 		}
 	    }
 
+	    public int FontID = 1;
+
 	    public void AddItem(Label Object, string ItemName, Color ItemBCol, Color ItemFCol, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
 	    {
 		try
@@ -1697,7 +1702,7 @@ namespace DashFramework
 
 			if (ItemHeight == -2)
 			{
-			    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
+			    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize, FontID).Height + 6;
 			}
 		    }
 
