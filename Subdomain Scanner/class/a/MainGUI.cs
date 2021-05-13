@@ -61,6 +61,7 @@ namespace SubdomainAnalyzer
 	readonly Label LabelA3 = new Label();
 	readonly Label LabelA4 = new Label();
 	readonly Label LabelA5 = new Label();
+	readonly Label LabelA6 = new Label();
 
 	void InitA2()
 	{
@@ -111,7 +112,28 @@ namespace SubdomainAnalyzer
 
 		ConHelp.AddLabel(LabelA3, Lab3Size, Lab3Loca, Lab3Text);
 		ConHelp.AddLabel(LabelA4, Lab4Size, Lab4Loca, Lab4Text);
+
+		var Lab5Text = ("Verbose:");
+		var Lab5Size = ConHelp.GetFontSize(Lab5Text);
+		var Lab5Loca = ConHelp.ControlX(Tex4Size, Tex4Loca);
+
+		var Lab6Text = ("false");
+		var Lab6Size = ConHelp.TextBoxSize(Lab5Size, Lab5Loca, 18);
+		var Lab6Loca = ConHelp.ControlX(Lab5Size, Lab5Loca, Y: Lab5Loca.Y + 1, Extra: 0);
+
+		ConHelp.AddLabel(LabelA5, Lab5Size, Lab5Loca, Lab5Text);
+		ConHelp.LabelBCol = ConHelp.TextBoxBCol;
+
+		ConHelp.AddLabel(LabelA6, Lab6Size, Lab6Loca, Lab6Text, 9);
+		LabelA6.TextAlign = ContentAlignment.MiddleCenter;
 		
+		foreach (Control a in ContainerA2.Controls)
+		{
+		    if (a is PictureBox)
+		    {
+			Tools.Round(a, 6);
+		    }
+		}
 
 		//+ Shortcut Key for Sub Domain List
 		//+ Shortcut Key for loading default Sub Domain List
@@ -135,11 +157,11 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
-		var Cont1Size = new Size(Capsule.Width, 115);
+		var Cont1Size = new Size(Capsule.Width, 93);
 		var Cont1Loca = new Point(0, 10);
 		var Cont1BCol = Color.FromArgb(112, 74, 125);//(127, 219, 136);//100, 161, 106);
 
-		var Cont2Size = new Size(Cont1Size.Width - 20, 95);
+		var Cont2Size = new Size(Cont1Size.Width - 20, 73);
 		var Cont2Loca = new Point(10, 10);
 
 		Controls.Image(ContainerA1, ContainerA2, Cont2Size, Cont2Loca, Cont1BCol);
