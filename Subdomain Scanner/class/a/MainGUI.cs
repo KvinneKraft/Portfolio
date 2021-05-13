@@ -46,7 +46,7 @@ namespace SubdomainAnalyzer
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		throw (GetExep(E));
 	    }
 	}
 
@@ -129,15 +129,11 @@ namespace SubdomainAnalyzer
 		
 		foreach (Control a in ContainerA2.Controls)
 		{
-		    if (a is PictureBox)
+		    if ((a is PictureBox) || (a == LabelA6))
 		    {
 			Tools.Round(a, 6);
 		    }
 		}
-
-		//+ Shortcut Key for Sub Domain List
-		//+ Shortcut Key for loading default Sub Domain List
-		//+ 
 	    }
 
 	    catch (Exception E)
@@ -241,6 +237,70 @@ namespace SubdomainAnalyzer
 	}
 
 
+	void HookA(KeyEventArgs e)
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+
+	void SetHook(Control con)
+	{
+	    try
+	    {
+		con.KeyDown += (s, e) =>
+		{
+		    try
+		    {
+			HookA(e);
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+
+	void InitC()
+	{
+	    try
+	    {
+		foreach (Control a in Capsule.Controls)
+		{
+		    foreach (Control b in a.Controls)
+		    {
+			foreach (Control c in b.Controls)
+			{
+			    SetHook(c);
+			}
+
+			SetHook(b);
+		    }
+
+		    SetHook(a);
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (GetExep(E));
+	    }
+	}
+
+
 	public readonly DashWindow DashApp = new DashWindow();
 
 	readonly DashControls Controls = new DashControls();
@@ -277,6 +337,7 @@ namespace SubdomainAnalyzer
 
 		InitA();
 		InitB();
+		InitC();
 	    }
 
 	    catch (Exception E)
