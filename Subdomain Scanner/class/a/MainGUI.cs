@@ -342,12 +342,26 @@ namespace SubdomainAnalyzer
 		throw (GetExep(E));
 	    }
 	}
-	
+
+	bool isRunning = false;
+	bool isLocked = false;
+
 	void HookD()
 	{
 	    try
 	    {
 		// Toggle Scan | Check if RUN | Check VERBOSE | TRY-CATCH fail = no work else mean work
+		if (!isLocked && !isRunning)
+		{
+		    // Scan Execution Here
+		}
+
+		else
+		{
+
+		}
+
+		isLocked = isRunning = (!isLocked && !isRunning);
 	    }
 
 	    catch (Exception E)
