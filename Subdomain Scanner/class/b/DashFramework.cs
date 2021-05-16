@@ -216,7 +216,6 @@ namespace DashFramework
 		}
 
 		private readonly DashTools Tool = new DashTools();
-
 		public int FontID = 1;
 
 		public Size GetFontSize(string Text, int FontHeight = 10)
