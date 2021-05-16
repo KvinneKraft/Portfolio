@@ -358,7 +358,10 @@ namespace SubdomainAnalyzer
 
 		else
 		{
+		    SendLog("Canceling scan ....");
 
+		    isRunning = true;
+		    isLocked = false;
 		}
 
 		isLocked = isRunning = (!isLocked && !isRunning);
