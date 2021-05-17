@@ -396,28 +396,37 @@ namespace SubdomainAnalyzer
 		    return;
 		}
 
-		SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
-		
-		// Run asychronously:
-		for (int d = 0; d < subDomains.Count; d += 1)
+		try
 		{
-		    string exists()
+		    SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
+
+		    // Run asychronously | Take care of asynchronous instance:
+		    for (int d = 0; d < subDomains.Count; d += 1)
 		    {
-			for (int p = 0; p < ports.Count; p += 1)
+			string exists()
 			{
-			    if (DashNet.IsHostReachable($"{subDomains[d]}.{domain}", ports[p], timeout))
+			    for (int p = 0; p < ports.Count; p += 1)
 			    {
-				return ("does exist");
+				if (DashNet.IsHostReachable($"{subDomains[d]}.{domain}", ports[p], timeout))
+				{
+				    return ("does exist");
+				}
 			    }
+
+			    return ("no exist");
 			}
 
-			return ("no exist");
+			SendLog($"(!) {subDomains[d]}.{domain} -> {exists()}");
 		    }
 
-		    SendLog($"(!) {subDomains[d]}.{domain} -> {exists()}");
+		    SendLog("(!) Operation complete!  Results are shown above ^");
 		}
 
-		SendLog("(!) Operation complete!  Results are shown above ^");
+		catch
+		{
+		    SendLog("(!) Operation has been canceled!  Error occurred while scanning.");
+		    return;
+		}
 	    }
 
 	    catch (Exception E)
@@ -447,9 +456,6 @@ namespace SubdomainAnalyzer
 			SendLog("(!) Your current configuration was found to be invalid.  Please correct this and retry.  Please make sure you are using the already present format.  The sub domain list specified should specify merely the names of each individual subdomain rather than dots.  And they should all be on separate lines.  Future code will make this more user-friendly.");
 			return;
 		    }
-
-		    // -Load sub domains from given list if any. 
-		    // -Add Data has been verified, start scanning.
 		}
 
 		else
