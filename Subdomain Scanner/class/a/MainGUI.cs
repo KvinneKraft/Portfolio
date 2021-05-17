@@ -349,11 +349,8 @@ namespace SubdomainAnalyzer
 	readonly Manipulation DashManip = new Manipulation();
 	readonly DashNet DashNet = new DashNet();
 
-	string HookDGetA() =>
-	    DashNet.StripUrl(TextBoxA1.Text);
-
-	int HookDGetB() =>
-	    DashNet.GetInteger(TextBoxA4.Text);
+	string HookDGetA() => DashNet.StripUrl(TextBoxA1.Text);
+	int HookDGetB() => DashNet.GetInteger(TextBoxA4.Text);
 
 	void HookDValA()
 	{
