@@ -15,8 +15,10 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
+using DashFramework.Data;
 
 namespace SubdomainAnalyzer
 {
@@ -244,8 +246,8 @@ namespace SubdomainAnalyzer
 		SendLog("+ F2  ->  select your subdomain list from explorer.");
 		SendLog("+ F3  ->  create and select the default subdomain list from memory.");
 		SendLog("+ F4  ->  start/stop scanning the target website.");
-		SendLog("+ F6  ->  save the current log to your harddrive.");
-		SendLog("+ F5  ->  clear this log.");
+		SendLog("+ F5  ->  save the current log to your harddrive.");
+		SendLog("+ F6  ->  clear this log.");
 		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	    }
 
@@ -321,25 +323,80 @@ namespace SubdomainAnalyzer
 		{
 		    SendLog($"(!) Creating the default subdomains list for you ....");
 
-		    File.WriteAllLines("log.txt", defaultSubdomains());
+		    File.WriteAllLines("defaultsd.txt", defaultSubdomains());
 
 		    subDomains.Clear();
 		    subDomains.AddRange(defaultSubdomains());
 
-		    TextBoxA3.Text = ($@"{Environment.CurrentDirectory}\log.txt");
+		    TextBoxA3.Text = ($@"{Environment.CurrentDirectory}\defaultsd.txt");
 
 		    SendLog($"(+) Operation has been completed. {subDomains.Count} subdomains have been loaded!");
 		}
 
 		catch
 		{
-		    SendLog("");
+		    SendLog("(!) Something caused the operation to fail.  Canceling ....");
 		}
 	    }
 
 	    catch (Exception E)
 	    {
 		throw (GetExep(E));
+	    }
+	}
+
+
+	readonly Manipulation DashManip = new Manipulation();
+	readonly DashNet DashNet = new DashNet();
+
+	string HookDGetA() =>
+	    DashNet.StripUrl(TextBoxA1.Text);
+
+	int HookDGetB() =>
+	    DashNet.GetInteger(TextBoxA4.Text);
+
+	void HookDValA()
+	{
+	    try
+	    {
+		string domain = (HookDGetA());
+		int timeout = (HookDGetB());
+
+		if (timeout < 10)
+		{
+		    SendLog("(!) Operation has been canceled.  Timeout specified is invalid.  Must be more than 10 MS.");
+		    return;
+		}
+
+		else if (!DashNet.CanIP(domain))
+		{
+		    SendLog("(!) Operation has been canceled.  Host could not be resolved to a valid IP address.");
+		    return;
+		}
+
+		List<int> ports = new List<int>();
+
+		foreach (string obj in TextBoxA2.Text.Split(','))
+		{
+		    if (!DashNet.CanPort(obj.Replace(" ", "")))
+		    {
+			SendLog($"(!) Invalid port found in port selection.  Port '{obj}' will not be added!");
+			continue;
+		    }
+
+		    ports.Add(DashNet.GetPort(obj));
+		}
+
+		if (ports.Count < 1)
+		{
+		    SendLog("(!) Operation has been canceled.  No (valid) ports were specified.");
+		    return;
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
 	    }
 	}
 
@@ -353,18 +410,21 @@ namespace SubdomainAnalyzer
 		// Toggle Scan | Check if RUN | Check VERBOSE | TRY-CATCH fail = no work else mean work
 		if (!isLocked && !isRunning)
 		{
-		    // Scan Execution Here
+		    SendLog("(-) Validating input and starting scan ....");
+
+		    HookDValA();
+
+		    // -Load sub domains from given list if any. 
+		    // -Add Data has been verified, start scanning.
 		}
 
 		else
 		{
-		    SendLog("Canceling scan ....");
+		    SendLog("(-) Canceling scan ....");
 
 		    isRunning = true;
 		    isLocked = false;
 		}
-
-		isLocked = isRunning = (!isLocked && !isRunning);
 	    }
 
 	    catch (Exception E)
