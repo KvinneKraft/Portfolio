@@ -389,6 +389,35 @@ namespace SubdomainAnalyzer
 		    SendLog("(!) Operation has been canceled.  No (valid) ports were specified.");
 		    return;
 		}
+
+		else if (TextBoxA3.Text.Equals("<select location>") || subDomains.Count < 1)
+		{
+		    SendLog("(!) Operation has been canceled.  No subdomain list was specified.  Press F3 to use the default subdomain list.");
+		    return;
+		}
+
+		SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
+		
+		// Run asychronously:
+		for (int d = 0; d < subDomains.Count; d += 1)
+		{
+		    string exists()
+		    {
+			for (int p = 0; p < ports.Count; p += 1)
+			{
+			    if (DashNet.IsHostReachable($"{subDomains[d]}.{domain}", ports[p], timeout))
+			    {
+				return ("does exist");
+			    }
+			}
+
+			return ("no exist");
+		    }
+
+		    SendLog($"(!) {subDomains[d]}.{domain} -> {exists()}");
+		}
+
+		SendLog("(!) Operation complete!  Results are shown above ^");
 	    }
 
 	    catch (Exception E)
@@ -404,12 +433,20 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
-		// Toggle Scan | Check if RUN | Check VERBOSE | TRY-CATCH fail = no work else mean work
 		if (!isLocked && !isRunning)
 		{
 		    SendLog("(-) Validating input and starting scan ....");
 
-		    HookDValA();
+		    try
+		    {
+			HookDValA();
+		    }
+
+		    catch
+		    {
+			SendLog("(!) Your current configuration was found to be invalid.  Please correct this and retry.  Please make sure you are using the already present format.  The sub domain list specified should specify merely the names of each individual subdomain rather than dots.  And they should all be on separate lines.  Future code will make this more user-friendly.");
+			return;
+		    }
 
 		    // -Load sub domains from given list if any. 
 		    // -Add Data has been verified, start scanning.
