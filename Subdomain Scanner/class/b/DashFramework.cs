@@ -26,6 +26,7 @@ using DashFramework.Interface.Tools;
 using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
+using DashFramework.Data;
 
 using SubdomainAnalyzer.resources;
 
@@ -1950,12 +1951,89 @@ namespace DashFramework
 		}
 	    }
 
+	    readonly Manipulation Manip = new Manipulation();
+
+	    public string StripUrl(string url)
+	    {
+		try
+		{
+		    return Manip.Replace(url, "", "http://", "https://");
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public string MakeUrl(string domain)
+	    {
+		try
+		{
+		    return ("http://" + domain);
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public bool CanUrl(string url, bool make = true)
+	    {
+		try
+		{
+		    url = (make && !url.Contains("https://") && !url.Contains("http://") ? MakeUrl(url) : url);
+		    return (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _));
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    public bool UrlExists(string domain, int timeout)
+	    {
+		try
+		{
+		    int[] webPorts = new int[] { 443, 80, 8080 };
+
+		    for (int k = 0; k < webPorts.Length; k += 1)
+		    {
+			if (!IsHostReachable(domain, webPorts[k], timeout))
+			{
+			    if (k + 1 == webPorts.Length)
+			    {
+				return false;
+			    }
+
+			    continue;
+			}
+
+			break;
+		    }
+
+		    return true;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
 	    public bool IsHostReachable(string host, int port = 80, int timeout = 500)
 	    {
 		try
 		{
 		    using (Socket socket = new Socket(GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp))
 		    {
+			if (CanUrl(host))
+			{
+			    host = GetIP(host);
+			}
+
 			IAsyncResult socketResult = socket.BeginConnect(host, port, null, null);
 			bool socketSuccess = socketResult.AsyncWaitHandle.WaitOne(timeout, true);
 			return socket.Connected;
