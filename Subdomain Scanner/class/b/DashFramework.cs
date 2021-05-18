@@ -1984,12 +1984,15 @@ namespace DashFramework
 		try
 		{
 		    url = (make && !url.Contains("https://") && !url.Contains("http://") ? MakeUrl(url) : url);
-		    return (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _));
+
+		    Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri IP);
+
+		    return (Dns.GetHostAddresses(IP.Host)[0].ToString().Length >= 7);
 		}
 
-		catch (Exception E)
+		catch
 		{
-		    throw (ErrorHandler.GetException(E));
+		    return false;
 		}
 	    }
 
@@ -2017,9 +2020,9 @@ namespace DashFramework
 		    return true;
 		}
 
-		catch (Exception E)
+		catch
 		{
-		    throw (ErrorHandler.GetException(E));
+		    return false;
 		}
 	    }
 
