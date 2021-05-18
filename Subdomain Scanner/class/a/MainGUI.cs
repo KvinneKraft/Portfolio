@@ -256,7 +256,10 @@ namespace SubdomainAnalyzer
 		SendLog("+ F3  ->  create and select the default subdomain list from memory.");
 		SendLog("+ F4  ->  start/stop scanning the target website.");
 		SendLog("+ F5  ->  save the current log to your harddrive.");
-		SendLog("+ F6  ->  clear this log.");
+		SendLog("+ F6  ->  enable forced domain lookups w/ ps.");
+		SendLog("+ F7  ->  open my website in your default browser.");
+		SendLog("+ F8  ->  my public contact details.");
+		SendLog("+ F9  ->  clear this log.");
 		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	    }
 
@@ -273,7 +276,8 @@ namespace SubdomainAnalyzer
 		"mail", "admin", "control", "controls", "panel", "border", "us",
 		"raptor", "login", "guest", "user", "server", "remote", "peer",
 		"applejuice", "smtp", "apache", "search", "forum", "forums", "game",
-		"video", "play", "music", "reply", "confirm", "creation", "apple"
+		"video", "play", "music", "reply", "confirm", "creation", "apple", "www",
+		"www1", "www2", "www3", "gaming", "craft", "us", "local", "store"
 	    };
 	}
 
@@ -417,9 +421,8 @@ namespace SubdomainAnalyzer
 		    return;
 		}
 
-		SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
-
-		// Run asychronously | Take care of asynchronous instance:
+		SendLog($"(-) Started scanning {domain} using {subDomains.Count} subdomains ....");
+		
 		new Thread(() =>
 		{
 		    try
@@ -455,7 +458,7 @@ namespace SubdomainAnalyzer
 				    continue;
 				}
 
-				SendLog($"(!) {subDomains[d]}.{domain} -> {result}");
+				SendLog($"(+) {subDomains[d]}.{domain} -> {result}");
 			    }
 			}
 
@@ -562,6 +565,50 @@ namespace SubdomainAnalyzer
 	{
 	    try
 	    {
+		// TOGGLE
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookG()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookH()
+	{
+	    try
+	    {
+	        SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		SendLog("+ Email Address: KvinneKraft@protonmail.com");
+		SendLog("+ Website URL: https://pugpawz.com");
+		SendLog("+ GitHub URL: https://github.com/KvinneKraft");
+		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		SendLog("(!) I recommend you reach out to me using my email.");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookI()
+	{
+	    try
+	    {
 		TextBoxB1.Clear();
 	    }
 
@@ -586,7 +633,10 @@ namespace SubdomainAnalyzer
 			    case Keys.F3: HookC();  break; // Create DEF SD
 			    case Keys.F4: HookD();  break; // Toggle Scan
 			    case Keys.F5: HookE();  break; // Save Log
-			    case Keys.F6: HookF();  break; // Clear Log
+			    case Keys.F6: HookF();  break; // Toggle Domain Force
+			    case Keys.F7: HookG();  break; // Website
+			    case Keys.F8: HookH();  break; // Contact
+			    case Keys.F9: HookI();  break; // Clear Log
 			}
 		    }
 
