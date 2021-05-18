@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Drawing;
+using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -416,49 +417,73 @@ namespace SubdomainAnalyzer
 		    return;
 		}
 
-		try
+		SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
+
+		// Run asychronously | Take care of asynchronous instance:
+		new Thread(() =>
 		{
-		    SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
-		    
-		    // Run asychronously | Take care of asynchronous instance:
-		    for (int d = 0; d < subDomains.Count; d += 1)
+		    try
 		    {
-			string exists()
+			isRunning = true;
+
+			for (int d = 0; d < subDomains.Count; d += 1)
 			{
-			    for (int p = 0; p < ports.Count; p += 1)
+			    if (isRunning)
 			    {
-				if (DashNet.IsHostReachable($"{DashNet.GetIP(subDomains[d] + domain)}", ports[p], timeout))
+				string exists()
 				{
-				    return ("does exist");
+				    for (int p = 0; p < ports.Count; p += 1)
+				    {
+					if (DashNet.IsHostReachable($"{DashNet.GetIP(subDomains[d] + domain)}", ports[p], timeout))
+					{
+					    return ("does exist");
+					}
+
+					else if (DashNet.CanUrl($"{subDomains[d]}.{domain}"))
+					{
+					    return ("does exist (forcibly converted w/o port use)");
+					}
+				    }
+
+				    return ("no exist");
 				}
 
-				else if (DashNet.CanUrl($"{subDomains[d]}.{domain}"))
+				string result = exists();
+
+				if (result.Equals("no exist") && !HookDGetC())
 				{
-				    return ("does exist (forcibly converted w/o port use)");
+				    continue;
 				}
+
+				SendLog($"(!) {subDomains[d]}.{domain} -> {result}");
 			    }
-
-			    return ("no exist");
 			}
 
-			string result = exists();
-
-			if (result.Equals("no exist") && !HookDGetC())
+			if (!isRunning)
 			{
-			    continue;
+			    throw new Exception("cancel");
 			}
 
-			SendLog($"(!) {subDomains[d]}.{domain} -> {result}");
+			isRunning = false;
+
+			SendLog("(!) Operation complete!  Results are shown above ^");
 		    }
 
-		    SendLog("(!) Operation complete!  Results are shown above ^");
-		}
+		    catch (Exception E)
+		    {
+			if (E.Message.Equals("cancel"))
+			{
+			    SendLog("(!) Operation has been canceled by user!");
+			}
 
-		catch
-		{
-		    SendLog("(!) Operation has been canceled!  Error occurred while scanning.");
-		    return;
-		}
+			else
+			{
+			    SendLog("(!) Operation has been canceled.  An error occurred while scanning.");
+			}
+		    }
+		})
+
+		{ IsBackground = true }.Start();
 	    }
 
 	    catch (Exception E)
@@ -468,13 +493,12 @@ namespace SubdomainAnalyzer
 	}
 
 	bool isRunning = false;
-	bool isLocked = false;
 
 	void HookD()
 	{
 	    try
 	    {
-		if (!isLocked && !isRunning)
+		if (!isRunning)
 		{
 		    SendLog("(-) Validating input and starting scan ....");
 
@@ -486,17 +510,13 @@ namespace SubdomainAnalyzer
 		    catch
 		    {
 			SendLog("(!) Your current configuration was found to be invalid.  Please correct this and retry.  Please make sure you are using the already present format.  The sub domain list specified should specify merely the names of each individual subdomain rather than dots.  And they should all be on separate lines.  Future code will make this more user-friendly.");
-			return;
 		    }
-		}
 
-		else
-		{
-		    SendLog("(-) Canceling scan ....");
-
-		    isRunning = true;
-		    isLocked = false;
+		    return;
 		}
+		
+		SendLog("(-) Canceling scan ....");
+		isRunning = false;
 	    }
 
 	    catch (Exception E)
