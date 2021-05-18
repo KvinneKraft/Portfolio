@@ -5,6 +5,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
@@ -309,7 +310,7 @@ namespace SpigotHelper
 			RedirectStandardError = true,
 			RedirectStandardInput = true,
 			UseShellExecute = false,
-			CreateNoWindow = true
+			CreateNoWindow = true,
 		    }
 		};
 
@@ -336,6 +337,58 @@ namespace SpigotHelper
 
 		ServerProc.ErrorDataReceived += (ss, ee) => ButtonSwitch();
 		ServerProc.Exited += (ss, ee) => ButtonSwitch();
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	[DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)]
+	static extern bool IsWindowVisible(IntPtr hWnd);
+
+	public bool IsVisible()
+	{
+	    try
+	    {
+		IntPtr WindowHandle = (IntPtr) ServerProc.MainWindowHandle.ToInt32();
+		return IsWindowVisible(WindowHandle);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	[DllImport("User32")] private static extern int ShowWindow(int hwnd, int nCmdShow);
+
+	private const int SW_HIDE = 0;
+	private const int SW_SHOW = 5;
+
+	public void Show()
+	{
+	    try
+	    {
+		//Show In Memory Instance of Console Window
+		//Write to this instance if visible
+		//Program -> Console.WriteLine 
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public void Hide()
+	{
+	    try
+	    {
+		// Look Above
 	    }
 
 	    catch (Exception E)
