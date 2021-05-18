@@ -83,7 +83,7 @@ namespace SubdomainAnalyzer
 		var Lab2Size = ConHelp.GetFontSize(Lab2Text);
 		var Lab2Loca = ConHelp.ControlX(Tex1Size, Tex1Loca);
 
-		var Tex2Text = ("80,443");
+		var Tex2Text = ("80,443,8080,4040,2525,25,551,451,450,540,550,22,21");
 		var Tex2Size = ConHelp.TextBoxSize(Lab2Size, Lab2Loca);
 		var Tex2Loca = ConHelp.ControlX(Lab2Size, Lab2Loca, Extra: 0);
 
