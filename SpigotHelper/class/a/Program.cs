@@ -395,7 +395,19 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		//TOGGLE VISIBILITY
+		if (DashServer.IsServerRunning())
+		{
+		    if (DashServer.IsVisible())
+		    {
+			DashServer.Hide();
+			return;
+		    }
+
+		    DashServer.Show();
+		    return;
+		}
+
+		SendLog("(!) Server is not running.  Press the Start Server button!");
 	    }
 
 	    catch (Exception E)
