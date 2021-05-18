@@ -11,6 +11,7 @@ using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
+
 namespace SpigotHelper
 {
     public class SectorInitor
@@ -19,20 +20,7 @@ namespace SpigotHelper
 	readonly DashTools Tool = new DashTools();
 
 
-	readonly System.Timers.Timer ConfigTimer = new System.Timers.Timer() { Enabled = false };
-
-	string serverBatLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server\run.bat");
-	string serverDirLocation = (@"F:\Programming\PrivateSociety\Minecraft\Server");
-	string updateDirLocation = (@"F:\Programming\MCSpigot\VoyantSMP");
-
-	bool usePlugMan = true;
-
-	int configLoadInterval = 10;
-	int pluginLoadInterval = 10;
-
-	FileSystemWatcher Voyant = new FileSystemWatcher();
-
-	void SendLog(string data)
+	public void SendLog(string data)
 	{
 	    if (S2TextBox1.InvokeRequired)
 	    {
@@ -50,112 +38,47 @@ namespace SpigotHelper
 		S2TextBox1.AppendText($"{data}\r\n");
 	    }
 	}
-	void StartServerLoader()
+
+
+	readonly ServerManager DashServer = new ServerManager();
+
+	void ButtonHookA()
 	{
 	    try
 	    {
-		Voyant.Filter = ("*.jar");
-		Voyant.Path = (updateDirLocation);
-
-		Voyant.Created += (s, e) =>
+		try
 		{
-		    new Thread(() =>
+		    if (!S1Button1.Text.Equals("Start Server"))
 		    {
-			try
+			if (DashServer.IsServerRunning())
 			{
-			    SendLog($"(-) Loading plugin {e.Name} into server ....");
-
-			    Thread.Sleep(1000);
-
-			    string getName(string fullName)
-			    {
-				var data = e.Name.Split('\\');
-
-				if (data.Length > 1)
-				{
-				    return data[1];
-				}
-
-				return data[0];
-			    }
-
-			    if (IsServerRunning())
-			    {
-				void Copy()
-				{
-				    try
-				    {
-					File.Copy(e.FullPath, $"{serverDirLocation}\\plugins\\{getName(e.Name)}", true);
-				    }
-
-				    catch
-				    {
-					SendLog("(!) Could not copy new file!");
-				    }
-				}
-
-				if (usePlugMan)
-				{
-				    SendLog($"(-) Running plugman commands ....");
-				    ServerCommand($"plugman unload {getName(e.Name).Replace(".jar", "")}");
-
-				    Copy();
-
-				    ServerCommand($"plugman load {getName(e.Name).Replace(".jar", "")}");
-				    SendLog($"(+) Done!");
-				}
-
-				else
-				{
-				    SendLog($"(-) Restarting server ....");
-				    ServerCommand("stop");
-
-				    Copy();
-
-				    ServerCommand("start");
-				    SendLog($"(-) Done!");
-				}
-			    }
+			    DashServer.ServerCommand(this, "stop");
 			}
-
-			catch (Exception E)
-			{
-			    ErrorHandler.JustDoIt(E);
-			}
-		    }).Start();
-		};
-
-		Voyant.IncludeSubdirectories = true;
-		Voyant.EnableRaisingEvents = true;
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	void CreateDefaultConfig()
-	{
-	    try
-	    {
-		if (!File.Exists("SpigotHelper.conf"))
-		{
-		    SendLog("(!) SpigotHelper.conf does not exist!");
-		    SendLog("(-) Creating one just for you ....");
-
-		    using (StreamWriter writer = File.CreateText("SpigotHelper.conf"))
-		    {
-			writer.WriteLine($"config_loader_interval={configLoadInterval}");
-			writer.WriteLine($"plugin_loader_interval={pluginLoadInterval}");
-			writer.WriteLine($"use_plugman={usePlugMan}");
-			writer.WriteLine($"server_bat={serverBatLocation}");
-			writer.WriteLine($"server_dir={serverDirLocation}");
-			writer.WriteLine($"update_dir={updateDirLocation}");
-			writer.Close();
 		    }
 
-		    SendLog("(+) Done!\r\n");
+		    else
+		    {
+			DashServer.RefreshServerProcess(this);
+
+			new Thread
+			(
+			    () =>
+			    {
+				DashServer.ServerProc.StartInfo.WorkingDirectory = ($"{DashServer.serverDirLocation}");
+				DashServer.ServerProc.StartInfo.FileName = ($"{DashServer.serverBatLocation}");
+				DashServer.ServerProc.Start();
+
+				DashServer.ServerProc.BeginOutputReadLine();
+			    }
+			).Start();
+		    }
+
+		    S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
 		}
 	    }
 
@@ -165,86 +88,58 @@ namespace SpigotHelper
 	    }
 	}
 
-	void StartConfigLoader()
+	void ButtonHookB()
 	{
 	    try
 	    {
-		void UpdateConfiguration()
+		try
 		{
-		    try
+		    using (Process proc = new Process())
 		    {
-			CreateDefaultConfig();
-			
-			var fileLines = new List<string>();
-
-			string data = string.Empty;
-
-			foreach (string line in File.ReadAllLines("SpigotHelper.conf"))
+			proc.StartInfo = new ProcessStartInfo()
 			{
-			    fileLines.Add(line.Split('=')[1]);
-			    data += line;
-			}
-			
-			if (fileLines.Count != 6)
-			{
-			    throw new Exception("!");
-			}
+			    FileName = ("SpigotHelper.conf"),
+			    UseShellExecute = true
+			};
 
-			int asInt(string entry) =>
-			    int.Parse(entry);
-
-			configLoadInterval = asInt(fileLines[0]);
-			pluginLoadInterval = asInt(fileLines[1]);
-			
-			usePlugMan = (fileLines[2].ToLower() == "true") 
-			    ? true : false;
-
-			for (int i = 4; i <= 5; i += 1)
-			{
-			    if (!Directory.Exists(fileLines[i]))
-			    {
-				throw new Exception ("!");
-			    }
-			}
-
-			if (!File.Exists(fileLines[3]))
-			{
-			    throw new Exception("!");
-			}
-
-			serverBatLocation = fileLines[3];
-			serverDirLocation = fileLines[4];
-			updateDirLocation = fileLines[5];
-
-			if (!File.Exists($"{serverDirLocation}\\plugins\\plugman.jar"))
-			{
-			    throw new Exception("!");
-			}
-		    }
-
-		    catch
-		    {
-			MessageBox.Show($"There was an error while trying to load SpigotHelper.conf!\r\n\r\nPlease ensure that all directories and files exist.\r\n\r\nAlso make sure Plugman.jar is in your plugins directory under the given name, whenever using this setting in the configuration file (default=true).", "Oh no!");
-			Environment.Exit(-1);
+			proc.Start();
 		    }
 		}
 
-		UpdateConfiguration();
-
-		if (!ConfigTimer.Enabled)
+		catch (Exception E)
 		{
-		    ConfigTimer.Interval = (configLoadInterval * 1000);
+		    ErrorHandler.JustDoIt(E);
+		}
+	    }
 
-		    ConfigTimer.Elapsed += (s, e) =>
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void ButtonHookC()
+	{
+	    try
+	    {
+		try
+		{
+		    using (Process proc = new Process())
 		    {
-			UpdateConfiguration();
-		    };
+			proc.StartInfo = new ProcessStartInfo()
+			{
+			    UseShellExecute = true,
+			    FileName = "https://papermc.io/downloads"
+			};
 
-		    ConfigTimer.AutoReset = true;
-		    ConfigTimer.Enabled = true;
+			proc.Start();
+		    }
 		}
 
-		ConfigTimer.Start();
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
+		}
 	    }
 
 	    catch (Exception E)
@@ -256,81 +151,9 @@ namespace SpigotHelper
 
 	readonly PictureBox S1Container = new PictureBox();
 
-	readonly Button S1Button1 = new Button();
-	readonly Button S1Button2 = new Button();
-	readonly Button S1Button3 = new Button();
-
-	Process ServerProc = new Process();
-	
-	void ServerCommand(string command)
-	{
-	    try
-	    {
-		var Streampy = ServerProc.StandardInput.BaseStream;
-
-		if (Streampy.CanWrite)
-		{
-		    StreamWriter ServerStream = new StreamWriter(Streampy);
-
-		    ServerStream.WriteLine(command.Replace("/", ""));
-		    ServerStream.AutoFlush = true;
-
-		    SendLog($"(!) Executing: {command} ....");
-		}
-
-		else
-		{
-		    SendLog($"(!) Server refused to accept your command!");
-		}
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
-
-	void RefreshServerProcess()
-	{
-	    try
-	    {
-		ServerProc = new Process()
-		{
-		    StartInfo = new ProcessStartInfo()
-		    {
-			RedirectStandardOutput = true,
-			RedirectStandardError = true,
-			RedirectStandardInput = true,
-			UseShellExecute = false,
-			CreateNoWindow = true
-		    }
-		};
-
-		ServerProc.OutputDataReceived += (ss, ee) =>
-		{
-		    SendLog(ee.Data);
-		};
-
-		void ButtonSwitch()
-		{
-		    if (!S1Button1.Text.Equals("Start Server"))
-		    {
-			S1Button1.Text = ("Start Server");
-		    }
-		}
-
-		ServerProc.ErrorDataReceived += (ss, ee) =>
-		    ButtonSwitch();
-
-		ServerProc.Exited += (ss, ee) =>
-		    ButtonSwitch();
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
-	}
+	public readonly Button S1Button1 = new Button();
+	public readonly Button S1Button2 = new Button();
+	public readonly Button S1Button3 = new Button();
 
 	public void InitSector1(DashWindow App, PictureBox Main)
 	{
@@ -369,59 +192,25 @@ namespace SpigotHelper
 		{
 		    try
 		    {
-			if (!S1Button1.Text.Equals("Start Server"))
-			{
-			    if (IsServerRunning())
-			    {
-				ServerCommand("stop");
-			    }
-			}
-
-			else
-			{
-			    RefreshServerProcess();
-
-			    new Thread
-			    (
-				() =>
-				{
-				    ServerProc.StartInfo.WorkingDirectory = ($"{serverDirLocation}");
-				    ServerProc.StartInfo.FileName = ($"{serverBatLocation}");
-				    ServerProc.Start();
-
-				    ServerProc.BeginOutputReadLine();
-				}
-			    ).Start();
-			}
-
-			S1Button1.Text = ($"{(S1Button1.Text.Equals("Start Server") ? "Stop" : "Start")} Server");
+			ButtonHookA();
 		    }
 
 		    catch (Exception E)
 		    {
-			ErrorHandler.JustDoIt(E);
+			throw (ErrorHandler.GetException(E));
 		    }
 		};
 
 		S1Button2.Click += (s, e) => 
 		{
 		    try
-		    { 
-			using (Process proc = new Process())
-			{
-			    proc.StartInfo = new ProcessStartInfo()
-			    {
-				UseShellExecute = true,
-				FileName = "SpigotHelper.conf"
-			    };
-
-			    proc.Start();
-			}
+		    {
+			ButtonHookB();
 		    }
 
 		    catch (Exception E)
 		    {
-			ErrorHandler.JustDoIt(E);
+			throw (ErrorHandler.GetException(E));
 		    }
 		};
 		
@@ -429,21 +218,265 @@ namespace SpigotHelper
 		{
 		    try
 		    {
-			using (Process proc = new Process())
-			{
-			    proc.StartInfo = new ProcessStartInfo()
-			    {
-				UseShellExecute = true,
-				FileName = "https://papermc.io/downloads"
-			    };
-
-			    proc.Start();
-			}
+			ButtonHookC();
 		    }
 
 		    catch (Exception E)
 		    {
-			ErrorHandler.JustDoIt(E);
+			throw (ErrorHandler.GetException(E));
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	void HookA()
+	{
+	    try
+	    {
+		SendLog("===-Shortcut Keys-===:");
+		SendLog("(F1)  --:  display this text.");
+		SendLog("(F2)  --:  open your '.minecraft' folder.");
+		SendLog("(F3)  --:  open your '/plugins' folder.");
+		SendLog("(F4)  --:  open the latest client log.");
+		SendLog("(F5)  --:  open the latest server log.");
+		SendLog("(F6)  --:  forcibly accept the EULA.");
+		SendLog("(F7)  --:  show or hide the console window.");
+		SendLog("(F8)  --:  generate server run bat.");
+		SendLog("(F9)  --:  download and setup PaperSpigot.");
+		SendLog("(F10) --:  download and setup Plugman.");
+		SendLog("(F11) --:  clear this log.\r\n");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+	
+	void OpenLocation(string Path, bool isDirectory = true)
+	{
+	    if (isDirectory)
+	    {
+		if (!Directory.Exists(Path))
+		{
+		    SendLog($"(!) Unable to find the folder path: {Path}");
+		    return;
+		}
+	    }
+
+	    else
+	    {
+		if (!File.Exists(Path))
+		{
+		    SendLog($"(!) Unable to find the file path: {Path}");
+		    return;
+		}
+	    }
+
+	    SendLog($"(-) Opening ({(isDirectory ? "folder" : "file")}) {Path} ....");
+
+	    using (Process proc = new Process())
+	    {
+		proc.StartInfo = new ProcessStartInfo()
+		{
+		    UseShellExecute = true,
+		    FileName = Path,
+		};
+
+		proc.Start();
+	    }
+	}
+
+	void HookB()
+	{
+	    try
+	    {
+		string dotminecraft = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft");
+		OpenLocation(dotminecraft);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookC()
+	{
+	    try
+	    {
+		string plugins = ($@"{DashServer.serverDirLocation}\plugins");
+		OpenLocation(plugins);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookD()
+	{
+	    try
+	    {
+		string clientLog = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft\logs\latest.log");
+		OpenLocation(clientLog, false);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookE()
+	{
+	    try
+	    {
+		string serverLog = ($@"{DashServer.serverDirLocation}\logs\latest.log");
+		OpenLocation(serverLog, false);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookF()
+	{
+	    try
+	    {
+		string EULAPath = ($@"{DashServer.serverDirLocation}\eula.txt");
+
+		if (!File.Exists(EULAPath))
+		{
+		    SendLog($@"(!) The path {DashServer.serverDirLocation}\eula.txt does not exist.");
+		    return;
+		}
+
+		string[] eula = File.ReadAllLines(EULAPath);
+
+		for (int k = 0, u = 0; k < eula.Length; k += 1)
+		{
+		    if (eula[k].ToLower().Contains("eula="))
+		    {
+			eula[k] = ("eula=true");
+			u = k;
+
+			File.WriteAllLines(EULAPath, eula);
+
+			SendLog("(!) EULA has been set to true!");
+		    }
+
+		    if (k == eula.Length - 1)
+		    {
+			if (!eula[u].Equals("eula=true"))
+			{
+			    SendLog("(!) File did not contain line: eula=false");
+			}
+		    }
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookG()
+	{
+	    try
+	    {
+		//TOGGLE VISIBILITY
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookH()
+	{
+	    try
+	    {
+		//GENERATE BAT
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookI()
+	{
+	    try
+	    {
+		//PAPERSPIGOT
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookJ()
+	{
+	    try
+	    {
+		//PLUGMAN
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookK()
+	{
+	    try
+	    {
+		S2TextBox1.Clear();
+		SendLog("(!) Cleared log!");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	void SetEventHandler(Control To)
+	{
+	    try
+	    {
+		To.KeyDown += (s, e) =>
+		{
+		    switch (e.KeyCode)
+		    {
+			case Keys.F1: HookA();  break; // A
+			case Keys.F2: HookB();  break; // B
+			case Keys.F3: HookC();  break; // C
+			case Keys.F4: HookD();  break; // D
+			case Keys.F5: HookE();  break; // E
+			case Keys.F6: HookF();  break; // F
+			case Keys.F7: HookG();  break; // G
+			case Keys.F8: HookH();  break; // H
+			case Keys.F9: HookI();  break; // I
+			case Keys.F10: HookJ(); break; // J
+			case Keys.F11: HookK(); break; // K
 		    }
 		};
 	    }
@@ -461,21 +494,6 @@ namespace SpigotHelper
 	readonly Button S2Button = new Button();
 
 	readonly Label S2Label2 = new Label();
-
-	bool IsServerRunning()
-	{
-	    try
-	    {
-		Process.GetProcessById(ServerProc.Id);
-	    }
-
-	    catch
-	    {
-		return false;
-	    }
-
-	    return true;
-	}
 
 	private void InitSector2ConsoleOutput(PictureBox Main)
 	{
@@ -521,9 +539,9 @@ namespace SpigotHelper
 		{
 		    try
 		    {
-			if (IsServerRunning())
+			if (DashServer.IsServerRunning())
 			{ 
-			    ServerCommand(S2TextBox2.Text);
+			    DashServer.ServerCommand(this, S2TextBox2.Text);
 			}
 
 			else
@@ -540,131 +558,15 @@ namespace SpigotHelper
 
 		S2Button.TextAlign = ContentAlignment.MiddleCenter;
 
-		CreateDefaultConfig();
-
-		StartConfigLoader();
-		StartServerLoader();
+		DashServer.CreateDefaultConfig(this);
+		DashServer.StartConfigLoader(this);
+		DashServer.StartServerLoader(this);
 		
 		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-		SendLog($"(!) Configuration has been loaded succesfully, you may now make use of this panel safely.\r\n");
-		SendLog($"(!) For optional shortcut keys, press F1, you will be surprised.  (Sarcastic laugh insertion)\r\n");
-		SendLog($"(!) If you have any questions, please message me at KvinneKraft@protonmail.com. Thank you fluffz.  -Dashie");
+		SendLog($"+++: Configuration has been loaded succesfully, you may now make use of this panel safely.");
+		SendLog($"+++: For optional shortcut keys, press F1, you will be surprised.  (Sarcastic laugh insertion)");
+		SendLog($"+++: If you have any questions, please message me at KvinneKraft@protonmail.com. Thank you fluffz.  -Dashie");
 		SendLog($"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-
-		void SetEventHandler(Control To)
-		{
-		    try
-		    {
-			To.KeyDown += (s, e) =>
-			{
-			    void OpenLocation(string Path, bool isDirectory = true)
-			    {
-				// Check if folder exists, if not say so0
-				if (isDirectory)
-				{
-				    if (!Directory.Exists(Path))
-				    {
-					SendLog($"(!) Unable to find the folder path: {Path}");
-					return;
-				    }
-				}
-
-				else
-				{
-				    if (!File.Exists(Path))
-				    {
-					SendLog($"(!) Unable to find the file path: {Path}");
-					return;
-				    }
-				}
-
-				SendLog($"(-) Opening ({(isDirectory ? "folder" : "file")}) {Path} ....");
-
-				using (Process proc = new Process())
-				{
-				    proc.StartInfo = new ProcessStartInfo()
-				    {
-					UseShellExecute = true,
-					FileName = Path,
-				    };
-
-				    proc.Start();
-				}
-			    }
-
-			    switch (e.KeyCode)
-			    {
-				case Keys.F1:
-				    SendLog("\r\nShortcut Keys:");
-				    SendLog("(F1)=this text.");
-				    SendLog("(F2)=open your .minecraft folder.");
-				    SendLog("(F3)=open your /plugins folder.");
-				    SendLog("(F4)=open the latest client log.");
-				    SendLog("(F5)=open the latest server log.");
-				    SendLog("(F6)=accept EULA.");
-				    SendLog("(F7)=clear log.\r\n");
-				    break;
-				case Keys.F2:
-				    string dotminecraft = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft");
-				    OpenLocation(dotminecraft);
-				    break;
-				case Keys.F3:
-				    string plugins = ($@"{serverDirLocation}\plugins");
-				    OpenLocation(plugins);
-				    break;
-				case Keys.F4:
-				    string clientLog = ($@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\.minecraft\logs\latest.log");
-				    OpenLocation(clientLog, false);
-				    break;
-				case Keys.F5:
-				    string serverLog = ($@"{serverDirLocation}\logs\latest.log");
-				    OpenLocation(serverLog, false);
-				    break;
-				case Keys.F6:
-				    string EULAPath = ($@"{serverDirLocation}\eula.txt");
-
-				    if (!File.Exists(EULAPath))
-				    {
-					SendLog($@"(!) The path {serverDirLocation}\eula.txt does not exist.");
-					break;
-				    }
-
-				    string[] eula = File.ReadAllLines(EULAPath);
-
-				    for (int k = 0, u = 0; k < eula.Length; k += 1)
-				    {
-					if (eula[k].ToLower().Contains("eula="))
-					{
-					    eula[k] = ("eula=true");
-					    u = k;
-
-					    File.WriteAllLines(EULAPath, eula);
-
-					    SendLog("(!) EULA has been set to true!");
-					}
-
-					if (k == eula.Length - 1)
-					{
-					    if (!eula[u].Equals("eula=true"))
-					    {
-						SendLog("(!) File did not contain line: eula=false");
-					    }
-					}
-				    }
-				    break;
-				case Keys.F7:
-				    S2TextBox1.Clear();
-				    SendLog("(!) Cleared log!");
-				    break;
-			    }
-			};
-		    }
-
-		    catch (Exception E)
-		    {
-			throw (ErrorHandler.GetException(E));
-		    }
-		}
 
 		foreach (Control a in Main.Controls)
 		{
@@ -720,9 +622,9 @@ namespace SpigotHelper
 
 		App.FormClosing += (s, e) =>
 		{
-		    if (IsServerRunning())
+		    if (DashServer.IsServerRunning())
 		    {
-			ServerCommand("stop");
+			DashServer.ServerCommand(this, "stop");
 		    }
 		};
 
