@@ -26,3 +26,12 @@ reply
 confirm
 creation
 apple
+www
+www1
+www2
+www3
+gaming
+craft
+us
+local
+store
