@@ -118,7 +118,9 @@ namespace SpigotHelper
 			{
 			    ErrorHandler.JustDoIt(E);
 			}
-		    }).Start();
+		    })
+
+		    { IsBackground = true }.Start();
 		};
 
 		Voyant.IncludeSubdirectories = true;
