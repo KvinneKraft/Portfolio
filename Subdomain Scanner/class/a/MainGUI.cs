@@ -399,7 +399,7 @@ namespace SubdomainAnalyzer
 		try
 		{
 		    SendLog($"(!) Started scanning {domain} using {subDomains.Count} subdomains ....");
-
+		    
 		    // Run asychronously | Take care of asynchronous instance:
 		    for (int d = 0; d < subDomains.Count; d += 1)
 		    {
@@ -407,9 +407,14 @@ namespace SubdomainAnalyzer
 			{
 			    for (int p = 0; p < ports.Count; p += 1)
 			    {
-				if (DashNet.IsHostReachable($"{subDomains[d]}.{domain}", ports[p], timeout))
+				if (DashNet.IsHostReachable($"{DashNet.GetIP(subDomains[d] + domain)}", ports[p], timeout))
 				{
 				    return ("does exist");
+				}
+
+				else if (DashNet.CanUrl($"{subDomains[d]}.{domain}"))
+				{
+				    return ("does exist (forcibly converted w/o port use)");
 				}
 			    }
 
