@@ -86,7 +86,7 @@ namespace DashFramework
 
 	public class Manipulation
 	{
-	    public List<string> GetLineIf(string file, string contains)
+	    public List<string> GetFileLineIf(string file, string contains)
 	    {
 		try
 		{
