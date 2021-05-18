@@ -187,7 +187,7 @@ namespace SubdomainAnalyzer
 	readonly TextBox TextBoxB1 = new TextBox();
 
 	void SendLog(string Text)
-	{//Invoker here
+	{
 	    TextBoxB1.AppendText($"{Text}\r\n");
 	}
 
@@ -201,7 +201,17 @@ namespace SubdomainAnalyzer
 		Controls.TextBox(ContainerB3, TextBoxB1, TextBoxSize, TextBoxLoca, ContainerA2.BackColor, Color.White, 1, 8, 
 		    ReadOnly: true, Multiline: true, ScrollBar: true, FixedSize: false);
 
-		SendLog("(!)  Hey there!  Press \'F1\' for more options.  I did not take the time to add buttons but rather shortcut keys.");
+		if (File.Exists("defaultsd.txt"))
+		{
+		    SendLog("+++: Detected default subdomain list.  Automatically importing it ....");
+
+		    ImportSDList("defaultsd.txt");
+
+		    SendLog("+++: Operation has been completed!");
+		    SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+		}
+
+		SendLog($"+++:  Hey there {Environment.UserName}!  Press \'F1\' for more options.  I did not take the time to add buttons but rather shortcut keys.");
 	    }
 
 	    catch (Exception E)
@@ -253,13 +263,13 @@ namespace SubdomainAnalyzer
 		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 		SendLog("+ F1  ->  display this help menu.");
 		SendLog("+ F2  ->  select your subdomain list from explorer.");
-		SendLog("+ F3  ->  create and select the default subdomain list from memory.");
-		SendLog("+ F4  ->  start/stop scanning the target website.");
-		SendLog("+ F5  ->  save the current log to your harddrive.");
-		SendLog("+ F6  ->  enable forced domain lookups w/ ps.");
-		SendLog("+ F7  ->  open my website in your default browser.");
-		SendLog("+ F8  ->  my public contact details.");
-		SendLog("+ F9  ->  clear this log.");
+		SendLog("+ F3  ->  create and use the default subdomain list.");
+		SendLog("+ F4  ->  save the current log to your harddrive.");
+		SendLog("+ F5  ->  enable forced domain lookups w/ ps.");
+		SendLog("+ F6  ->  open my website in your default browser.");
+		SendLog("+ F7  ->  my public contact details.");
+		SendLog("+ F8  ->  clear this log.");
+		SendLog("+ F10  ->  start/stop scanning the target website.");
 		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 	    }
 
@@ -268,6 +278,9 @@ namespace SubdomainAnalyzer
 		throw (GetExep(E));
 	    }
 	}
+
+
+	public List<string> subDomains = defaultSubdomains();
 
 	static List<string> defaultSubdomains()
 	{
@@ -281,7 +294,29 @@ namespace SubdomainAnalyzer
 	    };
 	}
 
-	public List<string> subDomains = defaultSubdomains();
+	void ImportSDList(string path)
+	{
+	    try
+	    {
+		SendLog($"---: Reading file: {path} ....");
+		
+		TextBoxA3.Text = path;
+		subDomains.Clear();
+		
+		foreach (string line in File.ReadAllLines(path))
+		{
+		    subDomains.Add(DashManip.Replace(line, "", ".", " "));
+		}
+
+		SendLog($"+++: Operation has been completed.  {subDomains.Count} potential subdomains loaded!");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
 
 	void HookB()
 	{
@@ -299,25 +334,12 @@ namespace SubdomainAnalyzer
 
 		    if (resu == DialogResult.OK)
 		    {
-			SendLog($"(!) Reading file: {diag.FileName} ....");
-
-			var inst = new DashFramework.Data.Manipulation();
-
-			subDomains.Clear();
-
-			foreach (string line in File.ReadAllLines(diag.FileName))
-			{
-			    subDomains.Add(inst.Replace(line, "", ".", " "));
-			}
-
-			TextBoxA3.Text = diag.FileName;
-
-			SendLog($"(+) Operation has been completed.  {subDomains.Count} potential subdomains loaded!");
+			ImportSDList(diag.FileName);
 		    }
 
 		    else
 		    {
-			SendLog("(!) Operation has been canceled.");
+			SendLog("+++: Operation has been canceled.");
 		    }
 		}
 	    }
@@ -328,27 +350,34 @@ namespace SubdomainAnalyzer
 	    }
 	}
 	
+
 	void HookC()
 	{
 	    try
 	    {
 		try
 		{
-		    SendLog($"(!) Creating the default subdomains list for you ....");
+		    if (!File.Exists("defaultsd.txt"))
+		    {
+			SendLog($"---: Creating the default subdomains list for you ....");
+			File.WriteAllLines("defaultsd.txt", defaultSubdomains());
 
-		    File.WriteAllLines("defaultsd.txt", defaultSubdomains());
+			subDomains.Clear();
+			subDomains.AddRange(defaultSubdomains());
 
-		    subDomains.Clear();
-		    subDomains.AddRange(defaultSubdomains());
+			TextBoxA3.Text = ($@"{Environment.CurrentDirectory}\defaultsd.txt");
+			SendLog($"+++: Operation has been completed. {subDomains.Count} subdomains have been loaded!");
 
-		    TextBoxA3.Text = ($@"{Environment.CurrentDirectory}\defaultsd.txt");
+			return;
+		    }
 
-		    SendLog($"(+) Operation has been completed. {subDomains.Count} subdomains have been loaded!");
+		    SendLog("+++: List already exists.  Importing ....");
+		    ImportSDList("defaultsd.txt");
 		}
 
 		catch
 		{
-		    SendLog("(!) Something caused the operation to fail.  Canceling ....");
+		    SendLog("+++: Something caused the operation to fail.  Canceling ....");
 		}
 	    }
 
@@ -377,6 +406,7 @@ namespace SubdomainAnalyzer
 	    return (LabelA6.Text.Equals("true"));
 	}
 
+
 	void HookDValA()
 	{
 	    try
@@ -386,13 +416,13 @@ namespace SubdomainAnalyzer
 
 		if (timeout < 10)
 		{
-		    SendLog("(!) Operation has been canceled.  Timeout specified is invalid.  Must be more than 10 MS.");
+		    SendLog("+++: Operation has been canceled.  Timeout specified is invalid.  Must be more than 10 MS.");
 		    return;
 		}
 
 		else if (!DashNet.CanIP(domain))
 		{
-		    SendLog("(!) Operation has been canceled.  Host could not be resolved to a valid IP address.");
+		    SendLog("+++: Operation has been canceled.  Host could not be resolved to a valid IP address.");
 		    return;
 		}
 
@@ -402,7 +432,7 @@ namespace SubdomainAnalyzer
 		{
 		    if (!DashNet.CanPort(obj.Replace(" ", "")))
 		    {
-			SendLog($"(!) Invalid port found in port selection.  Port '{obj}' will not be added!");
+			SendLog($"+++: Invalid port found in port selection.  Port '{obj}' will not be added!");
 			continue;
 		    }
 
@@ -411,17 +441,17 @@ namespace SubdomainAnalyzer
 
 		if (ports.Count < 1)
 		{
-		    SendLog("(!) Operation has been canceled.  No (valid) ports were specified.");
+		    SendLog("+++: Operation has been canceled.  No (valid) ports were specified.");
 		    return;
 		}
 
 		else if (TextBoxA3.Text.Equals("<select location>") || subDomains.Count < 1)
 		{
-		    SendLog("(!) Operation has been canceled.  No subdomain list was specified.  Press F3 to use the default subdomain list.");
+		    SendLog("+++: Operation has been canceled.  No subdomain list was specified.  Press F3 to use the default subdomain list.");
 		    return;
 		}
 
-		SendLog($"(-) Started scanning {domain} using {subDomains.Count} subdomains ....");
+		SendLog($"---: Started scanning {domain} using {subDomains.Count} subdomains ....");
 		
 		new Thread(() =>
 		{
@@ -442,9 +472,12 @@ namespace SubdomainAnalyzer
 					    return ("does exist");
 					}
 
-					else if (DashNet.CanUrl($"{subDomains[d]}.{domain}"))
+					else if (ForceSD)
 					{
-					    return ("does exist (forcibly converted w/o port use)");
+					    if (DashNet.CanUrl($"{subDomains[d]}.{domain}"))
+					    {
+						return ("does exist (forcibly converted w/o port use)");
+					    }
 					}
 				    }
 
@@ -458,7 +491,7 @@ namespace SubdomainAnalyzer
 				    continue;
 				}
 
-				SendLog($"(+) {subDomains[d]}.{domain} -> {result}");
+				SendLog($"+++: {subDomains[d]}.{domain} -> {result}");
 			    }
 			}
 
@@ -468,20 +501,20 @@ namespace SubdomainAnalyzer
 			}
 
 			isRunning = false;
-
-			SendLog("(!) Operation complete!  Results are shown above ^");
+			
+			SendLog("+++: Operation has been completed!  Results are shown above if any ^");
 		    }
 
 		    catch (Exception E)
 		    {
 			if (E.Message.Equals("cancel"))
 			{
-			    SendLog("(!) Operation has been canceled by user!");
+			    SendLog("+++: Operation has been canceled by user!");
 			}
 
 			else
 			{
-			    SendLog("(!) Operation has been canceled.  An error occurred while scanning.");
+			    SendLog("+++: Operation has been canceled.  An error occurred while scanning.");
 			}
 		    }
 		})
@@ -495,6 +528,7 @@ namespace SubdomainAnalyzer
 	    }
 	}
 
+
 	bool isRunning = false;
 
 	void HookD()
@@ -503,7 +537,7 @@ namespace SubdomainAnalyzer
 	    {
 		if (!isRunning)
 		{
-		    SendLog("(-) Validating input and starting scan ....");
+		    SendLog("---: Validating input and starting scan ....");
 
 		    try
 		    {
@@ -512,13 +546,13 @@ namespace SubdomainAnalyzer
 
 		    catch
 		    {
-			SendLog("(!) Your current configuration was found to be invalid.  Please correct this and retry.  Please make sure you are using the already present format.  The sub domain list specified should specify merely the names of each individual subdomain rather than dots.  And they should all be on separate lines.  Future code will make this more user-friendly.");
+			SendLog("+++: Your current configuration was found to be invalid.  Please correct this and retry.  Please make sure you are using the already present format.  The sub domain list specified should specify merely the names of each individual subdomain rather than dots.  And they should all be on separate lines.  Future code will make this more user-friendly.");
 		    }
 
 		    return;
 		}
 		
-		SendLog("(-) Canceling scan ....");
+		SendLog("---: Canceling scan ....");
 		isRunning = false;
 	    }
 
@@ -528,6 +562,7 @@ namespace SubdomainAnalyzer
 	    }
 	}
 	
+
 	void HookE()
 	{
 	    try
@@ -545,12 +580,12 @@ namespace SubdomainAnalyzer
 		    if (resu == DialogResult.OK)
 		    {
 			File.WriteAllText(diag.FileName, TextBoxB1.Text);
-			SendLog($"(!) Operation complete!  File has been saved to: ({diag.FileName})!");
+			SendLog($"+++: Operation complete!  File has been saved to: ({diag.FileName})!");
 		    }
 
 		    else
 		    {
-			SendLog("(!) Operation has been canceled.");
+			SendLog("+++: Operation has been canceled.");
 		    }
 		}
 	    }
@@ -561,11 +596,16 @@ namespace SubdomainAnalyzer
 	    }
 	}
 
+
+	bool ForceSD = false;
+
 	void HookF()
 	{
 	    try
 	    {
-		// TOGGLE
+		ForceSD = (!ForceSD);
+		var Status = (ForceSD ? "enabled" : "disabled");
+		SendLog($"+++: Forceful subdomain lookups have been {Status}.");
 	    }
 
 	    catch (Exception E)
@@ -573,12 +613,26 @@ namespace SubdomainAnalyzer
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
 
 	void HookG()
 	{
 	    try
 	    {
+		SendLog("---: Loading up https://pugpawz.com ....");
 
+		using (Process proc = new Process())
+		{
+		    proc.StartInfo = new ProcessStartInfo()
+		    {
+			FileName = ("https://pugpawz.com/"),
+			UseShellExecute = true
+		    };
+
+		    proc.Start();
+		}
+
+		SendLog("+++: Operation has been completed.");
 	    }
 
 	    catch (Exception E)
@@ -586,6 +640,7 @@ namespace SubdomainAnalyzer
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
 
 	void HookH()
 	{
@@ -596,7 +651,7 @@ namespace SubdomainAnalyzer
 		SendLog("+ Website URL: https://pugpawz.com");
 		SendLog("+ GitHub URL: https://github.com/KvinneKraft");
 		SendLog("-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-		SendLog("(!) I recommend you reach out to me using my email.");
+		SendLog("+++: I recommend you reach out to me using my email.");
 	    }
 
 	    catch (Exception E)
@@ -604,6 +659,7 @@ namespace SubdomainAnalyzer
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
 
 	void HookI()
 	{
@@ -618,6 +674,7 @@ namespace SubdomainAnalyzer
 	    }
 	}
 
+
 	void SetHook(Control con)
 	{
 	    try
@@ -631,12 +688,12 @@ namespace SubdomainAnalyzer
 			    case Keys.F1: HookA();  break; // Help
 			    case Keys.F2: HookB();  break; // Select SD List
 			    case Keys.F3: HookC();  break; // Create DEF SD
-			    case Keys.F4: HookD();  break; // Toggle Scan
-			    case Keys.F5: HookE();  break; // Save Log
-			    case Keys.F6: HookF();  break; // Toggle Domain Force
-			    case Keys.F7: HookG();  break; // Website
-			    case Keys.F8: HookH();  break; // Contact
-			    case Keys.F9: HookI();  break; // Clear Log
+			    case Keys.F10: HookD(); break; // Toggle Scan
+			    case Keys.F4: HookE();  break; // Save Log
+			    case Keys.F5: HookF();  break; // Toggle Domain Force
+			    case Keys.F6: HookG();  break; // Website
+			    case Keys.F7: HookH();  break; // Contact
+			    case Keys.F8: HookI();  break; // Clear Log
 			}
 		    }
 
@@ -652,6 +709,7 @@ namespace SubdomainAnalyzer
 		throw (GetExep(E));
 	    }
 	}
+
 
 	void InitC()
 	{
