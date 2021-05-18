@@ -128,7 +128,13 @@ namespace SubdomainAnalyzer
 
 		ConHelp.AddLabel(LabelA6, Lab6Size, Lab6Loca, Lab6Text, 9);
 		LabelA6.TextAlign = ContentAlignment.MiddleCenter;
-		
+
+		LabelA6.Click += (s, e) =>
+		{
+		    LabelA6.Text = (HookDGetC() 
+			? "false" : "true");
+		};
+
 		foreach (Control a in ContainerA2.Controls)
 		{
 		    if ((a is PictureBox) || (a == LabelA6))
@@ -179,8 +185,10 @@ namespace SubdomainAnalyzer
 
 	readonly TextBox TextBoxB1 = new TextBox();
 
-	void SendLog(string Text) =>
+	void SendLog(string Text)
+	{//Invoker here
 	    TextBoxB1.AppendText($"{Text}\r\n");
+	}
 
 	void InitB2()
 	{
@@ -349,8 +357,20 @@ namespace SubdomainAnalyzer
 	readonly Manipulation DashManip = new Manipulation();
 	readonly DashNet DashNet = new DashNet();
 
-	string HookDGetA() => DashNet.StripUrl(TextBoxA1.Text);
-	int HookDGetB() => DashNet.GetInteger(TextBoxA4.Text);
+	string HookDGetA()
+	{
+	    return DashNet.StripUrl(TextBoxA1.Text);
+	}
+
+        int HookDGetB()
+	{
+	    return DashNet.GetInteger(TextBoxA4.Text);
+	}
+
+	bool HookDGetC()
+	{
+	    return (LabelA6.Text.Equals("true"));
+	}
 
 	void HookDValA()
 	{
@@ -421,7 +441,14 @@ namespace SubdomainAnalyzer
 			    return ("no exist");
 			}
 
-			SendLog($"(!) {subDomains[d]}.{domain} -> {exists()}");
+			string result = exists();
+
+			if (result.Equals("no exist") && !HookDGetC())
+			{
+			    continue;
+			}
+
+			SendLog($"(!) {subDomains[d]}.{domain} -> {result}");
 		    }
 
 		    SendLog("(!) Operation complete!  Results are shown above ^");
