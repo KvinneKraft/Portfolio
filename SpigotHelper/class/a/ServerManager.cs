@@ -318,6 +318,7 @@ namespace SpigotHelper
 		{
 		    try
 		    {
+			Console.WriteLine(ee.Data);
 			Inst.SendLog(ee.Data);
 		    }
 
@@ -346,15 +347,14 @@ namespace SpigotHelper
 	}
 
 
-	[DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)]
-	static extern bool IsWindowVisible(IntPtr hWnd);
+	[DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] static extern bool IsWindowVisible(IntPtr hWnd);
+	[DllImport("kernel32.dll")] static extern IntPtr GetConsoleWindow();
 
 	public bool IsVisible()
 	{
 	    try
 	    {
-		IntPtr WindowHandle = (IntPtr) ServerProc.MainWindowHandle.ToInt32();
-		return IsWindowVisible(WindowHandle);
+		return IsWindowVisible(GetConsoleWindow());
 	    }
 
 	    catch (Exception E)
@@ -364,7 +364,7 @@ namespace SpigotHelper
 	}
 
 
-	[DllImport("User32")] private static extern int ShowWindow(int hwnd, int nCmdShow);
+	[DllImport("User32")] private static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
 
 	private const int SW_HIDE = 0;
 	private const int SW_SHOW = 5;
@@ -373,9 +373,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		//Show In Memory Instance of Console Window
-		//Write to this instance if visible
-		//Program -> Console.WriteLine 
+		ShowWindow(GetConsoleWindow(), SW_SHOW);
 	    }
 
 	    catch (Exception E)
@@ -388,7 +386,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		// Look Above
+		ShowWindow(GetConsoleWindow(), SW_HIDE);
 	    }
 
 	    catch (Exception E)
