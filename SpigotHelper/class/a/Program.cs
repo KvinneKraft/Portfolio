@@ -460,6 +460,8 @@ namespace SpigotHelper
 	    try
 	    {
 		S2TextBox1.Clear();
+		Console.Clear();
+
 		SendLog("(!) Cleared log!");
 	    }
 
