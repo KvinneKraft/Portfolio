@@ -247,8 +247,6 @@ namespace SpigotHelper
 
 		    catch (Exception E)
 		    {
-			MessageBox.Show($"{E.Message}\r\n{E.StackTrace}");
-
 			MessageBox.Show($"There was an error while trying to load SpigotHelper.conf!\r\n\r\n" + 
 			    "Please ensure that all directories and files exist.\r\n\r\nAlso make sure Plugman.jar" + 
 			    " is in your plugins directory under the given name, whenever using this setting in " + 
