@@ -28,7 +28,11 @@ namespace SpigotHelper
 		(
 		    new MethodInvoker
 		    (
-			() => S2TextBox1.AppendText($"{data}\r\n")
+			() =>
+			{
+			    S2TextBox1.AppendText($"{data}\r\n");
+			    Console.WriteLine(data);
+			}
 		    )
 		);
 	    }
@@ -418,23 +422,24 @@ namespace SpigotHelper
 	}
 
 	void ServerIsRunning() =>
-	    SendLog("(!) You must first stop your running server.  It is running.  If you do not see it, press F12.  It will forcibly kill any JAVA.EXE instance.");
+	    SendLog("(!) You must first stop your running server.  It is running.  If you do not see it, press F12.  It will forcibly kill any java.exe instance.");
 
-	void HookH()
+	public void HookH()
 	{
 	    try
 	    {
 		if (!DashServer.IsServerRunning())
 		{
-		    string filePath = ($"{DashServer.serverDirLocation}\\run.bat");
+		    string filePath = ($"{DashServer.serverBatLocation}");
 
 		    try
 		    {
-			SendLog("(-) Creating run.bat ....");
+			SendLog("(-) Creating server run file ....");
 
+			// For version 3.0 a startup parameter editor
 			string runtimeLine = ("java -Xms1G -Xmx1G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paperclip.jar nogui");
 
-			File.WriteAllText($"{filePath}", runtimeLine);
+			File.WriteAllText(filePath, runtimeLine);
 
 			SendLog($"+++: If you wish to change the amount of RAM allocated then change the -Xms1G and -Xmx1G numeric values equally. ");
 			SendLog($"(!) Operation has been completed.  Succesfully created {filePath}.");
@@ -461,7 +466,9 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		ServerIsRunning();
+		ServerIsRunning();//PAPERSPIGOT | For version 3.0 a custom version selector
+				  // Get latest version https://papermc.io/api/v1/paper
+				  // Get latest download by version https://papermc.io/api/v1/paper/{url}/latest/download
 	    }
 
 	    catch (Exception E)
@@ -474,7 +481,8 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		ServerIsRunning();
+		ServerIsRunning();//PLUGMAN | For version 3.0 a custom version selector
+
 	    }
 
 	    catch (Exception E)
