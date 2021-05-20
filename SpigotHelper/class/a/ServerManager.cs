@@ -169,7 +169,7 @@ namespace SpigotHelper
 
 		    WriteConfig();
 
-		    Inst.SendLog("(+) Operation has been completed!");
+		    Inst.SendLog("(!) Operation has been completed!");
 		}
 	    }
 
@@ -202,7 +202,7 @@ namespace SpigotHelper
 
 			if (fileLines.Count != 6)
 			{
-			    throw new Exception("!");
+			    throw new Exception("!1");
 			}
 
 			int asInt(string entry) => int.Parse(entry);
@@ -216,27 +216,39 @@ namespace SpigotHelper
 			{
 			    if (!Directory.Exists(fileLines[i]))
 			    {
-				throw new Exception("!");
+				throw new Exception("!2");
+			    }
+			}
+			
+			serverBatLocation = fileLines[3];
+
+			if (!File.Exists(serverBatLocation))
+			{
+			    Inst.SendLog($"(!) Oh no, {serverBatLocation} does not exist.");
+			    Inst.HookH();
+			    
+			    if (!File.Exists(serverBatLocation))
+			    {
+				throw new Exception("!4");
 			    }
 			}
 
-			if (!File.Exists(fileLines[3]))
-			{
-			    throw new Exception("!");
-			}
-
-			serverBatLocation = fileLines[3];
 			serverDirLocation = fileLines[4];
 			updateDirLocation = fileLines[5];
 
-			if (!File.Exists($@"{serverDirLocation}\plugins\plugman.jar"))
+			if (usePlugMan)
 			{
-			    throw new Exception("!");
+			    if (!File.Exists($@"{serverDirLocation}\plugins\plugman.jar"))
+			    {
+				throw new Exception("!5");
+			    }
 			}
 		    }
 
-		    catch
+		    catch (Exception E)
 		    {
+			MessageBox.Show($"{E.Message}\r\n{E.StackTrace}");
+
 			MessageBox.Show($"There was an error while trying to load SpigotHelper.conf!\r\n\r\n" + 
 			    "Please ensure that all directories and files exist.\r\n\r\nAlso make sure Plugman.jar" + 
 			    " is in your plugins directory under the given name, whenever using this setting in " + 
