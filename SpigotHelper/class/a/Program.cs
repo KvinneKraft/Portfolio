@@ -250,7 +250,8 @@ namespace SpigotHelper
 		SendLog("(F8)  --:  generate server run bat.");
 		SendLog("(F9)  --:  download and setup PaperSpigot.");
 		SendLog("(F10) --:  download and setup Plugman.");
-		SendLog("(F11) --:  clear this log.\r\n");
+		SendLog("(F11) --:  clear this log.");
+		SendLog("-=-=-=-=-=-=-=-=-=-=-=-");
 	    }
 
 	    catch (Exception E)
@@ -416,11 +417,38 @@ namespace SpigotHelper
 	    }
 	}
 
+	void ServerIsRunning() =>
+	    SendLog("(!) You must first stop your running server.  It is running.  If you do not see it, press F12.  It will forcibly kill any JAVA.EXE instance.");
+
 	void HookH()
 	{
 	    try
 	    {
-		//GENERATE BAT
+		if (!DashServer.IsServerRunning())
+		{
+		    string filePath = ($"{DashServer.serverDirLocation}\\run.bat");
+
+		    try
+		    {
+			SendLog("(-) Creating run.bat ....");
+
+			string runtimeLine = ("java -Xms1G -Xmx1G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paperclip.jar nogui");
+
+			File.WriteAllText($"{filePath}", runtimeLine);
+
+			SendLog($"+++: If you wish to change the amount of RAM allocated then change the -Xms1G and -Xmx1G numeric values equally. ");
+			SendLog($"(!) Operation has been completed.  Succesfully created {filePath}.");
+		    }
+
+		    catch
+		    {
+			SendLog($"(!) Operation has been canceled.  Unable to write startup command to {filePath}.");
+		    }
+
+		    return;
+		}
+
+		ServerIsRunning();
 	    }
 
 	    catch (Exception E)
@@ -433,7 +461,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		//PAPERSPIGOT
+		ServerIsRunning();
 	    }
 
 	    catch (Exception E)
@@ -446,7 +474,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		//PLUGMAN
+		ServerIsRunning();
 	    }
 
 	    catch (Exception E)
@@ -463,6 +491,35 @@ namespace SpigotHelper
 		Console.Clear();
 
 		SendLog("(!) Cleared log!");
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	void HookL()
+	{
+	    try
+	    {
+		foreach (Process proc in Process.GetProcesses())
+		{
+		    if (proc.ProcessName.ToLower() == "java.exe")
+		    {
+			SendLog($"+++: Killing {proc.ProcessName}:{proc.Id} ....");
+
+			try
+			{
+			    proc.Kill();
+			}
+
+			catch
+			{
+			    SendLog($"(!) Something went wrong while trying to kill {proc.ProcessName}:{proc.Id}");
+			}
+		    }
+		}
 	    }
 
 	    catch (Exception E)
@@ -491,6 +548,7 @@ namespace SpigotHelper
 			case Keys.F9: HookI();  break; // I
 			case Keys.F10: HookJ(); break; // J
 			case Keys.F11: HookK(); break; // K
+			case Keys.F12: HookF(); break; // L
 		    }
 		};
 	    }
@@ -640,6 +698,17 @@ namespace SpigotHelper
 		    {
 			DashServer.ServerCommand(this, "stop");
 		    }
+		};
+
+		App.VisibleChanged += (s, e) =>
+		{
+		    if (App.Visible)
+		    {
+			DashServer.Hide();
+			return; // Gotta make it so it does not show the COnsoleWindow at all
+		    }
+
+		    DashServer.Show();
 		};
 
 		S2TextBox1.Select();
