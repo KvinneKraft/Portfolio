@@ -159,11 +159,10 @@ namespace DashFramework
 	    {
 		private readonly DashControls Control = new DashControls();
 
-		//TextBoxBCol
-		public Control TextBoxParent = new Control();
-
 		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
 		public Color TextBoxFCol = Color.White;
+
+		public Control TextBoxParent = new Control();
 
 		public void AddTextBox(TextBox TextBox, Size Size, Point Loca, string Text, int FontHeight = 8)
 		{
