@@ -1,5 +1,0 @@
-# The F.E.E (Floofy Exploitation Environment)
-##
-> This project has been paused.  This project will focus on interactivity with the system this application will run on.  Though the build will be for Windows I am aware of the huge pile of Linux users.  I would like to develop this application for Linux but because I am focused on Windows development right now, but it will only be compatible with the Windows operating system.  It will be a standalone application (excluding .NET Framework 4.7 from the picture), I used to have a C++ version which did not require anything pre-installed, but C# is a nice step into the right direction for a revamped version of which I once started.
-
-> Imagine a terminal, fully customizable, and packed with a ton of functionality.  Easier use of command line arguments and more advanced interaction with the Windows system, all in one executable.
