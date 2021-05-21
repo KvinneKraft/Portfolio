@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
@@ -245,7 +246,7 @@ namespace SpigotHelper
 			}
 		    }
 
-		    catch (Exception E)
+		    catch
 		    {
 			MessageBox.Show($"There was an error while trying to load SpigotHelper.conf!\r\n\r\n" + 
 			    "Please ensure that all directories and files exist.\r\n\r\nAlso make sure Plugman.jar" + 
@@ -332,7 +333,6 @@ namespace SpigotHelper
 		{
 		    try
 		    {
-			Console.WriteLine(ee.Data);
 			Inst.SendLog(ee.Data);
 		    }
 
@@ -406,6 +406,45 @@ namespace SpigotHelper
 	    catch (Exception E)
 	    {
 		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	public List<string> GetPaperSpigotVersions(string Url)
+	{
+	    try
+	    {
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+		List<string> versions = new List<string>();
+
+		using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+		{
+		    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+		    {
+			string[] versionData = reader.ReadToEnd().Split('\"');
+
+			for (int k = 0; k < versionData.Length; k += 1)
+			{
+			    if (k < 7 || k == versionData.Length - 1)
+			    {
+				continue;
+			    }
+
+			    else if (versionData[k] == ",")
+			    {
+				continue;
+			    }
+
+			    versions.Add(versionData[k]);
+			}
+		    }
+		}
+
+		return versions;
+	    }
+
+	    catch
+	    {
+		return null;
 	    }
 	}
     }
