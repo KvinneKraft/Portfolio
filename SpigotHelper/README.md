@@ -17,7 +17,7 @@
 ![Main GUI1](screenshots/main-gui.png)
 ##
 ### Version 2.0 Main GUI
-![Main GUI2](screenshots/main-gui.png2)
+![Main GUI2](screenshots/main-gui2.png)
 ##
 > The terminal and other parts of this application are going to be improved (perhaps even completely recoded) in the near future, when new updates surface the new functionality does as well.  If any issues are found or you have any suggestions then please let me know at KvinneKraft@protonmail.com. Thank you.
 ##
