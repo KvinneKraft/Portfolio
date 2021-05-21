@@ -1,4 +1,4 @@
-# Local Minecraft Server Helper:  Spigot Helper 1.0
+# Local Minecraft Server Helper:  Spigot Helper
 ### A tool to increase productivity by allowing you -as a developer- to update the plugins in your local '/plugins' folder automatically by setting up the configuration file properly.  All using a few clicks and key-presses; this plugin even comes with an integrated terminal and log opener and many more plucks of functionality a Minecraft spigot developer needs.
 ### The idea is quite simple, but the user-interface and functionality of this application are quite the gem, it even comes with its own configuration file.  Just like a spigot plugin ;)
 ##
