@@ -10,7 +10,7 @@ using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
-
+using System.Net;
 
 namespace SpigotHelper
 {
@@ -462,11 +462,19 @@ namespace SpigotHelper
 	    }
 	}
 
+	bool HookILock = false;
+
 	void HookI()
 	{
 	    try
 	    {
-		if (!DashServer.IsServerRunning())
+		if (HookILock)
+		{
+		    SendLog("(!) Operation already in progress ....");
+		    return;
+		}
+
+		else if (!DashServer.IsServerRunning())
 		{
 		    List<string> paperVersions = DashServer.GetPaperSpigotVersions("https://papermc.io/api/v1/paper");
 
@@ -476,9 +484,75 @@ namespace SpigotHelper
 			return;
 		    }
 
-		    string downloadUrl = ($"https://papermc.io/api/v1/paper/{paperVersions[0]}/latest/download");
+		    new Thread(() =>
+		    {
+			HookILock = true;
 
+			string downloadUrl = ($"https://papermc.io/api/v1/paper/{paperVersions[0]}/latest/download");
 
+			try
+			{
+			    string downloadLoc = ($@"{DashServer.serverDirLocation}\server.jar");
+
+			    if (File.Exists(downloadLoc))
+			    {
+				SendLog("(-) Found already downloaded server.jar.  Changing old server.jar to server.jar-bak ....");
+
+				File.Move(downloadLoc, $@"{downloadLoc}-bak");
+				File.Delete(downloadLoc);
+
+				SendLog("(!) Operation has been completed.");
+			    }
+
+			    SendLog($"(-) Downloading latest Paperspigot JAR ({paperVersions[0]}) ....");
+
+			    using (WebClient client = new WebClient())
+			    {
+				client.DownloadFile(downloadUrl, downloadLoc);
+
+				if (!File.Exists(downloadLoc))
+				{
+				    SendLog($"(!) Operation has been canceled.  Unable to save downloaded JAR to {downloadLoc}.");
+				    HookILock = false;
+
+				    return;
+				}
+			    }
+			}
+
+			catch
+			{
+			    SendLog($"(!) Operation has been canceled.  Unable to get JAR from {downloadUrl}.  Make sure you are connected to the internet when using this functionality.");
+			}
+
+			try
+			{
+			    SendLog($@"(!) JAR downloaded and has been updated.  Updating {DashServer.serverBatLocation} ....");
+
+			    string[] startCommand = File.ReadAllText($"{DashServer.serverBatLocation}").Split(' ');
+
+			    for (int k = 0; k < startCommand.Length; k += 1)
+			    {
+				if (startCommand[k].Contains(".jar"))
+				{
+				    startCommand[k] = ("server.jar");
+				}
+			    }
+
+			    File.WriteAllLines($"{DashServer.serverBatLocation}", startCommand);
+
+			    SendLog($"(!) Operation has been completed.  File {DashServer.serverBatLocation} has been updated.");
+			}
+
+			catch
+			{
+			    SendLog($"(!) Operation has been canceled.  Unable to update {DashServer.serverBatLocation}.");
+			}
+
+			HookILock = false;
+		    })
+
+		    { IsBackground = true }.Start();
 
 		    return;
 		}
