@@ -7,8 +7,7 @@
 
 > There is a lot to see, I would recommend to just go ahead and download it and check it out.  Everything in life is worth a try, what else makes it complete?
 ##
-## Screenshots of the Subdomain Analyzer 1.0
-### Main GUI
+### Screenshot of the Main GUI
 ![Main GUI1](screenshots/main-gui1.png)
 ##
 > If you have any suggestions of find any issues with the application, you can always reach out to me at KvinneKraft@protonmail(dot)com.  
