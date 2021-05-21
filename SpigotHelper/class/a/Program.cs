@@ -437,7 +437,7 @@ namespace SpigotHelper
 			SendLog("(-) Creating server run file ....");
 
 			// For version 3.0 a startup parameter editor
-			string runtimeLine = ("java -Xms1G -Xmx1G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar paperclip.jar nogui");
+			string runtimeLine = ("java -Xms1G -Xmx1G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -jar server.jar nogui");
 
 			File.WriteAllText(filePath, runtimeLine);
 
@@ -466,6 +466,23 @@ namespace SpigotHelper
 	{
 	    try
 	    {
+		if (!DashServer.IsServerRunning())
+		{
+		    List<string> paperVersions = DashServer.GetPaperSpigotVersions("https://papermc.io/api/v1/paper");
+
+		    if (paperVersions == null || paperVersions.Count < 2)
+		    {
+			SendLog("(!) Operation has been canceled.  Unable to read response from https://papermc.io/api/v1/paper.  Make sure you are connected to the internet when using this functionality.");
+			return;
+		    }
+
+		    string downloadUrl = ($"https://papermc.io/api/v1/paper/{paperVersions[0]}/latest/download");
+
+
+
+		    return;
+		}
+
 		ServerIsRunning();//PAPERSPIGOT | For version 3.0 a custom version selector
 				  // Get latest version https://papermc.io/api/v1/paper
 				  // Get latest download by version https://papermc.io/api/v1/paper/{url}/latest/download
@@ -481,8 +498,13 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		ServerIsRunning();//PLUGMAN | For version 3.0 a custom version selector
+		if (DashServer.IsServerRunning())
+		{
 
+		    return;
+		}
+
+		ServerIsRunning();//PLUGMAN | For version 3.0 a custom version selector
 	    }
 
 	    catch (Exception E)
@@ -528,6 +550,8 @@ namespace SpigotHelper
 			}
 		    }
 		}
+
+		SendLog("(!) Operation has been completed succesfully.");
 	    }
 
 	    catch (Exception E)
@@ -556,7 +580,7 @@ namespace SpigotHelper
 			case Keys.F9: HookI();  break; // I
 			case Keys.F10: HookJ(); break; // J
 			case Keys.F11: HookK(); break; // K
-			case Keys.F12: HookF(); break; // L
+			case Keys.F12: HookL(); break; // L
 		    }
 		};
 	    }
