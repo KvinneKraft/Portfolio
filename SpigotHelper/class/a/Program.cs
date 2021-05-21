@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net;
+using System.Linq;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
@@ -10,7 +12,6 @@ using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
-using System.Net;
 
 namespace SpigotHelper
 {
@@ -31,7 +32,6 @@ namespace SpigotHelper
 			() =>
 			{
 			    S2TextBox1.AppendText($"{data}\r\n");
-			    Console.WriteLine(data);
 			}
 		    )
 		);
@@ -41,6 +41,8 @@ namespace SpigotHelper
 	    {
 		S2TextBox1.AppendText($"{data}\r\n");
 	    }
+
+	    Console.WriteLine(data);
 	}
 
 
@@ -400,19 +402,13 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		if (DashServer.IsServerRunning())
+		if (DashServer.IsVisible())
 		{
-		    if (DashServer.IsVisible())
-		    {
-			DashServer.Hide();
-			return;
-		    }
-
-		    DashServer.Show();
+		    DashServer.Hide();
 		    return;
 		}
 
-		SendLog("(!) Server is not running.  Press the Start Server button!");
+	        DashServer.Show();
 	    }
 
 	    catch (Exception E)
@@ -462,6 +458,7 @@ namespace SpigotHelper
 	    }
 	}
 
+
 	bool HookILock = false;
 
 	void HookI()
@@ -496,12 +493,26 @@ namespace SpigotHelper
 
 			    if (File.Exists(downloadLoc))
 			    {
-				SendLog("(-) Found already downloaded server.jar.  Changing old server.jar to server.jar-bak ....");
+				try
+				{
+				    SendLog("(-) Found already downloaded server.jar.  Changing old server.jar to server.jar-bak ....");
 
-				File.Move(downloadLoc, $@"{downloadLoc}-bak");
-				File.Delete(downloadLoc);
+				    File.Delete($"{downloadLoc}-bak");
 
-				SendLog("(!) Operation has been completed.");
+				    File.Move(downloadLoc, $"{downloadLoc}-bak");
+
+				    File.Delete(downloadLoc);
+
+				    SendLog("(!) Operation has been completed.");
+				}
+
+				catch
+				{
+				    SendLog("(!) Operation has been canceled.  Unable to move server.jar to server.jar-bak.");
+				    HookILock = false;
+
+				    return;
+				}
 			    }
 
 			    SendLog($"(-) Downloading latest Paperspigot JAR ({paperVersions[0]}) ....");
@@ -529,17 +540,21 @@ namespace SpigotHelper
 			{
 			    SendLog($@"(!) JAR downloaded and has been updated.  Updating {DashServer.serverBatLocation} ....");
 
-			    string[] startCommand = File.ReadAllText($"{DashServer.serverBatLocation}").Split(' ');
+			    var iterateData = File.ReadAllText($"{DashServer.serverBatLocation}").Split(' ').ToList();
 
-			    for (int k = 0; k < startCommand.Length; k += 1)
+			    string command = ("");
+
+			    for (int k = 0; k < iterateData.Count; k += 1)
 			    {
-				if (startCommand[k].Contains(".jar"))
+				if (iterateData[k].Contains(".jar"))
 				{
-				    startCommand[k] = ("server.jar");
+				    iterateData[k] = ("server.jar");
 				}
+
+				command += ($"{iterateData[k]} ");
 			    }
 
-			    File.WriteAllLines($"{DashServer.serverBatLocation}", startCommand);
+			    File.WriteAllText($"{DashServer.serverBatLocation}", command);
 
 			    SendLog($"(!) Operation has been completed.  File {DashServer.serverBatLocation} has been updated.");
 			}
@@ -557,9 +572,7 @@ namespace SpigotHelper
 		    return;
 		}
 
-		ServerIsRunning();//PAPERSPIGOT | For version 3.0 a custom version selector
-				  // Get latest version https://papermc.io/api/v1/paper
-				  // Get latest download by version https://papermc.io/api/v1/paper/{url}/latest/download
+		ServerIsRunning(); // For version 3.0 a custom version selector
 	    }
 
 	    catch (Exception E)
@@ -568,12 +581,71 @@ namespace SpigotHelper
 	    }
 	}
 
+
+	bool HookJLock = false;
+
 	void HookJ()
 	{
 	    try
 	    {
-		if (DashServer.IsServerRunning())
+		if (HookJLock)
 		{
+		    SendLog("(!) Operation already in progress ....");
+		    return;
+		}
+
+		else if (!DashServer.IsServerRunning())
+		{
+		    new Thread(() =>
+		    {
+			HookJLock = true;
+
+			string downloadLoc = ($@"{DashServer.serverDirLocation}\plugins\plugman.jar");
+			
+			if (File.Exists(downloadLoc))
+			{
+			    try
+			    {
+				SendLog("(-) Found already downloaded plugman.jar.  Changing old plugman.jar to plugman.jar-bak ....");
+
+				File.Move(downloadLoc, $@"{downloadLoc}-bak");
+				File.Delete(downloadLoc);
+
+				SendLog("(!) Operation has been completed.");
+			    }
+
+			    catch
+			    {
+				SendLog("(!) Operation has been canceled.  Unable to move plugman.jar to plugman.jar-bak.");
+				HookJLock = false;
+
+				return;
+			    }
+			}
+
+			string downloadUrl = ($@"https://media.forgecdn.net/files/2861/749/PlugMan.jar");
+
+			SendLog($"(-) Downloading stable Plugman from {downloadUrl} ....");
+
+			try
+			{
+			    using (WebClient client = new WebClient())
+			    {
+				client.DownloadFile(downloadUrl, downloadLoc);
+			    }
+
+			    SendLog($"(!) Operation has been completed.  Plugman has been downloaded to {downloadLoc} and is ready for use.");
+			}
+
+			catch
+			{
+			    SendLog($"(!) Operation has been canceled.  Unable to download and or save downloaded JAR to {downloadLoc}");
+			}
+
+			HookJLock = false;
+		    })
+
+		    { IsBackground = true }.Start();
 
 		    return;
 		}
