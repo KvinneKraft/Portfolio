@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="class\a\MainGUI.cs" />
     <Compile Include="class\b\DashFramework.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="class\a\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="resources\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
