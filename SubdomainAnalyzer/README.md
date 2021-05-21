@@ -10,7 +10,7 @@
 ### Screenshot of the Main GUI
 ![Main GUI1](screenshots/main-gui1.png)
 ##
-> If you have any suggestions of find any issues with the application, you can always reach out to me at KvinneKraft@protonmail(dot)com.  
+> If you have any suggestions or find any issues with the application, you can always reach out to me at KvinneKraft@protonmail(dot)com.  
 ##
 ## The Requirements
 > You will need The .NET Framework version 4.7 or above, you can find The .NET Framework version 4.7 [Here](https://dotnet.microsoft.com/download/dotnet-framework/net47).
