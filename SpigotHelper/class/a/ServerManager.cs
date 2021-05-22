@@ -368,7 +368,7 @@ namespace SpigotHelper
 	{
 	    try
 	    {
-		return IsWindowVisible(GetConsoleWindow());
+		return IsWindowVisible(GetConsoleWindow()); //Voyant Dev </>
 	    }
 
 	    catch (Exception E)
