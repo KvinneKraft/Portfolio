@@ -63,9 +63,9 @@ namespace DashApplication.resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] cute {
+        internal static byte[] consola {
             get {
-                object obj = ResourceManager.GetObject("cute", resourceCulture);
+                object obj = ResourceManager.GetObject("consola", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -93,9 +93,39 @@ namespace DashApplication.resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] main {
+        internal static byte[] primary {
             get {
-                object obj = ResourceManager.GetObject("main", resourceCulture);
+                object obj = ResourceManager.GetObject("primary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] roboto {
+            get {
+                object obj = ResourceManager.GetObject("roboto", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] secondary {
+            get {
+                object obj = ResourceManager.GetObject("secondary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] theConfession {
+            get {
+                object obj = ResourceManager.GetObject("theConfession", resourceCulture);
                 return ((byte[])(obj));
             }
         }
