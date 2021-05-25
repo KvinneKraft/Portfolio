@@ -194,8 +194,7 @@ namespace DashFramework
 	    public class ControlHelper
 	    {
 		private readonly DashControls Control = new DashControls();
-
-		//TextBoxBCol
+		
 		public Control TextBoxParent = new Control();
 
 		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
@@ -266,7 +265,7 @@ namespace DashFramework
 		}
 
 		public Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
-		{//Use S2ControlY as well. | for class, initialize with controls preferred.
+		{
 		    try
 		    {
 			int X = (Size.Width + Loca.X + Extra);
@@ -824,7 +823,7 @@ namespace DashFramework
 		    $"{E.Message}\r\n" +
 		    $"----------------------\r\n" +
 		    $"{E.Source}\r\n"
-		//$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
+		    //$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
 		);
 	    }
 
