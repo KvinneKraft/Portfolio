@@ -194,7 +194,7 @@ namespace DashFramework
 	    public class ControlHelper
 	    {
 		private readonly DashControls Control = new DashControls();
-		
+
 		public Control TextBoxParent = new Control();
 
 		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
@@ -823,7 +823,7 @@ namespace DashFramework
 		    $"{E.Message}\r\n" +
 		    $"----------------------\r\n" +
 		    $"{E.Source}\r\n"
-		    //$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
+		//$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
 		);
 	    }
 
@@ -1225,7 +1225,7 @@ namespace DashFramework
 
 		    Button1.TextAlign = ContentAlignment.BottomCenter;
 
-		    var RectangleSize = new Size(MenuBar.Width - 2, Surface.Height - MenuBar.Height + 1);
+		    var RectangleSize = new Size(MenuBar.Width - 3, Surface.Height - MenuBar.Height);
 		    var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
 
 		    Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
@@ -1268,7 +1268,7 @@ namespace DashFramework
 		    LogoLayer2.BackColor = MenuBar.Parent.BackColor;
 		    MenuBar.BackColor = NewValue1;
 
-		    var RectSize = new Size(MenuBar.Width - 2, MenuBar.Parent.Height - MenuBar.Height);
+		    var RectSize = new Size(MenuBar.Width - 3, MenuBar.Parent.Height - MenuBar.Height);
 		    var RectLoca = new Point(1, MenuBar.Height + MenuBar.Top - 3);
 
 		    Tool.PaintRectangle(MenuBar.Parent, 3, RectSize, RectLoca, NewValue2);
@@ -1287,26 +1287,28 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-	    private void InitS1(Size AppSize, string AppTitle, Color AppBCol, FormStartPosition AppStartPosition = FormStartPosition.CenterScreen, FormBorderStyle AppBorderStyle = FormBorderStyle.None)
+	    private void InitS1(Size AppSize, string AppTitle, Color AppBCol, FormStartPosition AppStartPosition = FormStartPosition.CenterScreen, FormBorderStyle AppBorderStyle = FormBorderStyle.None, int roundRadius = -1)
 	    {
 		try
 		{
 		    SuspendLayout();
 
-		    Icon = Resources.ICON;
+		    MaximumSize = AppSize;
+		    MinimumSize = AppSize;
 
 		    FormBorderStyle = AppBorderStyle;
 		    StartPosition = AppStartPosition;
 
-		    MaximumSize = AppSize;
-		    MinimumSize = AppSize;
-
 		    BackColor = AppBCol;
+		    Icon = Resources.ICON;
 
 		    Text = AppTitle;
 		    Name = AppTitle;
 
-		    Tool.Round(this, 8);
+		    if (roundRadius > 0)
+		    {
+			Tool.Round(this, roundRadius);
+		    }
 		}
 
 		catch (Exception E)
@@ -1331,11 +1333,11 @@ namespace DashFramework
 		}
 	    }
 
-	    public void InitializeWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true)
+	    public void InitializeWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true, int roundRadius = 8)
 	    {
 		try
 		{
-		    InitS1(AppSize, AppTitle, AppBCol, AppStartPosition: StartPosition, AppBorderStyle: FormBorderStyle);
+		    InitS1(AppSize, AppTitle, AppBCol, StartPosition, FormBorderStyle, roundRadius);
 
 		    if (AppMenuBar)
 		    {
