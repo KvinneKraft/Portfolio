@@ -21,19 +21,17 @@ namespace DashApplication
 	    {
 		using (DashWindow dashWindow = new DashWindow())
 		{
-		    Size AppSize = new Size(350, 350);
+		    Size AppSize = new Size(400, 400);
 
-		    string AppTitle = ("Dash Application");
+		    string AppTitle = ("PugPawz Panel");
 
-		    Color AppMCol = Color.CornflowerBlue;
-		    Color AppBCol = Color.White;
+		    Color AppMCol = Color.FromArgb(28, 37, 46);
+		    Color AppBCol = Color.FromArgb(37, 48, 63);
 
-		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, CloseHideApp: false);
+		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, CloseHideApp: false, roundRadius: 0);
 
-		    dashWindow.MenuBar.Button1.Click += (s, e) =>
-			Environment.Exit(-1);
-		    dashWindow.FormClosing += (s, e) =>
-			Environment.Exit(-1);
+		    dashWindow.MenuBar.Button1.Click += (s, e) => Environment.Exit(-1);
+		    dashWindow.FormClosing += (s, e) =>	Environment.Exit(-1);
 
 		    mainGUI.Initiator(dashWindow);
 
