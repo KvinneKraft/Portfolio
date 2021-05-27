@@ -9,8 +9,6 @@ namespace DashApplication
 {
     static class Program
     {
-	readonly static MainGUI mainGUI = new MainGUI();
-
 	[STAThread]
 	static void Main()
 	{
@@ -28,12 +26,15 @@ namespace DashApplication
 		    Color AppMCol = Color.FromArgb(28, 37, 46);
 		    Color AppBCol = Color.FromArgb(37, 48, 63);
 
-		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, CloseHideApp: false, roundRadius: 0);
+		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, hideApp: false, roundRadius: 0);
 
-		    dashWindow.MenuBar.Button1.Click += (s, e) => Environment.Exit(-1);
-		    dashWindow.FormClosing += (s, e) =>	Environment.Exit(-1);
-
+		    MainGUI mainGUI = new MainGUI();
 		    mainGUI.Initiator(dashWindow);
+
+		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
+
+		    dashWindow.values.MenuBar.values.Button1.Click += (s, e) => Environment.Exit(-1);
+		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
 
 		    Application.Run(dashWindow);
 		}
