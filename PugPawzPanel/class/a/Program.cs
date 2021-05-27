@@ -31,10 +31,8 @@ namespace DashApplication
 		    MainGUI mainGUI = new MainGUI();
 		    mainGUI.Initiator(dashWindow);
 
-		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
-
-		    dashWindow.values.MenuBar.values.Button1.Click += (s, e) => Environment.Exit(-1);
 		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
+		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
 
 		    Application.Run(dashWindow);
 		}
