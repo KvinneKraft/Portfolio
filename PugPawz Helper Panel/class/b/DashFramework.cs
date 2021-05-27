@@ -5,6 +5,8 @@
 //
 // -Dashie
 
+#pragma warning disable IDE1006
+
 using System;
 using System.IO;
 using System.Net;
@@ -2105,3 +2107,5 @@ namespace DashFramework
 	}
     }
 }
+
+#pragma warning restore IDE1006
