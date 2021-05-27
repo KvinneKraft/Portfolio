@@ -197,6 +197,7 @@ namespace DashFramework
 	    {
 		private readonly DashControls Control = new DashControls();
 
+
 		public Control TextBoxParent = new Control();
 
 		public Color TextBoxBCol = Color.FromArgb(28, 28, 28);
@@ -218,6 +219,7 @@ namespace DashFramework
 		    }
 		}
 
+
 		public Size TextBoxSize(Size Size, Point Loca, int Height = 20)
 		{
 		    try
@@ -231,6 +233,7 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
 
 		public Control LabelParent = new Control();
 
@@ -250,6 +253,7 @@ namespace DashFramework
 		    }
 		}
 
+
 		private readonly DashTools Tool = new DashTools();
 
 		public Size GetFontSize(string Text, int FontHeight = 10)
@@ -265,6 +269,7 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
 
 		public Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
 		{
@@ -284,6 +289,7 @@ namespace DashFramework
 		    }
 		}
 	    }
+
 
 	    public class DashControls
 	    {
@@ -313,6 +319,34 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
+
+		public delegate void Holder();
+
+		public void registerEvent(Control For, Holder This)
+		{
+		    try
+		    {
+			For.Click += (s, e) =>
+			{
+			    try
+			    {
+				This();
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
 
 		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
 		{
@@ -404,6 +438,7 @@ namespace DashFramework
 		    }
 		}
 
+
 		public readonly Dictionary<TextBox, int> TextBoxContainers = new Dictionary<TextBox, int>();
 
 		public void TextBox(Control Top, TextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool Multiline = false, bool ScrollBar = false, bool FixedSize = true, bool TabStop = false)
@@ -475,6 +510,7 @@ namespace DashFramework
 		    }
 		}
 
+
 		public void Button(Control Top, Button Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string ButtonText, bool TabStop = false)
 		{
 		    try
@@ -503,6 +539,7 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
 
 		public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
 		{
@@ -536,6 +573,7 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
 
 		public void Image(Control Top, PictureBox Object, Size ObjectSize, Point ObjectLocation, Color BackColor, Image ObjectImage = null, bool TabStop = false)
 		{
@@ -599,6 +637,7 @@ namespace DashFramework
 		    }
 		}
 
+
 		public void RoundContainerControls(Control container)
 		{
 		    try
@@ -620,16 +659,19 @@ namespace DashFramework
 		    }
 		}
 
+
 		public Size GetFontSize(string Text, int Size)
 		{
 		    return TextRenderer.MeasureText(Text, GetFont(1, Size));
 		}
+
 
 		public void Resize(Control Object, Size Size)
 		{
 		    Object.MaximumSize = Size;
 		    Object.MinimumSize = Size;
 		}
+
 
 		public void PaintRectangle(Control Object, int Thickness, Size Size, Point Location, Color Color)
 		{
@@ -646,6 +688,7 @@ namespace DashFramework
 		    };
 		}
 
+
 		public void PaintLine(Control Object, Color Color, int Thickness, Point Location1, Point Location2)
 		{
 		    Object.Paint += (s, e) =>
@@ -660,6 +703,7 @@ namespace DashFramework
 			};
 		    };
 		}
+
 
 		public void PaintCircle(Control Object, Color Color, int Thickness, Point Location, Size Size)
 		{
@@ -676,6 +720,7 @@ namespace DashFramework
 		    };
 		}
 
+
 		[DllImport("User32.dll")] static extern IntPtr CreateIconFromResource(byte[] presbits, uint dwResSize, bool fIcon, uint dwVer);
 		public void UseResourceCursor(Control Object, byte[] BYTES)
 		{
@@ -684,6 +729,7 @@ namespace DashFramework
 		    Object.Cursor = curse;
 		    Object.Update();
 		}
+
 
 		public void Interactive(Control Object, Control Target)
 		{
@@ -710,6 +756,7 @@ namespace DashFramework
 		    };
 		}
 
+
 		public class ReadOnlyForm : Form
 		{
 		    public void PaintOwner(PaintEventArgs e)
@@ -718,6 +765,7 @@ namespace DashFramework
 			base.OnPaint(e);
 		    }
 		}
+
 
 		public readonly ReadOnlyForm ReadForm = new ReadOnlyForm();
 
@@ -763,6 +811,7 @@ namespace DashFramework
 			throw (ErrorHandler.GetException(E));
 		    }
 		}
+
 
 		[DllImport("gdi32.dll")] private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
 		readonly PrivateFontCollection FontCollection = new PrivateFontCollection();
@@ -811,26 +860,27 @@ namespace DashFramework
     {
 	public class ErrorHandler
 	{
-	    private readonly DashControls Control = new DashControls();
-	    private readonly DashTools Tool = new DashTools();
+	    public static void JustDoIt(Exception E, string title = ("Error Handler")) => Utilize(GetRawFormat(E), title);
+	    public static Exception GetException(Exception E) => new Exception(GetRawFormat(E));
+
+
+	    public static string ErrorFormat = string.Format
+	    (
+		"----------------------\r\n" +
+		"{1}\r\n" +
+		"----------------------\r\n" +
+		"{2}\r\n" +
+		"----------------------\r\n" +
+		"{3}\r\n"
+	    );
 
 	    public static string GetRawFormat(Exception E)
 	    {
-		return string.Format
-		(
-		    //$"An error has occurred and has prevented the application from functioning any further, safely.\r\n\r\nPlease send the following to KvinneKraft@protonmail.com if you wish to help me fix this issue.\r\n\r\n" +
-		    $"----------------------\r\n" +
-		    $"{E.StackTrace}\r\n" +
-		    $"----------------------\r\n" +
-		    $"{E.Message}\r\n" +
-		    $"----------------------\r\n" +
-		    $"{E.Source}\r\n"
-		//$"I would also recommend making sure you actually downloaded the application from my website https://pugpawz.com and not some other sketchy website.\r\n\r\nAll the latest versions are available at my GitHub at https://github.com/KvinneKraft"
-		);
+		return ErrorFormat.Replace("{1}", $"{E.StackTrace}")
+		    .Replace("{2}", $"{E.Message}")
+		    .Replace("{3}", $"{E.Source}");
 	    }
 
-	    public static Exception GetException(Exception E) =>
-		new Exception(GetRawFormat(E));
 
 	    public static void Utilize(string description, string title)
 	    {
@@ -844,9 +894,6 @@ namespace DashFramework
 
 		Environment.Exit(-1);
 	    }
-
-	    public static void JustDoIt(Exception E, string title = ("Error Handler")) =>
-		Utilize(GetRawFormat(E), title);
 	}
     }
 
@@ -897,6 +944,8 @@ namespace DashFramework
 	    }
 
 
+	    #pragma warning disable CS0109
+
 	    public FormStartPosition FSPos = FormStartPosition.CenterScreen;
 	    public FormBorderStyle FBSty = FormBorderStyle.None;
 
@@ -906,7 +955,6 @@ namespace DashFramework
 	    public Color BackCol = Color.MidnightBlue;
 	    public Size AppSize = new Size(350, 350);
 
-#pragma warning disable CS0109
 	    public new void Show(bool MenuBar = true)
 	    {
 		try
@@ -941,7 +989,8 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-#pragma warning restore CS0109
+
+	    #pragma warning restore CS0109
 	}
     }
 
@@ -1111,6 +1160,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    public int Show()
 	    {
@@ -1485,6 +1535,7 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
+
 	    public readonly PictureBox S1Container1 = new PictureBox();
 
 	    private void Init1(PictureBox Capsule, Size ContainerSize, Point ContainerLoca)
@@ -1500,6 +1551,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    private readonly PictureBox S2Container1 = new PictureBox();
 
@@ -1528,6 +1580,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    private void Init2(string PageData, Size ConSize)
 	    {
 		try
@@ -1554,6 +1607,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    private readonly PictureBox S3Container1 = new PictureBox();
 	    private readonly PictureBox S3Container2 = new PictureBox();
@@ -1595,6 +1649,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    private readonly Label S3Label1 = new Label();
 
@@ -1668,6 +1723,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string> LabelSetup) //string TopBarTitle, Color ConBCol, Color ConFCol, Size ConSize, Point ConLoca, Color LabelBCol, Color LabelFCol, string PageData, int Pages)
 	    {
 		try
@@ -1691,6 +1747,7 @@ namespace DashFramework
 	    private readonly EfficiencyTools Efficiency = new EfficiencyTools();
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
+
 
 	    public void Hide()
 	    {
@@ -1719,6 +1776,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    public readonly PictureBox ContentContainer = new PictureBox();
 	    public readonly PictureBox Container = new PictureBox();
@@ -1762,6 +1820,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public readonly Dictionary<int, Label> MenuItems = new Dictionary<int, Label>();
 
 	    private int GetY()
@@ -1782,6 +1841,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    public void AddItem(Label Object, string ItemName, Color ItemBCol, Color ItemFCol, int Index = -2, int ItemWidth = -2, int ItemHeight = -2, int ItemTextSize = 10)
 	    {
@@ -1836,6 +1896,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public Label GetItem(int Index = -2)
 	    {
 		try
@@ -1858,6 +1919,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    private void ReloadDropDownMenu()
 	    {
@@ -1887,6 +1949,7 @@ namespace DashFramework
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
+
 
 	    public bool RemoveItem(int Index = -2)
 	    {
@@ -1948,8 +2011,25 @@ namespace DashFramework
     {
 	public class DashNet
 	{
-	    private void HandleError(Exception E) =>
-		ErrorHandler.JustDoIt(E);
+	    private void HandleError(Exception E) => ErrorHandler.JustDoIt(E);
+
+	    
+    	    public bool AllowedDomain(string data) => !new List<string>()
+		{ ".gov", ".govt", ".edu" }.Any(data.EndsWith);
+
+
+	    public bool CanInteger(string data) => GetInteger(data) != -1;
+	    public bool CanPort(string data) => (GetPort(data) != -1);
+	    public bool CanByte(string data) => CanDuration(data);
+	    public bool CanIP(string data) => GetIP(data) != string.Empty;
+
+
+	    public bool CanDuration(string data)
+	    {
+		int duration = GetInteger(data);
+		return (duration != 1 && duration >= 10);
+	    }
+
 
 	    public int GetInteger(string data)
 	    {
@@ -1964,17 +2044,6 @@ namespace DashFramework
 		}
 	    }
 
-	    public bool CanInteger(string data) =>
-		GetInteger(data) != -1;
-
-	    public bool CanDuration(string data)
-	    {
-		int duration = GetInteger(data);
-		return (duration != 1 && duration >= 10);
-	    }
-
-	    public bool CanByte(string data) =>
-		(CanDuration(data));
 
 	    public string GetIP(string data)
 	    {
@@ -2029,8 +2098,6 @@ namespace DashFramework
 		}
 	    }
 
-	    public bool CanIP(string data) =>
-		(GetIP(data) != string.Empty);
 
 	    public AddressFamily GetAddressFamily(string data)
 	    {
@@ -2045,6 +2112,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public bool IsHostReachable(string host, int port = 80, int timeout = 500)
 	    {
 		try
@@ -2053,6 +2121,7 @@ namespace DashFramework
 		    {
 			IAsyncResult socketResult = socket.BeginConnect(host, port, null, null);
 			bool socketSuccess = socketResult.AsyncWaitHandle.WaitOne(timeout, true);
+
 			return socket.Connected;
 		    }
 		}
@@ -2063,8 +2132,6 @@ namespace DashFramework
 		}
 	    }
 
-	    public bool AllowedDomain(string data) =>
-		!new List<string>() { ".gov", ".govt", ".edu" }.Any(data.EndsWith);
 
 	    public int GetPort(string data)
 	    {
@@ -2085,9 +2152,6 @@ namespace DashFramework
 		    return -1;
 		}
 	    }
-
-	    public bool CanPort(string data) =>
-		(GetPort(data) != -1);
 	}
     }
 
@@ -2096,14 +2160,11 @@ namespace DashFramework
     {
 	public class DashInteract
 	{
-	    public bool IsAdministrator() =>
-		 new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+	    public bool IsAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
-	    public string GetFilePath() =>
-		Assembly.GetExecutingAssembly().Location;
+	    public bool IsRunning(string ProcessName) => Process.GetProcessesByName(ProcessName).Length > 1;
 
-	    public bool IsRunning(string ProcessName) =>
-		Process.GetProcessesByName(ProcessName).Length > 1;
+	    public string GetFilePath() => Assembly.GetExecutingAssembly().Location;
 	}
     }
 }
