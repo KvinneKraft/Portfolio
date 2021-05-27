@@ -947,10 +947,11 @@ namespace DashFramework
     namespace Dialog
     {
 	public class DashDialog
-	{//Just update pre-initialized component in future.	
+	{
 	    private readonly EfficiencyTools Efficiency = new EfficiencyTools();
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
+
 
 	    public DashWindow Dialog = new DashWindow();
 
@@ -964,7 +965,7 @@ namespace DashFramework
 		    }
 
 		    Dialog.InitializeWindow(DialogSize, Title, DialogBCol, Color.Empty,
-			AppMenuBar: false, StartPosition: FormStartPosition.CenterParent);
+			appMenuBar: false, startPosition: FormStartPosition.CenterParent);
 
 		    Tool.Interactive(Dialog, Dialog);
 		}
@@ -975,17 +976,15 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public readonly PictureBox S2Container1 = new PictureBox();
 	    public readonly PictureBox S2Container2 = new PictureBox();
-
 	    public readonly TextBox S2TextBox1 = new TextBox();
-
 	    public readonly Button S2Button1 = new Button();
 	    public readonly Button S2Button2 = new Button();
+	    public readonly Label S2Label1 = new Label();
 
 	    private int S2ButtonID = 0;
-
-	    public readonly Label S2Label1 = new Label();
 
 	    public void InitS2(Color DialogFCol, string Description, string Title, Buttons DialogButtons)
 	    {
@@ -1015,16 +1014,21 @@ namespace DashFramework
 
 		    string[] Texts = new string[] { "Okay", "" };
 
+		    void Action1()
+		    {
+			Texts[1] = ("Cancel");
+		    }
+
+		    void Action2()
+		    {
+			Texts[0] = ("Yes");
+			Texts[1] = ("No");
+		    }
+
 		    switch (DialogButtons)
 		    {
-			case Buttons.OKCancel:
-			    Texts[1] = ("Cancel");
-			    break;
-
-			case Buttons.YesNo:
-			    Texts[0] = ("Yes");
-			    Texts[1] = ("No");
-			    break;
+			case Buttons.OKCancel: Action1();  break;
+			case Buttons.YesNo: Action2();  break;
 		    }
 
 		    var ButtonObjects = new List<Button>() { S2Button1 };
@@ -1079,6 +1083,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public enum Buttons { OKCancel, YesNo, OK };
 
 	    public int Show(Color DialogBCol, Color DialogFCol, Size DialogSize, string Description, string Title, Buttons DialogButtons = Buttons.OK)
@@ -1126,21 +1131,58 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-	    public bool Minimize = false;
-	    public bool Close = false;
-	    public bool Hide = false;
 
-	    public readonly Label MenuBarTitle = new Label();
+	    public class Values
+	    {
+		public readonly PictureBox LogoLayer1 = new PictureBox();
+		public readonly PictureBox LogoLayer2 = new PictureBox();
+		public readonly PictureBox Bar = new PictureBox();
 
-	    public DashMenuBar(string Title, bool MinimizeButton, bool CloseButton, bool HideDialog = true)
+		public readonly Button Button1 = new Button();
+		public readonly Button Button2 = new Button();
+
+		public readonly Label Title = new Label();
+
+		public bool Minimize = false;
+		public bool Close = false;
+		public bool Hide = false;
+
+
+		public void setLogoBackColor(Color to)
+		{
+		    LogoLayer1.BackColor = Bar.BackColor;
+		    LogoLayer2.BackColor = to;
+		}
+
+
+		public Control.ControlCollection getControls() => Bar.Controls;
+		public Control getParent() => Bar.Parent;
+
+		public Color getBarColor() => Bar.BackColor;
+
+		public void setLocationOf(Control me, Point to) => me.Location = to;
+		public void setColorOf(Control me, Color to) => me.BackColor = to;
+		public void setBarBackColor(Color to) => Bar.BackColor = to;
+		public void setTitle(string to) => Title.Text = to;
+
+		public int parentHeight() => Bar.Parent.Height;
+		public int parentWidth() => Bar.Parent.Width;
+		public int Height() => Bar.Height;
+		public int Width() => Bar.Width;
+	    }
+
+
+	    public readonly Values values = new Values();
+
+	    public DashMenuBar(string title, bool minimizeButton, bool closeButton, bool hideDialog = true)
 	    {
 		try
 		{
-		    Minimize = MinimizeButton;
-		    Close = CloseButton;
-		    Hide = HideDialog;
-
-		    MenuBarTitle.Text = (Title);
+		    values.Minimize = minimizeButton;
+		    values.Close = closeButton;
+		    values.Hide = hideDialog;
+		    
+		    values.setTitle(title);
 		}
 
 		catch (Exception E)
@@ -1149,86 +1191,80 @@ namespace DashFramework
 		}
 	    }
 
-	    public readonly PictureBox MenuBar = new PictureBox();
 
-	    public readonly PictureBox LogoLayer1 = new PictureBox();
-	    public readonly PictureBox LogoLayer2 = new PictureBox();
+	    public enum Heights { Light = 24, Medium = 26, Heavy = 28, Fat = 30 };
 
-	    public readonly Button Button1 = new Button();
-	    public readonly Button Button2 = new Button();
-
-	    public void AddMe(Control Surface, Color BarBCol, Color BorderBCol, int MenuBarHeight = 26)
+	    public void AddMe(Control parent, Color barBCol, Color borderBCol, int barHeight = 26)
 	    {
 		try
 		{
-		    var MenuBarSize = new Size(Surface.Width, MenuBarHeight);
+		    var MenuBarSize = new Size(parent.Width, barHeight);
 		    var MenuBarLoca = new Point(0, 0);
-		    var MenuBarBCol = BarBCol;
+		    var MenuBarBCol = barBCol;
 
-		    Control.Image(Surface, MenuBar, MenuBarSize, MenuBarLoca, MenuBarBCol);
-		    Tool.Interactive(MenuBar, Surface);
+		    Control.Image(parent, values.Bar, MenuBarSize, MenuBarLoca, MenuBarBCol);
+		    Tool.Interactive(values.Bar, parent);
 
 		    var LogoSize = Resources.LOGO.Size;
 		    var LogoLoca = new Point(5, 2);
 
-		    Control.Image(Surface, LogoLayer2, LogoSize, LogoLoca, Surface.BackColor, ObjectImage: Resources.LOGO);
-		    Control.Image(MenuBar, LogoLayer1, LogoSize, LogoLoca, BarBCol, ObjectImage: Resources.LOGO);
+		    Control.Image(parent, values.LogoLayer2, LogoSize, LogoLoca, parent.BackColor, ObjectImage: Resources.LOGO);
+		    Control.Image(values.Bar, values.LogoLayer1, LogoSize, LogoLoca, barBCol, ObjectImage: Resources.LOGO);
 
-		    Tool.Interactive(LogoLayer1, Surface);
-		    Tool.Interactive(LogoLayer2, Surface);
+		    Tool.Interactive(values.LogoLayer1, parent);
+		    Tool.Interactive(values.LogoLayer2, parent);
 
-		    var TitleSize = Tool.GetFontSize(MenuBarTitle.Text, 8);
+		    var TitleSize = Tool.GetFontSize(values.Title.Text, 8);
 		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
 
-		    Control.Label(MenuBar, MenuBarTitle, TitleSize, TitleLoca, BarBCol, Color.White, 1, 8, MenuBarTitle.Text);
-		    Tool.Interactive(MenuBarTitle, Surface);
+		    Control.Label(values.Bar, values.Title, TitleSize, TitleLoca, barBCol, Color.White, 1, 8, values.Title.Text);
+		    Tool.Interactive(values.Title, parent);
 
-		    var ButtonSize = new Size(65, MenuBarHeight);
+		    var ButtonSize = new Size(65, barHeight);
 		    var ButtonLoca = new Point(MenuBarSize.Width - ButtonSize.Width, 0);
 
-		    if (Close)
+		    if (values.Close)
 		    {
-			Control.Button(MenuBar, Button1, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "X");
+			Control.Button(values.Bar, values.Button1, ButtonSize, ButtonLoca, barBCol, Color.White, 1, 10, "X");
+			Tool.Interactive(values.Button1, parent);
 
-			Tool.Interactive(Button1, Surface);
-
-			Button1.Click += (s, e) =>
+			values.Button1.Click += (s, e) =>
 			{
-			    if (!Hide)
+			    if (!values.Hide)
 			    {
 				Application.Exit();
+				Environment.Exit(0);
 			    }
 
 			    else
 			    {
-				Surface.Hide();
+				parent.Hide();
 			    }
 			};
 		    }
 
-		    if (Close && Minimize)
+		    if (values.Close && values.Minimize)
 		    {
 			ButtonLoca.X -= ButtonSize.Width;
 		    }
 
-		    else if (Minimize)
+		    else if (values.Minimize)
 		    {
-			Control.Button(MenuBar, Button2, ButtonSize, ButtonLoca, BarBCol, Color.White, 1, 10, "-");
+			Control.Button(values.Bar, values.Button2, ButtonSize, ButtonLoca, barBCol, Color.White, 1, 10, "-");
+			Tool.Interactive(values.Button2, parent);
 
-			Button2.Click += (s, e) =>
+			values.Button2.Click += (s, e) =>
 			{
-			    Surface.SendToBack();
+			    parent.SendToBack();
 			};
-
-			Tool.Interactive(Button2, Surface);
 		    }
 
-		    Button1.TextAlign = ContentAlignment.BottomCenter;
+		    values.Button1.TextAlign = ContentAlignment.BottomCenter;
 
-		    var RectangleSize = new Size(MenuBar.Width - 3, Surface.Height - MenuBar.Height);
-		    var RectangleLocation = new Point(1, MenuBar.Height + MenuBar.Top - 2);
+		    var RectangleSize = new Size(values.Width() - 3, values.parentHeight() - values.Height());
+		    var RectangleLocation = new Point(1, values.Height() + values.Bar.Top - 2);
 
-		    Tool.PaintRectangle(Surface, 3, RectangleSize, RectangleLocation, BorderBCol);
+		    Tool.PaintRectangle(parent, 3, RectangleSize, RectangleLocation, borderBCol);
 		}
 
 		catch (Exception E)
@@ -1237,17 +1273,18 @@ namespace DashFramework
 		}
 	    }
 
-	    public void UpdateTitle(string NewValue)
+
+	    public void UpdateTitle(string newValue, int fontSize = 8)
 	    {
 		try
 		{
-		    var NewLabelSize = Tool.GetFontSize(NewValue, 8);
-		    var NewLabelLoca = new Point(MenuBarTitle.Left, (MenuBar.Height - NewLabelSize.Height) / 2);
+		    var newSize = Tool.GetFontSize(newValue, fontSize);
+		    var newLabelLoca = new Point(values.Title.Left, (values.Height() - newSize.Height) / 2);
 
-		    MenuBarTitle.Location = NewLabelLoca;
-		    MenuBarTitle.Text = NewValue;
+		    values.setLocationOf(values.Title, newLabelLoca);
+		    values.setTitle($"{newValue}");
 
-		    Tool.Resize(MenuBarTitle, NewLabelSize);
+		    Tool.Resize(values.Title, newSize);
 		}
 
 		catch (Exception E)
@@ -1256,22 +1293,23 @@ namespace DashFramework
 		}
 	    }
 
-	    public void UpdateColor(Color NewValue1, Color NewValue2)
+
+	    public void UpdateColor(Color newValue1, Color newValue2)
 	    {
 		try
 		{
-		    foreach (Control Control in MenuBar.Controls)
+		    foreach (Control Control in values.getControls())
 		    {
-			Control.BackColor = NewValue1;
+			values.setColorOf(Control, newValue1);
 		    }
 
-		    LogoLayer2.BackColor = MenuBar.Parent.BackColor;
-		    MenuBar.BackColor = NewValue1;
+		    values.setLogoBackColor(values.getBarColor());
+		    values.setBarBackColor(newValue1);
 
-		    var RectSize = new Size(MenuBar.Width - 3, MenuBar.Parent.Height - MenuBar.Height);
-		    var RectLoca = new Point(1, MenuBar.Height + MenuBar.Top - 3);
+		    var RectSize = new Size(values.Width() - 3, values.parentHeight() - values.Height());
+		    var RectLoca = new Point(1, values.Height() + values.Bar.Top - 3);
 
-		    Tool.PaintRectangle(MenuBar.Parent, 3, RectSize, RectLoca, NewValue2);
+		    Tool.PaintRectangle(values.getParent(), 3, RectSize, RectLoca, newValue2);
 		}
 
 		catch (Exception E)
@@ -1287,23 +1325,62 @@ namespace DashFramework
 	    private readonly DashControls Control = new DashControls();
 	    private readonly DashTools Tool = new DashTools();
 
-	    private void InitS1(Size AppSize, string AppTitle, Color AppBCol, FormStartPosition AppStartPosition = FormStartPosition.CenterScreen, FormBorderStyle AppBorderStyle = FormBorderStyle.None, int roundRadius = -1)
+
+	    public class Values
+	    {
+		public DashMenuBar MenuBar = null;
+
+		public Control.ControlCollection getControls() => MenuBar.values.getControls();
+		public Control getParent() => MenuBar.values.getParent();
+
+		public Color getBarColor() => MenuBar.values.getBarColor();
+
+		public void setLocationOf(Control me, Point to) => me.Location = to;
+		public void setColorOf(Control me, Color to) => me.BackColor = to;
+		public void setBarBackColor(Color to) => MenuBar.values.setBarBackColor(to);
+		public void setTitle(string to) => MenuBar.values.setTitle(to);
+
+		public int parentHeight() => MenuBar.values.parentHeight();
+		public int parentWidth() => MenuBar.values.parentWidth();
+		public int Height() => MenuBar.values.Height();
+		public int Width() => MenuBar.values.Width();
+
+		public delegate void holder();
+
+		public void onControlClick(int id, holder action)
+		{
+		    Control me = MenuBar.values.Button1;
+		
+		    if (id == 2) me = MenuBar.values.Button2; 
+
+		    me.Click += (s, e) =>
+		    {
+			action.Invoke();
+		    };
+		}
+	    }
+
+	    public Values values = new Values();
+
+
+	    private void InitS1(Size appSize, string appTitle, Color appBCol, 
+		FormStartPosition startPosition = FormStartPosition.CenterScreen, FormBorderStyle borderStyle = FormBorderStyle.None, int roundRadius = -1)
 	    {
 		try
 		{
 		    SuspendLayout();
 
-		    MaximumSize = AppSize;
-		    MinimumSize = AppSize;
+		    MaximumSize = appSize;
+		    MinimumSize = appSize;
 
-		    FormBorderStyle = AppBorderStyle;
-		    StartPosition = AppStartPosition;
+		    FormBorderStyle = borderStyle;
+		    StartPosition = startPosition;
 
-		    BackColor = AppBCol;
+		    BackColor = appBCol;
 		    Icon = Resources.ICON;
 
-		    Text = AppTitle;
-		    Name = AppTitle;
+		    Text = appTitle;
+		    Name = appTitle;
 
 		    if (roundRadius > 0)
 		    {
@@ -1317,14 +1394,13 @@ namespace DashFramework
 		}
 	    }
 
-	    public DashMenuBar MenuBar = null;
 
-	    private void InitS2(string AppTitle, bool AppMinim, bool AppClose, bool AppHide, Color MenuBarBCol)
+	    private void InitS2(string appTitle, bool appMinim, bool appClose, bool appHide, Color barBCol)
 	    {
 		try
 		{
-		    MenuBar = new DashMenuBar(AppTitle, AppMinim, AppClose, AppHide);
-		    MenuBar.AddMe(this, MenuBarBCol, MenuBarBCol);
+		    values.MenuBar = new DashMenuBar(appTitle, appMinim, appClose, appHide);
+		    values.MenuBar.AddMe(this, barBCol, barBCol);
 		}
 
 		catch (Exception E)
@@ -1333,15 +1409,18 @@ namespace DashFramework
 		}
 	    }
 
-	    public void InitializeWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true, int roundRadius = 8)
+
+	    public void InitializeWindow(Size appSize, string appTitle, Color appBCol, Color barBCol, 
+		FormStartPosition startPosition = FormStartPosition.CenterScreen, FormBorderStyle borderStyle = FormBorderStyle.None, 
+		bool barMinim = false, bool barClose = true, bool hideApp = true, bool appMenuBar = true, int roundRadius = 8)
 	    {
 		try
 		{
-		    InitS1(AppSize, AppTitle, AppBCol, StartPosition, FormBorderStyle, roundRadius);
+		    InitS1(appSize, appTitle, appBCol, startPosition, borderStyle, roundRadius);
 
-		    if (AppMenuBar)
+		    if (appMenuBar)
 		    {
-			InitS2(AppTitle, MenuBarMinim, MenuBarClose, CloseHideApp, MenuBarBCol);
+			InitS2(appTitle, barMinim, barClose, hideApp, barBCol);
 		    }
 		}
 
@@ -1351,19 +1430,22 @@ namespace DashFramework
 		}
 	    }
 
+
 	    private bool DoInitialize = true;
 
-	    public void ShowWindow(Size AppSize, string AppTitle, Color AppBCol, Color MenuBarBCol, FormStartPosition StartPosition = FormStartPosition.CenterScreen, FormBorderStyle FormBorderStyle = FormBorderStyle.None, bool ShowDialog = true, bool MenuBarMinim = false, bool MenuBarClose = true, bool CloseHideApp = true, bool AppMenuBar = true)
+	    public void ShowWindow(Size appSize, string appTitle, Color appBCol, Color barBCol, 
+		FormStartPosition startPosition = FormStartPosition.CenterScreen, FormBorderStyle borderStyle = FormBorderStyle.None, 
+		bool showDialog = true, bool barMinim = false, bool barClose = true, bool closeHideApp = true, bool appMenuBar = true)
 	    {
 		try
 		{
 		    if (DoInitialize)
 		    {
-			InitializeWindow(AppSize, AppTitle, AppBCol, MenuBarBCol, StartPosition, FormBorderStyle, MenuBarMinim, MenuBarClose, CloseHideApp, AppMenuBar);
+			InitializeWindow(appSize, appTitle, appBCol, barBCol, startPosition, borderStyle, barMinim, barClose, closeHideApp, appMenuBar);
 			DoInitialize = false;
 		    }
 
-		    ShowAsIs(ShowDialog);
+		    ShowAsIs(showDialog);
 		}
 
 		catch (Exception E)
@@ -1372,13 +1454,14 @@ namespace DashFramework
 		}
 	    }
 
-	    public void ShowAsIs(bool ShowDialog = true)
+
+	    public void ShowAsIs(bool showDialog = true)
 	    {
 		try
 		{
-		    if (ShowDialog)
+		    if (showDialog)
 		    {
-			this.ShowDialog();
+			ShowDialog();
 		    }
 
 		    else
