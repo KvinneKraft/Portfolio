@@ -49,6 +49,9 @@ namespace DashApplication
 
 	readonly PictureBox ContB1 = new PictureBox();
 
+	readonly Init2 initiate1 = new Init2();
+	readonly Init2 initiate2 = new Init2();
+
 	void Init2()
 	{
 	    try
@@ -61,6 +64,9 @@ namespace DashApplication
 		var Cont1BCol = App.BackColor;
 
 		Controls.Image(App, ContB1, Cont1Size, Cont1Loca, Cont1BCol);
+
+		initiate1.SecondaryInitiate(App, ContB1);
+		initiate2.SecondaryInitiate(App, ContB1);
 	    }
 
 	    catch (Exception E)
@@ -78,20 +84,6 @@ namespace DashApplication
 
 		Init1();
 		Init2();
-
-		var runnable = new DashFramework.Runnables.Runnable();
-
-		runnable.RunTaskLater
-		(
-		    inst, 
-		    
-		    () => 
-		    {
-			MessageBox.Show("Hey!");
-		    }, 
-		    
-		    5000
-		);
 	    }
 
 	    catch (Exception E)
