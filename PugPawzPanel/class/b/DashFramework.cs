@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Drawing;
+using System.Threading;
 using System.Reflection;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -21,6 +22,7 @@ using System.Drawing.Drawing2D;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Timers;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
@@ -33,6 +35,105 @@ using DashApplication.resources;
 
 namespace DashFramework
 {
+    namespace Runnables
+    {
+	public class Runnable
+	{
+	    public delegate void RunnableHolder();
+
+
+	    public void RunTaskAsynchronously(Control parent, RunnableHolder execute)
+	    {
+		try
+		{
+		    new Thread(() =>
+		    {
+			parent.Invoke
+			(
+			    new MethodInvoker
+			    (
+				() =>
+				{
+				    execute();
+				}
+			    )
+			);
+		    })
+
+		    { IsBackground = true }.Start();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+	    
+	    public void RunTaskLater(Control parent, RunnableHolder execute, int startWhen, bool autoReset = false)
+	    {
+		try
+		{
+		    System.Timers.Timer timer = new System.Timers.Timer();
+
+		    timer.Elapsed += (s, e) =>
+		    {
+			execute();
+		    };
+
+		    timer.AutoReset = autoReset;
+		    timer.Interval = startWhen;
+		    timer.Enabled = true;
+		    timer.Start();
+		}
+
+		catch (Exception E)
+		{
+		    throw ErrorHandler.GetException(E);
+		}
+	    }
+
+
+	    public void RunTaskLaterAsynchronously(Control parent, RunnableHolder execute, int startWhen, bool autoReset = false)
+	    {
+		try
+		{
+		    System.Timers.Timer timer = new System.Timers.Timer();
+
+		    timer.Elapsed += (s, e) =>
+		    {
+			new Thread(() =>
+			{
+			    parent.Invoke
+			    (
+				new MethodInvoker
+				(
+				    () =>
+				    {
+					execute();
+				    }
+				)
+			    );
+			})
+
+			{ IsBackground = true }.Start();
+		    };
+
+		    timer.AutoReset = autoReset;
+		    timer.Interval = startWhen;
+		    timer.Enabled = true;
+		    timer.Start();
+		}
+
+		catch (Exception E)
+		{
+		    throw ErrorHandler.GetException(E);
+		}
+	    }
+	}
+    }
+
+
     namespace Data
     {
 	public class Dashlet<A, B, C>//Three Datatype Storage
@@ -2156,7 +2257,7 @@ namespace DashFramework
     }
 
 
-    namespace System
+    namespace SystemInteract
     {
 	public class DashInteract
 	{
