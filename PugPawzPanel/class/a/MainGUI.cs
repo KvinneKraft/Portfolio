@@ -78,6 +78,20 @@ namespace DashApplication
 
 		Init1();
 		Init2();
+
+		var runnable = new DashFramework.Runnables.Runnable();
+
+		runnable.RunTaskLater
+		(
+		    inst, 
+		    
+		    () => 
+		    {
+			MessageBox.Show("Hey!");
+		    }, 
+		    
+		    5000
+		);
 	    }
 
 	    catch (Exception E)
