@@ -18,11 +18,17 @@ namespace DashApplication
 	readonly DashControls Controls = new DashControls();
 	readonly DashTools Tools = new DashTools();
 
+	PictureBox Frame = null;
+	DashWindow App = null;
+
 
 	public void SecondaryInitiate(DashWindow app, PictureBox frame)
 	{
 	    try
 	    {
+		Frame = frame;
+		App = app;
+
 		// Main Frame Functionality + Pages and all shit
 	    }
 
