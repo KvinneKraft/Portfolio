@@ -48,7 +48,7 @@ namespace DashApplication
 
 
 	readonly PictureBox ContB1 = new PictureBox();
-
+    
 	readonly Init2 initiate1 = new Init2();
 	readonly Init2 initiate2 = new Init2();
 
