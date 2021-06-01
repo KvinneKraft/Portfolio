@@ -47,9 +47,9 @@ namespace DashApplication
 	}
 
 
-	readonly PictureBox ContB1 = new PictureBox();
+	readonly public PictureBox ContB1 = new PictureBox();
     
-	readonly Init2 initiate1 = new Init2();
+	readonly Init1 initiate1 = new Init1();
 	readonly Init2 initiate2 = new Init2();
 
 	void Init2()
@@ -65,7 +65,7 @@ namespace DashApplication
 
 		Controls.Image(App, ContB1, Cont1Size, Cont1Loca, Cont1BCol);
 
-		initiate1.SecondaryInitiate(App, ContB1);
+		initiate1.SecondaryInitiate(App, ContA1);
 		initiate2.SecondaryInitiate(App, ContB1);
 	    }
 
