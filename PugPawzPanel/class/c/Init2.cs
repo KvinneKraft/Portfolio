@@ -29,6 +29,8 @@ namespace DashApplication
 		Frame = frame;
 		App = app;
 
+		PageA page = new PageA(app, frame);
+		
 		// Main Frame Functionality + Pages and all shit
 	    }
 
