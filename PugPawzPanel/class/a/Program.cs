@@ -33,7 +33,7 @@ namespace DashApplication
 
 		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
 		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
-
+		    
 		    Application.Run(dashWindow);
 		}
 	    }
