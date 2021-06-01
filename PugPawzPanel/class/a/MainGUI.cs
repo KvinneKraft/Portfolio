@@ -51,6 +51,7 @@ namespace DashApplication
     
 	readonly Init1 initiate1 = new Init1();
 	readonly Init2 initiate2 = new Init2();
+	readonly Init3 initiate3 = new Init3();
 
 	void Init2()
 	{
@@ -67,6 +68,7 @@ namespace DashApplication
 
 		initiate1.SecondaryInitiate(App, ContA1);
 		initiate2.SecondaryInitiate(App, ContB1);
+		initiate3.SecondaryInitiate(App, ContB1);
 	    }
 
 	    catch (Exception E)
