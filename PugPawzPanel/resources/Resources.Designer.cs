@@ -129,5 +129,14 @@ namespace DashApplication.resources {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes bro.
+        /// </summary>
+        internal static string welcome {
+            get {
+                return ResourceManager.GetString("welcome", resourceCulture);
+            }
+        }
     }
 }
