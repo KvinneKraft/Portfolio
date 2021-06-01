@@ -55,6 +55,7 @@
     <Compile Include="class\a\Program.cs" />
     <Compile Include="class\c\Init1.cs" />
     <Compile Include="class\c\Init2.cs" />
+    <Compile Include="class\c\Init3.cs" />
     <Compile Include="class\d\Expansion.cs" />
     <Compile Include="class\d\InsertBlog.cs" />
     <Compile Include="class\d\InsertProduct.cs" />
