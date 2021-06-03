@@ -13,30 +13,6 @@ using DashFramework.Dialog;
 
 namespace DashApplication
 {
-    public class Init3Constants
-    {
-	public enum Entry
-	{
-	    FilezillaLocation=8, WebsiteControlUrl=7, InsertionDatabase=4,
-	    DownloadsTable=5, SqlUsername=2, SqlPassword=3, BlogTable=6,
-	    SqlPort=1, SqlHost = 0,
-	};
-
-	readonly Dictionary<Entry, string> Entries = new Dictionary<Entry, string>()
-	{
-	    { Entry.WebsiteControlUrl, "website-control-url=" },
-	    { Entry.InsertionDatabase, "insertion-database=" },
-	    { Entry.FilezillaLocation, "filezilla-location=" },
-	    { Entry.DownloadsTable, "downloads-table=" },
-	    { Entry.SqlUsername, "sql-username=" },
-	    { Entry.SqlPassword, "sql-password=" },
-	    { Entry.BlogTable, "blog-table=" },
-	    { Entry.SqlHost, "sql-host=" },
-	    { Entry.SqlPort, "sql-port=" },
-	};
-    }
-    
-
     public class Init3
     {
 	private readonly string[] configFormat = new string[]
@@ -66,13 +42,34 @@ namespace DashApplication
 	}
 
 
+	readonly Dictionary<Entry, string> Entries = new Dictionary<Entry, string>()
+	{
+	    { Entry.WebsiteControlUrl, "website-control-url" },
+	    { Entry.InsertionDatabase, "insertion-database" },
+	    { Entry.FilezillaLocation, "filezilla-location" },
+	    { Entry.DownloadsTable, "downloads-table" },
+	    { Entry.SqlUsername, "sql-username" },
+	    { Entry.SqlPassword, "sql-password" },
+	    { Entry.BlogTable, "blog-table" },
+	    { Entry.SqlHost, "sql-host" },
+	    { Entry.SqlPort, "sql-port" },
+	};
+
+	public enum Entry
+	{
+	    FilezillaLocation = 8, WebsiteControlUrl = 7, InsertionDatabase = 4,
+	    DownloadsTable = 5, SqlUsername = 2, SqlPassword = 3, BlogTable = 6,
+	    SqlPort = 1, SqlHost = 0,
+	};
+
+
 	readonly List<string> Settings = new List<string>();
 
 	public void ReadConfig()
 	{
 	    try
 	    {
-		List<string> entries = File.ReadAllLines("config.txt").ToList();
+		var entries = File.ReadAllLines("config.txt").ToList();
 
 		if (entries.Count != configFormat.Length)
 		{
@@ -80,8 +77,22 @@ namespace DashApplication
 		    return;
 		}
 
+		for (int k = 0; k < Entries.Count; k += 1)
+		{
+		    for (int s = 0; s < entries.Count; k += 1)
+		    {
+			string[] arr = entries[s].Split('=');
+
+			if (!Entries.ContainsValue(arr[0]) || arr.Length < 1)
+			{
+			    // Error cuz entries does not contain entry we have here.
+			    return;
+			}
+		    }
+		}
+
 		//--(1)
-		// Check if every entry exists.
+		// Check if every entry exists. [Done!]
 		//
 		//--(2)
 		// Check each entry, use a universal parser for validation of 
