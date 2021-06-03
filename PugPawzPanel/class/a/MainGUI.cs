@@ -57,7 +57,7 @@ namespace DashApplication
 	{
 	    try
 	    {
-		int MainFrameHeight = App.Height - App.values.Height() - ContA1.Height; // Recode MenuBar patterns and add methods for obtainable values.
+		int MainFrameHeight = App.Height - App.values.Height() - ContA1.Height;
 		int MainFrameWidth = App.Width - 4;
 
 		var Cont1Size = new Size(MainFrameWidth, MainFrameHeight);
