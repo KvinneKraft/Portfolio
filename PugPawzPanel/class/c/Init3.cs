@@ -17,9 +17,9 @@ namespace DashApplication
     {
 	public enum Entry
 	{
-	    FilezillaLocation = 0, WebsiteControlUrl, InsertionDatabase,
-	    DownloadsTable, SqlUsername, SqlPassword, BlogTable, SqlHost,
-	    SqlPort,
+	    FilezillaLocation=8, WebsiteControlUrl=7, InsertionDatabase=4,
+	    DownloadsTable=5, SqlUsername=2, SqlPassword=3, BlogTable=6,
+	    SqlPort=1, SqlHost = 0,
 	};
 
 	readonly Dictionary<Entry, string> Entries = new Dictionary<Entry, string>()
@@ -34,31 +34,64 @@ namespace DashApplication
 	    { Entry.SqlHost, "sql-host=" },
 	    { Entry.SqlPort, "sql-port=" },
 	};
-
-	readonly string[] defaultSettingsFormat = new string[]
-	{
-	    @"sql-host=1.1.1.1",
-	    @"sql-port=1433",
-	    @"sql-username=sqluser",
-	    @"sql-password=sqlpassword",
-	    @"insertion-database=mydatabase",
-	    @"downloads-table=downloads",
-	    @"blog-table=blog",
-	    @"filezilla-location=C:\Program Files\FileZilla FTP Client\filezilla.exe",
-	    @"website-control-url=https://mywebsite.com:2021",
-	};
     }
     
 
-    public class Init3 : Init3Constants
+    public class Init3
     {
-	readonly List<string> Settings = new List<string>();
+	private readonly string[] configFormat = new string[]
+	{
+	    @"sql-host=1.1.1.1", @"sql-port=1433", @"sql-username=sqluser",  @"sql-password=sqlpassword",
+	    @"insertion-database=mydatabase", @"downloads-table=downloads", @"blog-table=blog",  @"website-control-url=https://mywebsite.com:2021",
+	    @"filezilla-location=C:\Program Files\FileZilla FTP Client\filezilla.exe",
+	};
 
 	public void CreateDefaultConfigFile()
 	{
 	    try
 	    {
+		if (!File.Exists("config.txt"))
+		{
+		    using (File.Create("config.txt"))
+		    {
+			File.WriteAllLines("config.txt", configFormat);
+		    }
+		}
+	    }
 
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
+	readonly List<string> Settings = new List<string>();
+
+	public void ReadConfig()
+	{
+	    try
+	    {
+		List<string> entries = File.ReadAllLines("config.txt").ToList();
+
+		if (entries.Count != configFormat.Length)
+		{
+		    // Come up with a way to handle these errors.
+		    return;
+		}
+
+		//--(1)
+		// Check if every entry exists.
+		//
+		//--(2)
+		// Check each entry, use a universal parser for validation of 
+		//  datatypes and what not.  getValue(Type type, string Data) 
+		//  returns object as object.
+		//
+		//--(3)
+		// Make sure you can loop through the list and do it all automatically
+		//  in an efficient type of way.
+		//
 	    }
 
 	    catch (Exception E)
@@ -82,7 +115,6 @@ namespace DashApplication
 		    
 		    () => 
 		    {
-			MessageBox.Show("Test");
 			//Load Configuration
 			//Set values to temp variables
 			//Update main values with temp variables every 500ms
