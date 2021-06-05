@@ -21,7 +21,7 @@ namespace GateHey
 {
     public partial class MainGUI
     {
-	public void Initiator(DashWindow inst)
+	public void Initiator(DashWindow inst )
 	{
 	    try
 	    {
