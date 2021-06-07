@@ -31,7 +31,7 @@ using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-using GateHey.resources;
+using CustomScrollbar.resources;
 
 namespace DashFramework
 {
@@ -294,6 +294,189 @@ namespace DashFramework
     {
 	namespace Controls
 	{
+	    public class DashPanel : Panel
+	    {
+		public void AddChild(Control control)
+		{
+		    try
+		    {
+			Controls.Add(control);
+		    } 
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+	    }
+
+
+	    public class CustomScrollBar
+	    {
+		public class Properties
+		{
+		    public Control.ControlCollection Children;
+		    public Control ContentContainer;
+		    public Control Parent;
+
+		    public Control.ControlCollection GetCollection()
+		    {
+			return Children;
+		    }
+
+		    public Control GetContentContainer()
+		    {
+			return ContentContainer;
+		    }
+
+		    public Control GetParent()
+		    {
+			return Parent;
+		    }
+
+		    public bool HasBeenSetup()
+		    {
+			return (Parent != null && Children != null && ContentContainer != null);
+		    }
+		}
+
+
+		public readonly Properties properties = new Properties();
+
+
+		public bool ScrollingDown(MouseEventArgs e)
+		{
+		    return (e.Delta < 1);
+		}
+
+
+		public void RegMouseEventHandler()
+		{
+		    try
+		    {
+			if (!properties.HasBeenSetup())
+			{
+			    return;
+			}
+
+			foreach (Control control in properties.Children)
+			{
+			    control.MouseWheel += (s, e) =>
+			    {
+				int ConConAddY = (properties.ContentContainer.Height) / scrollbarBlock.Height;
+				int BlockAddY = (properties.ContentContainer.Height + scrollbarBlock.Height) / scrollbarBlock.Height;
+
+				if (ScrollingDown(e))
+				{
+				    int Limit = (scrollbarContainer.Height - scrollbarBlock.Height - 5);
+
+				    if (scrollbarBlock.Top < Limit)
+				    {
+					properties.ContentContainer.Top -= ConConAddY;
+					scrollbarBlock.Top += BlockAddY;
+				    }
+				}
+
+				else
+				{
+				    int Limit = 5;
+
+				    if (scrollbarBlock.Top > Limit)
+				    {
+					properties.ContentContainer.Top += ConConAddY;
+					scrollbarBlock.Top -= BlockAddY;
+				    }
+				}
+			    };
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void SetCollection(Control parent)
+		{
+		    try
+		    {
+			properties.Children = parent.Controls;
+
+			void AddToCollection(Control This)
+			{
+			    properties.Children.Add(This);
+			}
+
+			foreach (Control a in parent.Controls)
+			{
+			    foreach (Control b in a.Controls)
+			    {
+				foreach (Control c in b.Controls)
+				{
+				    foreach (Control d in c.Controls)
+				    {
+					AddToCollection(d);
+				    }
+
+				    AddToCollection(c);
+				}
+
+				AddToCollection(b);
+			    }
+
+			    AddToCollection(a);
+			}
+
+			RegMouseEventHandler();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		readonly PictureBox scrollbarContainer = new PictureBox();
+		readonly PictureBox scrollbarBlock = new PictureBox();
+
+		readonly DashControls Controls = new DashControls();
+		readonly DashTools Tools = new DashTools();
+
+		public void ScrollbarSet(Control parent, Control contentContainer, Size scrollbarContainerSize, Point scrollbarContainerLoca, Color scrollbarContainerBCol, Color scrollbarBlockBCol)
+		{
+		    try
+		    {
+			properties.ContentContainer = contentContainer;
+			properties.Parent = parent;
+
+			if (!parent.Controls.Contains(scrollbarBlock) && !parent.Controls.Contains(scrollbarContainer))
+			{
+			    var ScrollbarConSize = scrollbarContainerSize;
+			    var ScrollbarConLoca = scrollbarContainerLoca;
+			    var ScrollbarConBCol = scrollbarContainerBCol;
+
+			    var ScrollbarBarSize = new Size(ScrollbarConSize.Width - 10, 125);
+			    var ScrollbarBarLoca = new Point(5, 5);
+			    var ScrollbarBarBCol = scrollbarBlockBCol;
+
+			    Controls.Image(scrollbarContainer, scrollbarBlock, ScrollbarBarSize, ScrollbarBarLoca, ScrollbarBarBCol);
+			    Controls.Image(parent, scrollbarContainer, ScrollbarConSize, ScrollbarConLoca, ScrollbarConBCol);
+
+			    SetCollection(parent);
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		}
+	    }
+
+
 	    public class ControlHelper
 	    {
 		private readonly DashControls Control = new DashControls();
@@ -395,75 +578,7 @@ namespace DashFramework
 	    public class DashControls
 	    {
 		private readonly DashTools Tool = new DashTools();
-
-		public void SetUrl(Control Object, string Destination)
-		{
-		    try
-		    {
-			Object.Click += (s, e) =>
-			{
-			    using (var Process = new Process())
-			    {
-				Process.StartInfo = new ProcessStartInfo()
-				{
-				    FileName = Destination,
-				    UseShellExecute = true,
-				};
-
-				Process.Start();
-			    }
-			};
-		    }
-
-		    catch (Exception E)
-		    {
-			throw (ErrorHandler.GetException(E));
-		    }
-		}
-
-
-		public delegate void Holder();
-
-		public void registerEvent(Control For, Holder This)
-		{
-		    try
-		    {
-			For.Click += (s, e) =>
-			{
-			    try
-			    {
-				This();
-			    }
-
-			    catch (Exception E)
-			    {
-				throw (ErrorHandler.GetException(E));
-			    }
-			};
-		    }
-
-		    catch (Exception E)
-		    {
-			throw (ErrorHandler.GetException(E));
-		    }
-		}
-
-
-		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
-		{
-		    if (ObjectLocation.X == -2)
-		    {
-			ObjectLocation.X = (Top.Width - Object.Width) / 2;
-		    }
-
-		    if (ObjectLocation.Y == -2)
-		    {
-			ObjectLocation.Y = (Top.Height - Object.Height) / 2;
-		    }
-
-		    return ObjectLocation;
-		}
-
+		
 		public void CheckBox(Control Top, PictureBox Container1, PictureBox Container2, Size Size, Point Loca, Color DeselectedBCol, [Optional] Color SelectedBCol, [Optional] bool Select)
 		{//fukin recode this, you lazy fyck.
 		    try
@@ -494,11 +609,8 @@ namespace DashFramework
 			    Container2.BackColor = Col;
 			};
 
-			Container1.Click += (s, e) =>
-			    UpdateColor();
-
-			Container2.Click += (s, e) =>
-			    UpdateColor();
+			Tool.RegisterClickEvent(Container1, UpdateColor);
+			Tool.RegisterClickEvent(Container2, UpdateColor);
 		    }
 
 		    catch (Exception E)
@@ -507,19 +619,18 @@ namespace DashFramework
 		    }
 		}
 
+
 		public void RichTextBox(Control Top, RichTextBox Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, bool ReadOnly = false, bool MultiLine = false, bool ScrollBar = false, bool TabStop = false)
 		{
 		    try
 		    {
 			Tool.Resize(Object, ObjectSize);
 
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Font = Tool.GetFont(FontTypeID, FontSize);
+			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = ObjectBCol;
 			Object.ForeColor = ObjectFCol;
-
-			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
-			Object.Font = Tool.GetFont(FontTypeID, FontSize);
-
-			Object.BorderStyle = BorderStyle.None;
 
 			if (ScrollBar)
 			{
@@ -548,14 +659,11 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
-
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.BorderStyle = BorderStyle.None;
+			Object.Multiline = Multiline;
 			Object.BackColor = ObjectBCol;
 			Object.ForeColor = ObjectFCol;
-
-			Object.BorderStyle = BorderStyle.None;
-
-			Object.Multiline = Multiline;
 			Object.ReadOnly = ReadOnly;
 			Object.TabStop = TabStop;
 
@@ -565,11 +673,9 @@ namespace DashFramework
 
 			    Tool.Resize(TextBoxContainer, ObjectSize);
 
-			    TextBoxContainer.Location = ObjectLocation;
 			    TextBoxContainer.Font = Tool.GetFont(FontTypeID, FontSize);
-
 			    TextBoxContainer.BorderStyle = BorderStyle.None;
-
+			    TextBoxContainer.Location = ObjectLocation;
 			    TextBoxContainer.BackColor = ObjectBCol;
 			    TextBoxContainer.ForeColor = ObjectFCol;
 
@@ -618,19 +724,15 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
-
-			Object.BackColor = ObjectBCol;
-			Object.ForeColor = ObjectFCol;
-
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
 			Object.Font = Tool.GetFont(FontTypeID, FontSize);
-			Object.Text = ButtonText;
-
 			Object.FlatAppearance.BorderColor = ObjectBCol;
 			Object.FlatAppearance.BorderSize = 0;
-
 			Object.FlatStyle = FlatStyle.Flat;
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
 			Object.TabStop = TabStop;
+			Object.Text = ButtonText;
 
 			Top.Controls.Add(Object);
 		    }
@@ -653,18 +755,14 @@ namespace DashFramework
 
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
-
-			Object.BackColor = ObjectBCol;
-			Object.ForeColor = ObjectFCol;
-
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
 			Object.Font = Tool.GetFont(FontTypeID, FontSize);
-			Object.Text = LabelText;
-
 			Object.BorderStyle = BorderStyle.None;
 			Object.FlatStyle = FlatStyle.Flat;
-
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
 			Object.TabStop = TabStop;
+			Object.Text = LabelText;
 
 			Top.Controls.Add(Object);
 		    }
@@ -692,13 +790,40 @@ namespace DashFramework
 
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = CalculateCenter(Top, Object, ObjectLocation);
-
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = BackColor;
+			Object.Image = ObjectImage;
 			Object.TabStop = TabStop;
 
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void Panel(Control Top, DashPanel Object, Size ObjectSize, Point ObjectLoca, Color ObjectBCol, Control.ControlCollection ChildObjects = null, string ObjectId = "A panel!")
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
 			Object.BorderStyle = BorderStyle.None;
-			Object.Image = ObjectImage;
+			Object.BackColor = ObjectBCol;
+			Object.Name = ObjectId;
+
+			if (ChildObjects != null)
+			{
+			    foreach (Control control in ChildObjects)
+			    {
+				Object.AddChild(control);
+			    }
+			}
 
 			Top.Controls.Add(Object);
 		    }
@@ -716,6 +841,89 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public void SetUrl(Control Object, string Destination)
+		{
+		    try
+		    {
+			Object.Click += (s, e) =>
+			{
+			    using (var Process = new Process())
+			    {
+				Process.StartInfo = new ProcessStartInfo()
+				{
+				    FileName = Destination,
+				    UseShellExecute = true,
+				};
+
+				Process.Start();
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void SetDock(Control For, DockStyle DockStyle)
+		{
+		    try
+		    {
+			For.Dock = DockStyle;
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public delegate void Holder();
+
+		public void RegisterClickEvent(Control For, Holder This)
+		{
+		    try
+		    {
+			For.Click += (s, e) =>
+			{
+			    try
+			    {
+				This();
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
+		{
+		    if (ObjectLocation.X == -2)
+		    {
+			ObjectLocation.X = (Top.Width - Object.Width) / 2;
+		    }
+
+		    if (ObjectLocation.Y == -2)
+		    {
+			ObjectLocation.Y = (Top.Height - Object.Height) / 2;
+		    }
+
+		    return ObjectLocation;
+		}
+
+
 		public void AlignContainerTextBoxes(Control container, HorizontalAlignment alignment)
 		{
 		    try
@@ -968,18 +1176,18 @@ namespace DashFramework
 	    public static string ErrorFormat = string.Format
 	    (
 		"----------------------\r\n" +
-		"{1}\r\n" +
+		"[A]\r\n" +
 		"----------------------\r\n" +
-		"{2}\r\n" +
+		"[B]\r\n" +
 		"----------------------\r\n" +
-		"{3}\r\n"
+		"[C]\r\n"
 	    );
 
 	    public static string GetRawFormat(Exception E)
 	    {
-		return ErrorFormat.Replace("{1}", $"{E.StackTrace}")
-		    .Replace("{2}", $"{E.Message}")
-		    .Replace("{3}", $"{E.Source}");
+		return ErrorFormat.Replace("[A]", $"{E.StackTrace}")
+		    .Replace("[B]", $"{E.Message}")
+		    .Replace("[C]", $"{E.Source}");
 	    }
 
 
