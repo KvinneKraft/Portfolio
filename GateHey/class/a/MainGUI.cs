@@ -29,6 +29,10 @@ namespace GateHey
 	readonly DashPanel Panel1 = new DashPanel();
 	readonly DashPanel Panel2 = new DashPanel();
 
+	readonly Button Bttn1 = new Button();
+	readonly Button Bttn2 = new Button();
+	readonly Button Bttn3 = new Button();
+
 	public void Initiate(DashWindow Parent)
 	{
 	    try
@@ -37,12 +41,43 @@ namespace GateHey
 		var Panel1Loca = new Point(0, Parent.Height - 30);
 		var Panel1BCol = Parent.values.getBarColor();
 
-		var Panel2Size = new Size(255, 20);
+		var Panel2Size = new Size(320, 20);
 		var Panel2Loca = new Point(-2, -2);
-		var Panel2BCol = Color.White; //Panel1BCol;
+		var Panel2BCol = Panel1BCol;
 
 		Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 		Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+
+		void AddButton(Button Bttn, Point Loca, string Text)
+		{
+		    var Size = new Size(100, 20);
+		    var BCol = Color.FromArgb(22, 29, 36);
+		    var FCol = Color.White;
+
+		    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
+
+		    Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
+
+		    Bttn.MouseEnter += (s, e) =>
+		    {
+			Bttn.BackColor = Color.FromArgb(31, 41, 51);
+		    };
+
+		    Bttn.MouseLeave += (s, e) =>
+		    {
+			Bttn.BackColor = BCol;
+		    };
+
+		    Tools.Round(Bttn, 6);
+		}
+
+		var Loca1 = new Point(0, 0);
+		var Loca2 = new Point(110, 0);
+		var Loca3 = new Point(220, 0);
+
+		AddButton(Bttn1, Loca1, ("Start Scanning"));
+		AddButton(Bttn2, Loca2, ("Validate Settings"));
+		AddButton(Bttn3, Loca3, ("The T.O.S"));
 	    }
 
 	    catch (Exception E)
@@ -55,6 +90,10 @@ namespace GateHey
 
     public class Initiator2
     {
+	readonly DashControls Controls = new DashControls();
+	readonly DashTools Tools = new DashTools();
+
+
 	readonly DashPanel Panel1 = new DashPanel(); // Outter Capsule (Host Settings Label + Settings Container)
 	readonly DashPanel Panel2 = new DashPanel(); // Inner Capsule 1 (Capsule for Inner Capsule 2 for border)
 	readonly DashPanel Panel3 = new DashPanel(); // Inner Capsule 2 (Main Capsule for all settings)
@@ -63,7 +102,7 @@ namespace GateHey
 	{
 	    try
 	    {
-		// Middle part, host settings etc
+		var TitleSize = 
 	    }
 
 	    catch (Exception E)
