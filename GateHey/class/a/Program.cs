@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+using DashFramework.Interface.Tools;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -19,9 +20,9 @@ namespace GateHey
 	    {
 		using (DashWindow dashWindow = new DashWindow())
 		{
-		    Size AppSize = new Size(400, 400);
+		    Size AppSize = new Size(400, 300);
 
-		    string AppTitle = ("GateHey");
+		    string AppTitle = ("GateHey - The UI Port Scanner by Dashie");
 
 		    Color AppMCol = Color.FromArgb(28, 37, 46);
 		    Color AppBCol = Color.FromArgb(37, 48, 63);
@@ -33,6 +34,9 @@ namespace GateHey
 
 		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
 		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
+
+		    DashTools tool = new DashTools();
+		    tool.Round(dashWindow, 6);
 
 		    Application.Run(dashWindow);
 		}
