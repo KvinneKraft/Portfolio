@@ -31,7 +31,7 @@ using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
-using CustomScrollbar.resources;
+using GateHey.resources;
 
 namespace DashFramework
 {
