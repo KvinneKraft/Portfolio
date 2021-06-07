@@ -1,15 +1,14 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿// Author: Dashie
+// Version: 1.0
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("PugPawz_Helper_Panel")]
-[assembly: AssemblyDescription("PugPawz_Helper_Panel")]
+[assembly: AssemblyTitle("GateHey")]
+[assembly: AssemblyDescription("GateHey")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Dashies Softwaries")]
-[assembly: AssemblyProduct("PugPawz_Helper_Panel")]
+[assembly: AssemblyProduct("GateHey")]
 [assembly: AssemblyCopyright("Copyright © KvinneKraft 2021")]
 [assembly: AssemblyTrademark("Dashies Softwaries")]
 [assembly: AssemblyCulture("")]
