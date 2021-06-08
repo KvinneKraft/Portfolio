@@ -20,9 +20,9 @@ namespace GateHey
 	    {
 		using (DashWindow dashWindow = new DashWindow())
 		{
-		    Size AppSize = new Size(400, 300);
+		    Size AppSize = new Size(400, 235);
 
-		    string AppTitle = ("GateHey - The UI Port Scanner by Dashie");
+		    string AppTitle = ("GateHey - Clairvoyant UI Port Scanner");
 
 		    Color AppMCol = Color.FromArgb(28, 37, 46);
 		    Color AppBCol = Color.FromArgb(37, 48, 63);
