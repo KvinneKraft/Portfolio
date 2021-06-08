@@ -841,6 +841,12 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public Size SubstractSize(int Amount, Size Size)
+		{
+		    return new Size(Size.Width - Amount, Size.Height - Amount);
+		}
+
+
 		public void SetUrl(Control Object, string Destination)
 		{
 		    try
