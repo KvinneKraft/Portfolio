@@ -77,7 +77,7 @@ namespace GateHey
 
 		AddButton(Bttn1, Loca1, ("Start Scanning"));
 		AddButton(Bttn2, Loca2, ("Validate Settings"));
-		AddButton(Bttn3, Loca3, ("The T.O.S"));
+		AddButton(Bttn3, Loca3, ("Service Policy"));
 	    }
 
 	    catch (Exception E)
@@ -98,11 +98,36 @@ namespace GateHey
 	readonly DashPanel Panel2 = new DashPanel(); // Inner Capsule 1 (Capsule for Inner Capsule 2 for border)
 	readonly DashPanel Panel3 = new DashPanel(); // Inner Capsule 2 (Main Capsule for all settings)
 
+	readonly Label Label1 = new Label();
+
 	public void Initiate(DashWindow Parent)
 	{
 	    try
 	    {
-		var TitleSize = 
+		var Panel1Size = new Size(Parent.Width - 40, 143);
+		var Panel1Loca = new Point(-2, -2);
+		var Panel1BCol = Parent.BackColor;
+
+		Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+
+		var TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
+		var TitleLoca = new Point(0, 0);
+		var TitleBCol = Parent.BackColor;
+		var TitleFCol = Color.White;
+
+		Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, 1, 14, ("Host Settings"));
+		
+		var Panel2Size = new Size(Panel1Size.Width, 110);
+		var Panel2Loca = new Point(0, 33);
+		var Panel2BCol = Parent.values.getBarColor();
+
+		var Panel3Size = Tools.SubstractSize(Panel2Size, 10);
+
+		Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+		Controls.Panel();
+
+		Tools.Round(Panel2, 6);
+		Tools.Round(Panel3, 6);
 	    }
 
 	    catch (Exception E)
