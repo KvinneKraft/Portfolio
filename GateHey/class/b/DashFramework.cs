@@ -555,7 +555,7 @@ namespace DashFramework
 		}
 
 
-		public Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 10)
+		public Point ControlX(Size Size, Point Loca, int Y = -1, int Extra = 0)
 		{
 		    try
 		    {
