@@ -167,29 +167,38 @@ namespace GateHey
 
 		    Controls.Button(Panel3, Bttn1, BttnSize, BttnLoca, BttnBCol, BttnFCol, 1, 9, ("Port Selector"));
 
-		    Size Lbl4Size = GetFontSize("Timeout:");
-		    Point Lbl4Loca = ConHelp.ControlX(BttnSize, BttnLoca, Y1, 10);
+		    Size Lbl1Size = GetFontSize("Timeout:");
+		    Point Lbl1Loca = ConHelp.ControlX(BttnSize, BttnLoca, Y1, 10);
 
-		    Size Txt2Size = new Size(55, 21);
-		    Point Txt2Loca = ConHelp.ControlX(Lbl4Size, Lbl4Loca, Y1 - 2);
+		    Size Txt1Size = new Size(55, 21);
+		    Point Txt1Loca = ConHelp.ControlX(Lbl1Size, Lbl1Loca, Y1 - 2);
 
-		    Size Lbl5Size = GetFontSize("Threads:");
-		    Point Lbl5Loca = ConHelp.ControlX(Txt2Size, Txt2Loca, Y1, 10);
+		    Size Lbl2Size = GetFontSize("Threads:");
+		    Point Lbl2Loca = ConHelp.ControlX(Txt1Size, Txt1Loca, Y1, 10);
 
-		    Size Txt3Size = ConHelp.TextBoxSize(Lbl5Size, Lbl5Loca);
-		    Point Txt3Loca = ConHelp.ControlX(Lbl5Size, Lbl5Loca, Y1 - 2);
+		    Size Txt2Size = ConHelp.TextBoxSize(Lbl2Size, Lbl2Loca);
+		    Point Txt2Loca = ConHelp.ControlX(Lbl2Size, Lbl2Loca, Y1 - 2);
 
-		    ConHelp.AddTextBox(TxtBox2, Txt2Size, Txt2Loca, ("5000"));
-		    ConHelp.AddTextBox(TxtBox3, Txt3Size, Txt3Loca, ("16"));
+		    ConHelp.AddTextBox(TxtBox2, Txt1Size, Txt1Loca, ("5000"));
+		    ConHelp.AddTextBox(TxtBox3, Txt2Size, Txt2Loca, ("16"));
 
-		    ConHelp.AddLabel(Label5, Lbl4Size, Lbl4Loca, ("Timeout:"));
-		    ConHelp.AddLabel(Label6, Lbl5Size, Lbl5Loca, ("Threads:"));
+		    ConHelp.AddLabel(Label5, Lbl1Size, Lbl1Loca, ("Timeout:"));
+		    ConHelp.AddLabel(Label6, Lbl2Size, Lbl2Loca, ("Threads:"));
 
-		    Y1 = (Txt3Size.Height + Txt3Loca.Y) + 10;
+		    Y1 = (Txt2Size.Height + Txt2Loca.Y) + 10;
 		});
 
-		//Bottom Section:
+		Tools.SortCode(("Bottom Section"), () =>
+		{
+		    Size LblSize = GetFontSize("Packet Data:");
+		    Point LblLoca = new Point(0, Y1 - 2);
 
+		    Size TxtSize = ConHelp.TextBoxSize(LblSize, LblLoca);
+		    Point TxtLoca = ConHelp.ControlX(LblSize, LblLoca, Y1);
+
+		    ConHelp.AddTextBox(TxtBox4, TxtSize, TxtLoca, ("Caterpillars flying through the sky with fluffy horns."));
+		    ConHelp.AddLabel(Label7, LblSize, LblLoca, ("Packet Data:"));
+		});
 	    }
 
 	    catch (Exception E)
