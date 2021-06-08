@@ -94,6 +94,52 @@ namespace GateHey
 	readonly DashTools Tools = new DashTools();
 
 
+	readonly TextBox TxtBox1 = new TextBox();//Host
+	readonly TextBox TxtBox2 = new TextBox();//Timneout
+	readonly TextBox TxtBox3 = new TextBox();//Threads
+	readonly TextBox TxtBox4 = new TextBox();//Packet Data
+
+	readonly Button Bttn1 = new Button();//Ports Dialog
+
+	readonly Label Label2 = new Label();//Host
+	readonly Label Label3 = new Label();//Protocol
+	readonly Label Label4 = new Label();//Protocol Hover Box
+	readonly Label Label5 = new Label();//Timeout
+	readonly Label Label6 = new Label();//Threads
+	readonly Label Label7 = new Label();//Packet Data
+
+	void AddComponents(DashWindow Parent)
+	{
+	    try
+	    {
+		ControlHelper ConHelp = new ControlHelper();
+
+		ConHelp.TextBoxBCol = Parent.BackColor;
+		ConHelp.TextBoxFCol = Color.White;
+		ConHelp.TextBoxParent = Panel3;
+		ConHelp.LabelBCol = Panel3.BackColor;
+		ConHelp.LabelFCol = Color.White;
+		ConHelp.LabelParent = Panel3;
+
+		Size GetFontSize(string text, int size) => Tools.GetFontSize(text, size);
+
+		var Lbl1Size = GetFontSize("Host:", 10);
+		var Lbl1Loca = new Point(0, 2);
+
+		var Txt1Size = new Size(150, 21);
+		var Txt1Loca = ConHelp.ControlX(Lbl1Size, Lbl1Loca, 0);
+
+		ConHelp.AddTextBox(TxtBox1, Txt1Size, Txt1Loca, ("https://www.google.co.uk"));
+		ConHelp.AddLabel(Label2, Lbl1Size, Lbl1Loca, ("Host:"));
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	readonly DashPanel Panel1 = new DashPanel(); // Outter Capsule (Host Settings Label + Settings Container)
 	readonly DashPanel Panel2 = new DashPanel(); // Inner Capsule 1 (Capsule for Inner Capsule 2 for border)
 	readonly DashPanel Panel3 = new DashPanel(); // Inner Capsule 2 (Main Capsule for all settings)
@@ -121,13 +167,17 @@ namespace GateHey
 		var Panel2Loca = new Point(0, 33);
 		var Panel2BCol = Parent.values.getBarColor();
 
-		var Panel3Size = Tools.SubstractSize(Panel2Size, 10);
+		var Panel3Size = Tools.SubstractSize(20, Panel2Size);
+		var Panel3Loca = new Point(10, 10);
+		var Panel3BCol = Panel2BCol;
 
 		Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
-		Controls.Panel();
+		Controls.Panel(Panel2, Panel3, Panel3Size, Panel3Loca, Panel3BCol);
 
 		Tools.Round(Panel2, 6);
 		Tools.Round(Panel3, 6);
+
+		AddComponents(Parent);
 	    }
 
 	    catch (Exception E)
