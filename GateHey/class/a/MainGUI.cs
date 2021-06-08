@@ -121,16 +121,75 @@ namespace GateHey
 		ConHelp.LabelFCol = Color.White;
 		ConHelp.LabelParent = Panel3;
 
-		Size GetFontSize(string text, int size) => Tools.GetFontSize(text, size);
+		Size GetFontSize(string text, int size = 10) => Tools.GetFontSize(text, size);
 
-		var Lbl1Size = GetFontSize("Host:", 10);
-		var Lbl1Loca = new Point(0, 2);
+		int Y1 = 0;
 
-		var Txt1Size = new Size(150, 21);
-		var Txt1Loca = ConHelp.ControlX(Lbl1Size, Lbl1Loca, 0);
+		Tools.SortCode(("Top Section"), () =>
+		{
+		    Size Lbl1Size = GetFontSize("Host:");
+		    Point Lbl1Loca = new Point(0, 2);
 
-		ConHelp.AddTextBox(TxtBox1, Txt1Size, Txt1Loca, ("https://www.google.co.uk"));
-		ConHelp.AddLabel(Label2, Lbl1Size, Lbl1Loca, ("Host:"));
+		    Size Txt1Size = new Size(150, 21);
+		    Point Txt1Loca = ConHelp.ControlX(Lbl1Size, Lbl1Loca, 0);
+
+		    ConHelp.AddTextBox(TxtBox1, Txt1Size, Txt1Loca, ("https://www.google.co.uk"));
+
+		    Size Lbl2Size = GetFontSize("Protocol:");
+		    Point Lbl2Loca = ConHelp.ControlX(Txt1Size, Txt1Loca, 2, 10);
+
+		    Size Lbl3Size = ConHelp.TextBoxSize(Lbl2Size, Lbl2Loca, 18);
+		    Point Lbl3Loca = ConHelp.ControlX(Lbl2Size, Lbl2Loca, 2);
+
+		    ConHelp.AddLabel(Label4, Lbl3Size, Lbl3Loca, ("---[TCP]---"), 8);
+		    ConHelp.AddLabel(Label3, Lbl2Size, Lbl2Loca, ("Protocol:"));
+		    ConHelp.AddLabel(Label2, Lbl1Size, Lbl1Loca, ("Host:"));
+
+		    Label4.TextAlign = ContentAlignment.MiddleCenter;
+		    Label4.BackColor = Color.FromArgb(22, 29, 36);
+
+		    Y1 = (Txt1Size.Height + Txt1Loca.Y) + 10;
+
+		    //Separate method for adding dropdown menu
+		});
+
+		Tools.SortCode(("Middle Section"), () =>
+		{
+		    Size BttnSize = new Size(100, 20);
+		    Point BttnLoca = new Point(0, Y1 - 2);
+		    Color BttnBCol = Label4.BackColor;
+		    Color BttnFCol = Color.White;
+
+		    Bttn1.FlatAppearance.MouseDownBackColor = Parent.values.getBarColor();
+
+		    Bttn1.MouseEnter += (s, e) => Bttn1.BackColor = Color.FromArgb(31, 41, 51);
+		    Bttn1.MouseLeave += (s, e) => Bttn1.BackColor = BttnBCol;
+
+		    Controls.Button(Panel3, Bttn1, BttnSize, BttnLoca, BttnBCol, BttnFCol, 1, 9, ("Port Selector"));
+
+		    Size Lbl4Size = GetFontSize("Timeout:");
+		    Point Lbl4Loca = ConHelp.ControlX(BttnSize, BttnLoca, Y1, 10);
+
+		    Size Txt2Size = new Size(55, 21);
+		    Point Txt2Loca = ConHelp.ControlX(Lbl4Size, Lbl4Loca, Y1 - 2);
+
+		    Size Lbl5Size = GetFontSize("Threads:");
+		    Point Lbl5Loca = ConHelp.ControlX(Txt2Size, Txt2Loca, Y1, 10);
+
+		    Size Txt3Size = ConHelp.TextBoxSize(Lbl5Size, Lbl5Loca);
+		    Point Txt3Loca = ConHelp.ControlX(Lbl5Size, Lbl5Loca, Y1 - 2);
+
+		    ConHelp.AddTextBox(TxtBox2, Txt2Size, Txt2Loca, ("5000"));
+		    ConHelp.AddTextBox(TxtBox3, Txt3Size, Txt3Loca, ("16"));
+
+		    ConHelp.AddLabel(Label5, Lbl4Size, Lbl4Loca, ("Timeout:"));
+		    ConHelp.AddLabel(Label6, Lbl5Size, Lbl5Loca, ("Threads:"));
+
+		    Y1 = (Txt3Size.Height + Txt3Loca.Y) + 10;
+		});
+
+		//Bottom Section:
+
 	    }
 
 	    catch (Exception E)
@@ -150,33 +209,31 @@ namespace GateHey
 	{
 	    try
 	    {
-		var Panel1Size = new Size(Parent.Width - 40, 143);
-		var Panel1Loca = new Point(-2, -2);
-		var Panel1BCol = Parent.BackColor;
+		Size Panel1Size = new Size(Parent.Width - 40, 143);
+		Point Panel1Loca = new Point(-2, -2);
+		Color Panel1BCol = Parent.BackColor;
 
 		Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 
-		var TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
-		var TitleLoca = new Point(0, 0);
-		var TitleBCol = Parent.BackColor;
-		var TitleFCol = Color.White;
+		Size TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
+		Point TitleLoca = new Point(0, 0);
+		Color TitleBCol = Parent.BackColor;
+		Color TitleFCol = Color.White;
 
 		Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, 1, 14, ("Host Settings"));
 		
-		var Panel2Size = new Size(Panel1Size.Width, 110);
-		var Panel2Loca = new Point(0, 33);
-		var Panel2BCol = Parent.values.getBarColor();
+		Size Panel2Size = new Size(Panel1Size.Width, 110);
+		Point Panel2Loca = new Point(0, 33);
+		Color Panel2BCol = Parent.values.getBarColor();
 
-		var Panel3Size = Tools.SubstractSize(20, Panel2Size);
-		var Panel3Loca = new Point(10, 10);
-		var Panel3BCol = Panel2BCol;
+		Size Panel3Size = Tools.SubstractSize(20, Panel2Size);
+		Point Panel3Loca = new Point(10, 10);
+		Color Panel3BCol = Panel2BCol;
 
 		Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 		Controls.Panel(Panel2, Panel3, Panel3Size, Panel3Loca, Panel3BCol);
 
 		Tools.Round(Panel2, 6);
-		Tools.Round(Panel3, 6);
-
 		AddComponents(Parent);
 	    }
 
