@@ -504,7 +504,7 @@ namespace DashFramework
 		}
 
 
-		public Size TextBoxSize(Size Size, Point Loca, int Height = 20)
+		public Size TextBoxSize(Size Size, Point Loca, int Height = 21)
 		{
 		    try
 		    {
@@ -578,7 +578,8 @@ namespace DashFramework
 	    public class DashControls
 	    {
 		private readonly DashTools Tool = new DashTools();
-		
+
+
 		public void CheckBox(Control Top, PictureBox Container1, PictureBox Container2, Size Size, Point Loca, Color DeselectedBCol, [Optional] Color SelectedBCol, [Optional] bool Select)
 		{//fukin recode this, you lazy fyck.
 		    try
@@ -841,6 +842,22 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public delegate void SorterRun();
+
+		public void SortCode(string Tag, SorterRun runThis)
+		{
+		    try
+		    {
+			runThis();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
 		public Size SubstractSize(int Amount, Size Size)
 		{
 		    return new Size(Size.Width - Amount, Size.Height - Amount);
