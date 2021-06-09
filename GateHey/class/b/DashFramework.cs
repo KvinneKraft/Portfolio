@@ -842,6 +842,20 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public IEnumerable<Control> GetTypes(Control from, params Type[] types)
+		{
+		    List<Type> typeList = types.ToList();
+
+		    foreach (Control con in from.Controls)
+		    {
+			if (typeList.Contains(con.GetType()))
+			{
+			    yield return con;
+			}
+		    }
+		}
+
+
 		public delegate void SorterRun();
 
 		public void SortCode(string Tag, SorterRun runThis)
