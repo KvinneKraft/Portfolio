@@ -55,6 +55,8 @@
     <Compile Include="class\b\DashFramework.cs" />
     <Compile Include="class\a\MainGUI.cs" />
     <Compile Include="class\a\Program.cs" />
+    <Compile Include="class\c\diag1.cs" />
+    <Compile Include="class\c\diag2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,9 +86,7 @@
   <ItemGroup>
     <None Include="Properties\App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="class\c\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="resources\image\ICON.ico" />
   </ItemGroup>
