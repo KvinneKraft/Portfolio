@@ -97,15 +97,19 @@ namespace GateHey
 	{
 	    try
 	    {
-		InitiateT.Initiate(inst, Parent);
-		InitiateB.Initiate(inst, Parent);
-		InitiateM.Initiate(inst, Parent);
+		InitiateT.Initiate(Parent, inst);
+		InitiateB.Initiate(Parent, inst);
+		InitiateM.Initiate(Parent, inst);
 	    }
 
 	    catch (Exception E)
 	    {
-		throw (ErrorHandler.GetException(E));
+		ErrorHandler.GetException(E);
 	    }
 	}
+
+
+	public void Show() => Parent.Show();
+	public void Hide() => Parent.Hide();
     }
 }
