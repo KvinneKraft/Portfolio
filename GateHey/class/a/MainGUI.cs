@@ -5,10 +5,12 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Drawing;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using DashFramework.Interface.Controls;
@@ -141,7 +143,7 @@ namespace GateHey
 		    Size Lbl3Size = ConHelp.TextBoxSize(Lbl2Size, Lbl2Loca, 18);
 		    Point Lbl3Loca = ConHelp.ControlX(Lbl2Size, Lbl2Loca, 2);
 
-		    ConHelp.AddLabel(Label4, Lbl3Size, Lbl3Loca, ("---[TCP]---"), 8);
+		    ConHelp.AddLabel(Label4, Lbl3Size, Lbl3Loca, ("-==( TCP )==-"), 8);
 		    ConHelp.AddLabel(Label3, Lbl2Size, Lbl2Loca, ("Protocol:"));
 		    ConHelp.AddLabel(Label2, Lbl1Size, Lbl1Loca, ("Host:"));
 
@@ -191,14 +193,22 @@ namespace GateHey
 		Tools.SortCode(("Bottom Section"), () =>
 		{
 		    Size LblSize = GetFontSize("Packet Data:");
-		    Point LblLoca = new Point(0, Y1 - 2);
+		    Point LblLoca = new Point(0, Y1);
 
 		    Size TxtSize = ConHelp.TextBoxSize(LblSize, LblLoca);
-		    Point TxtLoca = ConHelp.ControlX(LblSize, LblLoca, Y1);
+		    Point TxtLoca = ConHelp.ControlX(LblSize, LblLoca, Y1 - 2);
 
 		    ConHelp.AddTextBox(TxtBox4, TxtSize, TxtLoca, ("Caterpillars flying through the sky with fluffy horns."));
 		    ConHelp.AddLabel(Label7, LblSize, LblLoca, ("Packet Data:"));
 		});
+
+		List<Control> controlCol = Tools.GetTypes(Panel3, 
+		    typeof(PictureBox), typeof(Button)).ToList();
+
+		foreach (Control con in controlCol)
+		{
+		    Tools.Round(con, 6);
+		}
 	    }
 
 	    catch (Exception E)
@@ -224,25 +234,29 @@ namespace GateHey
 
 		Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 
-		Size TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
-		Point TitleLoca = new Point(0, 0);
-		Color TitleBCol = Parent.BackColor;
-		Color TitleFCol = Color.White;
+		Tools.SortCode(("Main Containers"), () =>
+		{
+		    Size TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
+		    Point TitleLoca = new Point(0, 0);
+		    Color TitleBCol = Parent.BackColor;
+		    Color TitleFCol = Color.White;
 
-		Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, 1, 14, ("Host Settings"));
-		
-		Size Panel2Size = new Size(Panel1Size.Width, 110);
-		Point Panel2Loca = new Point(0, 33);
-		Color Panel2BCol = Parent.values.getBarColor();
+		    Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, 1, 14, ("Host Settings"));
 
-		Size Panel3Size = Tools.SubstractSize(20, Panel2Size);
-		Point Panel3Loca = new Point(10, 10);
-		Color Panel3BCol = Panel2BCol;
+		    Size Panel2Size = new Size(Panel1Size.Width, 110);
+		    Point Panel2Loca = new Point(0, 33);
+		    Color Panel2BCol = Parent.values.getBarColor();
 
-		Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
-		Controls.Panel(Panel2, Panel3, Panel3Size, Panel3Loca, Panel3BCol);
+		    Size Panel3Size = Tools.SubstractSize(20, Panel2Size);
+		    Point Panel3Loca = new Point(10, 10);
+		    Color Panel3BCol = Panel2BCol;
 
-		Tools.Round(Panel2, 6);
+		    Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+		    Controls.Panel(Panel2, Panel3, Panel3Size, Panel3Loca, Panel3BCol);
+
+		    Tools.Round(Panel2, 6);
+		});
+
 		AddComponents(Parent);
 	    }
 
@@ -263,6 +277,10 @@ namespace GateHey
 	{
 	    try
 	    {
+		// Port Scan Dialog
+		// Dash Shell Dialog
+		// 
+
 		InitiateBottom.Initiate(inst);
 		InitiateMiddle.Initiate(inst);
 	    }
