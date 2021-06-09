@@ -59,17 +59,9 @@ namespace GateHey
 		    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
 
 		    Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
-
-		    Bttn.MouseEnter += (s, e) =>
-		    {
-			Bttn.BackColor = Color.FromArgb(31, 41, 51);
-		    };
-
-		    Bttn.MouseLeave += (s, e) =>
-		    {
-			Bttn.BackColor = BCol;
-		    };
-
+		    Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
+		    Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
+		    
 		    Tools.Round(Bttn, 6);
 		}
 
@@ -277,12 +269,11 @@ namespace GateHey
 	{
 	    try
 	    {
-		// Port Scan Dialog
-		// Dash Shell Dialog
-		// 
-
 		InitiateBottom.Initiate(inst);
 		InitiateMiddle.Initiate(inst);
+
+		Dialog1 diag1 = new Dialog1();
+		diag1.Initiator(inst);
 	    }
 
 	    catch (Exception E)
