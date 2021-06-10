@@ -311,6 +311,52 @@ namespace DashFramework
 	    }
 
 
+	    public class DashListBox : ListBox
+	    {
+		public void Add(object obj) 
+		{
+		    Items.Add(obj);
+		}
+
+
+		public void Remove(int Id = 0)
+		{
+		    if (Items.Count > Id)
+		    {
+			Items.RemoveAt(Id);
+		    }
+		}
+
+
+		public string Get(int Id = -1, object Item = null)
+		{
+		    if (Id > -1)
+		    {
+			if (Items.Count > -1)
+			{
+			    return Items[Id].ToString();
+			}
+		    }
+
+		    else if (Item != null)
+		    {
+			if (Items.Contains(Item))
+			{
+			    return Items[Items.IndexOf(Item)].ToString();
+			}
+		    }
+
+		    return string.Empty;
+		}
+
+
+		public bool IsNull()
+		{
+		    return (this == null);
+		}
+	    }
+
+
 	    public class CustomScrollBar
 	    {
 		public class Properties
@@ -1374,8 +1420,8 @@ namespace DashFramework
 	    }
 
 
-	    public readonly PictureBox S2Container1 = new PictureBox();
-	    public readonly PictureBox S2Container2 = new PictureBox();
+	    public readonly DashPanel S2Container1 = new DashPanel();
+	    public readonly DashPanel S2Container2 = new DashPanel();
 	    public readonly TextBox S2TextBox1 = new TextBox();
 	    public readonly Button S2Button1 = new Button();
 	    public readonly Button S2Button2 = new Button();
@@ -1395,7 +1441,7 @@ namespace DashFramework
 		    var Container1Loca = new Point(10, S2Label1.Height + S2Label1.Top + 10);
 		    var Container1BCol = Dialog.BackColor;
 
-		    Control.Image(Dialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
+		    Control.Panel(Dialog, S2Container1, Container1Size, Container1Loca, Container1BCol);
 		    Tool.Round(S2Container1, 6);
 
 		    var TextBoxSize = Efficiency.Resize(Container1Size, 8, 8, false);
@@ -1407,7 +1453,7 @@ namespace DashFramework
 		    var Container2Loca = new Point(Container1Loca.X, Container1Size.Height + Container1Loca.Y + 10);
 		    var Container2Size = new Size(Container1Size.Width, 24);
 
-		    Control.Image(Dialog, S2Container2, Container2Size, Container2Loca, Container1BCol);
+		    Control.Panel(Dialog, S2Container2, Container2Size, Container2Loca, Container1BCol);
 
 		    string[] Texts = new string[] { "Okay", "" };
 
@@ -1534,11 +1580,9 @@ namespace DashFramework
 	    {
 		public readonly PictureBox LogoLayer1 = new PictureBox();
 		public readonly PictureBox LogoLayer2 = new PictureBox();
-		public readonly PictureBox Bar = new PictureBox();
-
+		public readonly DashPanel Bar = new DashPanel();
 		public readonly Button Button1 = new Button();
 		public readonly Button Button2 = new Button();
-
 		public readonly Label Title = new Label();
 
 		public bool Minimize = false;
@@ -1600,7 +1644,7 @@ namespace DashFramework
 		    var MenuBarLoca = new Point(0, 0);
 		    var MenuBarBCol = barBCol;
 
-		    Control.Image(parent, values.Bar, MenuBarSize, MenuBarLoca, MenuBarBCol);
+		    Control.Panel(parent, values.Bar, MenuBarSize, MenuBarLoca, MenuBarBCol);
 		    Tool.Interactive(values.Bar, parent);
 
 		    var LogoSize = Resources.LOGO.Size;
@@ -1730,7 +1774,7 @@ namespace DashFramework
 
 		public Control.ControlCollection getControls() => MenuBar.values.getControls();
 		public Control getParent() => MenuBar.values.getParent();
-		public PictureBox getBar() => MenuBar.values.Bar;
+		public DashPanel getBar() => MenuBar.values.Bar;
 		public Label getTitle() => MenuBar.values.Title;
 
 		public Color getBarColor() => MenuBar.values.getBarColor();
