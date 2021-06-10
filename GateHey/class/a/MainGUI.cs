@@ -108,11 +108,11 @@ namespace GateHey
 	    {
 		ControlHelper ConHelp = new ControlHelper();
 
+		ConHelp.TextBoxFCol = Color.FromArgb(209, 209, 209);
 		ConHelp.TextBoxBCol = Parent.BackColor;
-		ConHelp.TextBoxFCol = Color.White;
-		ConHelp.TextBoxParent = Panel3;
 		ConHelp.LabelBCol = Panel3.BackColor;
 		ConHelp.LabelFCol = Color.White;
+		ConHelp.TextBoxParent = Panel3;
 		ConHelp.LabelParent = Panel3;
 
 		Size GetFontSize(string text, int size = 10) => Tools.GetFontSize(text, size);
