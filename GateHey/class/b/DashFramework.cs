@@ -1742,6 +1742,22 @@ namespace DashFramework
 		public void setTitle(string to) => MenuBar.values.setTitle(to);
 
 
+		public void setTitleLocation(Point to)
+		{
+		    if (to.Y == -2)
+		    {
+			to.Y = (MenuBar.values.Bar.Height - MenuBar.values.Title.Height) / 2;
+		    }
+
+		    if (to.X == -2)
+		    {
+			to.X = (MenuBar.values.Bar.Width - MenuBar.values.Title.Width) / 2;
+		    }
+
+		    MenuBar.values.Title.Location = to;
+		}
+
+
 		public int parentHeight() => MenuBar.values.parentHeight();
 		public int parentWidth() => MenuBar.values.parentWidth();
 		public int Height() => MenuBar.values.Height();
