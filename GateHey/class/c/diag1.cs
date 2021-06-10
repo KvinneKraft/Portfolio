@@ -35,7 +35,7 @@ namespace GateHey
 		try
 		{
 		    Color barBCol = Inst.values.getBarColor();
-		    Size diagSize = new Size(275, 200);
+		    Size diagSize = new Size(210, 150);
 		    Color diagBCol = Inst.BackColor;
 
 		    string diagTitle = ("Clairvoyant - Port Selector");
@@ -73,9 +73,9 @@ namespace GateHey
 		{
 		    Tools.SortCode(("Panels"), () =>
 		    {
-			Point Panel1Loca = new Point(0, Parent.Height - 26);
+			Point Panel1Loca = new Point(0, Parent.Height - 30);
 			Color Panel1BCol = Parent.values.getBarColor();
-			Size Panel1Size = new Size(Parent.Width, 26);
+			Size Panel1Size = new Size(Parent.Width, 30);
 
 			Point Panel2Loca = new Point(-2, -2);
 			Size Panel2Size = new Size(200, 20);
@@ -108,6 +108,16 @@ namespace GateHey
 
 			AddButton(Bttn2, Loca2, ("Close Window"));
 			AddButton(Bttn1, Loca1, ("Open File"));
+
+			Bttn1.Click += (s, e) =>
+			{
+			    // Open File check format
+			};
+
+			Bttn2.Click += (s, e) =>
+			{
+			    Parent.Hide();
+			};
 		    });
 		}
 
@@ -124,19 +134,33 @@ namespace GateHey
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
 
-
+	    readonly DashPanel Panel = new DashPanel();
 	    readonly TextBox TxtBox = new TextBox();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    Size Size = new Size(Parent.Width - 4, Parent.Height - 52);
-		    Color BCol = Color.FromArgb(22, 29, 36);
-		    Point Loca = new Point(2, 26);
-		    Color FCol = Color.White;
+		    Size PanelSize = new Size(Parent.Width - 4, Parent.Height - 52);
+		    Point PanelLoca = new Point(2, 26);
+		    Color PanelBCol = Color.FromArgb(22, 29, 36);
 
-		    Controls.TextBox(Parent, TxtBox, Size, Loca, BCol, FCol, 1, 10, Multiline: true, FixedSize: false);
+		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+
+		    Size TxtSize = new Size(PanelSize.Width - 10, PanelSize.Height - 10);
+		    Point TxtLoca = new Point(5, 5);
+		    Color TxtFCol = Color.White;
+		    Color TxtBCol = PanelBCol;
+		    
+		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 10, Multiline: true, FixedSize: false);
+
+		    TxtBox.Text = string.Format
+		    (
+			"type in here, first erase me.\r\n" +
+			"ranges: 443-8080\r\n" +
+			"specific: 1,5,80\r\n" +
+			"single: 80"
+		    );
 		}
 
 		catch (Exception E)
