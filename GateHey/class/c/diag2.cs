@@ -68,7 +68,11 @@ namespace GateHey
 	    {
 		try
 		{
+		    var PanelLoca = new Point(0, Parent.Height - 28);
+		    var PanelBCol = Parent.values.getBarColor();
+		    var PanelSize = new Size(Parent.Width, 28);
 
+		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
 		}
 
 		catch (Exception E)
@@ -115,7 +119,7 @@ namespace GateHey
 	    {
 		try
 		{
-		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 56);
+		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 54);
 		    var PanelLoca = new Point(2, 26);
 		    var PanelBCol = Color.FromArgb(22, 29, 36);
 
