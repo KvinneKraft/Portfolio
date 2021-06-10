@@ -34,7 +34,16 @@ namespace GateHey
 	    {
 		try
 		{
-		    // Top Section
+		    Color barBCol = Inst.values.getBarColor();
+		    Size diagSize = new Size(425, 285);
+		    Color diagBCol = Inst.BackColor;
+
+		    string diagTitle = ("Dash - Shell");
+
+		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0, barClose: false);
+		    Parent.values.setTitleLocation(new Point(10, -2));
+		    Parent.values.HideIcons();
+		    Parent.ShowAsIs(false);
 		}
 
 		catch (Exception E)
