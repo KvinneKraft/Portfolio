@@ -70,9 +70,24 @@ namespace GateHey
 		{
 		    var PanelLoca = new Point(0, Parent.Height - 28);
 		    var PanelBCol = Parent.values.getBarColor();
-		    var PanelSize = new Size(Parent.Width, 28);
+		    var PanelSize = new Size(Parent.Width, 26);
 
 		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+
+		    var LblSize = Tools.GetFontSize("$:", Id:0);
+		    var LblLoca = new Point(0, 7);
+		    var LblFCol = Color.White;
+		    var LblBCol = PanelBCol;
+
+		    var TxtSize = new Size(PanelSize.Width - LblSize.Width - 3, 24);
+		    var TxtLoca = new Point(LblSize.Width, 2);
+		    var TxtFCol = Color.White;
+		    var TxtBCol = PanelBCol;
+
+		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 9);
+		    Controls.Label(Panel, Lbl, LblSize, LblLoca, LblBCol, LblFCol, 0, 10, ("$:"));
+
+		    TxtBox.Text = ("help");
 		}
 
 		catch (Exception E)
