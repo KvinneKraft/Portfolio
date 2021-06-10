@@ -311,6 +311,59 @@ namespace DashFramework
 	    }
 
 
+	    public class DashTreeView : TreeView
+	    {
+		public void AddNode(string name)
+		{
+		    try
+		    {
+			TreeNode node = new TreeNode(name);
+
+			Nodes.Add(node);
+			Update();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void RemoveNode(string node)
+		{
+		    try
+		    {
+			if (Nodes.ContainsKey(node))
+			{
+			    Nodes.RemoveByKey(node);
+			    Update();
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void ResetNodes()
+		{
+		    try
+		    {
+			Nodes.Clear();
+			Update();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+	    }
+
+
 	    public class DashListBox : ListBox
 	    {
 		public void Add(object obj) 
@@ -756,6 +809,48 @@ namespace DashFramework
 
 			    Top.Controls.Add(Object);
 			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void TreeView(Control Top, DashTreeView Object, Size ObjectSize, Point ObjectLoca, Color ObjectBCol, Color ObjectFCol)
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
+			Object.BorderStyle = BorderStyle.None;
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Top.Controls.Add(Object);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void ListBox(Control Top, DashListBox Object, Size ObjectSize, Point ObjectLoca, Color ObjectBCol, Color ObjectFCol)
+		{
+		    try
+		    {
+			Tool.Resize(Object, ObjectSize);
+
+			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
+			Object.BorderStyle = BorderStyle.None;
+			Object.BackColor = ObjectBCol;
+			Object.ForeColor = ObjectFCol;
+
+			Top.Controls.Add(Object);
 		    }
 
 		    catch (Exception E)
