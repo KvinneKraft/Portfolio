@@ -1006,9 +1006,9 @@ namespace DashFramework
 		}
 
 
-		public Size GetFontSize(string Text, int Size)
+		public Size GetFontSize(string Text, int Size = 10, int Id = 1)
 		{
-		    return TextRenderer.MeasureText(Text, GetFont(1, Size));
+		    return TextRenderer.MeasureText(Text, GetFont(Id, Size));
 		}
 
 
