@@ -272,8 +272,8 @@ namespace GateHey
 		InitiateBottom.Initiate(inst);
 		InitiateMiddle.Initiate(inst);
 
-		Dialog1 diag1 = new Dialog1();
-		diag1.Initiator(inst);
+		Dialog2 diag2 = new Dialog2();
+		diag2.Initiator(inst);
 	    }
 
 	    catch (Exception E)
