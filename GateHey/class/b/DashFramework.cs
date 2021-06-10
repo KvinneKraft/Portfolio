@@ -1728,19 +1728,17 @@ namespace DashFramework
 	    {
 		public DashMenuBar MenuBar = null;
 
-
 		public Control.ControlCollection getControls() => MenuBar.values.getControls();
 		public Control getParent() => MenuBar.values.getParent();
-
+		public PictureBox getBar() => MenuBar.values.Bar;
+		public Label getTitle() => MenuBar.values.Title;
 
 		public Color getBarColor() => MenuBar.values.getBarColor();
-
 
 		public void setLocationOf(Control me, Point to) => me.Location = to;
 		public void setColorOf(Control me, Color to) => me.BackColor = to;
 		public void setBarBackColor(Color to) => MenuBar.values.setBarBackColor(to);
 		public void setTitle(string to) => MenuBar.values.setTitle(to);
-
 
 		public void setTitleLocation(Point to)
 		{
@@ -1757,12 +1755,10 @@ namespace DashFramework
 		    MenuBar.values.Title.Location = to;
 		}
 
-
 		public int parentHeight() => MenuBar.values.parentHeight();
 		public int parentWidth() => MenuBar.values.parentWidth();
 		public int Height() => MenuBar.values.Height();
 		public int Width() => MenuBar.values.Width();
-
 
 		public delegate void holder();
 
@@ -1778,7 +1774,6 @@ namespace DashFramework
 		    };
 		}
 
-
 		public void HideIcons()
 		{
 		    MenuBar.values.LogoLayer1.Hide();
@@ -1789,8 +1784,7 @@ namespace DashFramework
 		{
 		    MenuBar.values.Title.Hide();
 		}
-
-
+		
 		readonly DashTools Tools = new DashTools();
 
 		public void CenterTitle()
