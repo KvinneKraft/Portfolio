@@ -40,7 +40,7 @@ namespace GateHey
 
 		    string diagTitle = ("Dash - Shell");
 
-		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0, barClose: false);
+		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0);
 		    Parent.values.setTitleLocation(new Point(10, -2));
 		    Parent.values.HideIcons();
 		    Parent.ShowAsIs(false);
@@ -60,11 +60,15 @@ namespace GateHey
 	    readonly DashTools Tools = new DashTools();
 
 
+	    readonly DashPanel Panel = new DashPanel();
+	    readonly TextBox TxtBox = new TextBox();
+	    readonly Label Lbl = new Label();
+
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    // Bottom Section
+
 		}
 
 		catch (Exception E)
@@ -81,11 +85,49 @@ namespace GateHey
 	    readonly DashTools Tools = new DashTools();
 
 
+	    public class DashShell
+	    {
+		public readonly TextBox TerminalLog = new TextBox();
+
+		public void setDefaultText()
+		{
+		    try
+		    {
+			TerminalLog.Text = string.Format(
+			    $">>> Hey there {Environment.UserName} !\r\n" +
+			    ">>> Type 'help' for help, thank you for using this."
+			);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+	    }
+
+
+	    readonly CustomScrollBar DashBar = new CustomScrollBar();
+	    readonly DashShell Shell = new DashShell();
+	    readonly DashPanel Panel = new DashPanel();
+
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    // Middle Section
+		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 56);
+		    var PanelLoca = new Point(2, 26);
+		    var PanelBCol = Color.FromArgb(22, 29, 36);
+
+		    var TextBoxSize = new Size(PanelSize.Width - 10, PanelSize.Height - 10);
+		    var TextBoxLoca = new Point(5, 5);
+		    var TextBoxFCol = Color.White;
+		    var TextBoxBCol = PanelBCol;
+
+		    Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 0, 9, true, true, FixedSize: false);
+		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+
+		    Shell.setDefaultText();
 		}
 
 		catch (Exception E)
