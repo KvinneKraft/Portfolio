@@ -983,6 +983,21 @@ namespace DashFramework
 	{
 	    public class DashTools
 	    {
+		public void MsgBox(string msg, string title = "Dash Notification", 
+		    MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information)
+		{
+		    try
+		    {
+			MessageBox.Show(msg, title, buttons, icon);
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.GetException(E);
+		    }
+		}
+
+
 		public IEnumerable<Control> GetTypes(Control from, params Type[] types)
 		{
 		    List<Type> typeList = types.ToList();
