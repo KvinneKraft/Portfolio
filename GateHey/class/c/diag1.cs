@@ -67,6 +67,135 @@ namespace GateHey
 	    readonly Button Bttn1 = new Button();
 	    readonly Button Bttn2 = new Button();
 
+	    public void Bttn1Hook()
+	    {
+		try
+		{
+		    using (OpenFileDialog openDiag = new OpenFileDialog())
+		    {
+			openDiag.Filter = ("Text File|*.txt");
+			openDiag.CheckFileExists = true;
+			openDiag.CheckPathExists = true;
+			openDiag.Multiselect = false;
+
+			DialogResult diagResu = openDiag.ShowDialog();
+
+			if (diagResu != DialogResult.OK)
+			{
+			    Tools.MsgBox("The operation has been canceled.", "Port Selector");
+			    return;
+			}
+
+			string invalidMsg = ("The port selection found within the file seems incorrect.  Please make sure you use the correct format, else errors may occur.");
+			string data = File.ReadAllText($"{openDiag.FileName}");
+
+			bool IsPort(string slice)
+			{
+			    try
+			    {
+				int port = int.Parse(slice);
+				return (port > 0 && port <= 65535);
+			    }
+
+			    catch
+			    {
+				return false;
+			    }
+			}
+
+			bool ArePortsOkay(string[] portData)
+			{
+			    foreach (string portSlice in portData)
+			    {
+				if (!IsPort(portSlice))
+				{
+				    return false;
+				}
+			    }
+
+			    return true;
+			}
+
+			List<int> ports = new List<int>();
+
+			if (data.Length < 1)
+			{
+			    Tools.MsgBox(invalidMsg, "Port Selector");
+			    return;
+			}
+
+			else if (data.Contains("-"))
+			{
+			    string[] portData = data.Split('-');
+
+			    if (portData.Length != 2)
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    else if (!ArePortsOkay(portData))
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    int min = int.Parse(portData[0]);
+			    int max = int.Parse(portData[1]);
+
+			    if (min >= max)
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    ports.Add(min);
+			    ports.Add(max);
+			}
+
+			else if (data.Contains(","))
+			{
+			    string[] portData = data.Split(',');
+
+			    if (portData.Length < 1)
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    else if (!ArePortsOkay(portData))
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    foreach (string dataSlice in portData)
+			    {
+				ports.Add(int.Parse(dataSlice));
+			    }
+			}
+
+			else
+			{
+			    if (!IsPort(data))
+			    {
+				Tools.MsgBox(invalidMsg, "Port Selector");
+				return;
+			    }
+
+			    ports.Add(int.Parse(data));
+			}
+
+			// Set Port to Variables.  AddRange();
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
@@ -111,7 +240,7 @@ namespace GateHey
 
 			Bttn1.Click += (s, e) =>
 			{
-			    // Open File check format
+			    Bttn1Hook();
 			};
 
 			Bttn2.Click += (s, e) =>
