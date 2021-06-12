@@ -102,6 +102,9 @@ namespace GateHey
 	readonly Label Label6 = new Label();//Threads
 	readonly Label Label7 = new Label();//Packet Data
 
+	readonly Dialog1 Dialog1 = new Dialog1();
+	readonly Dialog2 Dialog2 = new Dialog2();
+
 	void AddComponents(DashWindow Parent)
 	{
 	    try
@@ -160,6 +163,33 @@ namespace GateHey
 		    Bttn1.MouseLeave += (s, e) => Bttn1.BackColor = BttnBCol;
 
 		    Controls.Button(Panel3, Bttn1, BttnSize, BttnLoca, BttnBCol, BttnFCol, 1, 9, ("Port Selector"));
+		    
+		    Dialog1.Initiator(Parent);
+		    Dialog2.Initiator(Parent);
+
+		    Dialog1.Hide();
+		    Dialog2.Hide();
+
+		    Bttn1.Click += (s, e) =>
+		    {
+			try
+			{
+			    if (!Dialog1.Visible())
+			    {
+				Dialog1.Show();
+			    }
+
+			    else
+			    {
+				Dialog1.Hide();
+			    }
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    };
 
 		    Size Lbl1Size = GetFontSize("Timeout:");
 		    Point Lbl1Loca = ConHelp.ControlX(BttnSize, BttnLoca, Y1, 10);
@@ -271,9 +301,6 @@ namespace GateHey
 	    {
 		InitiateBottom.Initiate(inst);
 		InitiateMiddle.Initiate(inst);
-
-		Dialog2 diag2 = new Dialog2();
-		diag2.Initiator(inst);
 	    }
 
 	    catch (Exception E)
