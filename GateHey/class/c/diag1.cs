@@ -184,7 +184,7 @@ namespace GateHey
 	    }
 
 
-	    public void Bttn1Hook()
+	    public void Bttn1Hook(TextBox Txt)
 	    {
 		try
 		{
@@ -209,6 +209,8 @@ namespace GateHey
 			{
 			    return;
 			}
+
+			Txt.Text = data;
 
 			Tools.MsgBox("Port data has been loaded!", "Port Selector");
 		    }
@@ -265,14 +267,13 @@ namespace GateHey
 
 			Bttn1.Click += (s, e) =>
 			{
-			    Bttn1Hook();
+			    Bttn1Hook(Txt);
 			};
 
 			Bttn2.Click += (s, e) =>
 			{
 			    if (!PortSettingsCorrect(Txt.Text.Replace(" ", "")))
 			    {
-				Tools.MsgBox("Your current port selection format seems to be incorrect.  Please correct the inproper format before continuing.", "Port Selector");
 				return;
 			    }
 
@@ -353,6 +354,7 @@ namespace GateHey
 	}
 
 
+	public bool Visible() => Parent.Visible;
 	public void Show() => Parent.Show();
 	public void Hide() => Parent.Hide();
     }
