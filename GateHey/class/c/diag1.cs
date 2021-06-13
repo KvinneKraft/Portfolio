@@ -345,6 +345,10 @@ namespace GateHey
 		InitiateT.Initiate(Parent, inst);
 		InitiateB.Initiate(Parent, inst, InitiateM.TxtBox);
 		InitiateM.Initiate(Parent, inst);
+
+		// For validate settings and start scanning, use a static method for global access
+		// and make sure that port selector is verified as well.  Very important.
+		// 
 	    }
 
 	    catch (Exception E)
