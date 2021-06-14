@@ -35,7 +35,51 @@ namespace GateHey
 	readonly Button Bttn2 = new Button();
 	readonly Button Bttn3 = new Button();
 
-	public void Initiate(DashWindow Parent)
+
+	void ButtonHook1(Initiator2 MainSettings)
+	{
+	    try
+	    {
+		if (!Var.SettingsValidation(MainSettings))
+		{
+		    // Error Message Box
+		    return;
+		}
+
+		// Further process after validating settings;  work on this when all other
+		// layout related code is done.
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	void ButtonHook2(Initiator2 MainSettings)
+	{
+	    try
+	    {
+		if (Var.SettingsValidation(MainSettings))
+		{
+		    Tools.MsgBox("Your settings are found to be valid.  You may now proceed.", icon: MessageBoxIcon.Information);
+		}
+
+		else
+		{
+		    Tools.MsgBox("One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.");
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	public void Initiate(DashWindow Parent, Initiator2 MainSettings)
 	{
 	    try
 	    {
@@ -61,7 +105,7 @@ namespace GateHey
 		    Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
 		    Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
 		    Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
-		    
+
 		    Tools.Round(Bttn, 6);
 		}
 
@@ -72,6 +116,9 @@ namespace GateHey
 		AddButton(Bttn1, Loca1, ("Start Scanning"));
 		AddButton(Bttn2, Loca2, ("Validate Settings"));
 		AddButton(Bttn3, Loca3, ("Service Policy"));
+
+		Bttn1.Click += (s, e) => ButtonHook1(MainSettings);
+		Bttn2.Click += (s, e) => ButtonHook2(MainSettings);
 	    }
 
 	    catch (Exception E)
@@ -88,10 +135,10 @@ namespace GateHey
 	readonly DashTools Tools = new DashTools();
 
 
-	readonly TextBox TxtBox1 = new TextBox();//Host
-	readonly TextBox TxtBox2 = new TextBox();//Timneout
-	readonly TextBox TxtBox3 = new TextBox();//Threads
-	readonly TextBox TxtBox4 = new TextBox();//Packet Data
+	public readonly TextBox TxtBox1 = new TextBox();//Host
+	public readonly TextBox TxtBox2 = new TextBox();//Timneout
+	public readonly TextBox TxtBox3 = new TextBox();//Threads
+	public readonly TextBox TxtBox4 = new TextBox();//Packet Data
 
 	readonly Button Bttn1 = new Button();//Ports Dialog
 
@@ -102,7 +149,7 @@ namespace GateHey
 	readonly Label Label6 = new Label();//Threads
 	readonly Label Label7 = new Label();//Packet Data
 
-	readonly Dialog1 Dialog1 = new Dialog1();
+	public readonly Dialog1 Dialog1 = new Dialog1();
 	readonly Dialog2 Dialog2 = new Dialog2();
 
 	void AddComponents(DashWindow Parent)
@@ -299,7 +346,7 @@ namespace GateHey
 	{
 	    try
 	    {
-		InitiateBottom.Initiate(inst);
+		InitiateBottom.Initiate(inst, InitiateMiddle);
 		InitiateMiddle.Initiate(inst);
 	    }
 
