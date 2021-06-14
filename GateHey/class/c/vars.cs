@@ -25,5 +25,20 @@ namespace GateHey
     public class Var
     {
 	public static List<int> Ports = new List<int>();
+
+	public static bool SettingsValidation(Initiator2 MainSettings)
+	{
+	    try
+	    {
+		//MainSettings.Dialog1.InitiateM.TxtBox.Text -> Ports
+
+		return true;
+	    }
+
+	    catch
+	    {
+		return false;
+	    }
+	}
     }
 }
