@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -24,13 +25,23 @@ namespace GateHey
 {
     public class Var
     {
-	public static List<int> Ports = new List<int>();
+	readonly static DashNet DaNet = new DashNet();
 
 	public static bool SettingsValidation(Initiator2 MainSettings)
 	{
 	    try
 	    {
-		//MainSettings.Dialog1.InitiateM.TxtBox.Text -> Ports
+		var ComponentValues = MainSettings.GetComponentValues();
+
+		if (!DaNet.CanIP(ComponentValues["host"]))
+		{
+		    return false;
+		}
+
+		// Host [DashNet]
+		// Timeout
+		// Threads
+		// Packet Data
 
 		return true;
 	    }
@@ -40,5 +51,7 @@ namespace GateHey
 		return false;
 	    }
 	}
+
+	public static List<int> Ports = new List<int>();
     }
 }
