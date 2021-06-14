@@ -139,9 +139,10 @@ namespace GateHey
 	public readonly TextBox TxtBox2 = new TextBox();//Timneout
 	public readonly TextBox TxtBox3 = new TextBox();//Threads
 	public readonly TextBox TxtBox4 = new TextBox();//Packet Data
+	public readonly Dialog1 Dialog1 = new Dialog1();
+	public readonly Dialog2 Dialog2 = new Dialog2();
 
 	readonly Button Bttn1 = new Button();//Ports Dialog
-
 	readonly Label Label2 = new Label();//Host
 	readonly Label Label3 = new Label();//Protocol
 	readonly Label Label4 = new Label();//Protocol Hover Box
@@ -149,8 +150,26 @@ namespace GateHey
 	readonly Label Label6 = new Label();//Threads
 	readonly Label Label7 = new Label();//Packet Data
 
-	public readonly Dialog1 Dialog1 = new Dialog1();
-	readonly Dialog2 Dialog2 = new Dialog2();
+
+	public Dictionary<string ,string> GetComponentValues()
+	{
+	    try
+	    {
+		return new Dictionary<string, string>()
+		{
+		    { "packdata", TxtBox4.Text },
+		    { "timeout", TxtBox2.Text },
+		    { "threads", TxtBox3.Text },
+		    { "host", TxtBox1.Text },
+		};
+	    }
+
+	    catch
+	    {
+		return null;
+	    }
+	}
+
 
 	void AddComponents(DashWindow Parent)
 	{
