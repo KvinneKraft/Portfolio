@@ -223,6 +223,30 @@ namespace GateHey
 	    }
 
 
+	    public void Bttn2Hook(DashWindow Parent, TextBox Txt)
+	    {
+		try
+		{
+		    if (Txt.Text.ToLower().Contains("ranges: 443-"))
+		    {
+			Txt.Text = ("1-65535");
+		    }
+
+		    else if (!PortSettingsCorrect(Txt.Text.Replace(" ", "")))
+		    {
+			return;
+		    }
+
+		    Parent.Hide();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public void Initiate(DashWindow Parent, DashWindow Inst, TextBox Txt)
 	    {
 		try
@@ -265,20 +289,8 @@ namespace GateHey
 			AddButton(Bttn2, Loca2, ("Close Window"));
 			AddButton(Bttn1, Loca1, ("Open File"));
 
-			Bttn1.Click += (s, e) =>
-			{
-			    Bttn1Hook(Txt);
-			};
-
-			Bttn2.Click += (s, e) =>
-			{
-			    if (!PortSettingsCorrect(Txt.Text.Replace(" ", "")))
-			    {
-				return;
-			    }
-
-			    Parent.Hide();
-			};
+			Bttn1.Click += (s, e) => Bttn1Hook(Txt);
+			Bttn2.Click += (s, e) => Bttn2Hook(Parent, Txt);
 		    });
 		}
 
@@ -290,7 +302,7 @@ namespace GateHey
 	}
 
 
-	class InitiateMiddle
+	public class InitiateMiddle
 	{
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
@@ -332,8 +344,8 @@ namespace GateHey
 	}
 
 
+	public readonly InitiateMiddle InitiateM = new InitiateMiddle();
 	readonly InitiateBottom InitiateB = new InitiateBottom();
-	readonly InitiateMiddle InitiateM = new InitiateMiddle();
 	readonly InitiateTop InitiateT = new InitiateTop();
 
 	readonly DashWindow Parent = new DashWindow();
@@ -345,10 +357,6 @@ namespace GateHey
 		InitiateT.Initiate(Parent, inst);
 		InitiateB.Initiate(Parent, inst, InitiateM.TxtBox);
 		InitiateM.Initiate(Parent, inst);
-
-		// For validate settings and start scanning, use a static method for global access
-		// and make sure that port selector is verified as well.  Very important.
-		// 
 	    }
 
 	    catch (Exception E)
