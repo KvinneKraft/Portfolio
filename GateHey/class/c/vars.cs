@@ -38,12 +38,26 @@ namespace GateHey
 		    return false;
 		}
 
-		// Host [DashNet]
-		// Timeout
-		// Threads
-		// Packet Data
+		else if (!DaNet.CanInteger(ComponentValues["timeout"]))
+		{
+		    return false;
+		}
 
-		return true;
+		else if (!DaNet.CanInteger(ComponentValues["threads"]))
+		{
+		    return false;
+		}
+
+
+		else if (ComponentValues["packdata"].Length < 1)
+		{
+		    return false;
+		}
+
+		int timeout = int.Parse(ComponentValues["timeout"]);
+		int threads = int.Parse(ComponentValues["threads"]);
+
+		return (timeout > 1 && threads > 0);
 	    }
 
 	    catch
