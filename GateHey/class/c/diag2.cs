@@ -24,12 +24,12 @@ namespace GateHey
 {
     public class Dialog2
     {
+	public readonly static DashControls Controls = new DashControls();
+	public readonly static DashTools Tools = new DashTools();
+
+
 	class InitiateTop
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
@@ -56,10 +56,6 @@ namespace GateHey
 
 	class InitiateBottom
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-
 	    readonly DashPanel Panel = new DashPanel();
 	    readonly TextBox TxtBox = new TextBox();
 	    readonly Label Lbl = new Label();
@@ -100,10 +96,6 @@ namespace GateHey
 
 	class InitiateMiddle
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-
 	    public class DashShell
 	    {
 		public readonly TextBox TerminalLog = new TextBox();
@@ -174,7 +166,7 @@ namespace GateHey
 
 	    catch (Exception E)
 	    {
-		ErrorHandler.GetException(E);
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
 
