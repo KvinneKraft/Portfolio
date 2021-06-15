@@ -171,8 +171,8 @@ namespace GateHey
 			ports.Add(int.Parse(data));
 		    }
 
-		    Var.Ports.Clear();
-		    Var.Ports.AddRange(ports);
+		    Universal.Ports.Clear();
+		    Universal.Ports.AddRange(ports);
 
 		    return true;
 		}
