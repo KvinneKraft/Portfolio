@@ -321,7 +321,6 @@ namespace GateHey
 			    Color ItemBCol = MenuBCol;
 
 			    int ItemWidth = Label4.Width;
-			    int TextSize = 8;
 
 			    DropMenu.AddItem(new Label(), ($"( {Text} )"), ItemBCol, ItemFCol, 
 				ItemWidth: Label4.Width, ItemHeight: 18, ItemTextSize: 8);
