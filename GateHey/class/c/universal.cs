@@ -27,7 +27,7 @@ namespace GateHey
     {
 	readonly static DashNet DaNet = new DashNet();
 
-	public static bool SettingsValidation(Initiator2 MainSettings)
+	public static bool SettingsValidation(MainGUI.Initiator2 MainSettings)
 	{
 	    try
 	    {
