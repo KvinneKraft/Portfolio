@@ -57,6 +57,7 @@
     <Compile Include="class\a\Program.cs" />
     <Compile Include="class\c\diag1.cs" />
     <Compile Include="class\c\diag2.cs" />
+    <Compile Include="class\c\diag3.cs" />
     <Compile Include="class\c\universal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resources\Resources.Designer.cs">
