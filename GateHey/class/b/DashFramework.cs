@@ -2314,10 +2314,34 @@ namespace DashFramework
 	    }
 
 
+	    public void SetupHook(Control Trigger)
+	    {
+		try
+		{
+		    ContentContainer.MouseLeave += (s, e) =>
+		    {
+			Container.Parent.Focus();
+			Hide();
+		    };
+
+		    Trigger.MouseEnter += (s, e) =>
+		    {
+			ContentContainer.Focus();
+			Show();
+		    };
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public readonly PictureBox ContentContainer = new PictureBox();
 	    public readonly PictureBox Container = new PictureBox();
 
-	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor)
+	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor, bool RegisterTrigger, Control TriggerControl)
 	    {
 		try
 		{
@@ -2346,6 +2370,11 @@ namespace DashFramework
 			    Hide();
 			}
 		    };
+
+		    if (RegisterTrigger)
+		    {
+			SetupHook(TriggerControl);
+		    }
 
 		    Hide();
 		}
