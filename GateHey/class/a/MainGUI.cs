@@ -179,14 +179,15 @@ namespace GateHey
 	    {
 		try
 		{
-		    ControlHelper ConHelp = new ControlHelper();
-
-		    ConHelp.TextBoxFCol = Color.FromArgb(209, 209, 209);
-		    ConHelp.TextBoxBCol = Parent.BackColor;
-		    ConHelp.LabelBCol = Panel3.BackColor;
-		    ConHelp.LabelFCol = Color.White;
-		    ConHelp.TextBoxParent = Panel3;
-		    ConHelp.LabelParent = Panel3;
+		    ControlHelper ConHelp = new ControlHelper()
+		    {
+			TextBoxFCol = Color.FromArgb(209, 209, 209),
+			TextBoxBCol = Parent.BackColor,
+			LabelBCol = Panel3.BackColor,
+			LabelFCol = Color.White,
+			TextBoxParent = Panel3,
+			LabelParent = Panel3,
+		    };
 
 		    Size GetFontSize(string text, int size = 10) => Tools.GetFontSize(text, size);
 
