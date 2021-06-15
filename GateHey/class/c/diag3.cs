@@ -28,10 +28,10 @@ namespace GateHey
 	public readonly static DashTools Tools = new DashTools();
 
 
-	public class InitiateMiddle
+	public class InitiateTop
 	{
-	    readonly TextBox TxtBox = new TextBox();
 	    readonly Panel Panel = new Panel();
+	    readonly Label Label = new Label();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
@@ -70,11 +70,11 @@ namespace GateHey
 	    }
 	}
 
-	
-	public class InitiateTop
+
+	public class InitiateMiddle
 	{
+	    readonly TextBox TxtBox = new TextBox();
 	    readonly Panel Panel = new Panel();
-	    readonly Label Label = new Label();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
