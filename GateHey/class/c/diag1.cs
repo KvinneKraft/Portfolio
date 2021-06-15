@@ -24,12 +24,12 @@ namespace GateHey
 {
     public class Dialog1
     {
+	public readonly static DashControls Controls = new DashControls();
+	public readonly static DashTools Tools = new DashTools();
+
+
 	class InitiateTop
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
@@ -40,7 +40,7 @@ namespace GateHey
 
 		    string diagTitle = ("Clairvoyant - Port Selector");
 
-		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius:0, barClose: false);
+		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius:0, startPosition: FormStartPosition.CenterParent, barClose: false);
 		    Parent.ShowAsIs(false);
 
 		    Parent.values.CenterTitle();
@@ -57,10 +57,6 @@ namespace GateHey
 
 	class InitiateBottom
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-	    
 	    readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
 
@@ -304,11 +300,8 @@ namespace GateHey
 
 	public class InitiateMiddle
 	{
-	    readonly DashControls Controls = new DashControls();
-	    readonly DashTools Tools = new DashTools();
-
-	    readonly DashPanel Panel = new DashPanel();
 	    public readonly TextBox TxtBox = new TextBox();
+	    readonly DashPanel Panel = new DashPanel();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
@@ -361,7 +354,7 @@ namespace GateHey
 
 	    catch (Exception E)
 	    {
-		ErrorHandler.GetException(E);
+		ErrorHandler.JustDoIt(E);
 	    }
 	}
 
