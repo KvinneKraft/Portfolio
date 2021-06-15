@@ -40,7 +40,7 @@ namespace GateHey
 	{
 	    try
 	    {
-		if (!Var.SettingsValidation(MainSettings))
+		if (!Universal.SettingsValidation(MainSettings))
 		{
 		    // Error Message Box
 		    return;
@@ -61,7 +61,7 @@ namespace GateHey
 	{
 	    try
 	    {
-		if (Var.SettingsValidation(MainSettings))
+		if (Universal.SettingsValidation(MainSettings))
 		{
 		    Tools.MsgBox("Your settings are found to be valid.  You may now proceed.", icon: MessageBoxIcon.Information);
 		}
@@ -210,8 +210,10 @@ namespace GateHey
 
 		    Label4.TextAlign = ContentAlignment.MiddleCenter;
 		    Label4.BackColor = Color.FromArgb(22, 29, 36);
-
+		    
 		    Y1 = (Txt1Size.Height + Txt1Loca.Y) + 10;
+
+		    DropMenu DropMenu = new DropMenu();
 
 		    //Separate method for adding dropdown menu
 		});
