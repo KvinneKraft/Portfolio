@@ -2337,11 +2337,60 @@ namespace DashFramework
 		}
 	    }
 
+	    
+	    public void ClickUpdateLabel(Label Me)
+	    {
+		try
+		{
+		    foreach (Label MenuItem in MenuItems.Values)
+		    {
+			MenuItem.Click += (s, e) =>
+			{
+			    try
+			    {
+				Me.Text = ($"-=={MenuItem.Text}==-");
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
+			};
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    public void SetHoverColor(Color To)
+	    {
+		try
+		{
+		    Color Old = GetItem(-2).BackColor;
+
+		    foreach (Label MenuItem in MenuItems.Values)
+		    {
+			MenuItem.MouseEnter += (s, e) => MenuItem.BackColor = To;
+			MenuItem.MouseLeave += (s, e) => MenuItem.BackColor = Old;
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
 
 	    public readonly PictureBox ContentContainer = new PictureBox();
 	    public readonly PictureBox Container = new PictureBox();
 
-	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor, bool RegisterTrigger, Control TriggerControl)
+	    public void SetupMenu(Control Top, Point MenuLocation, Color MenuColor, Color MenuBorderColor, 
+		bool RegisterTrigger = false, Control TriggerControl = null)
 	    {
 		try
 		{
@@ -2421,7 +2470,7 @@ namespace DashFramework
 
 			if (ItemHeight == -2)
 			{
-			    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height + 6;
+			    ItemHeight = Tool.GetFontSize(ItemName, ItemTextSize).Height;
 			}
 		    }
 
@@ -2429,7 +2478,7 @@ namespace DashFramework
 		    var ItemLoca = new Point(0, GetY());
 
 		    Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, 1, ItemTextSize, ItemName);
-		    Object.TextAlign = ContentAlignment.TopCenter;
+		    Object.TextAlign = ContentAlignment.MiddleCenter;
 
 		    int GetContentContainerWidth()
 		    {
@@ -2441,7 +2490,7 @@ namespace DashFramework
 			return (ContentContainer.Width);
 		    }
 
-		    var Container2Size = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight);
+		    var Container2Size = new Size(GetContentContainerWidth(), ContentContainer.Height + ItemHeight + 1);
 		    var Container1Size = Efficiency.Resize(Container2Size, 4, 4);
 
 		    Tool.Resize(ContentContainer, Container2Size);
@@ -2486,7 +2535,7 @@ namespace DashFramework
 	    }
 
 
-	    private void ReloadDropDownMenu()
+	    public void ReloadDropDownMenu()
 	    {
 		try
 		{
