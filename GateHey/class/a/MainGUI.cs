@@ -46,8 +46,12 @@ namespace GateHey
 		    return;
 		}
 
+		//
 		// Further process after validating settings;  work on this when all other
 		// layout related code is done.
+		
+		// if (PACKDATA == none) return "Do not send data";
+		// 
 	    }
 
 	    catch (Exception E)
@@ -139,8 +143,11 @@ namespace GateHey
 	public readonly TextBox TxtBox2 = new TextBox();//Timneout
 	public readonly TextBox TxtBox3 = new TextBox();//Threads
 	public readonly TextBox TxtBox4 = new TextBox();//Packet Data
+
 	public readonly Dialog1 Dialog1 = new Dialog1();
 	public readonly Dialog2 Dialog2 = new Dialog2();
+
+	readonly DropMenu DropMenu = new DropMenu();
 
 	readonly Button Bttn1 = new Button();//Ports Dialog
 	readonly Label Label2 = new Label();//Host
@@ -149,7 +156,6 @@ namespace GateHey
 	readonly Label Label5 = new Label();//Timeout
 	readonly Label Label6 = new Label();//Threads
 	readonly Label Label7 = new Label();//Packet Data
-
 
 	public Dictionary<string ,string> GetComponentValues()
 	{
@@ -212,10 +218,6 @@ namespace GateHey
 		    Label4.BackColor = Color.FromArgb(22, 29, 36);
 		    
 		    Y1 = (Txt1Size.Height + Txt1Loca.Y) + 10;
-
-		    DropMenu DropMenu = new DropMenu();
-
-		    //Separate method for adding dropdown menu
 		});
 
 		Tools.SortCode(("Middle Section"), () =>
@@ -292,13 +294,53 @@ namespace GateHey
 		    ConHelp.AddLabel(Label7, LblSize, LblLoca, ("Packet Data:"));
 		});
 
-		List<Control> controlCol = Tools.GetTypes(Panel3, 
-		    typeof(PictureBox), typeof(Button)).ToList();
-
-		foreach (Control con in controlCol)
+		Tools.SortCode(("Rounding Controls"), () =>
 		{
-		    Tools.Round(con, 6);
-		}
+		    List<Control> controlCol = Tools.GetTypes(Panel3,
+			typeof(PictureBox), typeof(Button)).ToList();
+
+		    foreach (Control con in controlCol)
+		    {
+			Tools.Round(con, 6);
+		    }
+		});
+
+		Tools.SortCode(("Dropdown Menu"), () =>
+		{
+		    Point MenuLoca = new Point(Label4.Left, Label4.Height + Label4.Top);
+		    Color MenuBarBCol = Color.FromArgb(4, 4, 4);
+		    Color MenuBCol = Label4.BackColor;
+
+		    DropMenu.SetupMenu(Panel3, MenuLoca, MenuBCol, MenuBarBCol, true, Label4);
+
+		    void AddItem(string Text)
+		    {
+			try
+			{
+			    Color ItemFCol = Color.White;
+			    Color ItemBCol = MenuBCol;
+
+			    int ItemWidth = Label4.Width;
+			    int TextSize = 8;
+
+			    DropMenu.AddItem(new Label(), ($"( {Text} )"), ItemBCol, ItemFCol, 
+				ItemWidth: Label4.Width, ItemHeight: 18, ItemTextSize: 8);
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    }
+
+		    AddItem("ICP");
+		    AddItem("UDP");
+		    AddItem("TCP");
+
+		    DropMenu.SetHoverColor(TxtBox1.BackColor);
+		    DropMenu.ClickUpdateLabel(Label4);
+		    DropMenu.ReloadDropDownMenu();
+		});
 	    }
 
 	    catch (Exception E)
