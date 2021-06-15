@@ -47,8 +47,7 @@ namespace GateHey
 		{
 		    return false;
 		}
-
-
+		
 		else if (ComponentValues["packdata"].Length < 1)
 		{
 		    return false;
