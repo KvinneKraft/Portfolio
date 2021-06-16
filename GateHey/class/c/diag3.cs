@@ -87,20 +87,88 @@ namespace GateHey
 	    readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
 
+
+	    void Bttn1Hook(DashWindow Parent)
+	    {
+		try
+		{
+		    Parent.Hide();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    void Bttn2Hook()
+	    {
+		try
+		{
+		    using (Process proc = new Process())
+		    {
+			proc.StartInfo = new ProcessStartInfo()
+			{
+			    UseShellExecute = true,
+			    FileName = ("https://pugpawz.com"),
+			};
+
+			proc.Start();
+		    }
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    Size Pnl1Size = new Size(Parent.Width, 28);
-		    Point Pnl1Loca = new Point(0, Parent.Height - 28);
-		    Color Pnl1BCol = Inst.values.getBarColor();
+		    Tools.SortCode(("Panels"), () =>
+		    {
+			Size Pnl1Size = new Size(Parent.Width, 28);
+			Point Pnl1Loca = new Point(0, Parent.Height - 28);
+			Color Pnl1BCol = Inst.values.getBarColor();
 
-		    Size Pnl2Size = new Size(210, 24);
-		    Point Pnl2Loca = new Point(-2, -2);
-		    Color Pnl2BCol = Pnl1BCol;
+			Size Pnl2Size = new Size(210, 20);
+			Point Pnl2Loca = new Point(-2, -2);
+			Color Pnl2BCol = Pnl1BCol;
 
-		    Controls.Panel(Parent, Panel1, Pnl1Size, Pnl1Loca, Pnl1BCol);
-		    Controls.Panel(Panel1, Panel2, Pnl2Size, Pnl2Loca, Pnl2BCol);
+			Controls.Panel(Parent, Panel1, Pnl1Size, Pnl1Loca, Pnl1BCol);
+			Controls.Panel(Panel1, Panel2, Pnl2Size, Pnl2Loca, Pnl2BCol);
+		    });
+
+		    Tools.SortCode(("Buttons"), () =>
+		    {
+			void AddButton(Button Bttn, Point Loca, string Text)
+			{
+			    var Size = new Size(90, 20);
+			    var BCol = Color.FromArgb(22, 29, 36);
+			    var FCol = Color.White;
+
+			    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
+
+			    Bttn.FlatAppearance.MouseDownBackColor = Panel1.BackColor;
+			    Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
+			    Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
+
+			    Tools.Round(Bttn, 6);
+			}
+
+			var Loca2 = new Point(120, 0);
+			var Loca1 = new Point(0, 0);
+
+			AddButton(Bttn1, Loca1, ("Close"));
+			AddButton(Bttn2, Loca2, ("Website"));
+
+			Bttn1.Click += (s, e) => Bttn1Hook(Parent);
+			Bttn2.Click += (s, e) => Bttn2Hook();
+		    });
 		}
 
 		catch (Exception E)
