@@ -144,7 +144,6 @@ namespace GateHey
 		    Bttn3.Click += (s, e) => ButtonHook3();
 
 		    Dialog.Initiator(Parent);
-		    Dialog.Hide();
 		}
 
 		catch (Exception E)
@@ -255,9 +254,6 @@ namespace GateHey
 
 			Dialog1.Initiator(Parent);
 			Dialog2.Initiator(Parent);
-
-			Dialog1.Hide();
-			Dialog2.Hide();
 
 			Bttn1.Click += (s, e) =>
 			{
