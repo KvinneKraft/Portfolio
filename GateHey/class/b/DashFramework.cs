@@ -627,7 +627,7 @@ namespace DashFramework
 		{
 		    try
 		    {
-			Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, 1, FontHeight, Text);
+			Control.Label(LabelParent, Label, Size, Loca, LabelBCol, LabelFCol, Text, 1, FontHeight);
 		    }
 
 		    catch (Exception E)
@@ -886,7 +886,7 @@ namespace DashFramework
 		}
 
 
-		public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, int FontTypeID, int FontSize, string LabelText, bool TabStop = false)
+		public void Label(Control Top, Label Object, Size ObjectSize, Point ObjectLocation, Color ObjectBCol, Color ObjectFCol, string LabelText, int FontTypeID = 1, int FontSize = 8, bool TabStop = false)
 		{
 		    try
 		    {
@@ -1545,7 +1545,7 @@ namespace DashFramework
 		{
 		    var LabelLoca = new Point(-2, 12);
 
-		    Control.Label(Dialog, S2Label1, Size.Empty, LabelLoca, Dialog.BackColor, DialogFCol, 1, 10, Title);
+		    Control.Label(Dialog, S2Label1, Size.Empty, LabelLoca, Dialog.BackColor, DialogFCol, Title, 1, 10);
 
 		    var Container1Size = new Size(Dialog.Width - 20, Dialog.Height - (S2Label1.Height + 68));
 		    var Container1Loca = new Point(10, S2Label1.Height + S2Label1.Top + 10);
@@ -1769,7 +1769,7 @@ namespace DashFramework
 		    var TitleSize = Tool.GetFontSize(values.Title.Text, 8);
 		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
 
-		    Control.Label(values.Bar, values.Title, TitleSize, TitleLoca, barBCol, Color.White, 1, 8, values.Title.Text);
+		    Control.Label(values.Bar, values.Title, TitleSize, TitleLoca, barBCol, Color.White, values.Title.Text, 1, 8);
 		    Tool.Interactive(values.Title, parent);
 
 		    var ButtonSize = new Size(65, barHeight);
@@ -2134,8 +2134,8 @@ namespace DashFramework
 		    var Label1Loca = new Point((S2Container1.Width - (Label1Size.Width + Label2Size.Width)) / 2, (S2Container1.Height - Label1Size.Height) / 2);
 		    var Label2Loca = new Point(Label1Loca.X + Label1Size.Width, Label1Loca.Y);
 
-		    Control.Label(S2Container1, S2Label2, Label2Size, Label2Loca, S2Container1.BackColor, Color.White, 1, 9, $"1/{S2Pages}");
-		    Control.Label(S2Container1, S2Label1, Label1Size, Label1Loca, S2Container1.BackColor, Color.White, 1, 9, "Page:");
+		    Control.Label(S2Container1, S2Label2, Label2Size, Label2Loca, S2Container1.BackColor, Color.White, ($"1/{S2Pages}"), 1, 9);
+		    Control.Label(S2Container1, S2Label1, Label1Size, Label1Loca, S2Container1.BackColor, Color.White, ("Page:"), 1, 9);
 		}
 
 		catch (Exception E)
@@ -2208,7 +2208,7 @@ namespace DashFramework
 		    var LabelSize = Tool.GetFontSize(LabelText, 9);
 		    var LabelLoca = new Point(10, (S3Container1.Height - LabelSize.Height) / 2);
 
-		    Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, ContainerBCol, Color.White, 1, 9, (LabelText));
+		    Control.Label(S3Container1, S3Label1, LabelSize, LabelLoca, ContainerBCol, Color.White, LabelText, 1, 9);
 
 		    var Button2Loca = new Point(50, 0);
 		    var Button1Loca = new Point(0, 0);
@@ -2246,11 +2246,11 @@ namespace DashFramework
 		    Control.Image(S1Container1, S4Container1, ContainerSize, ContainerLoca, ContainerBCol);
 
 		    var LabelText = Message;
-		    var LabelFSiz = TextRenderer.MeasureText(LabelText, Tool.GetFont(1, 9), Size.Empty, flags: TextFormatFlags.WordBreak);//Tool.GetFontSize(TermsOfServices(), 9);
+		    var LabelFSiz = TextRenderer.MeasureText(LabelText, Tool.GetFont(1, 9), Size.Empty, flags: TextFormatFlags.WordBreak);
 		    var LabelSize = new Size(ContainerSize.Width - 4, LabelFSiz.Height - 4);
 		    var LabelLoca = new Point(2, 2);
 
-		    Control.Label(S4Container1, S4Label1, LabelSize, LabelLoca, LabelBCol, LabelFCol, 1, 9, LabelText);
+		    Control.Label(S4Container1, S4Label1, LabelSize, LabelLoca, LabelBCol, LabelFCol, LabelText, 1, 9);
 		}
 
 		catch (Exception E)
@@ -2260,7 +2260,7 @@ namespace DashFramework
 	    }
 
 
-	    public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string> LabelSetup) //string TopBarTitle, Color ConBCol, Color ConFCol, Size ConSize, Point ConLoca, Color LabelBCol, Color LabelFCol, string PageData, int Pages)
+	    public void SetupPages(PictureBox Capsule, Tuple<string, Size, Point> ContainerSetup, Tuple<Color, Color, string> LabelSetup)
 	    {
 		try
 		{
@@ -2477,7 +2477,7 @@ namespace DashFramework
 		    var ItemSize = new Size(ItemWidth, ItemHeight);
 		    var ItemLoca = new Point(0, GetY());
 
-		    Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, 1, ItemTextSize, ItemName);
+		    Control.Label(ContentContainer, Object, ItemSize, ItemLoca, ItemBCol, ItemFCol, ItemName, 1, ItemTextSize);
 		    Object.TextAlign = ContentAlignment.MiddleCenter;
 
 		    int GetContentContainerWidth()
