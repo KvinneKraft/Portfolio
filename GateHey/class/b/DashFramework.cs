@@ -977,12 +977,77 @@ namespace DashFramework
 		}
 	    }
 	}
-
+	
 
 	namespace Tools
 	{
 	    public class DashTools
 	    {
+		// Namespace resources:
+		public string GetCurrentNamespace()
+		{
+		    return Assembly.GetExecutingAssembly().EntryPoint.DeclaringType.Namespace;
+		}
+
+		// Also namespace resources:
+		public string GetTxtFileAt(string fn)
+		{
+		    try
+		    {
+			string nsn = GetType().Namespace;
+
+			using (Stream strm = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{nsn}.{fn}"))
+			{
+			    using (StreamReader rdr = new StreamReader(strm))
+			    {
+				return rdr.ReadToEnd();
+			    }
+			}
+		    }
+
+		    catch
+		    {
+			return string.Empty;
+		    }
+		}
+
+
+		public void SetTxtBoxContents(TextBox TxtBox, string such, bool isResource = false)
+		{
+		    try
+		    {
+			if (isResource)
+			{
+			    such = GetTxtFileAt($"{such}");
+			}
+
+			TxtBox.Text = ($"{such}");
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public void AddBorderTo(Control Con, int Ptw, Color BCol)
+		{
+		    try
+		    {
+			Size Size = new Size(Con.Width - 1, Con.Height - 1);
+			Point Loca = new Point(0, 0);
+
+			PaintRectangle(Con, Ptw, Size, Loca, BCol);
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		}
+
+
 		public void MsgBox(string msg, string title = "Dash Notification", 
 		    MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information)
 		{
