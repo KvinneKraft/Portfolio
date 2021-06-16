@@ -43,24 +43,28 @@ namespace GateHey
 			Color ParentBCol = Inst.BackColor;
 
 			Parent.InitializeWindow(ParentSize, ("Service Policy"), ParentBCol, Color.Empty, appMenuBar: false);
-			Parent.ShowAsIs(false);
 		    });
 
 		    Tools.SortCode(("Top Bar"), () =>
 		    {
-			Size PnlSize = new Size(Parent.Width, 28);
+			Size PnlSize = new Size(Parent.Width, 30);
 			Color PnlBCol = Inst.values.getBarColor();
-			Point LblLoca = new Point(-2, -2);
 			Point PnlLoca = new Point(0, 0);
 
-			Controls.Label(Panel, Label, Size.Empty, LblLoca, PnlBCol, Color.White, ("Service Policy"));
 			Controls.Panel(Parent, Panel, PnlSize, PnlLoca, PnlBCol);
+			Tools.Interactive(Panel, Parent);
+
+			Point LblLoca = new Point(-2, -2);
+			Color LblFCol = Color.White;
+
+			Controls.Label(Panel, Label, Size.Empty, LblLoca, PnlBCol, LblFCol, ("GateHey - Service Policy"));
+			Tools.Interactive(Label, Parent);
 		    });
 
-		    Tools.SortCode(("Border Lining"), () =>
+		    Tools.SortCode(("Last Touches"), () =>
 		    {
-			Size Size = new Size(Parent.Width - 4, Parent.Height - 4);
-			Point Loca = new Point(2, 2);
+			Size Size = new Size(Parent.Width - 2, Parent.Height - 2);
+			Point Loca = new Point(1, 1);
 			Color BCol = Panel.BackColor;
 
 			Tools.PaintRectangle(Parent, 2, Size, Loca, BCol);
@@ -87,7 +91,16 @@ namespace GateHey
 	    {
 		try
 		{
-		    // Bottom bar with Close and Website button
+		    Size Pnl1Size = new Size(Parent.Width, 28);
+		    Point Pnl1Loca = new Point(0, Parent.Height - 28);
+		    Color Pnl1BCol = Inst.values.getBarColor();
+
+		    Size Pnl2Size = new Size(210, 24);
+		    Point Pnl2Loca = new Point(-2, -2);
+		    Color Pnl2BCol = Pnl1BCol;
+
+		    Controls.Panel(Parent, Panel1, Pnl1Size, Pnl1Loca, Pnl1BCol);
+		    Controls.Panel(Panel1, Panel2, Pnl2Size, Pnl2Loca, Pnl2BCol);
 		}
 
 		catch (Exception E)
