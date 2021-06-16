@@ -118,17 +118,25 @@ namespace GateHey
 
 		    void AddButton(Button Bttn, Point Loca, string Text)
 		    {
-			var Size = new Size(100, 20);
-			var BCol = Color.FromArgb(22, 29, 36);
-			var FCol = Color.White;
+			try
+			{
+			    var Size = new Size(100, 20);
+			    var BCol = Color.FromArgb(22, 29, 36);
+			    var FCol = Color.White;
 
-			Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
+			    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
 
-			Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
-			Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
-			Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
+			    Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
+			    Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
+			    Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
 
-			Tools.Round(Bttn, 6);
+			    Tools.Round(Bttn, 6);
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
 		    }
 
 		    var Loca1 = new Point(0, 0);
