@@ -85,6 +85,22 @@ namespace GateHey
 	    }
 
 
+	    readonly Dialog3 Dialog = new Dialog3();
+
+	    void ButtonHook3()
+	    {
+		try
+		{
+		    Dialog.Show();
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public void Initiate(DashWindow Parent, Initiator2 MainSettings)
 	    {
 		try
@@ -125,6 +141,10 @@ namespace GateHey
 
 		    Bttn1.Click += (s, e) => ButtonHook1(MainSettings);
 		    Bttn2.Click += (s, e) => ButtonHook2(MainSettings);
+		    Bttn3.Click += (s, e) => ButtonHook3();
+
+		    Dialog.Initiator(Parent);
+		    Dialog.Hide();
 		}
 
 		catch (Exception E)
@@ -371,7 +391,7 @@ namespace GateHey
 			Color TitleBCol = Parent.BackColor;
 			Color TitleFCol = Color.White;
 
-			Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, 1, 14, ("Host Settings"));
+			Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, ("Host Settings"), 1, 14);
 
 			Size Panel2Size = new Size(Panel1Size.Width, 110);
 			Point Panel2Loca = new Point(0, 33);
