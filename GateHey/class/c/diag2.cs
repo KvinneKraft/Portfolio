@@ -43,7 +43,6 @@ namespace GateHey
 		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0);
 		    Parent.values.setTitleLocation(new Point(10, -2));
 		    Parent.values.HideIcons();
-		    Parent.ShowAsIs(false);
 		}
 
 		catch (Exception E)
