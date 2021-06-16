@@ -81,7 +81,7 @@ namespace GateHey
 		    var TxtBCol = PanelBCol;
 
 		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 9);
-		    Controls.Label(Panel, Lbl, LblSize, LblLoca, LblBCol, LblFCol, 0, 10, ("$:"));
+		    Controls.Label(Panel, Lbl, LblSize, LblLoca, LblBCol, LblFCol, ("$:"), 0, 10);
 
 		    TxtBox.Text = ("help");
 		}
