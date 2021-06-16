@@ -30,14 +30,41 @@ namespace GateHey
 
 	public class InitiateTop
 	{
-	    readonly Panel Panel = new Panel();
+	    readonly DashPanel Panel = new DashPanel();
 	    readonly Label Label = new Label();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
+		    Tools.SortCode(("Main Window"), () =>
+		    {
+			Size ParentSize = new Size(350, 250);
+			Color ParentBCol = Inst.BackColor;
 
+			Parent.InitializeWindow(ParentSize, ("Service Policy"), ParentBCol, Color.Empty, appMenuBar: false);
+			Parent.ShowAsIs(false);
+		    });
+
+		    Tools.SortCode(("Top Bar"), () =>
+		    {
+			Size PnlSize = new Size(Parent.Width, 28);
+			Color PnlBCol = Inst.values.getBarColor();
+			Point LblLoca = new Point(-2, -2);
+			Point PnlLoca = new Point(0, 0);
+
+			Controls.Label(Panel, Label, Size.Empty, LblLoca, PnlBCol, Color.White, ("Service Policy"));
+			Controls.Panel(Parent, Panel, PnlSize, PnlLoca, PnlBCol);
+		    });
+
+		    Tools.SortCode(("Border Lining"), () =>
+		    {
+			Size Size = new Size(Parent.Width - 4, Parent.Height - 4);
+			Point Loca = new Point(2, 2);
+			Color BCol = Panel.BackColor;
+
+			Tools.PaintRectangle(Parent, 2, Size, Loca, BCol);
+		    });
 		}
 
 		catch (Exception E)
@@ -53,14 +80,14 @@ namespace GateHey
 	    readonly Button Bttn1 = new Button();
 	    readonly Button Bttn2 = new Button();
 
-	    readonly Panel Panel1 = new Panel();
-	    readonly Panel Panel2 = new Panel();
+	    readonly DashPanel Panel1 = new DashPanel();
+	    readonly DashPanel Panel2 = new DashPanel();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-
+		    // Bottom bar with Close and Website button
 		}
 
 		catch (Exception E)
@@ -74,13 +101,13 @@ namespace GateHey
 	public class InitiateMiddle
 	{
 	    readonly TextBox TxtBox = new TextBox();
-	    readonly Panel Panel = new Panel();
+	    readonly DashPanel Panel = new DashPanel();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-
+		    // TextBox + Panel
 		}
 
 		catch (Exception E)
@@ -97,11 +124,13 @@ namespace GateHey
 
 	readonly DashWindow Parent = new DashWindow();
 
-	public void Initiator(DashWindow inst)
+	public void Initiator(DashWindow Inst)
 	{
 	    try
 	    {
-
+		InitiateT.Initiate(Parent, Inst);
+		InitiateB.Initiate(Parent, Inst);
+		InitiateM.Initiate(Parent, Inst);
 	    }
 
 	    catch (Exception E)
