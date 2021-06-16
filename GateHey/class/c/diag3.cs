@@ -63,11 +63,7 @@ namespace GateHey
 
 		    Tools.SortCode(("Last Touches"), () =>
 		    {
-			Size Size = new Size(Parent.Width - 2, Parent.Height - 2);
-			Point Loca = new Point(1, 1);
-			Color BCol = Panel.BackColor;
-
-			Tools.PaintRectangle(Parent, 2, Size, Loca, BCol);
+			Tools.AddBorderTo(Parent, 2, Panel.BackColor);
 		    });
 		}
 
@@ -148,7 +144,7 @@ namespace GateHey
 			void AddButton(Button Bttn, Point Loca, string Text)
 			{
 			    var Size = new Size(90, 20);
-			    var BCol = Color.FromArgb(22, 29, 36);
+			    var BCol = Panel1.BackColor;
 			    var FCol = Color.White;
 
 			    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
@@ -181,14 +177,36 @@ namespace GateHey
 
 	public class InitiateMiddle
 	{
-	    readonly TextBox TxtBox = new TextBox();
 	    readonly DashPanel Panel = new DashPanel();
+	    readonly TextBox TxtBox = new TextBox();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    // TextBox + Panel
+		    Tools.SortCode(("Panel + TextBox"), () =>
+		    {
+			Size PnlSize = new Size(Parent.Width - 30, Parent.Height - 88); // 58 
+			Point PnlLoca = new Point(-2, 45);
+			Color PnlBCol = Color.FromArgb(22, 29, 36);
+
+			Controls.Panel(Parent, Panel, PnlSize, PnlLoca, PnlBCol);
+
+			Size TxtSize = new Size(Panel.Width - 20, Panel.Height - 20);
+			Point TxtLoca = new Point(10, 10);
+			Color TxtFCol = Color.White;
+			Color TxtBCol = PnlBCol;
+
+			Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 8, true, true, false, false);
+			Tools.SetTxtBoxContents(TxtBox, ($"{resources.Resources.policy}"));
+		    });
+
+
+		    Tools.SortCode(("Last Touches"), () =>
+		    {
+			Tools.AddBorderTo(Panel, 2, Color.FromArgb(32, 32, 32));
+			Tools.Round(Panel, 6);
+		    });
 		}
 
 		catch (Exception E)
