@@ -41,8 +41,6 @@ namespace GateHey
 		    string diagTitle = ("Clairvoyant - Port Selector");
 
 		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius:0, startPosition: FormStartPosition.CenterParent, barClose: false);
-		    Parent.ShowAsIs(false);
-
 		    Parent.values.CenterTitle();
 		    Parent.values.HideIcons();
 		}
