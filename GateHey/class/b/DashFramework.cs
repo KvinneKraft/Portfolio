@@ -981,16 +981,15 @@ namespace DashFramework
 
 	namespace Tools
 	{
-	    public class DashTools
+	    public class DashResources
 	    {
-		// Namespace resources:
 		public string GetCurrentNamespace()
 		{
 		    return Assembly.GetExecutingAssembly().EntryPoint.DeclaringType.Namespace;
 		}
 
-		// Also namespace resources:
-		public string GetTxtFileAt(string fn)
+
+		public string GetStringFrom(string fn)
 		{
 		    try
 		    {
@@ -1010,7 +1009,12 @@ namespace DashFramework
 			return string.Empty;
 		    }
 		}
+	    }
 
+
+	    public class DashTools
+	    {
+		readonly DashResources Resource = new DashResources();
 
 		public void SetTxtBoxContents(TextBox TxtBox, string such, bool isResource = false)
 		{
@@ -1018,7 +1022,7 @@ namespace DashFramework
 		    {
 			if (isResource)
 			{
-			    such = GetTxtFileAt($"{such}");
+			    such = Resource.GetStringFrom($"{such}");
 			}
 
 			TxtBox.Text = ($"{such}");
