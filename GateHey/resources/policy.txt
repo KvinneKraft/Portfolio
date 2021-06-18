@@ -1,1 +1,8 @@
-it works.
+The terms of services you automatically agree with when making use of this software and or any additional components of this software.
+|
+|
+1) You claim responsibility for any use made of this application and or of any additional components of this software.
+|
+2) You confirm that you are aware of the capabilities of this software and are aware of the risks that may be implied by misusing this software.
+|
+That is really it.
