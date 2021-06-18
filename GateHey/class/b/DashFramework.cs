@@ -1012,8 +1012,62 @@ namespace DashFramework
 	    }
 
 
+	    public class DashLink
+	    {
+		public void CenterDialog(Control Dialog, Control Parent)
+		{
+		    try
+		    {
+			Point ParentLoca = Parent.PointToScreen(Point.Empty);
+
+			int Y = ParentLoca.Y + ((Parent.Height - Dialog.Height) / 2);
+			int X = ParentLoca.X + ((Parent.Width - Dialog.Width) / 2);
+			
+			Dialog.Location = new Point(X, Y);
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.JustDoIt(E);
+		    }
+		}
+
+		
+		public void AutoLocationUpdater(Control Dialog, Control Parent)
+		{
+		    try
+		    {
+			Point oldLocation = Dialog.Location;
+
+			Parent.LocationChanged += (s, e) =>
+			{
+			    // Get parent location then add old X - Y
+
+			    Point newLocation = Parent.PointToScreen(Point.Empty);
+
+			    newLocation.X += oldLocation.X;
+			    newLocation.Y += oldLocation.Y;
+
+			    Dialog.Location = newLocation;
+			};
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.GetException(E);
+		    }
+		}
+	    }
+
+
 	    public class DashTools
 	    {
+		// - When parent GUI moves update added dialog
+		// - Old Dialog Location on Screen
+		// - Update it by changed value of Parent
+		// - If changed value is higher than old +
+		// - If changed value is lower than old -
+
 		readonly DashResources Resource = new DashResources();
 
 		public void SetTxtBoxContents(TextBox TxtBox, string such, bool isResource = false)
