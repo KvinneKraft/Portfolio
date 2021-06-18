@@ -74,7 +74,7 @@ namespace GateHey
 
 		    else
 		    {
-			Tools.MsgBox("One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.");
+			Tools.MsgBox($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: {Universal.GetLastError()}");
 		    }
 		}
 
