@@ -69,7 +69,7 @@ namespace GateHey
 
 		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
 
-		    var LblSize = Tools.GetFontSize("$:", Id:0);
+		    var LblSize = Tools.GetFontSize("$:", Id: 0);
 		    var LblLoca = new Point(0, 7);
 		    var LblFCol = Color.White;
 		    var LblBCol = PanelBCol;
@@ -154,13 +154,15 @@ namespace GateHey
 
 	readonly DashWindow Parent = new DashWindow();
 
-	public void Initiator(DashWindow inst)
+	public void Initiator(DashWindow Inst)
 	{
 	    try
 	    {
-		InitiateT.Initiate(Parent, inst);
-		InitiateB.Initiate(Parent, inst);
-		InitiateM.Initiate(Parent, inst);
+		InitiateT.Initiate(Parent, Inst);
+		InitiateB.Initiate(Parent, Inst);
+		InitiateM.Initiate(Parent, Inst);
+
+		this.Inst = Inst;
 	    }
 
 	    catch (Exception E)
@@ -170,7 +172,16 @@ namespace GateHey
 	}
 
 
-	public void Show() => Parent.Show();
+	readonly DashLink Linker = new DashLink();
+	public DashWindow Inst = null;
+
+	public void Show()
+	{
+	    Parent.Show();
+	    Linker.CenterDialog(Parent, Inst);
+	}
+
+
 	public void Hide() => Parent.Hide();
     }
 }

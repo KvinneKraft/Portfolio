@@ -230,6 +230,10 @@ namespace GateHey
 		InitiateT.Initiate(Parent, Inst);
 		InitiateB.Initiate(Parent, Inst);
 		InitiateM.Initiate(Parent, Inst);
+
+		Linker.AutoLocationUpdater(Parent, Inst);
+
+		this.Inst = Inst;
 	    }
 
 	    catch (Exception E)
@@ -239,7 +243,16 @@ namespace GateHey
 	}
 
 
-	public void Show() => Parent.Show();
+	readonly DashLink Linker = new DashLink();
+	public DashWindow Inst = null;
+
+	public void Show()
+	{
+	    Parent.Show();
+	    Linker.CenterDialog(Parent, Inst);
+	}
+
+	
 	public void Hide() => Parent.Hide();
     }
 }

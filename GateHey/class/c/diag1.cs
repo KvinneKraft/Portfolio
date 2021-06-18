@@ -40,7 +40,7 @@ namespace GateHey
 
 		    string diagTitle = ("Clairvoyant - Port Selector");
 
-		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius:0, startPosition: FormStartPosition.CenterParent, barClose: false);
+		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0, startPosition: FormStartPosition.CenterParent, barClose: false);
 		    Parent.values.CenterTitle();
 		    Parent.values.HideIcons();
 		}
@@ -259,8 +259,7 @@ namespace GateHey
 			Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 		    });
 
-
-		    Tools.SortCode(("Buttons"), () => 
+		    Tools.SortCode(("Buttons"), () =>
 		    {
 			void AddButton(Button Bttn, Point Loca, string Text)
 			{
@@ -315,7 +314,7 @@ namespace GateHey
 		    Point TxtLoca = new Point(5, 5);
 		    Color TxtFCol = Color.White;
 		    Color TxtBCol = PanelBCol;
-		    
+
 		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 10, Multiline: true, FixedSize: false);
 
 		    TxtBox.Text = string.Format
@@ -338,16 +337,17 @@ namespace GateHey
 	public readonly InitiateMiddle InitiateM = new InitiateMiddle();
 	readonly InitiateBottom InitiateB = new InitiateBottom();
 	readonly InitiateTop InitiateT = new InitiateTop();
-
 	readonly DashWindow Parent = new DashWindow();
-
-	public void Initiator(DashWindow inst)
+	
+	public void Initiator(DashWindow Inst)
 	{
 	    try
 	    {
-		InitiateT.Initiate(Parent, inst);
-		InitiateB.Initiate(Parent, inst, InitiateM.TxtBox);
-		InitiateM.Initiate(Parent, inst);
+		InitiateT.Initiate(Parent, Inst);
+		InitiateB.Initiate(Parent, Inst, InitiateM.TxtBox);
+		InitiateM.Initiate(Parent, Inst);
+
+		this.Inst = Inst;
 	    }
 
 	    catch (Exception E)
@@ -357,8 +357,17 @@ namespace GateHey
 	}
 
 
+	readonly DashLink Linker = new DashLink();
+	public DashWindow Inst = null;
+
+	public void Show()
+	{
+	    Parent.Show();
+	    Linker.CenterDialog(Parent, Inst);
+	}
+ 
+
 	public bool Visible() => Parent.Visible;
-	public void Show() => Parent.Show();
 	public void Hide() => Parent.Hide();
     }
 }
