@@ -27,6 +27,21 @@ namespace GateHey
     {
 	readonly static DashNet DaNet = new DashNet();
 
+
+	public static string LastError = string.Empty;
+
+	public static string GetLastError()
+	{
+	    return LastError;
+	}
+
+
+	private static void SetError(string Data)
+	{
+	    LastError = Data;
+	}
+
+
 	public static bool SettingsValidation(MainGUI.Initiator2 MainSettings)
 	{
 	    try
@@ -35,21 +50,25 @@ namespace GateHey
 
 		if (!DaNet.CanIP(ComponentValues["host"]))
 		{
+		    SetError("invalid host");
 		    return false;
 		}
 
 		else if (!DaNet.CanInteger(ComponentValues["timeout"]))
 		{
+		    SetError("invalid timeout amount");
 		    return false;
 		}
 
 		else if (!DaNet.CanInteger(ComponentValues["threads"]))
 		{
+		    SetError("invalid thread count");
 		    return false;
 		}
 		
 		else if (ComponentValues["packdata"].Length < 1)
 		{
+		    SetError("invalid packet data");
 		    return false;
 		}
 
@@ -61,6 +80,7 @@ namespace GateHey
 
 	    catch
 	    {
+		SetError("exception occred.");
 		return false;
 	    }
 	}
