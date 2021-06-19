@@ -223,7 +223,7 @@ namespace GateHey
 
 	readonly DashWindow Parent = new DashWindow();
 
-	public void Initiator(DashWindow Inst)
+ 	public void Initiator(DashWindow Inst)
 	{
 	    try
 	    {
