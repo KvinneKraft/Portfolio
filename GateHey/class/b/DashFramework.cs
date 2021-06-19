@@ -1022,7 +1022,7 @@ namespace DashFramework
 
 			int Y = ParentLoca.Y + ((Parent.Height - Dialog.Height) / 2);
 			int X = ParentLoca.X + ((Parent.Width - Dialog.Width) / 2);
-			
+
 			Dialog.Location = new Point(X, Y);
 		    }
 
@@ -1031,35 +1031,8 @@ namespace DashFramework
 			ErrorHandler.JustDoIt(E);
 		    }
 		}
-
-		
-		public void AutoLocationUpdater(Control Dialog, Control Parent)
-		{
-		    try
-		    {
-			Point oldLocation = Dialog.Location;
-
-			Parent.LocationChanged += (s, e) =>
-			{
-			    // Get parent location then add old X - Y
-
-			    Point newLocation = Parent.PointToScreen(Point.Empty);
-
-			    newLocation.X += oldLocation.X;
-			    newLocation.Y += oldLocation.Y;
-
-			    Dialog.Location = newLocation;
-			};
-		    }
-
-		    catch (Exception E)
-		    {
-			ErrorHandler.GetException(E);
-		    }
-		}
 	    }
-
-
+		
 	    public class DashTools
 	    {
 		// - When parent GUI moves update added dialog
@@ -1367,7 +1340,8 @@ namespace DashFramework
 			    return;
 			}
 
-			Target.Location = new Point(Target.Location.X + (e.X - Location.X), Target.Location.Y + (e.Y - Location.Y));
+			Target.Location = new Point(Target.Location.X + (e.X - Location.X), 
+			    Target.Location.Y + (e.Y - Location.Y));
 		    };
 
 		    Object.MouseDown += (s, e) =>
