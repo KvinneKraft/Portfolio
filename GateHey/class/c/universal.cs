@@ -225,5 +225,6 @@ namespace GateHey
 	}
 
 	public static List<int> Ports = new List<int>();
+	public static bool DoScanning = false;
     }
 }
