@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Networking;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -172,6 +173,24 @@ namespace GateHey
 	}
 
 
+	// connect to port method, with protocol type, packetData, timeout and port
+	readonly DashNet DashNet = new DashNet();
+
+	bool AttemptConnect(string host, int port, ProtocolType protocol, string packetData, int timeout)
+	{
+	    try
+	    {
+		return DashNet.IsHostReachable(host, port, SocketType.Stream, 
+		    protocol, packetData, timeout);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	public void RunScan(MainGUI.Initiator2 MainSettings)
 	{
 	    try
@@ -187,7 +206,12 @@ namespace GateHey
 
 		Tools.SortCode(("Port Scanning"), () =>
 		{
+		    List<int> SuccessfulConnections = new List<int>();
+		    List<int> FailedConnections = new List<int>();
+
 		    int ScanType = Universal.ScanType;
+
+
 
 		    if (ScanType == 1) //Single
 		    {
