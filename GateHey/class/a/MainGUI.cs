@@ -40,15 +40,16 @@ namespace GateHey
 	    readonly Button Bttn2 = new Button();
 	    readonly Button Bttn3 = new Button();
 
-	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: {Universal.GetLastError()}");
+	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: ");
+	    string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
 
 	    void ButtonHook1(Initiator2 MainSettings)
 	    {
 		try
 		{
-		    if (!Universal.SettingsValidation(MainSettings))
+		    if (!Universal.SettingsValidation(MainSettings, false))
 		    {
-			Tools.MsgBox($"{ErrorMsg}", icon: MessageBoxIcon.Information);
+			Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
 			return;
 		    }
 
@@ -65,7 +66,11 @@ namespace GateHey
 		    (
 			MainSettings.TxtBox1.Parent, () => 
 			{
-			    
+			    // Get the type of port scan <--- 
+			    // 
+			    // 
+			    // 
+			    // 
 			}
 		    );
 		}
@@ -81,14 +86,14 @@ namespace GateHey
 	    {
 		try
 		{
-		    if (Universal.SettingsValidation(MainSettings))
+		    if (Universal.SettingsValidation(MainSettings, false))
 		    {
 			Tools.MsgBox("Your settings are found to be valid.  You may now proceed.", icon: MessageBoxIcon.Information);
 		    }
 
 		    else
 		    {
-			Tools.MsgBox($"{ErrorMsg}", icon: MessageBoxIcon.Information);
+			Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Information);
 		    }
 		}
 
