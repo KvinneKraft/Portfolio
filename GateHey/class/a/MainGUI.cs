@@ -41,36 +41,34 @@ namespace GateHey
 	    readonly Button Bttn3 = new Button();
 
 	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: ");
-	    string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
+	    private string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
+	    public bool IsScanning = true;
 
 	    void ButtonHook1(Initiator2 MainSettings)
 	    {
 		try
 		{
-		    if (!Universal.SettingsValidation(MainSettings, false))
-		    {
-			Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
-			return;
-		    }
-
-		    int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
-		    int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
-
-		    string packetData = MainSettings.GetComponentValues()["packdata"];
-		    string protocol = MainSettings.GetComponentValues()["protocol"];
-		    string host = MainSettings.GetComponentValues()["host"];
-
-		    bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
-
 		    Runnables.RunTaskAsynchronously
 		    (
-			MainSettings.TxtBox1.Parent, () => 
+			MainSettings.TxtBox1.Parent, () =>
 			{
-			    // Get the type of port scan <--- 
-			    // 
-			    // 
-			    // 
-			    // 
+			    if (!IsScanning)
+			    {
+				if (!Universal.SettingsValidation(MainSettings, false))
+				{
+				    Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
+				    return;
+				}
+	
+				IsScanning = true;
+				MainSettings.Dialog2.RunScan(MainSettings);
+			    }
+
+			    else
+			    {   
+				MainSettings.Dialog2.StopScan();
+				IsScanning = false;
+			    }
 			}
 		    );
 		}
