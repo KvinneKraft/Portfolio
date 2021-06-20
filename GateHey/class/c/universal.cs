@@ -38,7 +38,7 @@ namespace GateHey
 	}
 
 
-	public static int scanType = 1;//1=single,2=multi,3=ranged
+	public static int ScanType = 1;//1=single,2=multi,3=ranged
 
 	public static bool PortSettingsCorrect(string data, bool toggle)
 	{
@@ -109,7 +109,7 @@ namespace GateHey
 		    ports.Add(min);
 		    ports.Add(max);
 
-		    scanType = 3;
+		    ScanType = 3;
 		}
 
 		else if (data.Contains(","))
@@ -133,7 +133,7 @@ namespace GateHey
 			ports.Add(int.Parse(dataSlice));
 		    }
 
-		    scanType = 2;
+		    ScanType = 2;
 		}
 
 		else
@@ -145,7 +145,7 @@ namespace GateHey
 		    }
 
 		    ports.Add(int.Parse(data));
-		    scanType = 1;
+		    ScanType = 1;
 		}
 
 		Ports.Clear();
