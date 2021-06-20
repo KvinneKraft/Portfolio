@@ -175,12 +175,12 @@ namespace GateHey
 
 	// connect to port method, with protocol type, packetData, timeout and port
 	readonly DashNet DashNet = new DashNet();
-
-	bool AttemptConnect(string host, int port, ProtocolType protocol, string packetData, int timeout)
+	
+	bool AttemptConnect(string host, int port, SocketType socketType, ProtocolType protocol, string packetData, int timeout)
 	{
 	    try
 	    {
-		return DashNet.IsHostReachable(host, port, SocketType.Stream, 
+		return DashNet.IsHostReachable(host, port, socketType,
 		    protocol, packetData, timeout);
 	    }
 
@@ -188,6 +188,30 @@ namespace GateHey
 	    {
 		throw (ErrorHandler.GetException(E));
 	    }
+	}
+
+	ProtocolType GetProtocol(string protocol)
+	{
+	    switch (protocol)
+	    {
+		case "ICP": return ProtocolType.Icmp;
+		case "UDP": return ProtocolType.Udp;
+		case "TCP": return ProtocolType.Tcp;
+	    }
+
+	    return ProtocolType.Tcp;
+	}
+
+	SocketType GetSocketType(string protocol)
+	{
+	    switch (GetProtocol(protocol))
+	    {
+		case ProtocolType.Tcp: return SocketType.Stream;
+		case ProtocolType.Icmp: return SocketType.Raw;
+		case ProtocolType.Udp: return SocketType.Raw;
+	    }
+
+	    return SocketType.Stream;
 	}
 
 
@@ -210,23 +234,65 @@ namespace GateHey
 		    List<int> FailedConnections = new List<int>();
 
 		    int ScanType = Universal.ScanType;
-
-
-
+		    
 		    if (ScanType == 1) //Single
 		    {
+			int port = Universal.Ports[0];
 
+			if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
+			{
+			    SuccessfulConnections.Add(port);
+			}
+			
+			else
+			{
+			    FailedConnections.Add(port);
+			}
 		    }
 
 		    else if (ScanType == 2) // Multi
 		    {
+			foreach (int port in Universal.Ports)
+			{
+			    if (!Universal.DoScanning)
+			    {
+				break;
+			    }
 
+			    else if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
+			    {
+				SuccessfulConnections.Add(port);
+			    }
+
+			    else
+			    {
+				FailedConnections.Add(port);
+			    }
+			}
 		    }
 
 		    else // Ranged
 		    {
+			for (int port = Universal.Ports[0]; port <= Universal.Ports[1]; port += 1)
+			{
+			    if (!Universal.DoScanning)
+			    {
+				break;
+			    }
 
+			    else if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
+			    {
+				SuccessfulConnections.Add(port);
+			    }
+
+			    else
+			    {
+				FailedConnections.Add(port);
+			    }
+			}
 		    }
+
+		    MessageBox.Show($"{SuccessfulConnections.Count} : {FailedConnections.Count}");
 		});
 	    }
 
