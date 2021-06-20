@@ -1031,16 +1031,16 @@ namespace DashFramework
 			ErrorHandler.JustDoIt(E);
 		    }
 		}
-	    }
-		
-	    public class DashTools
-	    {
+
 		// - When parent GUI moves update added dialog
 		// - Old Dialog Location on Screen
 		// - Update it by changed value of Parent
 		// - If changed value is higher than old +
 		// - If changed value is lower than old -
+	    }
 
+	    public class DashTools
+	    {
 		readonly DashResources Resource = new DashResources();
 
 		public void SetTxtBoxContents(TextBox TxtBox, string such, bool isResource = false)
