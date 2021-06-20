@@ -54,7 +54,15 @@ namespace DashFramework
 			    (
 				() =>
 				{
-				    execute();
+				    try
+				    {
+					execute();
+				    }
+
+				    catch (Exception E)
+				    {
+					throw (ErrorHandler.GetException(E));
+				    }
 				}
 			    )
 			);
