@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Runnables;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -30,6 +31,8 @@ namespace GateHey
 
 	public class Initiator1
 	{
+	    readonly Runnable Runnables = new Runnable();
+
 	    readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
 
@@ -37,6 +40,7 @@ namespace GateHey
 	    readonly Button Bttn2 = new Button();
 	    readonly Button Bttn3 = new Button();
 
+	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: {Universal.GetLastError()}");
 
 	    void ButtonHook1(Initiator2 MainSettings)
 	    {
@@ -44,16 +48,26 @@ namespace GateHey
 		{
 		    if (!Universal.SettingsValidation(MainSettings))
 		    {
-			// Error Message Box
+			Tools.MsgBox($"{ErrorMsg}", icon: MessageBoxIcon.Information);
 			return;
 		    }
 
-		    //
-		    // Further process after validating settings;  work on this when all other
-		    // layout related code is done.
+		    int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
+		    int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
 
-		    // if (PACKDATA == none) return "Do not send data";
-		    // 
+		    string packetData = MainSettings.GetComponentValues()["packdata"];
+		    string protocol = MainSettings.GetComponentValues()["protocol"];
+		    string host = MainSettings.GetComponentValues()["host"];
+
+		    bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
+
+		    Runnables.RunTaskAsynchronously
+		    (
+			MainSettings.TxtBox1.Parent, () => 
+			{
+			    
+			}
+		    );
 		}
 
 		catch (Exception E)
@@ -74,7 +88,7 @@ namespace GateHey
 
 		    else
 		    {
-			Tools.MsgBox($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: {Universal.GetLastError()}");
+			Tools.MsgBox($"{ErrorMsg}", icon: MessageBoxIcon.Information);
 		    }
 		}
 
@@ -188,6 +202,7 @@ namespace GateHey
 		{
 		    return new Dictionary<string, string>()
 		    {
+			{ "protocol", $"{Label3.Text.Replace("-==( ", "").Replace(" )==-", "")}" },
 			{ "packdata", TxtBox4.Text },
 			{ "timeout", TxtBox2.Text },
 			{ "threads", TxtBox3.Text },
