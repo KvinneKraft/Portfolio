@@ -49,24 +49,32 @@ namespace DashFramework
 		{
 		    new Thread(() =>
 		    {
-			parent.Invoke
-			(
-			    new MethodInvoker
+			if (parent != null)
+			{
+			    parent.Invoke
 			    (
-				() =>
-				{
-				    try
+				new MethodInvoker
+				(
+				    () =>
 				    {
-					execute();
-				    }
+					try
+					{
+					    execute();
+					}
 
-				    catch (Exception E)
-				    {
-					throw (ErrorHandler.GetException(E));
+					catch (Exception E)
+					{
+					    throw (ErrorHandler.GetException(E));
+					}
 				    }
-				}
-			    )
-			);
+				)
+			    );
+			}
+
+			else
+			{
+			    execute();
+			}
 		    })
 
 		    { IsBackground = true }.Start();
@@ -2851,7 +2859,7 @@ namespace DashFramework
 		    }
 		}
 
-		catch
+		catch (Exception E)
 		{
 		    return false;
 		}
