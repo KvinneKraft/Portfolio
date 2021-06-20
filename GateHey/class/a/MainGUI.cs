@@ -59,15 +59,36 @@ namespace GateHey
 				    Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
 				    return;
 				}
-	
+
+				Runnables.RunTaskAsynchronously
+				(
+				    null, () =>
+				    {
+					IsScanning = true;
+
+					MainSettings.Dialog2.Parent.ShowDialog();
+					MainSettings.Dialog2.Parent.BringToFront();
+					MainSettings.Dialog2.Parent.Focus();
+					MainSettings.Dialog2.RunScan(MainSettings);
+
+					IsScanning = false;
+				    }
+				);
+
 				IsScanning = true;
+
+				MainSettings.Dialog2.Show();
+				MainSettings.Dialog2.Parent.BringToFront();
+				MainSettings.Dialog2.Parent.Focus();
 				MainSettings.Dialog2.RunScan(MainSettings);
+
 				IsScanning = false;
 			    }
 
 			    else
 			    {   
 				MainSettings.Dialog2.StopScan();
+
 				IsScanning = false;
 			    }
 			}
