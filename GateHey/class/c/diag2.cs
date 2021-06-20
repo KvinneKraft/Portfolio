@@ -153,7 +153,7 @@ namespace GateHey
 	readonly InitiateMiddle InitiateM = new InitiateMiddle();
 	readonly InitiateTop InitiateT = new InitiateTop();
 
-	readonly DashWindow Parent = new DashWindow();
+	readonly public DashWindow Parent = new DashWindow();
 
 	public void Initiator(DashWindow Inst)
 	{
@@ -222,9 +222,11 @@ namespace GateHey
 		int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
 		int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
 
+		string host = DashNet.GetIP(MainSettings.GetComponentValues()["host"]);
 		string packetData = MainSettings.GetComponentValues()["packdata"];
 		string protocol = MainSettings.GetComponentValues()["protocol"];
-		string host = MainSettings.GetComponentValues()["host"];
+
+		MessageBox.Show(host);
 
 		bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
 
@@ -234,7 +236,9 @@ namespace GateHey
 		    List<int> FailedConnections = new List<int>();
 
 		    int ScanType = Universal.ScanType;
-		    
+
+		    Universal.DoScanning = true;
+
 		    if (ScanType == 1) //Single
 		    {
 			int port = Universal.Ports[0];
@@ -292,7 +296,9 @@ namespace GateHey
 			}
 		    }
 
-		    MessageBox.Show($"{SuccessfulConnections.Count} : {FailedConnections.Count}");
+		    Universal.DoScanning = false;
+		    
+		    // Add Send Messages to TextBox thing
 		});
 	    }
 
