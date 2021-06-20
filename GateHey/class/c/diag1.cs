@@ -61,123 +61,6 @@ namespace GateHey
 	    readonly Button Bttn1 = new Button();
 	    readonly Button Bttn2 = new Button();
 
-
-	    public bool PortSettingsCorrect(string data)
-	    {
-		try
-		{
-		    bool IsPort(string slice)
-		    {
-			try
-			{
-			    int port = int.Parse(slice);
-			    return (port > 0 && port <= 65535);
-			}
-
-			catch
-			{
-			    return false;
-			}
-		    }
-
-		    bool ArePortsOkay(string[] portData)
-		    {
-			foreach (string portSlice in portData)
-			{
-			    if (!IsPort(portSlice))
-			    {
-				return false;
-			    }
-			}
-
-			return true;
-		    }
-
-		    List<int> ports = new List<int>();
-
-		    string invalidMsg = ("The port selection found within the file seems incorrect.  Please make sure you use the correct format, else errors may occur.");
-
-		    if (data.Length < 1)
-		    {
-			Tools.MsgBox(invalidMsg, "Port Selector");
-			return false;
-		    }
-
-		    else if (data.Contains("-"))
-		    {
-			string[] portData = data.Split('-');
-
-			if (portData.Length != 2)
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			else if (!ArePortsOkay(portData))
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			int min = int.Parse(portData[0]);
-			int max = int.Parse(portData[1]);
-
-			if (min >= max)
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			ports.Add(min);
-			ports.Add(max);
-		    }
-
-		    else if (data.Contains(","))
-		    {
-			string[] portData = data.Split(',');
-
-			if (portData.Length < 1)
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			else if (!ArePortsOkay(portData))
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			foreach (string dataSlice in portData)
-			{
-			    ports.Add(int.Parse(dataSlice));
-			}
-		    }
-
-		    else
-		    {
-			if (!IsPort(data))
-			{
-			    Tools.MsgBox(invalidMsg, "Port Selector");
-			    return false;
-			}
-
-			ports.Add(int.Parse(data));
-		    }
-
-		    Universal.Ports.Clear();
-		    Universal.Ports.AddRange(ports);
-
-		    return true;
-		}
-
-		catch
-		{
-		    return false;
-		}
-	    }
-
-
 	    public void Bttn1Hook(TextBox Txt)
 	    {
 		try
@@ -199,7 +82,7 @@ namespace GateHey
 
 			string data = File.ReadAllText($"{openDiag.FileName}").Replace(" ", "");
 
-			if (!PortSettingsCorrect(data))//return null
+			if (!Universal.PortSettingsCorrect(data, true))//return null
 			{
 			    return;
 			}
@@ -226,7 +109,7 @@ namespace GateHey
 			Txt.Text = ("1-65535");
 		    }
 
-		    else if (!PortSettingsCorrect(Txt.Text.Replace(" ", "")))
+		    else if (!Universal.PortSettingsCorrect(Txt.Text.Replace(" ", ""), true))
 		    {
 			return;
 		    }
