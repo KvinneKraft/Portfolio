@@ -62,6 +62,7 @@ namespace GateHey
 	
 				IsScanning = true;
 				MainSettings.Dialog2.RunScan(MainSettings);
+				IsScanning = false;
 			    }
 
 			    else
