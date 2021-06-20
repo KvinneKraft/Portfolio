@@ -172,6 +172,61 @@ namespace GateHey
 	}
 
 
+	public void RunScan(MainGUI.Initiator2 MainSettings)
+	{
+	    try
+	    {
+		int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
+		int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
+
+		string packetData = MainSettings.GetComponentValues()["packdata"];
+		string protocol = MainSettings.GetComponentValues()["protocol"];
+		string host = MainSettings.GetComponentValues()["host"];
+
+		bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
+
+		Tools.SortCode(("Port Scanning"), () =>
+		{
+		    int ScanType = Universal.ScanType;
+
+		    if (ScanType == 1) //Single
+		    {
+
+		    }
+
+		    else if (ScanType == 2) // Multi
+		    {
+
+		    }
+
+		    else // Ranged
+		    {
+
+		    }
+		});
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+	
+	public void StopScan()
+	{
+	    try
+	    {
+
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
+
+
 	readonly DashLink Linker = new DashLink();
 	public DashWindow Inst = null;
 
