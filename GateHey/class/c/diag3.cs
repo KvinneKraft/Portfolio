@@ -201,7 +201,7 @@ namespace GateHey
 			Tools.SetTxtBoxContents(TxtBox, ($"{resources.Resources.policy}"));
 		    });
 
-
+		    
 		    Tools.SortCode(("Last Touches"), () =>
 		    {
 			Tools.AddBorderTo(Panel, 2, Color.FromArgb(32, 32, 32));
@@ -230,9 +230,7 @@ namespace GateHey
 		InitiateT.Initiate(Parent, Inst);
 		InitiateB.Initiate(Parent, Inst);
 		InitiateM.Initiate(Parent, Inst);
-
-		Linker.AutoLocationUpdater(Parent, Inst);
-
+		
 		this.Inst = Inst;
 	    }
 
