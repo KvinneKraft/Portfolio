@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Linq;
 using System.Drawing;
 using System.Threading;
@@ -2832,14 +2833,19 @@ namespace DashFramework
 	    }
 
 
-	    public bool IsHostReachable(string host, int port = 80, int timeout = 500)
+	    public bool IsHostReachable(string host, int port = 80, SocketType socketType = SocketType.Stream, ProtocolType protocol = ProtocolType.Tcp, string packetData = ".", int timeout = 500)
 	    {
 		try
 		{
-		    using (Socket socket = new Socket(GetAddressFamily(host), SocketType.Stream, ProtocolType.Tcp))
+		    using (Socket socket = new Socket(GetAddressFamily(host), socketType, protocol))
 		    {
 			IAsyncResult socketResult = socket.BeginConnect(host, port, null, null);
 			bool socketSuccess = socketResult.AsyncWaitHandle.WaitOne(timeout, true);
+
+			if (packetData != ".")
+			{
+			    socket.Send(Encoding.ASCII.GetBytes(packetData), SocketFlags.None);
+			}
 
 			return socket.Connected;
 		    }
