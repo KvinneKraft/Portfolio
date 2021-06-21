@@ -167,8 +167,7 @@ namespace GateHey
 	{
 	    return LastError;
 	}
-
-
+	
 	private static void SetError(string Data)
 	{
 	    LastError = Data;
@@ -225,6 +224,23 @@ namespace GateHey
 	}
 
 	public static List<int> Ports = new List<int>();
+
+	public static bool IsScanning() => DoScanning;
+
 	public static bool DoScanning = false;
+	public static bool DoVerbose = false;
+
+	public static void ToggleScanner()
+	{
+	    try
+	    {
+		DoScanning = DoScanning ? false : true;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw (ErrorHandler.GetException(E));
+	    }
+	}
     }
 }
