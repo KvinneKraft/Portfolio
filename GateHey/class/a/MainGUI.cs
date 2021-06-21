@@ -41,9 +41,8 @@ namespace GateHey
 	    readonly Button Bttn3 = new Button();
 
 	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: ");
-	    private string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
-	    public bool IsScanning = true;
-
+	    string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
+	    
 	    void ButtonHook1(Initiator2 MainSettings)
 	    {
 		try
@@ -52,7 +51,7 @@ namespace GateHey
 		    (
 			MainSettings.TxtBox1.Parent, () =>
 			{
-			    if (!IsScanning)
+			    if (!Universal.IsScanning())
 			    {
 				if (!Universal.SettingsValidation(MainSettings, false))
 				{
@@ -64,32 +63,14 @@ namespace GateHey
 				(
 				    null, () =>
 				    {
-					IsScanning = true;
-
-					MainSettings.Dialog2.Parent.ShowDialog();
-					MainSettings.Dialog2.Parent.BringToFront();
-					MainSettings.Dialog2.Parent.Focus();
 					MainSettings.Dialog2.RunScan(MainSettings);
-
-					IsScanning = false;
 				    }
 				);
-
-				IsScanning = true;
-
-				MainSettings.Dialog2.Show();
-				MainSettings.Dialog2.Parent.BringToFront();
-				MainSettings.Dialog2.Parent.Focus();
-				MainSettings.Dialog2.RunScan(MainSettings);
-
-				IsScanning = false;
 			    }
 
 			    else
 			    {   
 				MainSettings.Dialog2.StopScan();
-
-				IsScanning = false;
 			    }
 			}
 		    );
