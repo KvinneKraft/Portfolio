@@ -197,7 +197,7 @@ namespace GateHey
 			Color TxtFCol = Color.White;
 			Color TxtBCol = PnlBCol;
 
-			Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 8, true, true, false, false);
+			Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 8, true, true, true, false);
 			Tools.SetTxtBoxContents(TxtBox, ($"{resources.Resources.policy}"));
 		    });
 
