@@ -2845,7 +2845,8 @@ namespace DashFramework
 	    {
 		try
 		{
-		    using (Socket socket = new Socket(GetAddressFamily(host), socketType, protocol))
+		    using (Socket socket = new Socket(GetAddressFamily(host), socketType, protocol)
+			{ LingerState = new LingerOption(true, 0) })
 		    {
 			IAsyncResult socketResult = socket.BeginConnect(host, port, null, null);
 			bool socketSuccess = socketResult.AsyncWaitHandle.WaitOne(timeout, true);
@@ -2854,12 +2855,17 @@ namespace DashFramework
 			{
 			    socket.Send(Encoding.ASCII.GetBytes(packetData), SocketFlags.None);
 			}
-			
-			return socket.Connected;
+
+			bool connected = socket.Connected;
+
+			socket.Disconnect(false);
+			socket.Close(0);
+
+			return connected;
 		    }
 		}
 
-		catch (Exception E)
+		catch
 		{
 		    return false;
 		}
