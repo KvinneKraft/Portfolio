@@ -128,9 +128,14 @@ namespace GateHey
 			return false;
 		    }
 
-		    foreach (string dataSlice in portData)
+		    foreach (string potPort in portData)
 		    {
-			ports.Add(int.Parse(dataSlice));
+			int port = int.Parse(potPort);
+
+			if (!ports.Contains(port))
+			{
+			    ports.Add(port);
+			}
 		    }
 
 		    ScanType = 2;
@@ -147,7 +152,7 @@ namespace GateHey
 		    ports.Add(int.Parse(data));
 		    ScanType = 1;
 		}
-
+		
 		Ports.Clear();
 		Ports.AddRange(ports);
 
@@ -204,12 +209,6 @@ namespace GateHey
 		    return false;
 		}
 		
-		else if (ComponentValues["packdata"].Length < 1)
-		{
-		    SetError("invalid packet data");
-		    return false;
-		}
-
 		int timeout = int.Parse(ComponentValues["timeout"]);
 		int threads = int.Parse(ComponentValues["threads"]);
 
@@ -234,7 +233,8 @@ namespace GateHey
 	{
 	    try
 	    {
-		DoScanning = DoScanning ? false : true;
+		DoScanning = (DoScanning == true 
+		    ? false : true);
 	    }
 
 	    catch (Exception E)
