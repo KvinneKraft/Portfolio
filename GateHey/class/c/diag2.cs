@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Drawing;
+using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -17,6 +18,7 @@ using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
 using DashFramework.Networking;
+using DashFramework.Runnables;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
 
@@ -31,7 +33,7 @@ namespace GateHey
 
 	class InitiateTop
 	{
-	    public void Initiate(DashWindow Parent, DashWindow Inst)
+	    public void Initiate(DashWindow Parent, DashWindow Inst, Dialog2 This)
 	    {
 		try
 		{
@@ -42,6 +44,13 @@ namespace GateHey
 		    string diagTitle = ("Dash - Shell");
 
 		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0);
+
+		    Parent.values.onControlClick(1, () => 
+		    {
+			This.StopScan();
+			This.Hide();
+		    });
+
 		    Parent.values.setTitleLocation(new Point(10, -2));
 		    Parent.values.HideIcons();
 		}
@@ -105,7 +114,7 @@ namespace GateHey
 		{
 		    TerminalLog.Text = string.Format(
 			$">>> Hey there {Environment.UserName} !\r\n" +
-			">>> Type 'help' for help, thank you for using this."
+			">>> Type 'help' for help, thank you for using this.\r\n\r\n"
 		    );
 		}
 
@@ -147,8 +156,6 @@ namespace GateHey
 
 		    Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 0, 9, true, true, FixedSize: false);
 		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
-
-		    Shell.SetDefaultText();
 		}
 
 		catch (Exception E)
@@ -169,7 +176,7 @@ namespace GateHey
 	{
 	    try
 	    {
-		InitiateT.Initiate(Parent, Inst);
+		InitiateT.Initiate(Parent, Inst, this);
 		InitiateB.Initiate(Parent, Inst);
 		InitiateM.Initiate(Parent, Inst);
 
@@ -230,96 +237,112 @@ namespace GateHey
 	    InitiateM.Shell.OutputText($"{(cv ? (Universal.DoVerbose ? msg : string.Empty) : msg)}", nl);
 
 
+	readonly public List<int> SuccessfulConnections = new List<int>();
+	readonly public List<int> FailedConnections = new List<int>();
+
+	void ClearPortStatuses()
+	{
+	    SuccessfulConnections.Clear();
+	    FailedConnections.Clear();
+	}
+
+
+	int lineCounter = 0;
+
+	void AddPortStatus(int port, bool open = true, bool uline = false)
+	{
+	    if (open) SuccessfulConnections.Add(port);
+	    else FailedConnections.Add(port);
+
+	    SendMessage($"| {port} => {(open ? "open" : "closed")} ",
+		nl: (!uline ? lineCounter == 3 : true), cv: !open);
+
+	    lineCounter = (uline ? (lineCounter >= 3 ? lineCounter = 0 
+		: lineCounter += 1) : lineCounter);
+	}
+
+
+	readonly Runnable Runnables = new Runnable();
+
 	public void RunScan(MainGUI.Initiator2 MainSettings)
 	{
 	    try
 	    {
 		Tools.SortCode(("Window Visibility Section"), () =>
 		{
-		    MainSettings.Dialog2.Parent.ShowDialog();
+		    InitiateM.Shell.SetDefaultText();
+
+		    MainSettings.Dialog2.Parent.Show();
 		    MainSettings.Dialog2.Parent.BringToFront();
 		    MainSettings.Dialog2.Parent.Focus();
+
+		    ClearPortStatuses();
 		});
 		
-		Tools.SortCode(("Scan Section"), () =>
+		Runnables.RunTaskAsynchronously(null, () => 
 		{
-		    int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
-		    int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
-
-		    string host = DashNet.GetIP(MainSettings.GetComponentValues()["host"]);
-		    string packetData = MainSettings.GetComponentValues()["packdata"];
-		    string protocol = MainSettings.GetComponentValues()["protocol"];
-		    
-		    bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
-
-		    Tools.SortCode(("Port Scanning"), () =>
+		    Tools.SortCode(("Scan Section"), () =>
 		    {
-			List<int> SuccessfulConnections = new List<int>();
-			List<int> FailedConnections = new List<int>();
+			SendMessage($"GateHey scan session started at {DateTime.Now.ToString("h:mm:ss tt")}.");
 
-			int ScanType = Universal.ScanType;
+			// For threading; only allow this when either a range or a big selection of ports has been selected.
+			// The amount of selected ports should be at least equal to the amount of threads, if not disable feature.
+			string host = DashNet.GetIP(MainSettings.GetComponentValues()["host"]);
+			string packetData = MainSettings.GetComponentValues()["packdata"];
+			string protocol = MainSettings.GetComponentValues()["protocol"];
+			bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
+			int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
+			int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
 
-			Universal.ToggleScanner();
-
-			if (ScanType == 1) //Single
+			Tools.SortCode(("Port Scanning"), () =>
 			{
-			    int port = Universal.Ports[0];
+			    SendMessage($"\r\nScanning host: {host} using {protocol} with {threads} threads and a timeout" +
+				$" of {timeout} in miliseconds ...");
 
-			    if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
+			    int ScanType = Universal.ScanType;
+
+			    Universal.ToggleScanner();
+			    Thread.Sleep(1000);
+
+			    if (ScanType == 1) //Single
 			    {
-				SuccessfulConnections.Add(port);
+				int port = Universal.Ports[0];
+
+				AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol), 
+				    GetProtocol(protocol), packetData, timeout));
 			    }
 
-			    else
+			    else if (ScanType == 2) // Multi
 			    {
-				FailedConnections.Add(port);
-			    }
-			}
-
-			else if (ScanType == 2) // Multi
-			{
-			    foreach (int port in Universal.Ports)
-			    {
-				if (!Universal.IsScanning())
+				foreach (int port in Universal.Ports)
 				{
-				    break;
-				}
+				    if (!Universal.IsScanning())
+				    {
+					break;
+				    }
 
-				else if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
-				{
-				    SuccessfulConnections.Add(port);
-				}
-
-				else
-				{
-				    FailedConnections.Add(port);
+				    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+					GetProtocol(protocol), packetData, timeout));
 				}
 			    }
-			}
 
-			else // Ranged
-			{
-			    for (int port = Universal.Ports[0]; port <= Universal.Ports[1]; port += 1)
+			    else // Ranged
 			    {
-				if (!Universal.IsScanning())
+				for (int port = Universal.Ports[0]; port <= Universal.Ports[1]; port += 1)
 				{
-				    break;
-				}
+				    if (!Universal.IsScanning())
+				    {
+					break;
+				    }
 
-				else if (AttemptConnect(host, port, GetSocketType(protocol), GetProtocol(protocol), packetData, timeout))
-				{
-				    SuccessfulConnections.Add(port);
-
-				}
-
-				else
-				{
-				    FailedConnections.Add(port);
+				    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+					GetProtocol(protocol), packetData, timeout));
 				}
 			    }
-			}
 
-			Universal.ToggleScanner();
+			    SendMessage($"\r\nGateHey scan session has been finished successfully at " +
+				$"{DateTime.Now.ToString("h:mm:ss tt")}!");
+			});
 		    });
 		});
 	    }
@@ -335,7 +358,13 @@ namespace GateHey
 	{
 	    try
 	    {
-		Universal.ToggleScanner(); // Further process here.
+		SendMessage($"GateHey scan session has been canceled successfully Telling all workers (if any-) to stop working ....");
+
+		Runnables.RunTaskAsynchronously(null, () =>
+		{
+		    Universal.ToggleScanner();
+		    Thread.Sleep(3500);
+		});
 	    }
 
 	    catch (Exception E)
