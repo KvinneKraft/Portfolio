@@ -59,13 +59,7 @@ namespace GateHey
 				    return;
 				}
 
-				Runnables.RunTaskAsynchronously
-				(
-				    null, () =>
-				    {
-					MainSettings.Dialog2.RunScan(MainSettings);
-				    }
-				);
+				MainSettings.Dialog2.RunScan(MainSettings);
 			    }
 
 			    else
