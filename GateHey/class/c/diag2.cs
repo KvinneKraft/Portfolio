@@ -154,7 +154,7 @@ namespace GateHey
 		    var TextBoxFCol = Color.White;
 		    var TextBoxBCol = PanelBCol;
 
-		    Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 0, 9, true, true, FixedSize: false);
+		    Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 0, 9, true, true, true, false);
 		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
 		}
 
