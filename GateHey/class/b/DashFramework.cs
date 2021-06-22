@@ -698,10 +698,13 @@ namespace DashFramework
 
 
 		public Control BttnParent = null;
+
 		public Color BttnBCol = Color.Black;
 		public Color BttnFCol = Color.White;
+
 		public Size BttnSize = Size.Empty;
 		public bool BttnBorder = true;
+
 		public int BttnFpts = 8;
 		public int BttnFid = 1;
 
@@ -748,14 +751,18 @@ namespace DashFramework
 
 
 		public Control TxtboxParent = null;
+
 		public Color TxtboxBCol = Color.Black;
 		public Color TxtboxFCol = Color.White;
+
 		public Size TxtboxSize = Size.Empty;
+
 		public bool TxtboxBorder = true;
 		public bool Multiline = false;
 		public bool Scrollbar = false;
 		public bool FixedSize = true;
 		public bool Readonly = true;
+
 		public int TxtboxFpts = 8;
 		public int TxtboxFid = 1;
 
@@ -807,8 +814,10 @@ namespace DashFramework
 
 
 		public Control LblParent = null;
+
 		public Color LblBCol = Color.Black;
 		public Color LblFCol = Color.White;
+
 		public int LblFpts = 8;
 		public int LblFid = 1;
 
