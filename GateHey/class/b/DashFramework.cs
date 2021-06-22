@@ -593,7 +593,7 @@ namespace DashFramework
 	    }
 
 
-	    public class ControlHelper
+	    public class AshamedClass//I spit on it.
 	    {
 		private readonly DashControls Control = new DashControls();
 
@@ -691,11 +691,192 @@ namespace DashFramework
 	    }
 
 
+	    public class Quickify
+	    {
+		private readonly DashControls Controls = new DashControls();
+		private readonly DashTools Tools = new DashTools();
+
+
+		public Control BttnParent = null;
+		public Color BttnBCol = Color.Black;
+		public Color BttnFCol = Color.White;
+		public Size BttnSize = Size.Empty;
+		public bool BttnBorder = true;
+		public int BttnFpts = 8;
+		public int BttnFid = 1;
+
+		void ApplyToButton(ValueType Type, object With)
+		{
+		    try
+		    {
+			switch ((int)Type)
+			{
+			    case 0: BttnParent = (Button)With; break;
+			    case 9: BttnBorder = (bool)With; break;
+			    case 1: BttnFCol = (Color)With; break;
+			    case 2: BttnBCol = (Color)With; break;
+			    case 5: BttnSize = (Size)With; break;
+			    case 3: BttnFpts = (int)With; break;
+			    case 4: BttnFid = (int)With; break;
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void QuickButton(Button button, string text, Point loca, Control parent = null)
+		{
+		    parent = (parent == null ? LblParent : parent);
+
+		    try
+		    {
+			Controls.Button(parent, button, BttnSize, 
+			    loca, BttnBCol,BttnFCol, BttnFid, BttnFpts, text);
+
+			if (BttnBorder)
+			    Tools.Round(button, 6);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public Control TxtboxParent = null;
+		public Color TxtboxBCol = Color.Black;
+		public Color TxtboxFCol = Color.White;
+		public Size TxtboxSize = Size.Empty;
+		public bool TxtboxBorder = true;
+		public bool Multiline = false;
+		public bool Scrollbar = false;
+		public bool FixedSize = true;
+		public bool Readonly = true;
+		public int TxtboxFpts = 8;
+		public int TxtboxFid = 1;
+
+		void ApplyToTextBox(ValueType Type, object With)
+		{
+		    try
+		    {
+			switch ((int)Type)
+			{
+			    case 0: TxtboxParent = (Control)With; break;
+			    case 9: TxtboxBorder = (bool)With; break;
+			    case 1: TxtboxFCol = (Color)With; break;
+			    case 2: TxtboxBCol = (Color)With; break;
+			    case 5: TxtboxSize = (Size)With; break;
+			    case 10: FixedSize = (bool)With; break;
+			    case 3: TxtboxFpts = (int)With; break;
+			    case 6: Multiline = (bool)With; break;
+			    case 7: Scrollbar = (bool)With; break;
+			    case 4: TxtboxFid = (int)With; break;
+			    case 8: Readonly = (bool)With; break;
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void QuickTxtBox(TextBox txtbox, string text, Point loca, Control parent = null)
+		{
+		    parent = (parent == null ? LblParent : parent);
+
+		    try
+		    {
+			Controls.TextBox(parent, txtbox, TxtboxSize, loca, TxtboxBCol, 
+			    TxtboxFCol, TxtboxFpts, TxtboxFid, Readonly, Multiline, Scrollbar, FixedSize);
+
+			if (TxtboxBorder)
+			    Tools.Round(txtbox.Parent is
+				PictureBox ? txtbox.Parent : txtbox, 6);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public Control LblParent = null;
+		public Color LblBCol = Color.Black;
+		public Color LblFCol = Color.White;
+		public int LblFpts = 8;
+		public int LblFid = 1;
+
+		void ApplyToLabel(ValueType Type, object With)
+		{
+		    try
+		    {
+			switch ((int)Type)
+			{
+			    case 0: LblParent = (Control)With; break;
+			    case 1: LblFCol = (Color)With; break;
+			    case 2: LblBCol = (Color)With; break;
+			    case 3: LblFpts = (int)With; break;
+			    case 4: LblFid = (int)With; break;
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		public void QuickLabel(Label label, string text, Point loca, Control parent = null)
+		{
+		    parent = (parent == null ? LblParent : parent);
+
+		    try
+		    {
+			Size lblSize = Tools.GetFontSize(text, LblFpts, LblFid);
+
+			Controls.Label(parent, label, lblSize, loca, LblBCol, 
+			    LblFCol, text, LblFid, LblFpts);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		public enum ValueType {
+		    Parent = 0, FCol, BCol, Fpts,
+		    Fid, Size, Mline, Sbar, Ronly,
+		    Brdr, Fixs
+		};
+
+		public enum Module {
+		    Label = 0, Button, TextBox
+		};
+		
+		public void SetValue(Module For, ValueType Type, object With)
+		{
+		    switch ((int) For)
+		    {
+			case 0: ApplyToLabel(Type, With); break;
+			case 1: ApplyToButton(Type, With); break;
+			case 2: ApplyToTextBox(Type, With); break;
+		    }
+		}
+	    }
+
+
 	    public class DashControls
 	    {
 		private readonly DashTools Tool = new DashTools();
-
-
+		
 		public void CheckBox(Control Top, PictureBox Container1, PictureBox Container2, Size Size, Point Loca, Color DeselectedBCol, [Optional] Color SelectedBCol, [Optional] bool Select)
 		{//fukin recode this, you lazy fyck.
 		    try
