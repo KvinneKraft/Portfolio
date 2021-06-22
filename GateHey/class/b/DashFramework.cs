@@ -1239,6 +1239,7 @@ namespace DashFramework
 		    }
 		}
 
+		// Auto Update Ideology:
 		// - When parent GUI moves update added dialog
 		// - Old Dialog Location on Screen
 		// - Update it by changed value of Parent
@@ -1248,6 +1249,10 @@ namespace DashFramework
 
 	    public class DashTools
 	    {
+		public string GetCurrentDate() => DateTime.Now.ToLongDateString();
+		public string GetCurrentTime() => DateTime.Now.ToLongTimeString();
+
+
 		readonly DashResources Resource = new DashResources();
 
 		public void SetTxtBoxContents(TextBox TxtBox, string such, bool isResource = false)
@@ -1337,21 +1342,43 @@ namespace DashFramework
 		}
 
 
+		public void OpenUrl(string Destination)
+		{
+		    try
+		    {
+			using (var Process = new Process())
+			{
+			    Process.StartInfo = new ProcessStartInfo()
+			    {
+				FileName = Destination,
+				UseShellExecute = true,
+			    };
+
+			    Process.Start();
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
 		public void SetUrl(Control Object, string Destination)
 		{
 		    try
 		    {
 			Object.Click += (s, e) =>
 			{
-			    using (var Process = new Process())
+			    try
 			    {
-				Process.StartInfo = new ProcessStartInfo()
-				{
-				    FileName = Destination,
-				    UseShellExecute = true,
-				};
+				OpenUrl(Destination);
+			    }
 
-				Process.Start();
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
 			    }
 			};
 		    }
