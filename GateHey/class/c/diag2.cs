@@ -65,34 +65,154 @@ namespace GateHey
 
 	class InitiateBottom
 	{
+	    /*
+	     Release 2.0 Update Notes for Future Dashie:
+
+		- Make sure to replace this interactive shell with the one you put into 
+		  DashFramework.cs (unless you changed the name in the meanwhile-).
+
+		- Create a separate file for the hook registration, or simply make use of 
+		  the planned AddCommand integration.
+
+		- Add some event manipulation.
+		 */
+
+	    Dictionary<string, CommandHandler> RunnableCache = new Dictionary<string, CommandHandler>();
+	    delegate void CommandHandler();
+
+	    void TextBoxHook(Dialog2 This, KeyEventArgs e)
+	    {
+		if (e.KeyCode == Keys.Enter)
+		{
+		    string[] cmd = TxtBox.Text.ToLower().Split(' ');
+
+		    if (RunnableCache.ContainsKey(cmd[0]))
+		    {
+			try
+			{
+			    RunnableCache[cmd[0]]();
+			}
+
+			catch (Exception E)
+			{
+			    This.SendMessage("An exception has occurred internally making me unable to fullfill your needs.");
+			    This.SendMessage($"Debugger Information: ErrorCode[{E.Message}]");
+			}
+
+			return;
+		    }
+
+		    This.SendMessage("That command cannot be found.  Perhaps try typing help.");
+		}
+	    }
+
+	    
+	    void InvokeSafely(CommandHandler cmd, string type)
+	    {
+		try
+		{
+		    cmd();
+		}
+
+		catch (Exception E)
+		{
+		    throw new Exception($"{type}");
+		}
+	    }
+
+
+	    void RegisterCommandHooks()
+	    {
+		try
+		{
+		    Tools.SortCode(("SET Commands"), () =>
+		    {
+			RunnableCache.Add("fcol", () => 
+			{
+			    InvokeSafely(() =>
+			    {
+
+			    }, "fcol");
+			});
+
+			RunnableCache.Add("bcol", () =>
+			{
+			    InvokeSafely(() =>
+			    {
+
+			    }, "fcol");
+			});
+
+			// fcol, bcol
+		    });
+
+		    Tools.SortCode(("My Commands"), () =>
+		    {
+			RunnableCache.Add("website", () => 
+			    InvokeSafely(() => Tools.
+				OpenUrl("https://pugpawz.com"), 
+				    "website"));
+
+			RunnableCache.Add("youtube", () =>
+			    InvokeSafely(() => Tools.OpenUrl("https://www.youtube.com/channel/UCODilr1GUANP7i1TvEkjsAQ"),
+				    "youtube"));
+
+			RunnableCache.Add("website", () => 
+			    InvokeSafely(() => Tools.
+				OpenUrl("https://pugpawz.com"), 
+				    "website"));
+		    });
+
+		    Tools.SortCode(("Util Commands"), () =>
+		    {
+			// start, stop, reboot (application), close
+			// (application), clear, help, savelog
+		    });
+		}
+
+		catch (Exception E)
+		{
+		    throw new Exception($"{E.Message}");
+		}
+	    }
+
+
 	    readonly public TextBox TxtBox = new TextBox();
 	    readonly DashPanel Panel = new DashPanel();
 	    readonly Label Lbl = new Label();
 
-	    public void Initiate(DashWindow Parent, DashWindow Inst)
+	    public void Initiate(DashWindow Parent, DashWindow Inst, Dialog2 This)
 	    {
 		try
 		{
-		    var PanelLoca = new Point(0, Parent.Height - 28);
-		    var PanelBCol = Parent.values.getBarColor();
-		    var PanelSize = new Size(Parent.Width, 26);
+		    Tools.SortCode(("Control Adding"), () =>
+		    {
+			var PanelLoca = new Point(0, Parent.Height - 28);
+			var PanelBCol = Parent.values.getBarColor();
+			var PanelSize = new Size(Parent.Width, 26);
 
-		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+			var LblSize = Tools.GetFontSize("$:", Id: 0);
+			var LblLoca = new Point(0, 7);
+			var LblFCol = Color.White;
+			var LblBCol = PanelBCol;
 
-		    var LblSize = Tools.GetFontSize("$:", Id: 0);
-		    var LblLoca = new Point(0, 7);
-		    var LblFCol = Color.White;
-		    var LblBCol = PanelBCol;
+			var TxtSize = new Size(PanelSize.Width - LblSize.Width - 3, 24);
+			var TxtLoca = new Point(LblSize.Width, 2);
+			var TxtFCol = Color.White;
+			var TxtBCol = PanelBCol;
 
-		    var TxtSize = new Size(PanelSize.Width - LblSize.Width - 3, 24);
-		    var TxtLoca = new Point(LblSize.Width, 2);
-		    var TxtFCol = Color.White;
-		    var TxtBCol = PanelBCol;
+			Controls.Label(Panel, Lbl, LblSize, LblLoca, LblBCol, LblFCol, ("$:"), 0, 10);
+			Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 9);
+			Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+		    });
 
-		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 9);
-		    Controls.Label(Panel, Lbl, LblSize, LblLoca, LblBCol, LblFCol, ("$:"), 0, 10);
+		    Tools.SortCode(("Last Touches"), () =>
+		    {
+			TxtBox.KeyDown += (s, e) => TextBoxHook(This, e);
+			TxtBox.Text = ("help");
+		    });
 
-		    TxtBox.Text = ("help");
+		    RegisterCommandHooks();
 		}
 
 		catch (Exception E)
@@ -105,7 +225,6 @@ namespace GateHey
 
 	public class DashShell
 	{
-	    public TextBox GetTerminal() => TerminalLog;
 	    public TextBox TerminalLog = new TextBox();
 	    
 	    public void SetDefaultText()
@@ -113,8 +232,8 @@ namespace GateHey
 		try
 		{
 		    TerminalLog.Text = string.Format(
-			$">>> Hey there {Environment.UserName} !\r\n" +
-			">>> Type 'help' for help, thank you for using this.\r\n\r\n"
+			$">>> Hey there {Environment.UserName} fellow creature )o(\r\n" +
+			">>> Type 'help' for help, thank you for using this project.\r\n\r\n"
 		    );
 		}
 
@@ -123,10 +242,14 @@ namespace GateHey
 		    throw (ErrorHandler.GetException(E));
 		}
 	    }
-	    
+
+
 	    public void OutputText(string msg, bool nl = true) =>
 		TerminalLog.AppendText($"{msg}{(nl ? "\r\n" : "")}");
-	    
+
+	    public TextBox GetTerminal() => TerminalLog;
+
+
 	    public void SetTerminalColor(Color BCol, Color FCol)
 	    {
 		TerminalLog.BackColor = BCol;
@@ -177,7 +300,7 @@ namespace GateHey
 	    try
 	    {
 		InitiateT.Initiate(Parent, Inst, this);
-		InitiateB.Initiate(Parent, Inst);
+		InitiateB.Initiate(Parent, Inst, this);
 		InitiateM.Initiate(Parent, Inst);
 
 		this.Inst = Inst;
@@ -283,21 +406,23 @@ namespace GateHey
 		{
 		    Tools.SortCode(("Scan Section"), () =>
 		    {
-			SendMessage($"GateHey scan session started at {DateTime.Now.ToString("h:mm:ss tt")}.");
+			SendMessage($"> GateHey scan session started at: {Tools.GetCurrentTime()}");
 
 			// For threading; only allow this when either a range or a big selection of ports has been selected.
 			// The amount of selected ports should be at least equal to the amount of threads, if not disable feature.
 			string host = DashNet.GetIP(MainSettings.GetComponentValues()["host"]);
 			string packetData = MainSettings.GetComponentValues()["packdata"];
 			string protocol = MainSettings.GetComponentValues()["protocol"];
+
 			bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
+
 			int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
 			int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
 
 			Tools.SortCode(("Port Scanning"), () =>
 			{
-			    SendMessage($"\r\nScanning host: {host} using {protocol} with {threads} threads and a timeout" +
-				$" of {timeout} in miliseconds ...");
+			    SendMessage($"> Scanning host: {host} using {protocol} with {threads} threads and a " +
+				$"timeout of {timeout} in miliseconds ...");
 
 			    int ScanType = Universal.ScanType;
 
@@ -340,8 +465,8 @@ namespace GateHey
 				}
 			    }
 
-			    SendMessage($"\r\nGateHey scan session has been finished successfully at " +
-				$"{DateTime.Now.ToString("h:mm:ss tt")}!");
+			    SendMessage($"\r\n> GateHey scan session has been finished successfully at: " +
+				$"{Tools.GetCurrentTime()}.");
 			});
 		    });
 		});
@@ -358,12 +483,15 @@ namespace GateHey
 	{
 	    try
 	    {
-		SendMessage($"GateHey scan session has been canceled successfully Telling all workers (if any-) to stop working ....");
+		SendMessage($"> GateHey scan session has been canceled successfully telling " + 
+		    "all workers (if any-) to stop working ...");
 
 		Runnables.RunTaskAsynchronously(null, () =>
 		{
 		    Universal.ToggleScanner();
 		    Thread.Sleep(3500);
+
+		    SendMessage("> You are now free to launch another scan.");
 		});
 	    }
 
