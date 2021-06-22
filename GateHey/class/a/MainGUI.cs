@@ -120,51 +120,57 @@ namespace GateHey
 	    {
 		try
 		{
-		    var Panel1Size = new Size(Parent.Width, 30);
-		    var Panel1Loca = new Point(0, Parent.Height - 30);
-		    var Panel1BCol = Parent.values.getBarColor();
-
-		    var Panel2Size = new Size(320, 20);
-		    var Panel2Loca = new Point(-2, -2);
-		    var Panel2BCol = Panel1BCol;
-
-		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
-		    Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
-
-		    void AddButton(Button Bttn, Point Loca, string Text)
+		    Tools.SortCode(("Panels"), () =>
 		    {
-			try
+			var Panel1Size = new Size(Parent.Width, 30);
+			var Panel1Loca = new Point(0, Parent.Height - 30);
+			var Panel1BCol = Parent.values.getBarColor();
+
+			var Panel2Size = new Size(320, 20);
+			var Panel2Loca = new Point(-2, -2);
+			var Panel2BCol = Panel1BCol;
+
+			Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+			Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+		    });
+
+		    Tools.SortCode(("Buttons"), () =>
+		    {
+			void AddButton(Button Bttn, Point Loca, string Text)
 			{
-			    var Size = new Size(100, 20);
-			    var BCol = Color.FromArgb(22, 29, 36);
-			    var FCol = Color.White;
+			    try
+			    {
+				var Size = new Size(100, 20);
+				var BCol = Color.FromArgb(22, 29, 36);
+				var FCol = Color.White;
 
-			    Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
+				Controls.Button(Panel2, Bttn, Size, Loca, BCol, FCol, 1, 8, (Text));
 
-			    Bttn.FlatAppearance.MouseDownBackColor = Panel1BCol;
-			    Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
-			    Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
+				Bttn.FlatAppearance.MouseDownBackColor = Panel1.BackColor;
+				Bttn.MouseEnter += (s, e) => Bttn.BackColor = Color.FromArgb(31, 41, 51);
+				Bttn.MouseLeave += (s, e) => Bttn.BackColor = BCol;
 
-			    Tools.Round(Bttn, 6);
+				Tools.Round(Bttn, 6);
+			    }
+
+			    catch (Exception E)
+			    {
+				throw (ErrorHandler.GetException(E));
+			    }
 			}
 
-			catch (Exception E)
-			{
-			    throw (ErrorHandler.GetException(E));
-			}
-		    }
+			var Loca1 = new Point(0, 0);
+			var Loca2 = new Point(110, 0);
+			var Loca3 = new Point(220, 0);
 
-		    var Loca1 = new Point(0, 0);
-		    var Loca2 = new Point(110, 0);
-		    var Loca3 = new Point(220, 0);
+			AddButton(Bttn1, Loca1, ("Start Scanning"));
+			AddButton(Bttn2, Loca2, ("Validate Settings"));
+			AddButton(Bttn3, Loca3, ("Service Policy"));
 
-		    AddButton(Bttn1, Loca1, ("Start Scanning"));
-		    AddButton(Bttn2, Loca2, ("Validate Settings"));
-		    AddButton(Bttn3, Loca3, ("Service Policy"));
-
-		    Bttn1.Click += (s, e) => ButtonHook1(MainSettings);
-		    Bttn2.Click += (s, e) => ButtonHook2(MainSettings);
-		    Bttn3.Click += (s, e) => ButtonHook3();
+			Bttn1.Click += (s, e) => ButtonHook1(MainSettings);
+			Bttn2.Click += (s, e) => ButtonHook2(MainSettings);
+			Bttn3.Click += (s, e) => ButtonHook3();
+		    });
 
 		    Dialog.Initiator(Parent);
 		}
@@ -402,22 +408,26 @@ namespace GateHey
 	    {
 		try
 		{
-		    Size Panel1Size = new Size(Parent.Width - 40, 143);
-		    Point Panel1Loca = new Point(-2, -2);
-		    Color Panel1BCol = Parent.BackColor;
-
-		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
-
-		    Tools.SortCode(("Main Containers"), () =>
+		    Tools.SortCode(("Outter Containers"), () =>
 		    {
+			Size Panel1Size = new Size(Parent.Width - 40, 143);
+			Point Panel1Loca = new Point(-2, -2);
+			Color Panel1BCol = Parent.BackColor;
+
+			Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+
 			Size TitleSize = Tools.GetFontSize("Host Settings", 14);//19px // 23
 			Point TitleLoca = new Point(0, 0);
 			Color TitleBCol = Parent.BackColor;
 			Color TitleFCol = Color.White;
 
-			Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, TitleFCol, ("Host Settings"), 1, 14);
+			Controls.Label(Panel1, Label1, TitleSize, TitleLoca, TitleBCol, 
+			    TitleFCol, ("Host Settings"), 1, 14);
+		    });
 
-			Size Panel2Size = new Size(Panel1Size.Width, 110);
+		    Tools.SortCode(("Inner Containers"), () =>
+		    {
+			Size Panel2Size = new Size(Panel1.Width, 110);
 			Point Panel2Loca = new Point(0, 33);
 			Color Panel2BCol = Parent.values.getBarColor();
 
