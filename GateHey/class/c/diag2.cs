@@ -43,13 +43,8 @@ namespace GateHey
 
 		    string diagTitle = ("Dash - Shell");
 
-		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, barBCol, roundRadius: 0);
-
-		    Parent.values.onControlClick(1, () => 
-		    {
-			This.StopScan();
-			This.Hide();
-		    });
+		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, 
+			barBCol, roundRadius: 0, barClose: false);
 
 		    Parent.values.setTitleLocation(new Point(10, -2));
 		    Parent.values.HideIcons();
@@ -215,6 +210,8 @@ namespace GateHey
 		    {
 			// start, stop, reboot (application), close
 			// (application), clear, help, savelog, verbose
+
+			// Make sure the close commands stops all running code first!
 		    });
 		}
 
@@ -437,12 +434,13 @@ namespace GateHey
 
 	readonly Runnable Runnables = new Runnable();
 
-	public void RunScan(MainGUI.Initiator2 MainSettings)
+	public void RunScan(MainGUI.Initiator2 MainSettings, MainGUI.Initiator1 Init1)
 	{
 	    try
 	    {
 		Tools.SortCode(("Window Visibility Section"), () =>
 		{
+		    UpdateButtonText("Scanning ...", Init1);
 		    InitiateM.Shell.SetDefaultText();
 
 		    MainSettings.Dialog2.Parent.Show();
@@ -515,10 +513,7 @@ namespace GateHey
 				}
 			    }
 
-			    SendMessage($"> GateHey scan session has been finished successfully at: " +
-				$"{Tools.GetCurrentTime()}.", pnl: Universal.IsScanning());
-
-			    StopScan(false);
+			    StopScan(Init1, false);
 			});
 		    });
 		});
@@ -530,23 +525,41 @@ namespace GateHey
 	    }
 	}
 
-	
-	public void StopScan(bool forceful = true)
+
+	void UpdateButtonText(string text, MainGUI.Initiator1 Init1) => Runnables.RunTaskAsynchronously
+	    (Init1.Bttn1.Parent, () => Init1.Bttn1.Text = $"{text}");
+
+
+	public void StopScan(MainGUI.Initiator1 Init1, bool forceful = true)
 	{
 	    try
 	    {
-		if (forceful)
-		    SendMessage($"> GateHey scan session has been canceled successfully telling " +
-			"all workers (if any-) to stop working ...");
-		else
-		    SendMessage($"> Give me a moment to catch my breath ...");
-
 		Runnables.RunTaskAsynchronously(null, () =>
 		{
-		    Universal.ToggleScanner();
-		    Thread.Sleep(3500);
+		    try
+		    {
+			if (!Init1.Bttn1.Text.Equals("Scanning ..."))
+			    return;
+			
+			SendMessage($"> Telling all workers (if any-) to stop working ...", 
+			    pnl: Universal.IsScanning());
 
-		    SendMessage("> You are now free to launch another scan.");
+			UpdateButtonText("Stopping ...", Init1);
+
+			Universal.ToggleScanner();
+			Thread.Sleep(3500);
+			
+			SendMessage($"> GateHey scan session has been finished successfully at: " +
+			    $"{Tools.GetCurrentTime()}.");
+
+			SendMessage("> You are now free to launch another scan.");
+			UpdateButtonText("Start Scanning", Init1);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
 		});
 	    }
 
