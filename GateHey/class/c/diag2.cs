@@ -77,8 +77,10 @@ namespace GateHey
 		- Add some event manipulation.
 		 */
 
-	    Dictionary<string, CommandHandler> RunnableCache = new Dictionary<string, CommandHandler>();
-	    delegate void CommandHandler();
+	    readonly Dictionary<string, CommandHandler> RunnableCache = new Dictionary<string, CommandHandler>();
+	    readonly Runnable Runnables = new Runnable();
+
+	    delegate void CommandHandler(string[] cmds);
 
 	    void TextBoxHook(Dialog2 This, KeyEventArgs e)
 	    {
@@ -90,7 +92,8 @@ namespace GateHey
 		    {
 			try
 			{
-			    RunnableCache[cmd[0]]();
+			    TxtBox.Clear();
+			    RunnableCache[cmd[0]](cmd);
 			}
 
 			catch (Exception E)
@@ -105,68 +108,113 @@ namespace GateHey
 		    This.SendMessage("That command cannot be found.  Perhaps try typing help.");
 		}
 	    }
-
 	    
-	    void InvokeSafely(CommandHandler cmd, string type)
+
+	    Color RighteousColors(Dialog2 This, string[] cmds)
 	    {
 		try
 		{
-		    cmd();
+		    void SendErrorMessage()
+		    {
+			This.SendMessage(">> Usage: set (f/b)col [r,g,b]");
+			This.SendMessage(">> Example: set bcol 1,1,1");
+		    }
+
+		    if (cmds.Length < 3)
+		    {
+			SendErrorMessage();
+			return Color.Empty;
+		    }
+
+		    string[] colors = cmds[2].Split(',');
+
+		    if (colors.Length != 3)
+		    {
+			SendErrorMessage();
+			return Color.Empty;
+		    }
+
+		    int[] rgb = new int[3];
+
+		    for (int k = 0; k < 3; k += 1)
+			if (!int.TryParse(colors[k], out int r))
+			    return Color.Empty; else rgb[k] = r;
+
+		    return Color.FromArgb(rgb[0], rgb[1], rgb[2]);
 		}
 
-		catch (Exception E)
+		catch
 		{
-		    throw new Exception($"{type}");
+		    throw new Exception("color codes");
 		}
 	    }
 
 
-	    void RegisterCommandHooks()
+	    void RegisterCommandHooks(Dialog2 This, InitiateMiddle InitiateM)
 	    {
 		try
 		{
 		    Tools.SortCode(("SET Commands"), () =>
 		    {
-			RunnableCache.Add("fcol", () => 
+			RunnableCache.Add("set", (string[] cmds) =>
 			{
-			    InvokeSafely(() =>
+			    if (cmds.Length < 2)
 			    {
+				This.SendMessage(">> Usage: set [bcol | fcol] r,g,b", pnl: true);
+				This.SendMessage(">> Example: set bcol 1,1,1");
+				return;
+			    }
 
-			    }, "fcol");
-			});
-
-			RunnableCache.Add("bcol", () =>
-			{
-			    InvokeSafely(() =>
+			    else if (cmds[1].Equals("fcol"))
 			    {
+				Color ColorCode = RighteousColors(This, cmds);
 
-			    }, "fcol");
+				if (ColorCode == Color.Empty)
+				    return;
+
+				InitiateM.Shell.TerminalLog.ForeColor = ColorCode;
+				TxtBox.ForeColor = ColorCode;
+				Lbl.ForeColor = ColorCode;
+
+				This.SendMessage($@"> Set fore color to: " + Tools
+				    .RGBString(ColorCode) + ".", pnl: true);
+			    }
+
+			    else if (cmds[1].Equals("bcol"))
+			    {
+				Color ColorCode = RighteousColors(This, cmds);
+
+				if (ColorCode == Color.Empty)
+				    return;
+
+				InitiateM.Shell.TerminalLog.BackColor = ColorCode;
+				TxtBox.Parent.BackColor = ColorCode;
+				Lbl.Parent.BackColor = ColorCode;
+				TxtBox.BackColor = ColorCode;
+				Lbl.BackColor = ColorCode;
+
+				This.SendMessage($@"> Set back color to: " + Tools
+				    .RGBString(ColorCode) + ".", pnl: true);
+			    }
 			});
-
-			// fcol, bcol
 		    });
 
 		    Tools.SortCode(("My Commands"), () =>
 		    {
-			RunnableCache.Add("website", () => 
-			    InvokeSafely(() => Tools.
-				OpenUrl("https://pugpawz.com"), 
-				    "website"));
+			RunnableCache.Add("youtube", (cmds) => Tools.
+			    OpenUrl("https://www.youtube.com/channel/UCODilr1GUANP7i1TvEkjsAQ"));
 
-			RunnableCache.Add("youtube", () =>
-			    InvokeSafely(() => Tools.OpenUrl("https://www.youtube.com/channel/UCODilr1GUANP7i1TvEkjsAQ"),
-				    "youtube"));
+			RunnableCache.Add("github", (cmds) => Tools.
+			    OpenUrl("https://github.com/KvinneKraft"));
 
-			RunnableCache.Add("website", () => 
-			    InvokeSafely(() => Tools.
-				OpenUrl("https://pugpawz.com"), 
-				    "website"));
+			RunnableCache.Add("website", (cmds) => Tools.
+			    OpenUrl("https://pugpawz.com"));
 		    });
 
 		    Tools.SortCode(("Util Commands"), () =>
 		    {
 			// start, stop, reboot (application), close
-			// (application), clear, help, savelog
+			// (application), clear, help, savelog, verbose
 		    });
 		}
 
@@ -181,23 +229,23 @@ namespace GateHey
 	    readonly DashPanel Panel = new DashPanel();
 	    readonly Label Lbl = new Label();
 
-	    public void Initiate(DashWindow Parent, DashWindow Inst, Dialog2 This)
+	    public void Initiate(DashWindow Parent, DashWindow Inst, InitiateMiddle InitiateM, Dialog2 This)
 	    {
 		try
 		{
 		    Tools.SortCode(("Control Adding"), () =>
 		    {
-			var PanelLoca = new Point(0, Parent.Height - 28);
+			var PanelLoca = new Point(2, Parent.Height - 28);
 			var PanelBCol = Parent.values.getBarColor();
-			var PanelSize = new Size(Parent.Width, 26);
+			var PanelSize = new Size(Parent.Width - 4, 26);
 
 			var LblSize = Tools.GetFontSize("$:", Id: 0);
-			var LblLoca = new Point(0, 7);
+			var LblLoca = new Point(4, 7);
 			var LblFCol = Color.White;
 			var LblBCol = PanelBCol;
 
-			var TxtSize = new Size(PanelSize.Width - LblSize.Width - 3, 24);
-			var TxtLoca = new Point(LblSize.Width, 2);
+			var TxtSize = new Size(PanelSize.Width - LblSize.Width - 7, 24);
+			var TxtLoca = new Point(LblSize.Width + 4, 2);
 			var TxtFCol = Color.White;
 			var TxtBCol = PanelBCol;
 
@@ -212,7 +260,7 @@ namespace GateHey
 			TxtBox.Text = ("help");
 		    });
 
-		    RegisterCommandHooks();
+		    RegisterCommandHooks(This, InitiateM);
 		}
 
 		catch (Exception E)
@@ -261,14 +309,15 @@ namespace GateHey
 	class InitiateMiddle
 	{ 
 	    readonly CustomScrollBar DashBar = new CustomScrollBar();
+
 	    readonly public DashShell Shell = new DashShell();
-	    readonly DashPanel Panel = new DashPanel();
+	    readonly public DashPanel Panel = new DashPanel();
 
 	    public void Initiate(DashWindow Parent, DashWindow Inst)
 	    {
 		try
 		{
-		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 54);
+		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 53);
 		    var PanelLoca = new Point(2, 26);
 		    var PanelBCol = Color.FromArgb(22, 29, 36);
 
@@ -300,7 +349,7 @@ namespace GateHey
 	    try
 	    {
 		InitiateT.Initiate(Parent, Inst, this);
-		InitiateB.Initiate(Parent, Inst, this);
+		InitiateB.Initiate(Parent, Inst, InitiateM, this);
 		InitiateM.Initiate(Parent, Inst);
 
 		this.Inst = Inst;
@@ -356,8 +405,9 @@ namespace GateHey
 	}
 
 
-	void SendMessage(string msg, bool nl = true, bool cv = false) =>
-	    InitiateM.Shell.OutputText($"{(cv ? (Universal.DoVerbose ? msg : string.Empty) : msg)}", nl);
+	void SendMessage(string msg, bool nl = true, bool cv = false, bool pnl = false) =>
+	    InitiateM.Shell.OutputText($@"" + (pnl ? "\r\n" : "") + 
+		(cv ? (Universal.DoVerbose ? msg : "") : msg), nl);
 
 
 	readonly public List<int> SuccessfulConnections = new List<int>();
@@ -378,9 +428,9 @@ namespace GateHey
 	    else FailedConnections.Add(port);
 
 	    SendMessage($"| {port} => {(open ? "open" : "closed")} ",
-		nl: (!uline ? lineCounter == 3 : true), cv: !open);
+		nl: (!uline ? lineCounter == 4 : true), cv: !open);
 
-	    lineCounter = (uline ? (lineCounter >= 3 ? lineCounter = 0 
+	    lineCounter = (uline ? (lineCounter >= 4 ? lineCounter = 0 
 		: lineCounter += 1) : lineCounter);
 	}
 
@@ -465,8 +515,10 @@ namespace GateHey
 				}
 			    }
 
-			    SendMessage($"\r\n> GateHey scan session has been finished successfully at: " +
-				$"{Tools.GetCurrentTime()}.");
+			    SendMessage($"> GateHey scan session has been finished successfully at: " +
+				$"{Tools.GetCurrentTime()}.", pnl: Universal.IsScanning());
+
+			    StopScan(false);
 			});
 		    });
 		});
@@ -479,12 +531,15 @@ namespace GateHey
 	}
 
 	
-	public void StopScan()
+	public void StopScan(bool forceful = true)
 	{
 	    try
 	    {
-		SendMessage($"> GateHey scan session has been canceled successfully telling " + 
-		    "all workers (if any-) to stop working ...");
+		if (forceful)
+		    SendMessage($"> GateHey scan session has been canceled successfully telling " +
+			"all workers (if any-) to stop working ...");
+		else
+		    SendMessage($"> Give me a moment to catch my breath ...");
 
 		Runnables.RunTaskAsynchronously(null, () =>
 		{
