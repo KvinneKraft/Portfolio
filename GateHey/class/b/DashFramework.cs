@@ -1249,6 +1249,12 @@ namespace DashFramework
 
 	    public class DashTools
 	    {
+		public string RGBString(Color cc)
+		{
+		    return ($"{cc.R}, {cc.G}, {cc.B}");
+		}
+
+
 		public string GetCurrentDate() => DateTime.Now.ToLongDateString();
 		public string GetCurrentTime() => DateTime.Now.ToLongTimeString();
 
