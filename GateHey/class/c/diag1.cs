@@ -104,12 +104,14 @@ namespace GateHey
 	    {
 		try
 		{
-		    if (Txt.Text.ToLower().Contains("ranges: 443-"))
+		    string Text = (Txt.Text);
+
+		    if (Text.ToLower().Contains("ranges: 443-"))
 		    {
-			Txt.Text = ("1-65535");
+			Txt.Text = ("80,443,21,22,8080,23,251,351,25565");
 		    }
 
-		    else if (!Universal.PortSettingsCorrect(Txt.Text.Replace(" ", ""), true))
+		    else if (!Universal.PortSettingsCorrect(Text.Replace(" ", ""), true))
 		    {
 			return;
 		    }
@@ -198,7 +200,8 @@ namespace GateHey
 		    Color TxtFCol = Color.White;
 		    Color TxtBCol = PanelBCol;
 
-		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca, TxtBCol, TxtFCol, 1, 10, Multiline: true, FixedSize: false);
+		    Controls.TextBox(Panel, TxtBox, TxtSize, TxtLoca,
+			TxtBCol, TxtFCol, 1, 10, Multiline: true, FixedSize: false);
 
 		    TxtBox.Text = string.Format
 		    (
