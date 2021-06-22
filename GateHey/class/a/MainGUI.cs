@@ -19,6 +19,7 @@ using DashFramework.Interface.Tools;
 using DashFramework.Runnables;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
+using DashFramework.Data;
 
 
 namespace GateHey
@@ -186,6 +187,7 @@ namespace GateHey
 	    public readonly Dialog1 Dialog1 = new Dialog1();
 	    public readonly Dialog2 Dialog2 = new Dialog2();
 
+	    readonly Manipulation Manip = new Manipulation();
 	    readonly DropMenu DropMenu = new DropMenu();
 
 	    readonly Button Bttn1 = new Button();//Ports Dialog
@@ -200,9 +202,12 @@ namespace GateHey
 	    {
 		try
 		{
+		    string Protocol = Manip.Replace(Label3.Text, 
+			(""), ("-==("), (")==-"), (" "));
+
 		    return new Dictionary<string, string>()
 		    {
-			{ "protocol", $"{Label3.Text.Replace("-==( ", "").Replace(" )==-", "")}" },
+			{ "protocol", $"{Protocol}" },
 			{ "packdata", TxtBox4.Text },
 			{ "timeout", TxtBox2.Text },
 			{ "threads", TxtBox3.Text },
@@ -221,7 +226,7 @@ namespace GateHey
 	    {
 		try
 		{
-		    ControlHelper ConHelp = new ControlHelper()
+		    AshamedClass ConHelp = new AshamedClass()
 		    {
 			TextBoxFCol = Color.FromArgb(209, 209, 209),
 			TextBoxBCol = Parent.BackColor,
