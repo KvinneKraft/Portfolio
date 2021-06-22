@@ -37,7 +37,7 @@ namespace GateHey
 	    readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
 
-	    readonly Button Bttn1 = new Button();
+	    public readonly Button Bttn1 = new Button();
 	    readonly Button Bttn2 = new Button();
 	    readonly Button Bttn3 = new Button();
 
@@ -48,27 +48,30 @@ namespace GateHey
 	    {
 		try
 		{
-		    Runnables.RunTaskAsynchronously
-		    (
-			MainSettings.TxtBox1.Parent, () =>
-			{
-			    if (!Universal.IsScanning())
+		    if (Bttn1.Text.Equals("Start Scanning"))
+		    {
+			Runnables.RunTaskAsynchronously
+			(
+			    MainSettings.TxtBox1.Parent, () =>
 			    {
+
 				if (!Universal.SettingsValidation(MainSettings, false))
 				{
 				    Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
 				    return;
 				}
 
-				MainSettings.Dialog2.RunScan(MainSettings);
+				MainSettings.Dialog2.RunScan(MainSettings, this);
 			    }
+			);
 
-			    else
-			    {   
-				MainSettings.Dialog2.StopScan();
-			    }
-			}
-		    );
+			return;
+		    }
+
+		    else if (Bttn1.Text.Equals("Scanning ..."))
+		    {
+			MainSettings.Dialog2.StopScan(this, false);
+		    }
 		}
 
 		catch (Exception E)
