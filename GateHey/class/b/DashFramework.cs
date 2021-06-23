@@ -1348,6 +1348,30 @@ namespace DashFramework
 		}
 
 
+		public void StartProcess(string Path, bool UseShell = true, bool NoAppear = false)
+		{
+		    try
+		    {
+			using (Process proc = new Process())
+			{
+			    proc.StartInfo = new ProcessStartInfo()
+			    {
+				UseShellExecute = UseShell,
+				CreateNoWindow = !NoAppear,
+				FileName = Path,
+			    };
+
+			    proc.Start();
+			}
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
 		public void OpenUrl(string Destination)
 		{
 		    try
@@ -3118,15 +3142,45 @@ namespace DashFramework
     }
 
 
-    namespace SystemInteract
+    namespace DashInteract
     {
-	public class DashInteract
+	public class DashApp
 	{
-	    public bool IsAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+	    public bool IsAdministrator() => new WindowsPrincipal(WindowsIdentity.GetCurrent())
+		.IsInRole(WindowsBuiltInRole.Administrator);
 
-	    public bool IsRunning(string ProcessName) => Process.GetProcessesByName(ProcessName).Length > 1;
+	    public bool IsRunning(string ProcessName) => Process.
+		GetProcessesByName(ProcessName).Length > 1;
 
-	    public string GetFilePath() => Assembly.GetExecutingAssembly().Location;
+	    public string GetFilePath() => Assembly.
+		GetExecutingAssembly().Location;
+
+
+	    readonly DashTools Tools = new DashTools();
+
+	    public void RestartMe()
+	    {
+		StartMe();
+		CloseMe();
+	    }
+	    
+	    public void CloseMe()
+	    {
+		Application.Exit();
+	    }
+	    
+	    public void StartMe()
+	    {
+		try
+		{
+		    Tools.StartProcess(GetFilePath());
+		}
+
+		catch (Exception E)
+		{
+		    ErrorHandler.JustDoIt(E);
+		}
+	    }
 	}
     }
 }
