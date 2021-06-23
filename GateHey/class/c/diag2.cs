@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.DashInteract;
 using DashFramework.Networking;
 using DashFramework.Runnables;
 using DashFramework.Erroring;
@@ -153,10 +154,21 @@ namespace GateHey
 	    }
 
 
+	    readonly DashApp TouchApp = new DashApp();
+
 	    void RegisterCommandHooks(Dialog2 This, InitiateMiddle OptSet, MainGUI Main)
 	    {
 		try
 		{
+		    void AddAliases(string cmd, params string[] aliases)
+		    {
+			if (RunnableCache.ContainsKey(cmd))
+			    foreach (string alias in aliases)
+				RunnableCache.Add(alias, (cmds) =>
+			    RunnableCache[cmd]
+			(cmds));
+		    }
+
 		    Tools.SortCode(("SET Commands"), () =>
 		    {
 			RunnableCache.Add("set", (string[] cmds) =>
@@ -260,7 +272,7 @@ namespace GateHey
 				Thread.Sleep(500);
 			    }
 
-			    Application.Restart();
+			    TouchApp.RestartMe();
 			});
 
 			RunnableCache.Add("close", (cmds) =>
@@ -271,7 +283,7 @@ namespace GateHey
 				Thread.Sleep(500);
 			    }
 
-			    Application.Exit();
+			    TouchApp.CloseMe();
 			});
 
 			RunnableCache.Add("clear", (cmds) =>
@@ -292,7 +304,7 @@ namespace GateHey
 				}
 
 				This.SendMessage($">> Please note that support for more commands " +
-				    "will be available in the near future.  This release is the first.");
+				    "will be available in the near future.  This release is the first.", pnl: true);
 			    });
 			});
 
@@ -304,6 +316,20 @@ namespace GateHey
 			    This.SendMessage($@"> You have turned verbose {(Universal.DoVerbose 
 				? "on" : "off")}.", pnl: IsScanning());
 			});
+
+			RunnableCache.Add("save", (cmds) =>
+			{
+			    This.SendMessage("Works!");
+			});
+
+			AddAliases("verbose", "verb", "showmeall", "descriptive", "moreinfo");
+			AddAliases("clear", "cls", "clr", "clearlog", "clrlog", "clslog");
+			AddAliases("save", "savelog", "savlog", "export", "exportlog");
+			AddAliases("reboot", "restart", "rebt", "rest", "reload");
+			AddAliases("close", "exit", "terminate", "end");
+			AddAliases("help", "hlp", "info", "ineedhelp");
+			AddAliases("stop", "quit", "cancel", "halt");
+			AddAliases("start", "go", "run", "scan");
 		    });
 		}
 
@@ -504,8 +530,8 @@ namespace GateHey
 
 
 	void SendMessage(string msg, bool nl = true, bool cv = false, bool pnl = false) =>
-	    InitiateM.Shell.OutputText($@"" + (pnl ? "\r\n" : "") + 
-		(cv ? (Universal.DoVerbose ? msg : "") : msg), nl);
+	    Runnables.RunTaskAsynchronously(InitiateM.Shell.TerminalLog.Parent, () => InitiateM.Shell
+		.OutputText($@"" + (pnl ? "\r\n" : "") + (cv ? (Universal.DoVerbose ? msg : "") : msg), nl));
 
 
 	readonly public List<int> SuccessfulConnections = new List<int>();
