@@ -44,24 +44,26 @@ namespace GateHey
 	    readonly string ErrorMsg = ($"One or more of your settings seem to be invalid.  You can solve this by going through your settings and using common sense in order to figure out what has to be changed.  Integers require integral values and so do Strings require string values.\r\n\r\nError Code: ");
 	    string GetErrorMsg() => (ErrorMsg + Universal.GetLastError());
 	    
-	    void ButtonHook1(Initiator2 MainSettings)
+	    void ButtonHook1(MainGUI Main)
 	    {
 		try
 		{
+		    Initiator2 Init2 = Main.InitiateMiddle;
+
 		    if (Bttn1.Text.Equals("Start Scanning"))
 		    {
 			Runnables.RunTaskAsynchronously
 			(
-			    MainSettings.TxtBox1.Parent, () =>
+			    Init2.TxtBox1.Parent, () =>
 			    {
 
-				if (!Universal.SettingsValidation(MainSettings, false))
+				if (!Universal.SettingsValidation(Init2, false))
 				{
 				    Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
 				    return;
 				}
 
-				MainSettings.Dialog2.RunScan(MainSettings, this);
+				Init2.Dialog2.RunScan(Main);
 			    }
 			);
 
@@ -70,7 +72,7 @@ namespace GateHey
 
 		    else if (Bttn1.Text.Equals("Scanning ..."))
 		    {
-			MainSettings.Dialog2.StopScan(this, false);
+			Init2.Dialog2.StopScan(this, false);
 		    }
 		}
 
@@ -81,11 +83,11 @@ namespace GateHey
 	    }
 
 
-	    void ButtonHook2(Initiator2 MainSettings)
+	    void ButtonHook2(MainGUI Main)
 	    {
 		try
 		{
-		    if (Universal.SettingsValidation(MainSettings, false))
+		    if (Universal.SettingsValidation(Main.InitiateMiddle, false))
 		    {
 			Tools.MsgBox("Your settings are found to be valid.  You may now proceed.", icon: MessageBoxIcon.Information);
 		    }
@@ -119,10 +121,10 @@ namespace GateHey
 	    }
 
 
-	    public void Initiate(DashWindow Parent, Initiator2 MainSettings)
+	    public void Initiate(DashWindow Parent, MainGUI Main)
 	    {
 		try
-		{
+		{ 
 		    Tools.SortCode(("Panels"), () =>
 		    {
 			var Panel1Size = new Size(Parent.Width, 30);
@@ -170,8 +172,8 @@ namespace GateHey
 			AddButton(Bttn2, Loca2, ("Validate Settings"));
 			AddButton(Bttn3, Loca3, ("Service Policy"));
 
-			Bttn1.Click += (s, e) => ButtonHook1(MainSettings);
-			Bttn2.Click += (s, e) => ButtonHook2(MainSettings);
+			Bttn1.Click += (s, e) => ButtonHook1(Main);
+			Bttn2.Click += (s, e) => ButtonHook2(Main);
 			Bttn3.Click += (s, e) => ButtonHook3();
 		    });
 
@@ -231,7 +233,7 @@ namespace GateHey
 	    }
 
 
-	    void AddComponents(DashWindow Parent)
+	    void AddComponents(DashWindow Parent, MainGUI Main)
 	    {
 		try
 		{
@@ -290,7 +292,7 @@ namespace GateHey
 			Controls.Button(Panel3, Bttn1, BttnSize, BttnLoca, BttnBCol, BttnFCol, 1, 9, ("Port Selector"));
 
 			Dialog1.Initiator(Parent);
-			Dialog2.Initiator(Parent);
+			Dialog2.Initiator(Parent, Main);
 
 			Bttn1.Click += (s, e) =>
 			{
@@ -407,7 +409,7 @@ namespace GateHey
 
 	    readonly Label Label1 = new Label();
 
-	    public void Initiate(DashWindow Parent)
+	    public void Initiate(DashWindow Parent, MainGUI Main)
 	    {
 		try
 		{
@@ -444,7 +446,7 @@ namespace GateHey
 			Tools.Round(Panel2, 6);
 		    });
 
-		    AddComponents(Parent);
+		    AddComponents(Parent, Main);
 		}
 
 		catch (Exception E)
@@ -455,15 +457,15 @@ namespace GateHey
 	}
 
 
-	readonly Initiator1 InitiateBottom = new Initiator1();
-	readonly Initiator2 InitiateMiddle = new Initiator2();
+	readonly public Initiator1 InitiateBottom = new Initiator1();
+	readonly public Initiator2 InitiateMiddle = new Initiator2();
 
 	public void Initiator(DashWindow inst)
 	{
 	    try
 	    {
-		InitiateBottom.Initiate(inst, InitiateMiddle);
-		InitiateMiddle.Initiate(inst);
+		InitiateBottom.Initiate(inst, this);
+		InitiateMiddle.Initiate(inst, this);
 	    }
 
 	    catch (Exception E)
