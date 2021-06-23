@@ -41,7 +41,7 @@ namespace GateHey
 		    Size diagSize = new Size(425, 285);
 		    Color diagBCol = Inst.BackColor;
 
-		    string diagTitle = ("Dash - Shell");
+		    string diagTitle = ("Dashie )O( Shell");
 
 		    Parent.InitializeWindow(diagSize, diagTitle, diagBCol, 
 			barBCol, roundRadius: 0, barClose: false);
@@ -76,6 +76,7 @@ namespace GateHey
 	    readonly Runnable Runnables = new Runnable();
 
 	    delegate void CommandHandler(string[] cmds);
+	    bool IsScanning() => Universal.IsScanning();
 
 	    void TextBoxHook(Dialog2 This, KeyEventArgs e)
 	    {
@@ -93,14 +94,14 @@ namespace GateHey
 
 			catch (Exception E)
 			{
-			    This.SendMessage("An exception has occurred internally making me unable to fullfill your needs.");
+			    This.SendMessage("An exception has occurred internally making me unable to fullfill your needs.", pnl: IsScanning());
 			    This.SendMessage($"Debugger Information: ErrorCode[{E.Message}]");
 			}
 
 			return;
 		    }
 
-		    This.SendMessage("That command cannot be found.  Perhaps try typing help.");
+		    This.SendMessage("That command cannot be found.  Perhaps try typing help.", pnl: IsScanning());
 		}
 	    }
 	    
@@ -111,7 +112,7 @@ namespace GateHey
 		{
 		    void SendErrorMessage()
 		    {
-			This.SendMessage(">> Usage: set (f/b)col [r,g,b]");
+			This.SendMessage(">> Usage: set (f/b)col [r,g,b]", pnl: IsScanning());
 			This.SendMessage(">> Example: set bcol 1,1,1");
 		    }
 
@@ -132,8 +133,15 @@ namespace GateHey
 		    int[] rgb = new int[3];
 
 		    for (int k = 0; k < 3; k += 1)
-			if (!int.TryParse(colors[k], out int r))
-			    return Color.Empty; else rgb[k] = r;
+		    {
+			if (!int.TryParse(colors[k], out int r) || r > 255 || r < 0)
+			{
+			    SendErrorMessage();
+			    return Color.Empty;
+			}
+
+			rgb[k] = r;
+		    }
 
 		    return Color.FromArgb(rgb[0], rgb[1], rgb[2]);
 		}
@@ -145,7 +153,7 @@ namespace GateHey
 	    }
 
 
-	    void RegisterCommandHooks(Dialog2 This, InitiateMiddle InitiateM)
+	    void RegisterCommandHooks(Dialog2 This, InitiateMiddle OptSet, MainGUI Main)
 	    {
 		try
 		{
@@ -155,7 +163,7 @@ namespace GateHey
 			{
 			    if (cmds.Length < 2)
 			    {
-				This.SendMessage(">> Usage: set [bcol | fcol] r,g,b", pnl: true);
+				This.SendMessage(">> Usage: set [bcol | fcol] r,g,b", pnl: IsScanning());
 				This.SendMessage(">> Example: set bcol 1,1,1");
 				return;
 			    }
@@ -167,12 +175,12 @@ namespace GateHey
 				if (ColorCode == Color.Empty)
 				    return;
 
-				InitiateM.Shell.TerminalLog.ForeColor = ColorCode;
+				OptSet.Shell.TerminalLog.ForeColor = ColorCode;
 				TxtBox.ForeColor = ColorCode;
 				Lbl.ForeColor = ColorCode;
 
-				This.SendMessage($@"> Set fore color to: " + Tools
-				    .RGBString(ColorCode) + ".", pnl: true);
+				This.SendMessage($@"> Set fore color to: " +
+				    Tools.RGBString(ColorCode) + ".", pnl: IsScanning());
 			    }
 
 			    else if (cmds[1].Equals("bcol"))
@@ -182,36 +190,71 @@ namespace GateHey
 				if (ColorCode == Color.Empty)
 				    return;
 
-				InitiateM.Shell.TerminalLog.BackColor = ColorCode;
+				OptSet.Shell.TerminalLog.BackColor = ColorCode;
 				TxtBox.Parent.BackColor = ColorCode;
 				Lbl.Parent.BackColor = ColorCode;
 				TxtBox.BackColor = ColorCode;
 				Lbl.BackColor = ColorCode;
 
 				This.SendMessage($@"> Set back color to: " + Tools
-				    .RGBString(ColorCode) + ".", pnl: true);
+				    .RGBString(ColorCode) + ".", pnl: IsScanning());
 			    }
 			});
 		    });
 
 		    Tools.SortCode(("My Commands"), () =>
 		    {
-			RunnableCache.Add("youtube", (cmds) => Tools.
+			void OpenUrl(string url)
+			{
+			    try
+			    {
+				This.SendMessage($"> Opening the corresponding URL in your browser (if any) ...", 
+				    pnl: IsScanning()); Tools.OpenUrl(url);
+			    }
+
+			    catch
+			    {
+				throw new Exception("urls");
+			    }
+			}
+
+			RunnableCache.Add("youtube", (cmds) =>
 			    OpenUrl("https://www.youtube.com/channel/UCODilr1GUANP7i1TvEkjsAQ"));
 
-			RunnableCache.Add("github", (cmds) => Tools.
+			RunnableCache.Add("github", (cmds) =>
 			    OpenUrl("https://github.com/KvinneKraft"));
 
-			RunnableCache.Add("website", (cmds) => Tools.
+			RunnableCache.Add("website", (cmds) =>
 			    OpenUrl("https://pugpawz.com"));
 		    });
 
 		    Tools.SortCode(("Util Commands"), () =>
 		    {
+			RunnableCache.Add("stop", (cmds) => 
+			{
+			    if (!IsScanning())
+			    {
+				This.SendMessage("> You are currently not scanning.  Try typing start instead.");
+				return;
+			    }
+
+			    This.StopScan(Main.InitiateBottom);
+			});
+
+			RunnableCache.Add("start", (cmds) =>
+			{
+			    if (IsScanning())
+			    {
+				This.SendMessage("> Scan is already running.  Try typing stop instead.", pnl: true);
+				return;
+			    }
+
+			    This.RunScan(Main);
+			});
+
+			// left off at reboot <----
 			// start, stop, reboot (application), close
 			// (application), clear, help, savelog, verbose
-
-			// Make sure the close commands stops all running code first!
 		    });
 		}
 
@@ -226,7 +269,7 @@ namespace GateHey
 	    readonly DashPanel Panel = new DashPanel();
 	    readonly Label Lbl = new Label();
 
-	    public void Initiate(DashWindow Parent, DashWindow Inst, InitiateMiddle InitiateM, Dialog2 This)
+	    public void Initiate(DashWindow Parent, DashWindow Inst, InitiateMiddle OptSet, Dialog2 This, MainGUI Main)
 	    {
 		try
 		{
@@ -257,7 +300,7 @@ namespace GateHey
 			TxtBox.Text = ("help");
 		    });
 
-		    RegisterCommandHooks(This, InitiateM);
+		    RegisterCommandHooks(This, OptSet, Main);
 		}
 
 		catch (Exception E)
@@ -314,17 +357,25 @@ namespace GateHey
 	    {
 		try
 		{
-		    var PanelSize = new Size(Parent.Width - 4, Parent.Height - 53);
-		    var PanelLoca = new Point(2, 26);
-		    var PanelBCol = Color.FromArgb(22, 29, 36);
+		    Tools.SortCode(("Panel"), () =>
+		    {
+			var PanelSize = new Size(Parent.Width - 4, Parent.Height - 53);
+			var PanelLoca = new Point(2, 26);
+			var PanelBCol = Color.FromArgb(22, 29, 36);
 
-		    var TextBoxSize = new Size(PanelSize.Width - 10, PanelSize.Height - 10);
-		    var TextBoxLoca = new Point(5, 5);
-		    var TextBoxFCol = Color.White;
-		    var TextBoxBCol = PanelBCol;
+			Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+		    });
 
-		    Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca, TextBoxBCol, TextBoxFCol, 0, 9, true, true, true, false);
-		    Controls.Panel(Parent, Panel, PanelSize, PanelLoca, PanelBCol);
+		    Tools.SortCode(("TextBox"), () =>
+		    {
+			var TextBoxSize = new Size(Panel.Width - 10, Panel.Height - 10);
+			var TextBoxLoca = new Point(5, 5);
+			var TextBoxFCol = Color.White;
+			var TextBoxBCol = Panel.BackColor;
+
+			Controls.TextBox(Panel, Shell.TerminalLog, TextBoxSize, TextBoxLoca,
+			    TextBoxBCol, TextBoxFCol, 1, 9, true, true, true, false);
+		    });
 		}
 
 		catch (Exception E)
@@ -341,12 +392,12 @@ namespace GateHey
 
 	readonly public DashWindow Parent = new DashWindow();
 
-	public void Initiator(DashWindow Inst)
+	public void Initiator(DashWindow Inst, MainGUI Main)
 	{
 	    try
 	    {
 		InitiateT.Initiate(Parent, Inst, this);
-		InitiateB.Initiate(Parent, Inst, InitiateM, this);
+		InitiateB.Initiate(Parent, Inst, InitiateM, this, Main);
 		InitiateM.Initiate(Parent, Inst);
 
 		this.Inst = Inst;
@@ -434,18 +485,24 @@ namespace GateHey
 
 	readonly Runnable Runnables = new Runnable();
 
-	public void RunScan(MainGUI.Initiator2 MainSettings, MainGUI.Initiator1 Init1)
+	public void RunScan(MainGUI Main)
 	{
 	    try
 	    {
+		MainGUI.Initiator1 Init1 = Main.InitiateBottom;
+		MainGUI.Initiator2 Init2 = Main.InitiateMiddle;
+
+		Dialog2 Dialog2 = Main.InitiateMiddle.Dialog2;
+
 		Tools.SortCode(("Window Visibility Section"), () =>
 		{
 		    UpdateButtonText("Scanning ...", Init1);
+
 		    InitiateM.Shell.SetDefaultText();
 
-		    MainSettings.Dialog2.Parent.Show();
-		    MainSettings.Dialog2.Parent.BringToFront();
-		    MainSettings.Dialog2.Parent.Focus();
+		    Dialog2.Parent.Show();
+		    Dialog2.Parent.BringToFront();
+		    Dialog2.Parent.Focus();
 
 		    ClearPortStatuses();
 		});
@@ -458,14 +515,14 @@ namespace GateHey
 
 			// For threading; only allow this when either a range or a big selection of ports has been selected.
 			// The amount of selected ports should be at least equal to the amount of threads, if not disable feature.
-			string host = DashNet.GetIP(MainSettings.GetComponentValues()["host"]);
-			string packetData = MainSettings.GetComponentValues()["packdata"];
-			string protocol = MainSettings.GetComponentValues()["protocol"];
+			string host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
+			string packetData = Init2.GetComponentValues()["packdata"];
+			string protocol = Init2.GetComponentValues()["protocol"];
 
 			bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
 
-			int threads = int.Parse(MainSettings.GetComponentValues()["threads"]);
-			int timeout = int.Parse(MainSettings.GetComponentValues()["timeout"]);
+			int threads = int.Parse(Init2.GetComponentValues()["threads"]);
+			int timeout = int.Parse(Init2.GetComponentValues()["timeout"]);
 
 			Tools.SortCode(("Port Scanning"), () =>
 			{
@@ -489,13 +546,11 @@ namespace GateHey
 			    {
 				foreach (int port in Universal.Ports)
 				{
-				    if (!Universal.IsScanning())
-				    {
+				    if (Universal.IsScanning())
+					AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+					    GetProtocol(protocol), packetData, timeout));
+				    else
 					break;
-				    }
-
-				    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-					GetProtocol(protocol), packetData, timeout));
 				}
 			    }
 
@@ -503,13 +558,11 @@ namespace GateHey
 			    {
 				for (int port = Universal.Ports[0]; port <= Universal.Ports[1]; port += 1)
 				{
-				    if (!Universal.IsScanning())
-				    {
+				    if (Universal.IsScanning())
+					AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+					    GetProtocol(protocol), packetData, timeout));
+				    else
 					break;
-				    }
-
-				    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-					GetProtocol(protocol), packetData, timeout));
 				}
 			    }
 
@@ -526,11 +579,11 @@ namespace GateHey
 	}
 
 
-	void UpdateButtonText(string text, MainGUI.Initiator1 Init1) => Runnables.RunTaskAsynchronously
-	    (Init1.Bttn1.Parent, () => Init1.Bttn1.Text = $"{text}");
+	void UpdateButtonText(string text, MainGUI.Initiator1 BottomSect) => Runnables
+	    .RunTaskAsynchronously(BottomSect.Bttn1.Parent, () => BottomSect.Bttn1.Text = $"{text}");
 
 
-	public void StopScan(MainGUI.Initiator1 Init1, bool forceful = true)
+	public void StopScan(MainGUI.Initiator1 BottomSect, bool forceful = true)
 	{
 	    try
 	    {
@@ -538,13 +591,13 @@ namespace GateHey
 		{
 		    try
 		    {
-			if (!Init1.Bttn1.Text.Equals("Scanning ..."))
+			if (!BottomSect.Bttn1.Text.Equals("Scanning ..."))
 			    return;
 			
 			SendMessage($"> Telling all workers (if any-) to stop working ...", 
 			    pnl: Universal.IsScanning());
 
-			UpdateButtonText("Stopping ...", Init1);
+			UpdateButtonText("Stopping ...", BottomSect);
 
 			Universal.ToggleScanner();
 			Thread.Sleep(3500);
@@ -553,7 +606,7 @@ namespace GateHey
 			    $"{Tools.GetCurrentTime()}.");
 
 			SendMessage("> You are now free to launch another scan.");
-			UpdateButtonText("Start Scanning", Init1);
+			UpdateButtonText("Start Scanning", BottomSect);
 		    }
 
 		    catch (Exception E)
