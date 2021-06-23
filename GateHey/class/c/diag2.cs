@@ -548,8 +548,12 @@ namespace GateHey
 
 	void AddPortStatus(int port, bool open = true, bool uline = false)
 	{
-	    if (open) SuccessfulConnections.Add(port);
-	    else FailedConnections.Add(port);
+	    if (open)
+		if (!SuccessfulConnections.Contains(port))
+		    SuccessfulConnections.Add(port);
+	    else
+		if (!FailedConnections.Contains(port))
+		    FailedConnections.Add(port);
 
 	    SendMessage($"| {port} => {(open ? "open" : "closed")} ",
 		nl: (!uline ? lineCounter == 4 : true), cv: !open);
@@ -605,6 +609,7 @@ namespace GateHey
 			    SendMessage($"> Scanning host: {host} using {protocol} with {threads} threads and a " +
 				$"timeout of {timeout} in miliseconds ...");
 
+			    var ListOThreads = new List<Thread>();
 			    int ScanType = Universal.ScanType;
 
 			    Universal.ToggleScanner();
@@ -632,17 +637,41 @@ namespace GateHey
 
 			    else // Ranged
 			    {
-				for (int port = Universal.Ports[0]; port <= Universal.Ports[1]; port += 1)
+				void ScanThese(int min, int max)
 				{
-				    if (Universal.IsScanning())
-					AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-					    GetProtocol(protocol), packetData, timeout));
-				    else
-					break;
+				    for (int port = min; port <= max; port += 1)
+				    {
+					if (Universal.IsScanning())
+					    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+						GetProtocol(protocol), packetData, timeout));
+					else
+					    break;
+				    }
 				}
+				
+				void AddThread(int min, int max) => ListOThreads
+				    .Add(new Thread(() => ScanThese(min, max)));
+
+				int range = (Universal.Ports[1] - Universal.Ports[0]) / threads;
+				int minim = Universal.Ports[0];
+				int maxim = Universal.Ports[1];
+				int last = 0;
+
+				for (int thread = 0, min = minim, max = range + 1; thread < threads; thread += 1, 
+				    min += range, max = range * (thread + 1) + 1, last = max)
+					AddThread(min, max);
+
+				if (last != maxim)// Not doing what it gotta do.  Scan last ports if above did not get them.
+				    AddThread(last, maxim);
 			    }
 
-			    StopScan(Init1, false);
+			    foreach (Thread thread in ListOThreads)
+				thread.Start();
+
+			    foreach (Thread thread in ListOThreads)
+				thread.Join();
+			    
+			    StopScan(Init1, false);// Find a better way to do this <---
 			});
 		    });
 		});
