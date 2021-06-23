@@ -230,7 +230,7 @@ namespace GateHey
 
 		    Tools.SortCode(("Util Commands"), () =>
 		    {
-			RunnableCache.Add("stop", (cmds) => 
+			RunnableCache.Add("stop", (cmds) =>
 			{
 			    if (!IsScanning())
 			    {
@@ -252,9 +252,58 @@ namespace GateHey
 			    This.RunScan(Main);
 			});
 
-			// left off at reboot <----
-			// start, stop, reboot (application), close
-			// (application), clear, help, savelog, verbose
+			RunnableCache.Add("reboot", (cmds) =>
+			{
+			    if (IsScanning())
+			    {
+				This.StopScan(Main.InitiateBottom);
+				Thread.Sleep(500);
+			    }
+
+			    Application.Restart();
+			});
+
+			RunnableCache.Add("close", (cmds) =>
+			{
+			    if (IsScanning())
+			    {
+				This.StopScan(Main.InitiateBottom);
+				Thread.Sleep(500);
+			    }
+
+			    Application.Exit();
+			});
+
+			RunnableCache.Add("clear", (cmds) =>
+			    OptSet.Shell.ClearText());
+
+			RunnableCache.Add("help", (cmds) =>
+			{
+			    Runnables.RunTaskAsynchronously(null, () =>
+			    {
+				This.SendMessage($">> Available dashie shell commands:", pnl: IsScanning());
+
+				for (int k = 0, s = 1; k < RunnableCache.Count; k += 1, s += 1)
+				{
+				    This.SendMessage($": {RunnableCache.ElementAt(k).Key} ", 
+					nl: s == 4);
+
+				    if (s == 4) s = 1;
+				}
+
+				This.SendMessage($">> Please note that support for more commands " +
+				    "will be available in the near future.  This release is the first.");
+			    });
+			});
+
+			RunnableCache.Add("verbose", (cmds) => 
+			{
+			    Universal.DoVerbose = (Universal.DoVerbose == true 
+				? false : true);
+
+			    This.SendMessage($@"> You have turned verbose {(Universal.DoVerbose 
+				? "on" : "off")}.", pnl: IsScanning());
+			});
 		    });
 		}
 
@@ -335,6 +384,7 @@ namespace GateHey
 	    public void OutputText(string msg, bool nl = true) =>
 		TerminalLog.AppendText($"{msg}{(nl ? "\r\n" : "")}");
 
+	    public void ClearText() => TerminalLog.Clear();
 	    public TextBox GetTerminal() => TerminalLog;
 
 
