@@ -95,14 +95,14 @@ namespace GateHey
 
 			catch (Exception E)
 			{
-			    This.SendMessage("An exception has occurred internally making me unable to fullfill your needs.", pnl: IsScanning());
+			    This.SendMessage("An exception has occurred internally making me unable to fullfill your needs.");
 			    This.SendMessage($"Debugger Information: ErrorCode[{E.Message}]");
 			}
 
 			return;
 		    }
 
-		    This.SendMessage("That command cannot be found.  Perhaps try typing help.", pnl: IsScanning());
+		    This.SendMessage("That command cannot be found.  Perhaps try typing help.");
 		}
 	    }
 	    
@@ -113,7 +113,7 @@ namespace GateHey
 		{
 		    void SendErrorMessage()
 		    {
-			This.SendMessage(">> Usage: set (f/b)col [r,g,b]", pnl: IsScanning());
+			This.SendMessage(">> Usage: set (f/b)col [r,g,b]");
 			This.SendMessage(">> Example: set bcol 1,1,1");
 		    }
 
@@ -175,7 +175,7 @@ namespace GateHey
 			{
 			    if (cmds.Length < 2)
 			    {
-				This.SendMessage(">> Usage: set [bcol | fcol] r,g,b", pnl: IsScanning());
+				This.SendMessage(">> Usage: set [bcol | fcol] r,g,b");
 				This.SendMessage(">> Example: set bcol 1,1,1");
 				return;
 			    }
@@ -192,7 +192,7 @@ namespace GateHey
 				Lbl.ForeColor = ColorCode;
 
 				This.SendMessage($@"> Set fore color to: " +
-				    Tools.RGBString(ColorCode) + ".", pnl: IsScanning());
+				    Tools.RGBString(ColorCode) + ".");
 			    }
 
 			    else if (cmds[1].Equals("bcol"))
@@ -209,7 +209,7 @@ namespace GateHey
 				Lbl.BackColor = ColorCode;
 
 				This.SendMessage($@"> Set back color to: " + Tools
-				    .RGBString(ColorCode) + ".", pnl: IsScanning());
+				    .RGBString(ColorCode) + ".");
 			    }
 			});
 		    });
@@ -220,8 +220,8 @@ namespace GateHey
 			{
 			    try
 			    {
-				This.SendMessage($"> Opening the corresponding URL in your browser (if any) ...", 
-				    pnl: IsScanning()); Tools.OpenUrl(url);
+				This.SendMessage($"> Opening the corresponding URL in your browser (if any) ...");
+				Tools.OpenUrl(url);
 			    }
 
 			    catch
@@ -257,7 +257,7 @@ namespace GateHey
 			{
 			    if (IsScanning())
 			    {
-				This.SendMessage("> Scan is already running.  Try typing stop instead.", pnl: true);
+				This.SendMessage("> Scan is already running.  Try typing stop instead.");
 				return;
 			    }
 
@@ -293,7 +293,7 @@ namespace GateHey
 			{
 			    Runnables.RunTaskAsynchronously(null, () =>
 			    {
-				This.SendMessage($">> Available dashie shell commands:", pnl: IsScanning());
+				This.SendMessage($">> Available dashie shell commands:");
 
 				for (int k = 0, s = 1; k < RunnableCache.Count; k += 1, s += 1)
 				{
@@ -304,7 +304,7 @@ namespace GateHey
 				}
 
 				This.SendMessage($">> Please note that support for more commands " +
-				    "will be available in the near future.  This release is the first.", pnl: true);
+				    "will be available in the near future.  This release is the first.");
 			    });
 			});
 
@@ -313,13 +313,32 @@ namespace GateHey
 			    Universal.DoVerbose = (Universal.DoVerbose == true 
 				? false : true);
 
-			    This.SendMessage($@"> You have turned verbose {(Universal.DoVerbose 
-				? "on" : "off")}.", pnl: IsScanning());
+			    This.SendMessage($@"> You have turned verbose " +
+				(Universal.DoVerbose ? "on" : "off") + ".");
 			});
 
 			RunnableCache.Add("save", (cmds) =>
 			{
-			    This.SendMessage("Works!");
+			    string filename = $@"latest-log.txt";
+
+			    try
+			    {
+				This.SendMessage($"> Saving log file under the name {filename} ...");
+			
+				File.WriteAllText($"{filename}", OptSet.Shell.TerminalLog.Text);
+
+				if (!File.Exists(filename))
+				{
+				    throw new Exception("filename");
+				}
+
+				This.SendMessage("> Done.");
+			    }
+
+			    catch
+			    {
+				This.SendMessage($"> Unable to save file as {filename} !");
+			    }
 			});
 
 			AddAliases("verbose", "verb", "showmeall", "descriptive", "moreinfo");
@@ -529,9 +548,9 @@ namespace GateHey
 	}
 
 
-	void SendMessage(string msg, bool nl = true, bool cv = false, bool pnl = false) =>
-	    Runnables.RunTaskAsynchronously(InitiateM.Shell.TerminalLog.Parent, () => InitiateM.Shell
-		.OutputText($@"" + (pnl ? "\r\n" : "") + (cv ? (Universal.DoVerbose ? msg : "") : msg), nl));
+	void SendMessage(string msg, bool nl = true, bool cv = false) => Runnables
+	    .RunTaskAsynchronously(InitiateM.Shell.TerminalLog.Parent, () => InitiateM
+		.Shell.OutputText($@"{(cv ? (Universal.DoVerbose ? msg : "") : msg)}", nl));
 
 
 	readonly public List<int> SuccessfulConnections = new List<int>();
@@ -543,9 +562,7 @@ namespace GateHey
 	    FailedConnections.Clear();
 	}
 
-
-	int lineCounter = 0;
-
+	
 	void AddPortStatus(int port, bool open = true, bool uline = false)
 	{
 	    if (open)
@@ -555,11 +572,9 @@ namespace GateHey
 		if (!FailedConnections.Contains(port))
 		    FailedConnections.Add(port);
 
-	    SendMessage($"| {port} => {(open ? "open" : "closed")} ",
-		nl: (!uline ? lineCounter == 4 : true), cv: !open);
-
-	    lineCounter = (uline ? (lineCounter >= 4 ? lineCounter = 0 
-		: lineCounter += 1) : lineCounter);
+	    if (Universal.IsScanning())
+		SendMessage($"> {port}: {(open ? "open" : "closed")}", nl: 
+		    (!open ? (!Universal.DoVerbose ? false : true) : true), cv: !open);
 	}
 
 
@@ -569,6 +584,14 @@ namespace GateHey
 	{
 	    try
 	    {
+		if (!Universal.SettingsValidation(Main.InitiateMiddle, false))
+		{
+		    Tools.MsgBox($"{Universal.GetLastError()}", 
+			icon: MessageBoxIcon.Warning);
+
+		    return;
+		}
+
 		MainGUI.Initiator1 Init1 = Main.InitiateBottom;
 		MainGUI.Initiator2 Init2 = Main.InitiateMiddle;
 
@@ -593,8 +616,6 @@ namespace GateHey
 		    {
 			SendMessage($"> GateHey scan session started at: {Tools.GetCurrentTime()}");
 
-			// For threading; only allow this when either a range or a big selection of ports has been selected.
-			// The amount of selected ports should be at least equal to the amount of threads, if not disable feature.
 			string host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
 			string packetData = Init2.GetComponentValues()["packdata"];
 			string protocol = Init2.GetComponentValues()["protocol"];
@@ -625,6 +646,14 @@ namespace GateHey
 
 			    else if (ScanType == 2) // Multi
 			    {
+				if (Universal.Ports.Count < threads)
+				{
+				    SendMessage("> You have selected more threads than ports.");
+				    SendMessage("> You must at least have as many ports selected as threads.");
+				    return;
+				}
+
+				// multi-thread dis:
 				foreach (int port in Universal.Ports)
 				{
 				    if (Universal.IsScanning())
@@ -637,6 +666,15 @@ namespace GateHey
 
 			    else // Ranged
 			    {
+				if (Universal.Ports[1] - Universal.Ports[0] < threads)
+				{
+				    SendMessage("> You have selected more threads than ports.");
+				    SendMessage("> You must at least have as many ports selected as threads.");
+				    return;
+				}
+
+				int last = -1;
+
 				void ScanThese(int min, int max)
 				{
 				    for (int port = min; port <= max; port += 1)
@@ -649,21 +687,28 @@ namespace GateHey
 				    }
 				}
 				
-				void AddThread(int min, int max) => ListOThreads
-				    .Add(new Thread(() => ScanThese(min, max)));
+				void AddThread(int min, int max)
+				{
+				    ListOThreads.Add(new Thread
+					(() => ScanThese(min, max)));
+
+				    last = max;
+				}
 
 				int range = (Universal.Ports[1] - Universal.Ports[0]) / threads;
 				int minim = Universal.Ports[0];
 				int maxim = Universal.Ports[1];
-				int last = 0;
 
 				for (int thread = 0, min = minim, max = range + 1; thread < threads; thread += 1, 
-				    min += range, max = range * (thread + 1) + 1, last = max)
+				    min += range, max = range * (thread + 1) + 1)
 					AddThread(min, max);
-
-				if (last != maxim)// Not doing what it gotta do.  Scan last ports if above did not get them.
+				
+				if (last < maxim)
 				    AddThread(last, maxim);
 			    }
+
+			    if (ListOThreads.Count > 0)
+				SendMessage($"> Starting {ListOThreads.Count} scan workers ...");
 
 			    foreach (Thread thread in ListOThreads)
 				thread.Start();
@@ -671,7 +716,7 @@ namespace GateHey
 			    foreach (Thread thread in ListOThreads)
 				thread.Join();
 			    
-			    StopScan(Init1, false);// Find a better way to do this <---
+			    StopScan(Init1, false);
 			});
 		    });
 		});
@@ -698,19 +743,17 @@ namespace GateHey
 		    {
 			if (!BottomSect.Bttn1.Text.Equals("Scanning ..."))
 			    return;
-			
-			SendMessage($"> Telling all workers (if any-) to stop working ...", 
-			    pnl: Universal.IsScanning());
+
+			SendMessage($"> Telling all workers (if any-) to stop working ...");
 
 			UpdateButtonText("Stopping ...", BottomSect);
 
 			Universal.ToggleScanner();
 			Thread.Sleep(3500);
 			
-			SendMessage($"> GateHey scan session has been finished successfully at: " +
-			    $"{Tools.GetCurrentTime()}.");
-
+			SendMessage($"> GateHey scan session has been finished successfully at: {Tools.GetCurrentTime()}");
 			SendMessage("> You are now free to launch another scan.");
+
 			UpdateButtonText("Start Scanning", BottomSect);
 		    }
 
