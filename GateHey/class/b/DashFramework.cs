@@ -3106,7 +3106,6 @@ namespace DashFramework
 			bool connected = socket.Connected;
 
 			socket.Disconnect(false);
-			socket.Close(0);
 
 			return connected;
 		    }
