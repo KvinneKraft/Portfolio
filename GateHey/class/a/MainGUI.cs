@@ -56,13 +56,6 @@ namespace GateHey
 			(
 			    Init2.TxtBox1.Parent, () =>
 			    {
-
-				if (!Universal.SettingsValidation(Init2, false))
-				{
-				    Tools.MsgBox($"{GetErrorMsg()}", icon: MessageBoxIcon.Warning);
-				    return;
-				}
-
 				Init2.Dialog2.RunScan(Main);
 			    }
 			);
