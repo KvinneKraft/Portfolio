@@ -574,7 +574,7 @@ namespace GateHey
 
 	    if (Universal.IsScanning())
 		SendMessage($"> {port}: {(open ? "open" : "closed")}", nl: 
-		    (!open ? (!Universal.DoVerbose ? false : true) : true), cv: !open);
+		    !open ? (!Universal.DoVerbose ? false : true) : true, cv: !open);
 	}
 
 
@@ -594,14 +594,28 @@ namespace GateHey
 	}
 
 
+	void ConnectionFailure()
+	{
+	    SendMessage("> Some internal error occurred while trying to connect to the given host.");
+	    StopScan(Init1);
+	}
+
+
+	void ThreadingFailure()
+	{
+	    SendMessage("> Some internal error occurred while starting your scan workers.");
+	    StopScan(Init1);
+	}
+
+
 	void ModuleHandler1()
 	{
 	    try
 	    {
 		int port = Universal.Ports[0];
 
-		AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-		    GetProtocol(protocol), packetData, timeout));
+		AddPortStatus(port, AttemptConnect(Host, port, GetSocketType(Protocol),
+		    GetProtocol(Protocol), PacketData, Timeout));
 	    }
 
 	    catch (Exception E)
@@ -611,74 +625,146 @@ namespace GateHey
 	}
 
 
-	void ModuleHandler2()
+	int ModuleHandler2()
 	{
 	    try
 	    {
-		if (Universal.Ports.Count < threads)
+		if (Universal.Ports.Count < Threads)
 		{
 		    ThreadIncompatibility();
-		    return;
+		    return -1;
 		}
 
-		foreach (int port in Universal.Ports)
+		int ScanThese(int start, int end)
 		{
-		    if (Universal.IsScanning())
-			AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-			    GetProtocol(protocol), packetData, timeout));
-		    else
-			break;
-		}
-	    }
+		    try
+		    {
+			for (int s = start; s <= end; s += 1)
+			{
+			    int port = Universal.Ports[s];
 
-	    catch (Exception E)
-	    {
-		throw ErrorHandler.GetException(E);
-	    }
-	}
+			    if (Universal.IsScanning())
+				AddPortStatus(port, AttemptConnect(Host, port, GetSocketType(Protocol),
+				    GetProtocol(Protocol), PacketData, Timeout));
+			    else
+				break;
+			}
 
+			return 0;
+		    }
 
-	void ModuleHandler3()
-	{
-	    try
-	    {
-		if (Universal.Ports[1] - Universal.Ports[0] < threads)
-		{
-		    ThreadIncompatibility();
-		    return;
+		    catch
+		    {
+			ConnectionFailure();
+			return -1;
+		    }
 		}
 
 		int last = -1;
 
-		void ScanThese(int min, int max)
+		int AddThread(int start, int end)
 		{
-		    for (int port = min; port <= max; port += 1)
+		    try
 		    {
-			if (Universal.IsScanning())
-			    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-				GetProtocol(protocol), packetData, timeout));
-			else
-			    break;
+			ListOThreads.Add(new Thread(() => ScanThese(start, end)));
+			last = end;
+			return 0;
+		    }
+
+		    catch
+		    {
+			ThreadingFailure();
+			return -1;
 		    }
 		}
 
-		void AddThread(int min, int max)
-		{
-		    ListOThreads.Add(new Thread
-			(() => ScanThese(min, max)));
+		int fwd = Universal.Ports.Count / Threads;
 
-		    last = max;
+		for (int k = 0; k < Threads; k += 1)
+		    if (AddThread(k * fwd, (k + 1) * fwd) == -1)
+			return -1;
+
+		int maxim = fwd * Threads;
+
+		if (last < maxim)
+		    if (AddThread(last, maxim) == -1)
+			return -1;
+
+		return 0;
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	int ModuleHandler3()
+	{
+	    try
+	    {
+		if (Universal.Ports[1] - Universal.Ports[0] < Threads)
+		{
+		    ThreadIncompatibility();
+		    return -1;
 		}
 
-		int range = (Universal.Ports[1] - Universal.Ports[0]) / threads;
+		int last = -1;
+
+		int ScanThese(int min, int max)
+		{
+		    try
+		    {
+			for (int port = min; port <= max; port += 1)
+			{
+			    if (Universal.IsScanning())
+				AddPortStatus(port, AttemptConnect(Host, port, GetSocketType(Protocol),
+				    GetProtocol(Protocol), PacketData, Timeout));
+			    else
+				break;
+			}
+
+			return 0;
+		    }
+
+		    catch
+		    {
+			ConnectionFailure();
+			return -1;
+		    }
+		}
+
+		int AddThread(int min, int max)
+		{
+		    try
+		    {
+			ListOThreads.Add(new Thread(() => ScanThese(min, max)));
+			last = max;
+			return 0;
+		    }
+
+		    catch
+		    {
+			ThreadingFailure();
+			return -1;
+		    }
+		}
+
+		int range = (Universal.Ports[1] - Universal.Ports[0]) / Threads;
 		int minim = Universal.Ports[0];
 		int maxim = Universal.Ports[1];
 
-		for (int thread = 0, min = minim, max = range + 1; thread < threads; thread += 1,
+		for (int thread = 0, min = minim, max = range + 1; thread < Threads; thread += 1,
 		    min += range, max = range * (thread + 1) + 1)
-		    AddThread(min, max);
+			if (AddThread(min, max) == -1)
+			    return -1;
 
-		if (last < maxim) AddThread(last, maxim);
+		if (last < maxim)
+		    if (AddThread(last, maxim) == -1)
+			return -1;
+
+		return 0;
 	    }
 
 	    catch (Exception E)
@@ -694,14 +780,14 @@ namespace GateHey
 	MainGUI.Initiator1 Init1 = null;
 	MainGUI.Initiator2 Init2 = null;
 
-	string packetData = string.Empty;
-	string protocol = string.Empty;
-	string host = string.Empty;
+	string PacketData = string.Empty;
+	string Protocol = string.Empty;
+	string Host = string.Empty;
 
-	bool sendPacketData = false;
+	bool SendPacketData = false;
 
-	int threads = -1;
-	int timeout = -1;
+	int Threads = -1;
+	int Timeout = -1;
 
 	public void RunScan(MainGUI Main)
 	{
@@ -721,7 +807,8 @@ namespace GateHey
 		Dialog2 Dialog2 = Main.InitiateMiddle.Dialog2;
 
 		Tools.SortCode(("Window Visibility Section"), () =>
-		{ 
+		{
+		    UpdateButtonText("Scanning ...", Init1);
 		    InitiateM.Shell.SetDefaultText();
 
 		    Dialog2.Parent.Show();
@@ -737,22 +824,20 @@ namespace GateHey
 
 		    Tools.SortCode(("Loading Settings"), () =>
 		    {
-			UpdateButtonText("Scanning ...", Init1);
+			Host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
+			PacketData = Init2.GetComponentValues()["packdata"];
+			Protocol = Init2.GetComponentValues()["protocol"];
 
-			host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
-			packetData = Init2.GetComponentValues()["packdata"];
-			protocol = Init2.GetComponentValues()["protocol"];
+			SendPacketData = (PacketData.Length < 1 || PacketData.Equals("none"));
 
-			sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
-
-			threads = int.Parse(Init2.GetComponentValues()["threads"]);
-			timeout = int.Parse(Init2.GetComponentValues()["timeout"]);
+			Threads = int.Parse(Init2.GetComponentValues()["threads"]);
+			Timeout = int.Parse(Init2.GetComponentValues()["timeout"]);
 
 			ListOThreads = new List<Thread>();
 		    });
 
-		    SendMessage($"> Scanning host: {host} using {protocol} with {threads} threads and a " +
-			$"timeout of {timeout} in miliseconds ...");
+		    SendMessage($"> Scanning host: {Host} using {Protocol} with {Threads} threads and a " +
+			$"timeout of {Timeout} in miliseconds ...");
 
 		    Universal.ToggleScanner();
 		    Thread.Sleep(1000);
@@ -760,26 +845,27 @@ namespace GateHey
 		    Tools.SortCode(("Detect Scan Module"), () =>
 		    {
 			int ScanModule = Universal.ScanType;
+			int ScanResult = -1;
 
 			switch (ScanModule)
 			{
+			    case 3: ScanResult = ModuleHandler3(); break;
+			    case 2: ScanResult = ModuleHandler2(); break;
 			    case 1: ModuleHandler1(); break;
-			    case 2: ModuleHandler2(); break;
-			    case 3: ModuleHandler3(); break;
 			}
-
-			if (ListOThreads.Count > 0)
+			
+			if (ScanResult == -1)
 			{
-			    SendMessage($"> Starting {ListOThreads.Count} scan workers ...");
+			    return;
 			}
-		    });
 
-		    Tools.SortCode(("Worker Managment"), () =>
-		    {
+			else if (ListOThreads.Count > 0)
+			    SendMessage($"> Starting {ListOThreads.Count} scan workers ...");
+			
 			foreach (Thread thread in ListOThreads) thread.Start();
 			foreach (Thread thread in ListOThreads) thread.Join();
 
-			StopScan(Init1, false);
+			StopScan(Init1);
 		    });
 		});
 	    }
@@ -795,7 +881,7 @@ namespace GateHey
 	    .RunTaskAsynchronously(BottomSect.Bttn1.Parent, () => BottomSect.Bttn1.Text = $"{text}");
 
 
-	public void StopScan(MainGUI.Initiator1 BottomSect, bool forceful = true)
+	public void StopScan(MainGUI.Initiator1 BottomSect)
 	{
 	    try
 	    {
@@ -805,9 +891,8 @@ namespace GateHey
 		    {
 			if (!BottomSect.Bttn1.Text.Equals("Scanning ..."))
 			    return;
-
+			
 			SendMessage($"> Telling all workers (if any-) to stop working ...");
-
 			UpdateButtonText("Stopping ...", BottomSect);
 
 			Universal.ToggleScanner();
