@@ -347,9 +347,7 @@ namespace GateHey
 			    typeof(PictureBox), typeof(Button)).ToList();
 
 			foreach (Control con in controlCol)
-			{
 			    Tools.Round(con, 6);
-			}
 		    });
 
 		    Tools.SortCode(("Dropdown Menu"), () =>
