@@ -65,7 +65,7 @@ namespace GateHey
 
 		    else if (Bttn1.Text.Equals("Scanning ..."))
 		    {
-			Init2.Dialog2.StopScan(this, false);
+			Init2.Dialog2.StopScan(this);
 		    }
 		}
 
