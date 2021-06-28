@@ -578,7 +578,130 @@ namespace GateHey
 	}
 
 
-	readonly Runnable Runnables = new Runnable();
+	void ThreadIncompatibility()
+	{
+	    try
+	    {
+		SendMessage("> You have selected more threads than ports.");
+		SendMessage("> You must at least have as many ports selected as threads.");
+		StopScan(Init1);
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
+	}
+
+
+	void ModuleHandler1()
+	{
+	    try
+	    {
+		int port = Universal.Ports[0];
+
+		AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+		    GetProtocol(protocol), packetData, timeout));
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	void ModuleHandler2()
+	{
+	    try
+	    {
+		if (Universal.Ports.Count < threads)
+		{
+		    ThreadIncompatibility();
+		    return;
+		}
+
+		foreach (int port in Universal.Ports)
+		{
+		    if (Universal.IsScanning())
+			AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+			    GetProtocol(protocol), packetData, timeout));
+		    else
+			break;
+		}
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	void ModuleHandler3()
+	{
+	    try
+	    {
+		if (Universal.Ports[1] - Universal.Ports[0] < threads)
+		{
+		    ThreadIncompatibility();
+		    return;
+		}
+
+		int last = -1;
+
+		void ScanThese(int min, int max)
+		{
+		    for (int port = min; port <= max; port += 1)
+		    {
+			if (Universal.IsScanning())
+			    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
+				GetProtocol(protocol), packetData, timeout));
+			else
+			    break;
+		    }
+		}
+
+		void AddThread(int min, int max)
+		{
+		    ListOThreads.Add(new Thread
+			(() => ScanThese(min, max)));
+
+		    last = max;
+		}
+
+		int range = (Universal.Ports[1] - Universal.Ports[0]) / threads;
+		int minim = Universal.Ports[0];
+		int maxim = Universal.Ports[1];
+
+		for (int thread = 0, min = minim, max = range + 1; thread < threads; thread += 1,
+		    min += range, max = range * (thread + 1) + 1)
+		    AddThread(min, max);
+
+		if (last < maxim) AddThread(last, maxim);
+	    }
+
+	    catch (Exception E)
+	    {
+		throw ErrorHandler.GetException(E);
+	    }
+	}
+
+
+	List<Thread> ListOThreads = new List<Thread>();
+	Runnable Runnables = new Runnable();
+
+	MainGUI.Initiator1 Init1 = null;
+	MainGUI.Initiator2 Init2 = null;
+
+	string packetData = string.Empty;
+	string protocol = string.Empty;
+	string host = string.Empty;
+
+	bool sendPacketData = false;
+
+	int threads = -1;
+	int timeout = -1;
 
 	public void RunScan(MainGUI Main)
 	{
@@ -592,15 +715,13 @@ namespace GateHey
 		    return;
 		}
 
-		MainGUI.Initiator1 Init1 = Main.InitiateBottom;
-		MainGUI.Initiator2 Init2 = Main.InitiateMiddle;
+		Init1 = Main.InitiateBottom;
+		Init2 = Main.InitiateMiddle;
 
 		Dialog2 Dialog2 = Main.InitiateMiddle.Dialog2;
 
 		Tools.SortCode(("Window Visibility Section"), () =>
-		{
-		    UpdateButtonText("Scanning ...", Init1);
-
+		{ 
 		    InitiateM.Shell.SetDefaultText();
 
 		    Dialog2.Parent.Show();
@@ -609,117 +730,56 @@ namespace GateHey
 
 		    ClearPortStatuses();
 		});
-		
-		Runnables.RunTaskAsynchronously(null, () => 
+
+		Runnables.RunTaskAsynchronously(null, () =>
 		{
-		    Tools.SortCode(("Scan Section"), () =>
+		    SendMessage($"> GateHey scan session started at: {Tools.GetCurrentTime()}");
+
+		    Tools.SortCode(("Loading Settings"), () =>
 		    {
-			SendMessage($"> GateHey scan session started at: {Tools.GetCurrentTime()}");
+			UpdateButtonText("Scanning ...", Init1);
 
-			string host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
-			string packetData = Init2.GetComponentValues()["packdata"];
-			string protocol = Init2.GetComponentValues()["protocol"];
+			host = DashNet.GetIP(Init2.GetComponentValues()["host"]);
+			packetData = Init2.GetComponentValues()["packdata"];
+			protocol = Init2.GetComponentValues()["protocol"];
 
-			bool sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
+			sendPacketData = (packetData.Length < 1 || packetData.Equals("none"));
 
-			int threads = int.Parse(Init2.GetComponentValues()["threads"]);
-			int timeout = int.Parse(Init2.GetComponentValues()["timeout"]);
+			threads = int.Parse(Init2.GetComponentValues()["threads"]);
+			timeout = int.Parse(Init2.GetComponentValues()["timeout"]);
 
-			Tools.SortCode(("Port Scanning"), () =>
+			ListOThreads = new List<Thread>();
+		    });
+
+		    SendMessage($"> Scanning host: {host} using {protocol} with {threads} threads and a " +
+			$"timeout of {timeout} in miliseconds ...");
+
+		    Universal.ToggleScanner();
+		    Thread.Sleep(1000);
+
+		    Tools.SortCode(("Detect Scan Module"), () =>
+		    {
+			int ScanModule = Universal.ScanType;
+
+			switch (ScanModule)
 			{
-			    SendMessage($"> Scanning host: {host} using {protocol} with {threads} threads and a " +
-				$"timeout of {timeout} in miliseconds ...");
+			    case 1: ModuleHandler1(); break;
+			    case 2: ModuleHandler2(); break;
+			    case 3: ModuleHandler3(); break;
+			}
 
-			    var ListOThreads = new List<Thread>();
-			    int ScanType = Universal.ScanType;
+			if (ListOThreads.Count > 0)
+			{
+			    SendMessage($"> Starting {ListOThreads.Count} scan workers ...");
+			}
+		    });
 
-			    Universal.ToggleScanner();
-			    Thread.Sleep(1000);
+		    Tools.SortCode(("Worker Managment"), () =>
+		    {
+			foreach (Thread thread in ListOThreads) thread.Start();
+			foreach (Thread thread in ListOThreads) thread.Join();
 
-			    if (ScanType == 1) //Single
-			    {
-				int port = Universal.Ports[0];
-
-				AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol), 
-				    GetProtocol(protocol), packetData, timeout));
-			    }
-
-			    else if (ScanType == 2) // Multi
-			    {
-				if (Universal.Ports.Count < threads)
-				{
-				    SendMessage("> You have selected more threads than ports.");
-				    SendMessage("> You must at least have as many ports selected as threads.");
-				    StopScan(Init1);
-				    return;
-				}
-
-				// multi-thread dis:
-				foreach (int port in Universal.Ports)
-				{
-				    if (Universal.IsScanning())
-					AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-					    GetProtocol(protocol), packetData, timeout));
-				    else
-					break;
-				}
-			    }
-
-			    else // Ranged
-			    {
-				if (Universal.Ports[1] - Universal.Ports[0] < threads)
-				{
-				    SendMessage("> You have selected more threads than ports.");
-				    SendMessage("> You must at least have as many ports selected as threads.");
-				    StopScan(Init1);
-				    return;
-				}
-
-				int last = -1;
-
-				void ScanThese(int min, int max)
-				{
-				    for (int port = min; port <= max; port += 1)
-				    {
-					if (Universal.IsScanning())
-					    AddPortStatus(port, AttemptConnect(host, port, GetSocketType(protocol),
-						GetProtocol(protocol), packetData, timeout));
-					else
-					    break;
-				    }
-				}
-				
-				void AddThread(int min, int max)
-				{
-				    ListOThreads.Add(new Thread
-					(() => ScanThese(min, max)));
-
-				    last = max;
-				}
-
-				int range = (Universal.Ports[1] - Universal.Ports[0]) / threads;
-				int minim = Universal.Ports[0];
-				int maxim = Universal.Ports[1];
-
-				for (int thread = 0, min = minim, max = range + 1; thread < threads; thread += 1, 
-				    min += range, max = range * (thread + 1) + 1)
-					AddThread(min, max);
-				
-				if (last < maxim)
-				    AddThread(last, maxim);
-			    }
-
-			    if (ListOThreads.Count > 0)
-				SendMessage($"> Starting {ListOThreads.Count} scan workers ...");
-
-			    foreach (Thread thread in ListOThreads)
-				thread.Start();
-
-			    foreach (Thread thread in ListOThreads)
-				thread.Join();
-			    
-			    StopScan(Init1, false);
-			});
+			StopScan(Init1, false);
 		    });
 		});
 	    }
@@ -755,7 +815,6 @@ namespace GateHey
 			
 			SendMessage($"> GateHey scan session has been finished successfully at: {Tools.GetCurrentTime()}");
 			SendMessage("> You are now free to launch another scan.");
-
 			UpdateButtonText("Start Scanning", BottomSect);
 		    }
 
