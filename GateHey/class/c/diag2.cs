@@ -650,6 +650,7 @@ namespace GateHey
 				{
 				    SendMessage("> You have selected more threads than ports.");
 				    SendMessage("> You must at least have as many ports selected as threads.");
+				    StopScan(Init1);
 				    return;
 				}
 
@@ -670,6 +671,7 @@ namespace GateHey
 				{
 				    SendMessage("> You have selected more threads than ports.");
 				    SendMessage("> You must at least have as many ports selected as threads.");
+				    StopScan(Init1);
 				    return;
 				}
 
