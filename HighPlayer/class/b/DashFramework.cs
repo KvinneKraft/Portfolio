@@ -28,6 +28,7 @@ using System.Timers;
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
 
+using DashFramework.Runnables;
 using DashFramework.DashLogic;
 using DashFramework.Erroring;
 using DashFramework.Dialog;
@@ -36,6 +37,51 @@ using HighPlayer.resources;
 
 namespace DashFramework
 {
+    namespace AsyncSafe
+    {
+	public class AsyncSendMessage
+	{
+	    Runnable runnables = new Runnable();
+
+	    public delegate void runnableDelegate();
+	    public runnableDelegate messageHandler;
+	    public int updateInterval = 350;
+
+	    public AsyncSendMessage()
+	    {
+		runnables.RunTaskLaterAsynchronously
+		(
+		    null, 
+		
+		    () => 
+		    {
+			foreach (string message in messageQueue)
+			{
+			    if (messageHandler == null)
+			    {
+				continue;
+			    }
+
+			    messageHandler();
+			}
+		    }, 
+		
+		    updateInterval, 
+		    true
+		);
+	    }
+
+
+	    readonly List<string> messageQueue = new List<string>();
+
+	    public void Send(string content)
+	    {
+		messageQueue.Add(content);
+	    }
+	}
+    }
+
+
     namespace Runnables
     {
 	public class Runnable
@@ -121,16 +167,32 @@ namespace DashFramework
 		    {
 			new Thread(() =>
 			{
-			    parent.Invoke
-			    (
-				new MethodInvoker
+			    if (parent != null)
+			    {
+				parent.Invoke
 				(
-				    () =>
-				    {
-					execute();
-				    }
-				)
-			    );
+				    new MethodInvoker
+				    (
+					() =>
+					{
+					    try
+					    {
+						execute();
+					    }
+
+					    catch (Exception E)
+					    {
+						throw (ErrorHandler.GetException(E));
+					    }
+					}
+				    )
+				);
+			    }
+
+			    else
+			    {
+				execute();
+			    }
 			})
 
 			{ IsBackground = true }.Start();
@@ -171,6 +233,7 @@ namespace DashFramework
 	    }
 	}
 
+
 	public class DashList<A>//One Datatype Storage
 	{
 	    private readonly List<A> a = new List<A>();
@@ -197,6 +260,7 @@ namespace DashFramework
 		return true;
 	    }
 	}
+
 
 	public class Manipulation
 	{
@@ -228,6 +292,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public List<object> ListRemove(List<object> obj, object criteria)
 	    {
 		try
@@ -249,6 +314,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public string Replace(string obj, string to, params string[] wha)
 	    {
 		try
@@ -267,6 +333,7 @@ namespace DashFramework
 		}
 	    }
 	}
+
 
 	public class System
 	{
@@ -306,6 +373,7 @@ namespace DashFramework
 	    }
 	}
     }
+
 
     namespace Interface
     {
