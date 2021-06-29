@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Drawing;
+using System.Threading;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -35,6 +36,24 @@ namespace HighPlayer
 	    readonly Button Button2 = new Button();
 	    readonly Button Button3 = new Button();
 
+	    void Hook1()
+	    {
+
+	    }
+
+	    void Hook2()
+	    {
+
+	    }
+
+	    void Hook3()
+	    {
+		Environment.Exit(-1);
+		Application.Exit();
+
+		Thread.CurrentThread.Abort();
+	    }
+
 	    public void Initiate(DashWindow Inst)
 	    {
 		Tools.SortCode(("Main Panels"), () =>
@@ -53,7 +72,29 @@ namespace HighPlayer
 
 		Tools.SortCode(("Button Addons"), () =>
 		{
+		    Quickify Quicky = new Quickify()
+		    {
+			BttnSize = new Size(100, 24),
+			BttnBCol = Panel2.BackColor,
+			BttnParent = Panel2,
+			BttnBorder = true,
+			BttnFpts = 12,
+		    };
 
+		    Point Bttn2Loca = new Point(110, 0);
+		    Point Bttn3Loca = new Point(220, 0);
+		    Point Bttn1Loca = new Point(0, 0);
+
+		    Quicky.QuickButton(Button1, "Add New Song", Bttn1Loca);
+		    Quicky.QuickButton(Button2, "Mood Menu", Bttn2Loca);
+		    Quicky.QuickButton(Button3, "Close Session", Bttn3Loca);
+		});
+
+		Tools.SortCode(("Button Event Handlers"), () =>
+		{
+		    Button1.Click += (s, q) => Hook1();
+		    Button2.Click += (s, q) => Hook2();
+		    Button3.Click += (s, q) => Hook3();
 		});
 	    }
 	}
