@@ -98,6 +98,9 @@ namespace HighPlayer
 	{
 	    try
 	    {
+		DashFramework.Data.System sys = new DashFramework.Data.System();
+
+		sys.WriteFileAsync("test.txt", new string[] { "1", "2", "3", "4", "5", "6" }, threads: 6);
 		// Process Code
 	    }
 
