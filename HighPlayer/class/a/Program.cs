@@ -19,9 +19,9 @@ namespace HighPlayer
 	    {
 		using (DashWindow dashWindow = new DashWindow())
 		{
-		    Size AppSize = new Size(400, 400);
+		    Size AppSize = new Size(475, 300);
 
-		    string AppTitle = ("-== High Player ==-");
+		    string AppTitle = ("Dashie's Lovely High Music Helper");
 
 		    Color AppMCol = Color.FromArgb(28, 37, 46);
 		    Color AppBCol = Color.FromArgb(37, 48, 63);
