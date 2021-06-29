@@ -22,83 +22,16 @@ namespace HighPlayer
 {
     public partial class MainGUI
     {
-	public class KushyRows
-	{
-	    class RowItem
-	    {
-		public DashPanel PanelL1 = new DashPanel();//Title, Mood, Url
-		public DashPanel PanelL2 = new DashPanel();//CheckBox
+	public static DashControls Controls = new DashControls();
+	public static DashTools Tools = new DashTools();
 
 
-		public TextBox TxtBox1 = new TextBox();// new TextBox();
-		public TextBox TxtBox2 = new TextBox();
-		public TextBox TxtBox3 = new TextBox();
-
-
-		public string Title
-		{
-		    get { return TxtBox1.Text; }
-		    set { TxtBox1.Text = value; }
-		}
-
-		public string Mood
-		{
-		    get { return TxtBox2.Text; }
-		    set { TxtBox2.Text = value; }
-		}
-
-		public string Url
-		{
-		    get { return TxtBox3.Text; }
-		    set { TxtBox3.Text = value; }
-		}
-	    }
-
-
-	    List<RowItem> Rows = new List<RowItem>();
-
-	    public void AddRow(DashPanel Table, string Title, string Category, string Url)
-	    {
-		try
-		{
-		    // Contains Data.
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-
-	    List<DashPanel> Tables = new List<DashPanel>();
-
-	    public void AddTable(Control Parent, Color BackColor, Color ForeColor)
-	    {
-		try
-		{
-		    // Contains Rows: [Title   ],  [Mood   ],  [Url   ]
-		}
-
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
-	    }
-
-	    /*
-	     - InsertRow (Title, Mood, Url)
-	     - RemoveRow (by Url)
-	     - AddCheckbox (to each row)
-	     - MoveRow (by url, up or down)
-	     */
-	}
 
 	public void Initiator(DashWindow inst)
 	{
 	    try
 	    {
-		// Process Code
+
 	    }
 
 	    catch (Exception E)
