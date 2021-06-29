@@ -800,7 +800,7 @@ namespace DashFramework
 
 		public void QuickButton(Button button, string text, Point loca, Control parent = null)
 		{
-		    parent = (parent == null ? LblParent : parent);
+		    parent = (parent == null ? BttnParent : parent);
 
 		    try
 		    {
@@ -809,6 +809,8 @@ namespace DashFramework
 
 			if (BttnBorder)
 			    Tools.Round(button, 6);
+
+			button.TextAlign = ContentAlignment.MiddleCenter;
 		    }
 
 		    catch (Exception E)
@@ -862,7 +864,7 @@ namespace DashFramework
 
 		public void QuickTxtBox(TextBox txtbox, string text, Point loca, Control parent = null)
 		{
-		    parent = (parent == null ? LblParent : parent);
+		    parent = (parent == null ? TxtboxParent : parent);
 
 		    try
 		    {
@@ -1407,7 +1409,7 @@ namespace DashFramework
 
 		    catch (Exception E)
 		    {
-			throw (ErrorHandler.GetException(E));
+			ErrorHandler.JustDoIt(E);
 		    }
 		}
 
