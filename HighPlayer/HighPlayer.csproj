@@ -118,5 +118,11 @@
   <ItemGroup>
     <None Include="resources\image\LOGO.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\youtube-links.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\settings-data.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
