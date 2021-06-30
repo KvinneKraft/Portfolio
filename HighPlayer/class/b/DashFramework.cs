@@ -1328,6 +1328,32 @@ namespace DashFramework
 		    return ($"{cc.R}, {cc.G}, {cc.B}");
 		}
 
+		public Color NegativeRGB(int minus, Color origin)
+		{
+		    return 
+		    (
+			Color.FromArgb
+			(
+			    origin.R - minus,
+			    origin.G - minus,
+			    origin.B - minus
+			)
+		    );
+		}
+
+		public Color PositiveRGB(int plus, Color origin)
+		{
+		    return
+		    (
+			Color.FromArgb
+			(
+			    origin.R + plus,
+			    origin.G + plus,
+			    origin.B + plus
+			)
+		    );
+		}
+
 
 		public string GetCurrentDate() => DateTime.Now.ToLongDateString();
 		public string GetCurrentTime() => DateTime.Now.ToLongTimeString();
@@ -2293,8 +2319,8 @@ namespace DashFramework
 		    values.setLogoBackColor(values.getBarColor());
 		    values.setBarBackColor(newValue1);
 
-		    var RectSize = new Size(values.Width() - 3, values.parentHeight() - values.Height());
-		    var RectLoca = new Point(1, values.Height() + values.Bar.Top - 3);
+		    var RectSize = new Size(values.Width() - 4, values.parentHeight() - values.Height());
+		    var RectLoca = new Point(2, values.Height() + values.Bar.Top - 3);
 
 		    Tool.PaintRectangle(values.getParent(), 3, RectSize, RectLoca, newValue2);
 		}
