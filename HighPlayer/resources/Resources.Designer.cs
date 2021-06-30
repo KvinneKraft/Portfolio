@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HighPlayer.resources
-{
+namespace HighPlayer.resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,134 +22,137 @@ namespace HighPlayer.resources
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
-	private static global::System.Resources.ResourceManager resourceMan;
-
-	private static global::System.Globalization.CultureInfo resourceCulture;
-
-	[global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-	internal Resources()
-	{
-	}
-
-	/// <summary>
-	///   Returns the cached ResourceManager instance used by this class.
-	/// </summary>
-	[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-	internal static global::System.Resources.ResourceManager ResourceManager
-	{
-	    get
-	    {
-		if (object.ReferenceEquals(resourceMan, null))
-		{
-		    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HighPlayer.resources.Resources", typeof(Resources).Assembly);
-		    resourceMan = temp;
-		}
-		return resourceMan;
-	    }
-	}
-
-	/// <summary>
-	///   Overrides the current thread's CurrentUICulture property for all
-	///   resource lookups using this strongly typed resource class.
-	/// </summary>
-	[global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-	internal static global::System.Globalization.CultureInfo Culture
-	{
-	    get
-	    {
-		return resourceCulture;
-	    }
-	    set
-	    {
-		resourceCulture = value;
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Byte[].
-	/// </summary>
-	internal static byte[] consola
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("consola", resourceCulture);
-		return ((byte[])(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-	/// </summary>
-	internal static System.Drawing.Icon ICON
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("ICON", resourceCulture);
-		return ((System.Drawing.Icon)(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Drawing.Bitmap.
-	/// </summary>
-	internal static System.Drawing.Bitmap LOGO
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("LOGO", resourceCulture);
-		return ((System.Drawing.Bitmap)(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Byte[].
-	/// </summary>
-	internal static byte[] primary
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("primary", resourceCulture);
-		return ((byte[])(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Byte[].
-	/// </summary>
-	internal static byte[] roboto
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("roboto", resourceCulture);
-		return ((byte[])(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Byte[].
-	/// </summary>
-	internal static byte[] secondary
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("secondary", resourceCulture);
-		return ((byte[])(obj));
-	    }
-	}
-
-	/// <summary>
-	///   Looks up a localized resource of type System.Byte[].
-	/// </summary>
-	internal static byte[] theConfession
-	{
-	    get
-	    {
-		object obj = ResourceManager.GetObject("theConfession", resourceCulture);
-		return ((byte[])(obj));
-	    }
-	}
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HighPlayer.resources.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] consola {
+            get {
+                object obj = ResourceManager.GetObject("consola", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon ICON {
+            get {
+                object obj = ResourceManager.GetObject("ICON", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LOGO {
+            get {
+                object obj = ResourceManager.GetObject("LOGO", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] primary {
+            get {
+                object obj = ResourceManager.GetObject("primary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] roboto {
+            get {
+                object obj = ResourceManager.GetObject("roboto", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] secondary {
+            get {
+                object obj = ResourceManager.GetObject("secondary", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;high&quot;, 0.
+        /// </summary>
+        internal static string settings_data {
+            get {
+                return ResourceManager.GetString("settings_data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] theConfession {
+            get {
+                object obj = ResourceManager.GetObject("theConfession", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;slowed camatose&quot;, 0, &quot;https://www.youtube.com/watch?v=EPt1f_r07n8&quot;,
+        ///&quot;extended camatose&quot;, 0, &quot;https://www.youtube.com/watch?v=iQbFP4dKX9k&quot;,
+        ///&quot;crumb&quot;, 0, &quot;https://www.youtube.com/watch?v=BqnG_Ei35JE&quot;,
+        ///&quot;slowed crumb&quot;, 0, &quot;https://www.youtube.com/watch?v=o2CMAXvADSU&quot;,
+        ///&quot;so high doja&quot;, 0, &quot;https://www.youtube.com/watch?v=8LJsMUkxIWY&quot;,
+        ///&quot;so high doja slowed&quot;, 0, &quot;https://www.youtube.com/watch?v=bDotXGp79Cs&quot;,
+        ///&quot;drift away dobie&quot;, 0, &quot;https://www.youtube.com/watch?v=gr_eVcCAUXo&quot;,
+        ///&quot;mary jane last dance&quot;, 0, &quot;htt [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string youtube_links {
+            get {
+                return ResourceManager.GetString("youtube_links", resourceCulture);
+            }
+        }
     }
 }
