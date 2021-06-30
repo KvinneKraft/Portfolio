@@ -54,27 +54,225 @@ namespace HighPlayer
 		get { return TxtBox3.Text; }
 		set { TxtBox3.Text = value; }
 	    }
-	}
 
+
+	    public bool AllowVisibility() => ICanHasVisibility;
+	    public bool ICanHasVisibility = true;
+	}
 
 	readonly List<RowItem> Rows = new List<RowItem>();
 
-	public void LoadRowsFromConfig()
-	{
-	    Tools.SortCode((""), () =>
-	    {
+	readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
+	readonly List<(string, int)> Moods = new List <(string, int)>();
 
+	public void LoadRowsFromConfig(bool AddYes)
+	{
+	    Tools.SortCode(("Data Existence Validation"), () =>
+	    {
+		if (!File.Exists(@"data\settings-data.txt"))
+		{
+		    if (!Directory.Exists("data"))
+		    {
+			try
+			{
+			    Directory.CreateDirectory("data");
+			}
+
+			catch
+			{
+			    throw new Exception("unable to access/create folder 'data'");
+			}
+		    }
+
+		    try
+		    { 
+			File.WriteAllText(@"data\settings-data.txt",
+			    resources.Resources.settings_data);
+		    }
+
+		    catch
+		    {
+			throw new Exception(@"unable to access/create 'data\settings-data.txt'");
+		    }
+		}
+		
+		if (!File.Exists(@"data\youtube-links.txt"))
+		{
+		    try
+		    {
+			File.WriteAllText(@"data\youtube-links.txt",
+			    resources.Resources.youtube_links);
+		    }
+
+		    catch
+		    {
+			throw new Exception(@"unable to access/create 'data\youtube-links.txt'");
+		    }
+		}
+	    });
+
+	    bool isInteger(string me)
+	    {
+		try
+		{
+		    return int.Parse(me) > -1;
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+
+	    Tools.SortCode(("Load Moods"), () =>
+	    {
+		string[] arr = File.ReadAllText(@"data\settings-data.txt").Split(',');
+
+		if (arr.Length < 2)
+		{
+		    throw new Exception("invalid format in moods file");
+		}
+
+		Moods.Clear();
+
+		for (int k = 0; k < arr.Length; k += 2)
+		{
+		    try
+		    {
+			if (arr[k].Length < 1 || !isInteger(arr[k + 1]))
+			{
+			    continue;
+			}
+
+			Moods.Add((arr[k], int.Parse(arr[k + 1])));
+		    }
+
+		    catch
+		    {
+			throw new Exception("found invalid integral value in moods file");
+		    }
+		}
+	    });
+
+	    Tools.SortCode(("Load Urls"), () =>
+	    {
+		string[] arr = File.ReadAllText(@"data\youtube-links.txt").Split(',');
+
+		if (arr.Length < 3)
+		{
+		    throw new Exception("invalid format in url file");
+		}
+
+		Urls.Clear();
+
+		for (int k = 0; k < arr.Length / 3; k += 3)
+		{
+		    if (arr[k].Length < 1 || arr[k + 2].Length < 1 || !isInteger(arr[k + 1]))
+		    {
+			continue;
+		    }
+
+		    Urls.Add((arr[k], int.Parse(arr[k] + 1), arr[k + 2]));
+		}
+
+		// 0 (song name): "slowed camatose"
+		// 1 (mood id): 0
+		// 2 (song url): "youtube.com"
+	    });
+
+	    Tools.SortCode(("Optional Row Injector"), () =>
+	    {
+		for (int k = 0; k < Urls.Count; k += 1)
+		{
+		    //Urls[k].Item1 = title
+		    //Urls[k].Item2 = mood id
+		    //Urls[k].Item3 = url
+		}
+	    });
+
+	    // Use this data 
+	}
+
+
+	Point GetRowPosition()
+	{
+	    try
+	    { 
+		if (Rows.Count > 0)
+		{
+		    if (AddToTop)
+		    {
+			return new Point
+			(
+			    0,
+			    Rows[Rows.Count].PanelL1.Top +
+			    Rows[Rows.Count].PanelL1.Height
+			);
+		    }
+
+		    return new Point(0, 0);
+		}
+	    }
+
+	    catch{}
+
+	    return Point.Empty;
+	}
+
+
+	void ReorganizeRows()
+	{
+	    Tools.SortCode(("Row Reorganization"), () => 
+	    {
+		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22)
+		{
+		    if (Rows[k].AllowVisibility())
+		    {
+			Rows[k].PanelL1.Location = new Point(x, y);
+		    }
+		}
 	    });
 	}
 
-	public void AddRow(DashPanel Table, string Title, string Category, string Url)
+
+	public Color RowBColor = Color.Empty;
+	public bool AddToTop = true;
+
+	public void AddRow(DashPanel Table, string Title, string MoodName, string Url)
 	{
-	    Tools.SortCode((""), () =>
+	    Tools.SortCode(("Add Row Container"), () =>
 	    {
-		// - Add The Panels to the Bottom each time one gets Added. (allow toggle)
-		// - Add Size to the Container which is missing, if any.
-		// - Reset scrollbar ContentContainer everytime you resize.
+		RowItem Row = new RowItem();
+
+		Size Row1Size = new Size(Table.Width, 22);
+		Point Row1Loca = GetRowPosition();
+		Color Row1BCol = RowBColor;
+
+		Size Row2Size = new Size(Row1Size.Width - 16, 22);
+		Point Row2Loca = new Point(0, 0);
+		Color Row2BCol = RowBColor;
+
+		Controls.Panel(Row.PanelL1, Row.PanelL2, Row2Size, Row2Loca, Row2BCol);
+		Controls.Panel(Table, Row.PanelL1, Row1Size, Row1Loca, Row1BCol);
 	    });
+
+	    Tools.SortCode(("Add Column Entries"), () =>
+	    {
+		// Inner organize
+	    });
+
+	    Tools.SortCode(("Add CheckBox Control"), () => 
+	    {
+		// Rewrite Class
+	    });
+
+	    // - add size to the container which is missing, if any.
+	    // - reset scrollbar contentcontainer everytime you resize.
+	    // - when filtering, update allow visibility value.
+	    // - when updating visibility: reorganize.
+	    // - do not forget to set rowbcol
+
+	    ReorganizeRows();
 	}
 
 
