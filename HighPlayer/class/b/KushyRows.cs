@@ -22,6 +22,10 @@ namespace HighPlayer
 {
     public class KushyRows
     {
+	readonly DashControls Controls = new DashControls();
+	readonly DashTools Tools = new DashTools();
+
+
 	class RowItem
 	{
 	    public DashPanel PanelL1 = new DashPanel();//Title, Mood, Url
@@ -53,7 +57,7 @@ namespace HighPlayer
 	}
 
 
-	List<RowItem> Rows = new List<RowItem>();
+	readonly List<RowItem> Rows = new List<RowItem>();
 
 	public void AddRow(DashPanel Table, string Title, string Category, string Url)
 	{
@@ -69,13 +73,32 @@ namespace HighPlayer
 	}
 
 
-	List<DashPanel> Tables = new List<DashPanel>();
-
-	public void AddTable(Control Parent, Color BackColor, Color ForeColor)
+	readonly CustomScrollBar CustomScroller = new CustomScrollBar();
+	readonly DashPanel Panel1 = new DashPanel();
+	
+	public void AddTable(Control Parent, Color BackColor)
 	{
 	    try
 	    {
-		// Contains Rows: [Title   ],  [Mood   ],  [Url   ]
+		Tools.SortCode(("Core Table"), () =>
+		{
+		    Size PanelSize = new Size(Parent.Width - 28, Parent.Height - 8);
+		    Point PanelLoca = new Point(4, 4);
+		    Color PanelBCol = BackColor;
+		    
+		    Controls.Panel(Parent, Panel1, PanelSize, PanelLoca, PanelBCol);
+		});
+
+		Tools.SortCode(("Scrollbar Addon"), () =>
+		{
+		    Size ScrollSize = new Size(20, Panel1.Height);
+		    Point ScrollLoca = new Point(Parent.Width - 20, 4);
+		    Color ScrollConBCol = Panel1.BackColor;
+		    Color ScrollBarBCol = Color.FromArgb(8,8,8);
+
+		    CustomScroller.ScrollbarSet(Parent, Panel1, ScrollSize, 
+			ScrollLoca, ScrollConBCol, ScrollBarBCol);
+		});
 	    }
 
 	    catch (Exception E)
