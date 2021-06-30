@@ -69,13 +69,13 @@ namespace HighPlayer
 	    {
 		Tools.SortCode(("Main Panels"), () =>
 		{
-		    Size Panel1Size = new Size(Inst.Width, 34);
 		    Point Panel1Loca = new Point(0, Inst.Height - 35);
 		    Color Panel1BCol = Inst.values.getBarColor();
+		    Size Panel1Size = new Size(Inst.Width, 34);
 
-		    Size Panel2Size = new Size(380, 24);
 		    Point Panel2Loca = new Point(-2, -2);
 		    Color Panel2BCol = Panel1BCol;
+		    Size Panel2Size = new Size(380, 24);
 
 		    Controls.Panel(Inst, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 		    Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
@@ -124,8 +124,15 @@ namespace HighPlayer
 		    Color PanelBCol = Color.FromArgb(16, 16, 16);
 
 		    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
+		});
 
-		    DataRow.AddTable(Panel, PanelBCol);
+		Tools.SortCode(("Datatable Insertion"), () => 
+		{
+		    Color ScrollerBCol = Color.FromArgb(24, 24, 24);
+		    Color PanelBCol = Panel.BackColor;
+
+		    DataRow.AddTable(Panel, PanelBCol, ScrollerBCol);
+		    DataRow.LoadRowsFromConfig();
 		});
 	    }
 	}
