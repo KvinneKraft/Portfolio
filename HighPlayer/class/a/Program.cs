@@ -27,13 +27,14 @@ namespace HighPlayer
 		    Color AppBCol = Color.FromArgb(37, 48, 63);
 
 		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, barClose: false);
-		    dashWindow.values.CenterTitle();
-
-		    MainGUI mainGUI = new MainGUI();
-		    mainGUI.Initiator(dashWindow);
+		    dashWindow.values.setTitleSize(10);
 
 		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
 		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
+
+		    MainGUI mainGUI = new MainGUI();
+
+		    mainGUI.Initiator(dashWindow);
 
 		    Application.Run(dashWindow);
 		}
