@@ -629,7 +629,7 @@ namespace DashFramework
 		readonly DashControls Controls = new DashControls();
 		readonly DashTools Tools = new DashTools();
 
-		public void ScrollbarSet(Control parent, Control contentContainer, Size scrollbarContainerSize, Point scrollbarContainerLoca, Color scrollbarContainerBCol, Color scrollbarBlockBCol)
+		public void ScrollbarSet(Control parent, Control contentContainer, Size scrollbarContainerSize, Point scrollbarContainerLoca, Color scrollbarContainerBCol, Color scrollbarBlockBCol, bool roundBlock = true)
 		{
 		    try
 		    {
@@ -648,6 +648,8 @@ namespace DashFramework
 
 			    Controls.Image(scrollbarContainer, scrollbarBlock, ScrollbarBarSize, ScrollbarBarLoca, ScrollbarBarBCol);
 			    Controls.Image(parent, scrollbarContainer, ScrollbarConSize, ScrollbarConLoca, ScrollbarConBCol);
+
+			    if (roundBlock) Tools.Round(scrollbarBlock, 4);
 
 			    SetCollection(parent);
 			}
@@ -2340,6 +2342,18 @@ namespace DashFramework
 		    }
 
 		    MenuBar.values.Title.Location = to;
+		}
+
+		public void setTitleSize(int pts, int fid = 1, bool centertitle = true)
+		{
+		    Label Title = MenuBar.values.Title;
+
+		    Title.Size = Tools.GetFontSize(Title.Text, pts, fid);
+		    Title.Font = Tools.GetFont(fid, pts);
+
+		    if (centertitle) CenterTitle();
+
+		    Title.Update();
 		}
 
 		public int parentHeight() => MenuBar.values.parentHeight();
