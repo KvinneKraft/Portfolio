@@ -59,45 +59,59 @@ namespace HighPlayer
 
 	readonly List<RowItem> Rows = new List<RowItem>();
 
+	public void LoadRowsFromConfig()
+	{
+	    Tools.SortCode((""), () =>
+	    {
+
+	    });
+	}
+
 	public void AddRow(DashPanel Table, string Title, string Category, string Url)
 	{
-	    try
+	    Tools.SortCode((""), () =>
 	    {
-		// Contains Data.
-	    }
-
-	    catch (Exception E)
-	    {
-		throw (ErrorHandler.GetException(E));
-	    }
+		// - Add The Panels to the Bottom each time one gets Added. (allow toggle)
+		// - Add Size to the Container which is missing, if any.
+		// - Reset scrollbar ContentContainer everytime you resize.
+	    });
 	}
 
 
 	readonly CustomScrollBar CustomScroller = new CustomScrollBar();
-	readonly DashPanel Panel1 = new DashPanel();
+
+	readonly DashPanel Panel1 = new DashPanel();//Content Container <-- Moves This
+	readonly DashPanel Panel2 = new DashPanel();//Parent <-- Adds Scrollbar Onto This
 	
-	public void AddTable(Control Parent, Color BackColor)
+	public void AddTable(Control Parent, Color MainBackColor, Color ScrollerBackColor)
 	{
 	    try
 	    {
 		Tools.SortCode(("Core Table"), () =>
 		{
-		    Size PanelSize = new Size(Parent.Width - 28, Parent.Height - 8);
-		    Point PanelLoca = new Point(4, 4);
-		    Color PanelBCol = BackColor;
-		    
-		    Controls.Panel(Parent, Panel1, PanelSize, PanelLoca, PanelBCol);
+		    Size Panel1Size = new Size(Parent.Width - 20, Parent.Height);
+		    Point Panel1Loca = new Point(0, 0);
+		    Color Panel1BCol = MainBackColor;
+
+		    Point Panel2Loca = new Point(Panel1Size.Width, 0);
+		    Size Panel2Size = new Size(20, Parent.Height);
+		    Color Panel2BCol = ScrollerBackColor;
+
+		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+		    Controls.Panel(Parent, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 		});
 
 		Tools.SortCode(("Scrollbar Addon"), () =>
 		{
+		    Color ScrollBarBCol = Tools.NegativeRGB(20, ScrollerBackColor);
 		    Size ScrollSize = new Size(20, Panel1.Height);
-		    Point ScrollLoca = new Point(Parent.Width - 20, 4);
-		    Color ScrollConBCol = Panel1.BackColor;
-		    Color ScrollBarBCol = Color.FromArgb(8,8,8);
+		    Color ScrollConBCol = Panel2.BackColor;
+		    Point ScrollLoca = new Point(0, 0);
 
-		    CustomScroller.ScrollbarSet(Parent, Panel1, ScrollSize, 
+		    CustomScroller.ScrollbarSet(Panel2, Panel1, ScrollSize, 
 			ScrollLoca, ScrollConBCol, ScrollBarBCol);
+		    
+		    CustomScroller.SetCollection(Parent);
 		});
 	    }
 
