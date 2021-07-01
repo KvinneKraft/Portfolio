@@ -38,3 +38,6 @@ GamePanel-X/obj/Release/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23
 SpigotHelper/app/SpigotHelper.conf
 GateHey/app/latest-log.txt
 HighPlayer/app/test.txt
+HighPlayer/app/data/youtube-links.txt
+HighPlayer/app/data/settings-data.txt
+HighPlayer/resources/settings-data.txt
