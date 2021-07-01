@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Drawing;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -65,7 +66,7 @@ namespace HighPlayer
 	readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
 	readonly List<(string, int)> Moods = new List <(string, int)>();
 
-	public void LoadRowsFromConfig(bool AddYes)
+	public void LoadRowsFromConfig(bool AddYes = true)
 	{
 	    Tools.SortCode(("Data Existence Validation"), () =>
 	    {
@@ -85,7 +86,7 @@ namespace HighPlayer
 		    }
 
 		    try
-		    { 
+		    {
 			File.WriteAllText(@"data\settings-data.txt",
 			    resources.Resources.settings_data);
 		    }
@@ -95,7 +96,7 @@ namespace HighPlayer
 			throw new Exception(@"unable to access/create 'data\settings-data.txt'");
 		    }
 		}
-		
+
 		if (!File.Exists(@"data\youtube-links.txt"))
 		{
 		    try
@@ -115,7 +116,11 @@ namespace HighPlayer
 	    {
 		try
 		{
-		    return int.Parse(me) > -1;
+		    return
+		    (
+			int.Parse(me).
+			ToString() == me
+		    );
 		}
 
 		catch
@@ -126,71 +131,59 @@ namespace HighPlayer
 
 	    Tools.SortCode(("Load Moods"), () =>
 	    {
-		string[] arr = File.ReadAllText(@"data\settings-data.txt").Split(',');
+		string[] arr = File.ReadAllText(@"data\settings-data.txt").Replace("\"", "").Replace(", ", ",").Split(',');
 
 		if (arr.Length < 2)
-		{
 		    throw new Exception("invalid format in moods file");
-		}
 
 		Moods.Clear();
 
-		for (int k = 0; k < arr.Length; k += 2)
+		for (int k = 0; k < arr.Length / 2; k += 2)
 		{
 		    try
 		    {
-			if (arr[k].Length < 1 || !isInteger(arr[k + 1]))
-			{
+			if (arr.Length < k + 1 || arr[k].Length < 0 || !isInteger(arr[k + 1]))
+			    throw new Exception("!");
+			
+			else if (arr[k] == " " || arr[k + 1] == " ")
 			    continue;
-			}
 
 			Moods.Add((arr[k], int.Parse(arr[k + 1])));
 		    }
 
 		    catch
 		    {
-			throw new Exception("found invalid integral value in moods file");
+			throw new Exception($"found invalid integral value in moods file");
 		    }
 		}
 	    });
 
 	    Tools.SortCode(("Load Urls"), () =>
 	    {
-		string[] arr = File.ReadAllText(@"data\youtube-links.txt").Split(',');
+		string[] arr = File.ReadAllText(@"data\youtube-links.txt").Replace("\"", "").Replace(", ", ",").Split(',');
 
 		if (arr.Length < 3)
-		{
 		    throw new Exception("invalid format in url file");
-		}
 
 		Urls.Clear();
 
-		for (int k = 0; k < arr.Length / 3; k += 3)
+		for (int k = 0; k < arr.Length - 1; k += 3)
 		{
 		    if (arr[k].Length < 1 || arr[k + 2].Length < 1 || !isInteger(arr[k + 1]))
-		    {
+			throw new Exception("invalid settings format");
+
+		    else if (arr[k] == " " || arr[k + 1] == " " || arr[k + 2] == " ")
 			continue;
-		    }
 
-		    Urls.Add((arr[k], int.Parse(arr[k] + 1), arr[k + 2]));
+		    Urls.Add((arr[k], int.Parse(arr[k + 1]), arr[k + 2]));
 		}
-
-		// 0 (song name): "slowed camatose"
-		// 1 (mood id): 0
-		// 2 (song url): "youtube.com"
 	    });
 
-	    Tools.SortCode(("Optional Row Injector"), () =>
+	    Tools.SortCode(("Optional Row Injector"), () => 
 	    {
-		for (int k = 0; k < Urls.Count; k += 1)
-		{
-		    //Urls[k].Item1 = title
-		    //Urls[k].Item2 = mood id
-		    //Urls[k].Item3 = url
-		}
+		for (int k = 0; k < Urls.Count; k += 1) AddRow(Panel1,
+		    Urls[k].Item1, Moods[Urls[k].Item2].Item1, Urls[k].Item3);
 	    });
-
-	    // Use this data 
 	}
 
 
@@ -244,26 +237,28 @@ namespace HighPlayer
 	    {
 		RowItem Row = new RowItem();
 
-		Size Row1Size = new Size(Table.Width, 22);
-		Point Row1Loca = GetRowPosition();
-		Color Row1BCol = RowBColor;
+		Size Panel1Size = new Size(Table.Width, 22);
+		Point Panel1Loca = GetRowPosition();
+		Color Panel1BCol = RowBColor;
 
-		Size Row2Size = new Size(Row1Size.Width - 16, 22);
-		Point Row2Loca = new Point(0, 0);
-		Color Row2BCol = RowBColor;
+		Size Panel2Size = new Size(Panel1Size.Width - 16, 22);
+		Point Panel2Loca = new Point(0, 0);
+		Color Panel2BCol = RowBColor;
 
-		Controls.Panel(Row.PanelL1, Row.PanelL2, Row2Size, Row2Loca, Row2BCol);
-		Controls.Panel(Table, Row.PanelL1, Row1Size, Row1Loca, Row1BCol);
+		Controls.Panel(Row.PanelL1, Row.PanelL2, Panel2Size, Panel2Loca, Panel2BCol);
+		Controls.Panel(Table, Row.PanelL1, Panel1Size, Panel1Loca, Panel1BCol);
 	    });
 
 	    Tools.SortCode(("Add Column Entries"), () =>
 	    {
-		// Inner organize
+		// Row.PanelL1 is parent
+		// [][][] by 100%
 	    });
 
 	    Tools.SortCode(("Add CheckBox Control"), () => 
 	    {
 		// Rewrite Class
+		// Row.PanelL2 is parent
 	    });
 
 	    // - add size to the container which is missing, if any.
