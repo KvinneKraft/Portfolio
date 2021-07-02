@@ -301,6 +301,7 @@ namespace HighPlayer
 	    // - do not forget to set rowbcol
 
 	    ReorganizeRows();
+	    UpdateTableSize();
 	}
 
 
@@ -309,6 +310,29 @@ namespace HighPlayer
 	readonly DashPanel Panel1 = new DashPanel();//Content Container <-- Moves This
 	readonly DashPanel Panel2 = new DashPanel();//Parent <-- Adds Scrollbar Onto This
 	
+	public void UpdateTableSize()
+	{
+	    try
+	    {
+		if (Rows.Count < 1)
+		    return;
+		
+		DashPanel Panel = Rows[Rows.Count - 1].PanelL1;
+
+		if (Panel.Height + Panel.Top > Panel1.Height)
+		{
+		    Tools.Resize(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
+		}
+
+		CustomScroller.properties.ContentContainer = Panel1;
+	    }
+
+	    catch (Exception E)
+	    {
+		ErrorHandler.JustDoIt(E);
+	    }
+	}
+
 	public void AddTable(Control Parent, Color MainBackColor, Color ScrollerBackColor)
 	{
 	    try
