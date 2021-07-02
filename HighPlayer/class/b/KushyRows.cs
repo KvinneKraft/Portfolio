@@ -27,10 +27,11 @@ namespace HighPlayer
 	readonly DashTools Tools = new DashTools();
 
 
-	class RowItem
+	public class RowItem
 	{
 	    public DashPanel PanelL1 = new DashPanel();//Title, Mood, Url
 	    public DashPanel PanelL2 = new DashPanel();//CheckBox
+	    public DashPanel PanelL3 = new DashPanel();
 
 
 	    public TextBox TxtBox1 = new TextBox();// new TextBox();
@@ -61,7 +62,8 @@ namespace HighPlayer
 	    public bool ICanHasVisibility = true;
 	}
 
-	readonly List<RowItem> Rows = new List<RowItem>();
+
+	public readonly List<RowItem> Rows = new List<RowItem>();
 
 	readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
 	readonly List<(string, int)> Moods = new List <(string, int)>();
@@ -181,8 +183,9 @@ namespace HighPlayer
 
 	    Tools.SortCode(("Optional Row Injector"), () => 
 	    {
-		for (int k = 0; k < Urls.Count; k += 1) AddRow(Panel1,
-		    Urls[k].Item1, Moods[Urls[k].Item2].Item1, Urls[k].Item3);
+		if (AddYes)
+		    for (int k = 0; k < Urls.Count; k += 1) AddRow(Panel1,
+			Urls[k].Item1, Moods[Urls[k].Item2].Item1, Urls[k].Item3);
 	    });
 	}
 
@@ -217,48 +220,78 @@ namespace HighPlayer
 	{
 	    Tools.SortCode(("Row Reorganization"), () => 
 	    {
-		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22)
+		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22 + (4/*future-border*/))
 		{
-		    if (Rows[k].AllowVisibility())
-		    {
+		    //if (Rows[k].AllowVisibility())
+		    //{
 			Rows[k].PanelL1.Location = new Point(x, y);
-		    }
+		    //}
 		}
 	    });
 	}
 
 
-	public Color RowBColor = Color.Empty;
+	public Color RowBColor = Color.FromArgb(8, 8, 8);
 	public bool AddToTop = true;
 
 	public void AddRow(DashPanel Table, string Title, string MoodName, string Url)
 	{
+	    RowItem Row = new RowItem();
+
 	    Tools.SortCode(("Add Row Container"), () =>
 	    {
-		RowItem Row = new RowItem();
-
-		Size Panel1Size = new Size(Table.Width, 22);
+		Size Panel1Size = new Size(Table.Width, 22); // Ball
 		Point Panel1Loca = GetRowPosition();
 		Color Panel1BCol = RowBColor;
 
-		Size Panel2Size = new Size(Panel1Size.Width - 16, 22);
+		Controls.Panel(Table, Row.PanelL1, Panel1Size, Panel1Loca, Panel1BCol);
+
+		Size Panel2Size = new Size(Panel1Size.Width - 22, 22);
 		Point Panel2Loca = new Point(0, 0);
 		Color Panel2BCol = RowBColor;
+		
+		Size Panel3Size = new Size(22, 22);
+		Point Panel3Loca = new Point(Panel1Size.Width - 22, 0);
+		Color Panel3BCol = RowBColor;
 
 		Controls.Panel(Row.PanelL1, Row.PanelL2, Panel2Size, Panel2Loca, Panel2BCol);
-		Controls.Panel(Table, Row.PanelL1, Panel1Size, Panel1Loca, Panel1BCol);
+		Controls.Panel(Row.PanelL1, Row.PanelL3, Panel3Size, Panel3Loca, Panel3BCol);
 	    });
 
 	    Tools.SortCode(("Add Column Entries"), () =>
 	    {
-		// Row.PanelL1 is parent
-		// [][][] by 100%
+		void AddColumn(TextBox TxtBox, Size size, Point loca, string text)
+		{
+		    Color TxtBoxFCol = Color.Black;//Color.White;
+		    Color TxtBoxBCol = Color.White;//RowBColor;
+
+		    Controls.TextBox(Row.PanelL2, TxtBox, size, loca,
+			TxtBoxBCol, TxtBoxFCol, 1, 10);
+
+		    TxtBox.TextAlign = HorizontalAlignment.Center;
+		    TxtBox.Text = text;
+		}
+
+		Size TxtBox1Size = new Size(150, 22);
+		Point TxtBox1Loca = new Point(0, 0);
+
+		Size TxtBox2Size = new Size(95, 22);
+		Point TxtBox2Loca = new Point(TxtBox1Size.Width + 4, 0);
+
+		Size TxtBox3Size = new Size(Row.PanelL2.Width - 245, 22);
+		Point TxtBox3Loca = new Point(TxtBox2Loca.X + TxtBox2Size.Width + 4, 0);
+	
+		AddColumn(Row.TxtBox2, TxtBox2Size, TxtBox2Loca, (MoodName));
+		AddColumn(Row.TxtBox1, TxtBox1Size, TxtBox1Loca, (Title));
+		AddColumn(Row.TxtBox3, TxtBox3Size, TxtBox3Loca, (Url));;
 	    });
 
 	    Tools.SortCode(("Add CheckBox Control"), () => 
 	    {
 		// Rewrite Class
-		// Row.PanelL2 is parent
+		// Row.PanelL3 is parent
+
+		Rows.Add(Row);
 	    });
 
 	    // - add size to the container which is missing, if any.
@@ -297,7 +330,7 @@ namespace HighPlayer
 		Tools.SortCode(("Scrollbar Addon"), () =>
 		{
 		    Color ScrollBarBCol = Tools.NegativeRGB(20, ScrollerBackColor);
-		    Size ScrollSize = new Size(20, Panel1.Height);
+		    Size ScrollSize = new Size(20, Panel2.Height);
 		    Color ScrollConBCol = Panel2.BackColor;
 		    Point ScrollLoca = new Point(0, 0);
 
