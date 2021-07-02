@@ -23,7 +23,6 @@ using System.Drawing.Drawing2D;
 using System.Security.Principal;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Timers;
 
 using DashFramework.Interface.Controls;
 using DashFramework.Interface.Tools;
