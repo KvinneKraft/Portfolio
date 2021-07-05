@@ -14,5 +14,5 @@
 "asmr guitar", 0, "https://www.youtube.com/watch?v=F3_mCpD9lsQ&list=PLNLDfaZ6hdeGskqhC4UTX498FQTJBc7xg&index=1",
 "cruisin", 0, "https://www.youtube.com/watch?v=Knb9A8UuuwQ",
 "dashplot top", 0, "https://www.youtube.com/playlist?list=PLk1Z2Xqc60uuGN9fPmHKbi6b28EzFa3gt",
-"klangnomad 1", 0, "https://www.youtube.com/watch?v=QkzRd9pWC3E"
-"klangnomad 2", 0, "https://www.youtube.com/watch?v=YzSMBh1ZHFo"
+"klangnomad 1", 0, "https://www.youtube.com/watch?v=QkzRd9pWC3E",
+"klangnomad 2", 0, "https://www.youtube.com/watch?v=YzSMBh1ZHFo",
