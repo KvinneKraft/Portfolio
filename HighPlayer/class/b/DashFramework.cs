@@ -494,7 +494,7 @@ namespace DashFramework
 	    }
 
 
-	    public class CustomScrollBar
+	    public class CustomScroller
 	    {
 		public class Properties
 		{
@@ -542,33 +542,38 @@ namespace DashFramework
 			    return;
 			}
 
-			foreach (Control control in properties.Children)
+			foreach (Control Control in properties.Children)
 			{
-			    control.MouseWheel += (s, e) =>
+			    Control.MouseWheel += (s, e) =>
 			    {
-				int ConConAddY = (properties.ContentContainer.Height) / scrollbarBlock.Height;
-				int BlockAddY = (properties.ContentContainer.Height + scrollbarBlock.Height) / scrollbarBlock.Height;
+				if (properties.ContentContainer.Height <= properties.Parent.Height)
+				{
+				    return;
+				}
 
+				int BlockIncrement = (properties.ContentContainer.Height) / 125;
+				int ContentContainerIncrement = BlockIncrement * (properties.ContentContainer.Height / properties.Parent.Height);
+				
 				if (ScrollingDown(e))
 				{
-				    int Limit = (scrollbarContainer.Height - scrollbarBlock.Height - 5);
-
-				    if (scrollbarBlock.Top < Limit)
+				    if (properties.ContentContainer.Bottom <= (properties.ContentContainer.Parent.Height + BlockIncrement))
 				    {
-					properties.ContentContainer.Top -= ConConAddY;
-					scrollbarBlock.Top += BlockAddY;
+					properties.ContentContainer.Top = -(properties.ContentContainer.Height - properties.ContentContainer.Parent.Height);
+					return;
 				    }
+
+				    properties.ContentContainer.Top -= ContentContainerIncrement;
 				}
 
 				else
 				{
-				    int Limit = 5;
-
-				    if (scrollbarBlock.Top > Limit)
+				    if (properties.ContentContainer.Top >= 0)
 				    {
-					properties.ContentContainer.Top += ConConAddY;
-					scrollbarBlock.Top -= BlockAddY;
+					properties.ContentContainer.Top = 0;
+					return;
 				    }
+
+				    properties.ContentContainer.Top += ContentContainerIncrement;
 				}
 			    };
 			}
@@ -586,7 +591,7 @@ namespace DashFramework
 		    try
 		    {
 			properties.Children = parent.Controls;
-
+			
 			void AddToCollection(Control This)
 			{
 			    properties.Children.Add(This);
@@ -621,37 +626,18 @@ namespace DashFramework
 		    }
 		}
 
-
-		readonly PictureBox scrollbarContainer = new PictureBox();
-		readonly PictureBox scrollbarBlock = new PictureBox();
-
+		
 		readonly DashControls Controls = new DashControls();
 		readonly DashTools Tools = new DashTools();
 
-		public void ScrollbarSet(Control parent, Control contentContainer, Size scrollbarContainerSize, Point scrollbarContainerLoca, Color scrollbarContainerBCol, Color scrollbarBlockBCol, bool roundBlock = true)
+		public void ScrollbarSet(Control parent, Control contentContainer)
 		{
 		    try
 		    {
 			properties.ContentContainer = contentContainer;
 			properties.Parent = parent;
 
-			if (!parent.Controls.Contains(scrollbarBlock) && !parent.Controls.Contains(scrollbarContainer))
-			{
-			    var ScrollbarConSize = scrollbarContainerSize;
-			    var ScrollbarConLoca = scrollbarContainerLoca;
-			    var ScrollbarConBCol = scrollbarContainerBCol;
-
-			    var ScrollbarBarSize = new Size(ScrollbarConSize.Width - 10, 125);
-			    var ScrollbarBarLoca = new Point(5, 5);
-			    var ScrollbarBarBCol = scrollbarBlockBCol;
-
-			    Controls.Image(scrollbarContainer, scrollbarBlock, ScrollbarBarSize, ScrollbarBarLoca, ScrollbarBarBCol);
-			    Controls.Image(parent, scrollbarContainer, ScrollbarConSize, ScrollbarConLoca, ScrollbarConBCol);
-
-			    if (roundBlock) Tools.Round(scrollbarBlock, 4);
-
-			    SetCollection(parent);
-			}
+			SetCollection(parent);
 		    }
 
 		    catch (Exception E)
