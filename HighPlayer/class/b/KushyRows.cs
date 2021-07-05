@@ -305,7 +305,7 @@ namespace HighPlayer
 	}
 
 
-	readonly CustomScrollBar CustomScroller = new CustomScrollBar();
+	readonly CustomScroller CustomScroller = new CustomScroller();
 
 	readonly DashPanel Panel1 = new DashPanel();//Content Container <-- Moves This
 	readonly DashPanel Panel2 = new DashPanel();//Parent <-- Adds Scrollbar Onto This
@@ -351,16 +351,9 @@ namespace HighPlayer
 		    Controls.Panel(Parent, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 		});
 
-		Tools.SortCode(("Scrollbar Addon"), () =>
+		Tools.SortCode(("Scroller Addon"), () =>
 		{
-		    Color ScrollBarBCol = Tools.NegativeRGB(20, ScrollerBackColor);
-		    Size ScrollSize = new Size(20, Panel2.Height);
-		    Color ScrollConBCol = Panel2.BackColor;
-		    Point ScrollLoca = new Point(0, 0);
-
-		    CustomScroller.ScrollbarSet(Panel2, Panel1, ScrollSize, 
-			ScrollLoca, ScrollConBCol, ScrollBarBCol);
-		    
+		    CustomScroller.ScrollbarSet(Panel2, Panel1);
 		    CustomScroller.SetCollection(Parent);
 		});
 	    }
