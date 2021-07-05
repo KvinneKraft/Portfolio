@@ -128,7 +128,7 @@ namespace HighPlayer
 
 		Tools.SortCode(("Datatable Insertion"), () => 
 		{
-		    Color ScrollerBCol = Color.FromArgb(24, 24, 24);
+		    Color ScrollerBCol = Inst.values.getBarColor();
 		    Color PanelBCol = Panel.BackColor;
 
 		    DataRow.AddTable(Panel, PanelBCol, ScrollerBCol);
