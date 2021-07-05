@@ -551,12 +551,11 @@ namespace DashFramework
 				    return;
 				}
 
-				int BlockIncrement = (properties.ContentContainer.Height) / 125;
-				int ContentContainerIncrement = BlockIncrement * (properties.ContentContainer.Height / properties.Parent.Height);
+				int ContentContainerIncrement = 50;
 				
 				if (ScrollingDown(e))
 				{
-				    if (properties.ContentContainer.Bottom <= (properties.ContentContainer.Parent.Height + BlockIncrement))
+				    if (properties.ContentContainer.Bottom <= properties.ContentContainer.Parent.Height)
 				    {
 					properties.ContentContainer.Top = -(properties.ContentContainer.Height - properties.ContentContainer.Parent.Height);
 					return;
