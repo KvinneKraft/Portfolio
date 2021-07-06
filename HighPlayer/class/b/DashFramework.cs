@@ -1408,11 +1408,11 @@ namespace DashFramework
 			}
 		    }
 		}
+		
 
+		public delegate void VoidRun();
 
-		public delegate void SorterRun();
-
-		public void SortCode(string Tag, SorterRun runThis)
+		public void SortCode(string Tag, VoidRun runThis)
 		{
 		    try
 		    {
@@ -1422,6 +1422,22 @@ namespace DashFramework
 		    catch (Exception E)
 		    {
 			ErrorHandler.JustDoIt(E);
+		    }
+		}
+
+
+		public delegate bool BooleanRun();
+	    
+		public bool SortBooleanCode(string Tag, BooleanRun runThis)
+		{
+		    try
+		    {
+			return runThis();
+		    }
+
+		    catch
+		    {
+			return false;
 		    }
 		}
 
@@ -2736,8 +2752,154 @@ namespace DashFramework
 
 
 	public class ClickDropMenu
-	{
+	{   
+	    public class DropItem { public readonly Label Item = new Label(); } /*class for future multi-use*/
 
+	    readonly DashControls Controls = new DashControls();
+	    readonly DashTools Tools = new DashTools();
+
+	    public Color BorderColor
+	    {
+		set
+		{
+		    Size RectSize = new Size(UpperContainer.Width - 3, UpperContainer.Height - 3);
+		    Point RectPoint = new Point(1, 1);
+
+		    Tools.PaintRectangle(UpperContainer, 2, RectSize, RectPoint, borderColor);
+		}
+
+		get
+		{
+		    return BorderColor;
+		}
+	    }
+
+
+	    public Color ItemBackColor = Color.FromArgb(7, 35, 46);
+	    public Color ItemForeColor = Color.White;
+
+	    public bool ItemCenterText = true;
+
+	    public int ItemFontSize = 10;
+	    public int ItemHeight = 20;
+	    public int ItemWidth = 100;
+	    public int ItemFontId = 1;
+
+	    public int GetItemTop(int Id = -1)
+	    {
+		if (ItemStack.Count < 1) return 0;
+		Label item = ItemStack[ItemStack.Count-1].Item;
+		return (item.Height + item.Top);
+	    }
+
+	    public void InsertItem(DropItem item, string name)
+	    {
+		Tools.SortCode(("Insert item into Container"), () =>
+		{
+		    try
+		    {
+			Size ItemSize = new Size(ItemWidth, ItemHeight);
+			Point ItemLoca = new Point(0, GetItemTop());
+
+			Controls.Label(LowerContainer, item.Item, ItemSize, ItemLoca,
+			    ItemBackColor, ItemForeColor, (name), ItemFontId, ItemFontSize);
+
+			ItemStack.Add(item);
+		    }
+
+		    catch
+		    {
+			return;
+		    }
+		});
+	    }
+
+
+	    readonly List<DropItem> ItemStack = new List<DropItem>();
+
+	    public void AddItem(params string[] names)
+	    {
+		Tools.SortCode(("Add items to Container"), () =>
+		{
+		    try
+		    {
+			foreach (string name in names)
+			{
+			    InsertItem(new DropItem(), name);
+			}
+		    }
+
+		    catch
+		    {
+			return;
+		    }
+		});
+	    }
+
+
+	    public void RemoveItem(int Id = -19)
+	    {
+		try
+		{
+
+		}
+
+		catch
+		{
+		    return;
+		}
+	    }
+
+
+	    public bool RenameItem(string newName, int Id = -19)
+	    {
+		try
+		{
+		    if (Id != -19 && ItemStack.Count <= Id)
+			return false;
+		    else if (Id == -19 && ItemStack.Count > 0)
+			Id = ItemStack.Count - 1;
+		    else return false;
+
+		    ItemStack[Id].Item.Text = newName;
+
+		    return true;
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+
+
+	    public DashPanel UpperContainer = new DashPanel();
+	    public DashPanel LowerContainer = new DashPanel();
+
+	    public Control ContainerParent = new Control();
+
+	    public void AddTo(Control ContainerParent, Point ContainerLoca, Color UpperBCol, Color LowerBCol, bool DrawBorder = false)
+	    {
+		Tools.SortCode(("Container Insertions"), () =>
+		{
+		    try
+		    {
+			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 4);
+			Size UpperContainerSize = new Size(ItemWidth, ItemHeight);
+			Point LowerContainerLoca = new Point(2, 2);
+			
+			Controls.Panel(UpperContainer, LowerContainer, LowerContainerSize, LowerContainerLoca, LowerBCol);
+			Controls.Panel(ContainerParent, UpperContainer, UpperContainerSize, ContainerLoca, UpperBCol);
+			
+			if (DrawBorder) BorderColor = Color.FromArgb(8, 8, 8);
+		    }
+
+		    catch
+		    {
+			return;
+		    }
+		});
+	    }
 	}
 
 	
