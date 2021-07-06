@@ -221,13 +221,12 @@ namespace HighPlayer
 		{
 		    Size PanelSize = new Size(Inst.Width - 6, Inst.Height - Initialize2.Panel1.Top - Initialize2.Panel1.Height - Initialize1.Panel1.Height - 2);
 		    Point PanelLoca = new Point(3, Initialize2.Panel1.Top + Initialize2.Panel1.Height + 2);
+		    Color ScrollerBBCol = Color.FromArgb(7, 35, 46);
 		    Color PanelBCol = Inst.values.getBarColor();
 
 		    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
-
-		    Color ScrollerBBCol = Color.FromArgb(7, 35, 46);
-
 		    DataRow.AddTable(Panel, ScrollerBBCol);
+
 		    DataRow.LoadRowsFromConfig();
 		});
 	    }
