@@ -2759,13 +2759,13 @@ namespace DashFramework
 	    readonly DashTools Tools = new DashTools();
 
 	    
-	    public Color ItemBackColor = Color.FromArgb(7, 35, 46);
+	    public Color ItemBackColor = Color.FromArgb(5, 23, 31);
 	    public Color ItemForeColor = Color.White;
 
 	    public bool ItemCenterText = true;
 
-	    public int ItemFontSize = 10;
-	    public int ItemHeight = 20;
+	    public int ItemFontSize = 12;
+	    public int ItemHeight = 30;
 	    public int ItemWidth = 100;
 	    public int ItemFontId = 1;
 
@@ -2796,9 +2796,8 @@ namespace DashFramework
 		    return (item.Height + item.Top);
 		}
 
-		catch (Exception E)
+		catch
 		{
-		    MessageBox.Show($"{E.Message} !!|\r\n {E.StackTrace}");
 		    return -1;
 		}
 	    }
@@ -2963,7 +2962,7 @@ namespace DashFramework
 
 		    if (ItemStack.Count > 0)
 		    {
-			LowerSize = new Size(ItemWidth - 4, ItemHeight);
+			LowerSize = new Size(ItemWidth - 4, ItemHeight - 10);
 			UpperSize = new Size(ItemWidth, ItemHeight);
 		    }
 
@@ -2982,7 +2981,7 @@ namespace DashFramework
 		    if (UpperSize != Size.Empty && LowerSize != Size.Empty)
 		    {
 			LowerSize.Height -= 2;
-			UpperSize.Height += 2;
+			UpperSize.Height += 8;
 
 			Tools.Resize(UpperContainer, UpperSize);
 			Tools.Resize(LowerContainer, LowerSize);
@@ -2997,39 +2996,22 @@ namespace DashFramework
 		}
 	    }
 
-	    public Color BorderColor
-	    {
-		set
-		{
-		    Size RectSize = new Size(UpperContainer.Width - 3, UpperContainer.Height - 3);
-		    Point RectPoint = new Point(1, 1);
-
-		    Tools.PaintRectangle(UpperContainer, 2, RectSize, RectPoint, value);
-		}
-
-		get
-		{
-		    return BorderColor;
-		}
-	    }
-
 
 	    public Control ContainerParent = new Control();
 
-	    public void AddTo(Control ContainerParent, Point ContainerLoca, Color UpperBCol, Color LowerBCol, bool DrawBorder = false)
+	    public void AddTo(Control ContainerParent, Point ContainerLoca, Color UpperBCol, Color LowerBCol)
 	    {
 		Tools.SortCode(("Container Insertions"), () =>
 		{
 		    try
 		    {
 			Size UpperContainerSize = new Size(ItemWidth, ItemHeight);
-			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 4);
-			Point LowerContainerLoca = new Point(2, 2);
+			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 10);
+			Point LowerContainerLoca = new Point(2, 5);
 			
 			Controls.Panel(UpperContainer, LowerContainer, LowerContainerSize, LowerContainerLoca, LowerBCol);
 			Controls.Panel(ContainerParent, UpperContainer, UpperContainerSize, ContainerLoca, UpperBCol);
 
-			if (DrawBorder) BorderColor = Color.FromArgb(8, 8, 8);
 			this.ContainerParent = ContainerParent;
 		    }
 
@@ -3099,10 +3081,36 @@ namespace DashFramework
 		{
 		    foreach (Label item in LowerContainer.Controls)
 		    {
-			item.MouseDown += (s, e) => item.BackColor = onMouseDown;
-			item.MouseHover += (s, e) => item.BackColor = onHover;
+			item.MouseLeave += (s, e) => item.BackColor = ItemBackColor;
+			item.MouseDown  += (s, e) => item.BackColor = onMouseDown;
+			item.MouseEnter += (s, e) => item.BackColor = onHover;
 			item.MouseClick += (s, e) => item.BackColor = onClick;
+			item.MouseUp += (s, e) => item.BackColor = onHover;
 		    }
+		}
+
+		catch
+		{
+		    return;
+		}
+	    }
+
+	    public void LinkTriggerBackColorToMenu(Control Trigger, Color OriginalColor)
+	    {
+		try
+		{
+		    UpperContainer.VisibleChanged += (s, e) =>
+		    {
+			if (UpperContainer.Visible)
+			{
+			    Trigger.BackColor = UpperContainer.BackColor;
+			}
+
+			else
+			{
+			    Trigger.BackColor = OriginalColor;
+			}
+		    };
 		}
 
 		catch
