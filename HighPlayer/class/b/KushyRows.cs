@@ -220,12 +220,9 @@ namespace HighPlayer
 	{
 	    Tools.SortCode(("Row Reorganization"), () => 
 	    {
-		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22 + (4/*future-border*/))
+		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22 + 4)
 		{
-		    //if (Rows[k].AllowVisibility())
-		    //{
-			Rows[k].PanelL1.Location = new Point(x, y);
-		    //}
+		    Rows[k].PanelL1.Location = new Point(x, y);
 		}
 	    });
 	}
@@ -265,8 +262,8 @@ namespace HighPlayer
 	    {
 		void AddColumn(TextBox TxtBox, Size size, Point loca, string text, bool isMiddle = false)
 		{
-		    Color TxtBoxFCol = Color.LightGray;//Color.White;
 		    Color TxtBoxBCol = (isMiddle ? Color.FromArgb(10, 45, 59) : ColumnColor);
+		    Color TxtBoxFCol = Color.LightGray;
 
 		    Controls.TextBox(Row.PanelL2, TxtBox, size, loca,
 			TxtBoxBCol, TxtBoxFCol, 1, 12);
@@ -297,21 +294,14 @@ namespace HighPlayer
 		Rows.Add(Row);
 	    });
 
-	    // - add size to the container which is missing, if any.
-	    // - reset scrollbar contentcontainer everytime you resize.
-	    // - when filtering, update allow visibility value.
-	    // - when updating visibility: reorganize.
-	    // - do not forget to set rowbcol
-
 	    ReorganizeRows();
 	    UpdateTableSize();
 	}
 
 
-	readonly CustomScroller CustomScroller = new CustomScroller();
-
-	readonly DashPanel Panel1 = new DashPanel();//Content Container <-- Moves This
-	readonly DashPanel Panel2 = new DashPanel();//Parent <-- Adds Scrollbar Onto This
+	public readonly CustomScroller CustomScroller = new CustomScroller();
+	public readonly DashPanel Panel1 = new DashPanel();
+	public readonly DashPanel Panel2 = new DashPanel();
 	
 	public void UpdateTableSize()
 	{
@@ -361,12 +351,5 @@ namespace HighPlayer
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
-
-	/*
-	 - InsertRow (Title, Mood, Url)
-	 - RemoveRow (by Url)
-	 - AddCheckbox (to each row)
-	 - MoveRow (by url, up or down)
-	 */
     }
 }
