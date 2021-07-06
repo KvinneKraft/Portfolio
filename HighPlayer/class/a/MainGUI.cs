@@ -88,7 +88,7 @@ namespace HighPlayer
 			BttnSize = new Size(120, 24),
 			BttnBCol = Inst.values.getBarColor(),
 			BttnParent = Panel2,
-			BttnBorder = false,
+			BttnBorder = true,
 			BttnFpts = 12,
 		    };
 
@@ -152,31 +152,27 @@ namespace HighPlayer
 		    Controls.Label(Panel2, Label1, LabelSize(), LabelLoca, LabelBCol, 
 			LabelFCol, "Search:", FontSize: 16);
 
-		    Label1.Click += (s, e) => 
-			TextBox.Select();
+		    Label1.Click += (s, e) => TextBox.Select();
 		});
 
 		Tools.SortCode(("Search Bar"), () =>
 		{ 
-		    Size TextBoxSize = new Size(Panel2.Size.Width - 105 - LabelSize().Width, 24);
+		    Size TextBoxSize = new Size(Panel2.Size.Width - 110 - LabelSize().Width, 24);
 		    Point TextBoxLoca = new Point(LabelSize().Width, 0);
 		    Color TextBoxBCol = Color.FromArgb(7, 35, 46);
 		    Color TextBoxFCol = Color.White;
 
 		    Controls.TextBox(Panel2, TextBox, TextBoxSize, TextBoxLoca, 
 			TextBoxBCol, Label1.ForeColor, 1, 12);
-
-		    TextBox.Font = new Font(TextBox.Font, FontStyle.Bold);
+		    
 		    TextBox.TextAlign = HorizontalAlignment.Center;
-
-		    Tools.Round(TextBox.Parent, 4);
 		});
 
 		Tools.SortCode(("Mood Filter"), () =>
 		{
 		    Size DropTriggerSize = new Size(100, 20);
 		    Point DropTriggerLoca = new Point(Panel2.Width - 100, -2);
-		    Color DropTriggerBCol = Color.FromArgb(10, 45, 59);
+		    Color DropTriggerBCol = Panel1.BackColor;
 		    Color DropTriggerFCol = Color.White;
 
 		    Controls.Label(Panel2, Label2, DropTriggerSize, DropTriggerLoca,
@@ -185,20 +181,31 @@ namespace HighPlayer
 		    Label2.Font = new Font(Label2.Font, FontStyle.Bold);
 		    Label2.TextAlign = ContentAlignment.MiddleCenter;
 
-		    Point UpperContainerLoca = new Point(Panel1.Left + Panel2.Left 
-			+ DropTriggerLoca.X, Panel1.Top + Panel2.Top + Label2.Top + Label2.Height);
+		    Point UpperContainerLoca = new Point(Panel1.Left+Panel2.Left 
+			+ DropTriggerLoca.X, Panel1.Top+Panel2.Top+Label2.Top+Label2.Height);
 
-		    Color LowerContainerBCol = Tools.PositiveRGB(4, DropTriggerBCol);
-		    Color UpperContainerBCol = DropTriggerBCol;
+		    Color LowerContainerBCol = Panel1.BackColor;
+		    Color UpperContainerBCol = Panel1.BackColor;
 
-		    DropMenu.AddTo(Inst, UpperContainerLoca, UpperContainerBCol, LowerContainerBCol, true);
-
+		    DropMenu.AddTo(Inst, UpperContainerLoca, UpperContainerBCol, LowerContainerBCol);
 		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] 
 		    {
-			Initialize1.Panel1, Initialize2.Panel1, Initialize3.Panel, Inst, DataRow.Panel1
+			Initialize1.Panel1, Initialize2.Panel1,
+			Initialize3.Panel, Inst, DataRow.Panel1
 		    });
-		    
+
 		    DropMenu.AddItem("high", "dashie", "is", "me");
+		    DropMenu.RegisterUpdateColor
+		    (
+			Color.FromArgb(9, 40, 54), 
+			Color.FromArgb(13, 57, 77),
+			Color.FromArgb(16, 70, 94)
+		    );
+		});
+
+		Tools.SortCode(("Last Touches"), () =>
+		{
+		    Tools.Round(TextBox.Parent, 4);
 		});
 	    }
 	}
