@@ -2758,23 +2758,7 @@ namespace DashFramework
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
 
-	    public Color BorderColor
-	    {
-		set
-		{
-		    Size RectSize = new Size(UpperContainer.Width - 3, UpperContainer.Height - 3);
-		    Point RectPoint = new Point(1, 1);
-
-		    Tools.PaintRectangle(UpperContainer, 2, RectSize, RectPoint, borderColor);
-		}
-
-		get
-		{
-		    return BorderColor;
-		}
-	    }
-
-
+	    
 	    public Color ItemBackColor = Color.FromArgb(7, 35, 46);
 	    public Color ItemForeColor = Color.White;
 
@@ -2804,7 +2788,22 @@ namespace DashFramework
 			Controls.Label(LowerContainer, item.Item, ItemSize, ItemLoca,
 			    ItemBackColor, ItemForeColor, (name), ItemFontId, ItemFontSize);
 
+			if (ItemCenterText) item.Item.TextAlign = ContentAlignment.MiddleCenter;
+
 			ItemStack.Add(item);
+		    }
+
+		    catch
+		    {
+			return;
+		    }
+		});
+
+		Tools.SortCode(("Adjust Size"), () =>
+		{
+		    try
+		    {
+			UpdateContainerSizes();
 		    }
 
 		    catch
@@ -2816,32 +2815,38 @@ namespace DashFramework
 
 
 	    readonly List<DropItem> ItemStack = new List<DropItem>();
-
-	    public void AddItem(params string[] names)
-	    {
-		Tools.SortCode(("Add items to Container"), () =>
-		{
-		    try
-		    {
-			foreach (string name in names)
-			{
-			    InsertItem(new DropItem(), name);
-			}
-		    }
-
-		    catch
-		    {
-			return;
-		    }
-		});
-	    }
-
-
-	    public void RemoveItem(int Id = -19)
+	    
+	    public bool ItemExists(int Id = -1)
 	    {
 		try
 		{
+		    if (Id != -19 && ItemStack.Count <= Id)
+		    {
+			return false;
+		    }
 
+		    else if (Id == -19 && ItemStack.Count < 1)
+		    {
+			return false;
+		    }
+		    
+		    return (ItemStack.Count - 1 > -1);
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+	    
+	    public void UpdateItemLocations()
+	    {
+		try
+		{
+		    for (int k = 0, y = 0; k < LowerContainer.Controls.Count; k += 1, y += ItemHeight)
+		    {
+			LowerContainer.Controls[k].Top = y;
+		    }
 		}
 
 		catch
@@ -2849,17 +2854,39 @@ namespace DashFramework
 		    return;
 		}
 	    }
+	    
+	    public bool RemoveItem(int Id = -19)
+	    {
+		try
+		{
+		    if (!ItemExists())
+		    {
+			return false;
+		    }
 
+		    LowerContainer.Controls.RemoveAt(Id);
+		    ItemStack.RemoveAt(Id);
 
+		    UpdateContainerSizes();
+		    UpdateItemLocations();
+
+		    return true;
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+	    
 	    public bool RenameItem(string newName, int Id = -19)
 	    {
 		try
 		{
-		    if (Id != -19 && ItemStack.Count <= Id)
+		    if (!ItemExists())
+		    {
 			return false;
-		    else if (Id == -19 && ItemStack.Count > 0)
-			Id = ItemStack.Count - 1;
-		    else return false;
+		    }
 
 		    ItemStack[Id].Item.Text = newName;
 
@@ -2876,6 +2903,58 @@ namespace DashFramework
 	    public DashPanel UpperContainer = new DashPanel();
 	    public DashPanel LowerContainer = new DashPanel();
 
+	    public bool UpdateContainerSizes()
+	    {
+		try
+		{
+		    Size UpperSize = Size.Empty;
+		    Size LowerSize = Size.Empty;
+
+		    if (ItemStack.Count < 1)
+		    {
+			UpperSize = new Size(ItemWidth + 4, ItemHeight + 4);
+			LowerSize = new Size(ItemWidth, ItemHeight);
+		    }
+
+		    Label Item = ItemStack[ItemStack.Count - 1].Item;
+
+		    if (Item.Height + Item.Top > LowerContainer.Height)
+		    {
+			UpperSize = new Size(UpperContainer.Height, Item.Height + Item.Top + 4);
+			LowerSize = new Size(LowerContainer.Height, Item.Height + Item.Top);
+		    }
+
+		    if (UpperSize != Size.Empty && LowerSize != Size.Empty)
+		    {
+			Tools.Resize(UpperContainer, UpperSize);
+			Tools.Resize(LowerContainer, LowerSize);
+		    }
+
+		    return true;
+		}
+
+		catch
+		{
+		    return false;
+		}
+	    }
+
+	    public Color BorderColor
+	    {
+		set
+		{
+		    Size RectSize = new Size(UpperContainer.Width - 3, UpperContainer.Height - 3);
+		    Point RectPoint = new Point(1, 1);
+
+		    Tools.PaintRectangle(UpperContainer, 2, RectSize, RectPoint, value);
+		}
+
+		get
+		{
+		    return BorderColor;
+		}
+	    }
+
 	    public Control ContainerParent = new Control();
 
 	    public void AddTo(Control ContainerParent, Point ContainerLoca, Color UpperBCol, Color LowerBCol, bool DrawBorder = false)
@@ -2884,8 +2963,8 @@ namespace DashFramework
 		{
 		    try
 		    {
-			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 4);
-			Size UpperContainerSize = new Size(ItemWidth, ItemHeight);
+			Size UpperContainerSize = new Size(ItemWidth + 4, ItemHeight + 4);
+			Size LowerContainerSize = new Size(ItemWidth, ItemHeight);
 			Point LowerContainerLoca = new Point(2, 2);
 			
 			Controls.Panel(UpperContainer, LowerContainer, LowerContainerSize, LowerContainerLoca, LowerBCol);
@@ -2899,6 +2978,105 @@ namespace DashFramework
 			return;
 		    }
 		});
+	    }
+
+
+	    public void AddTrigger(Control Trigger, bool Hider = true)
+	    {
+		if (Trigger != UpperContainer)
+		{
+		    Trigger.MouseEnter += (s, e) =>
+		    {
+			UpperContainer.Visible = Hider;
+		    };
+		}
+	    }
+
+	    public void RegisterVisibilityTrigger(Control ShowTrigger, params Control[] HideTrigger)
+	    {
+		try
+		{
+		    Tools.SortCode(("Hide Trigger Setup"), () =>
+		    {
+			foreach (Control ParentA in HideTrigger)
+			{
+			    AddTrigger(ParentA);
+
+			    foreach (Control ParentB in HideTrigger)
+			    {
+				AddTrigger(ParentB);
+
+				foreach (Control ParentC in HideTrigger)
+				{
+				    AddTrigger(ParentC);
+				}
+			    }
+			}
+		    });
+
+		    Tools.SortCode(("Show Trigger Setup"), () =>
+		    {
+			AddTrigger(ShowTrigger, false);
+		    });
+		}
+
+		catch
+		{
+		    return;
+		}
+	    }
+
+
+	    public void RegisterUpdateColor(Color onHover, Color onMouseDown, Color onClick)
+	    {
+		try
+		{
+		    foreach (Label item in LowerContainer.Controls)
+		    {
+			item.MouseDown += (s, e) => item.BackColor = onMouseDown;
+			item.MouseHover += (s, e) => item.BackColor = onHover;
+			item.MouseClick += (s, e) => item.BackColor = onClick;
+		    }
+		}
+
+		catch
+		{
+		    return;
+		}
+	    }
+
+
+	    public delegate void RunHook();
+
+	    public bool SetMouseClickHook(int Id, RunHook Run)
+	    {
+		try
+		{
+		    if (!ItemExists(Id))
+		    {
+			return false;
+		    }
+
+		    ItemStack[Id].Item.Click += (s, e) =>
+		    {
+			try
+			{
+			    Run();
+			}
+
+			catch
+			{
+			    return;
+			}
+		    };
+
+		    return true;
+		}
+
+		catch
+		{
+		    return false;
+		}
 	    }
 	}
 
