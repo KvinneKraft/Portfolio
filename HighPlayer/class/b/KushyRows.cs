@@ -231,7 +231,10 @@ namespace HighPlayer
 	}
 
 
-	public Color RowBColor = Color.FromArgb(8, 8, 8);
+	public Color BackgroundColor = Color.FromArgb(7, 35, 46);
+	public Color CheckBoxColor = Color.FromArgb(16, 68, 89);//Color.FromArgb(26, 0, 38);
+	public Color ColumnColor = Color.FromArgb(16, 68, 89);//Color.FromArgb(104, 47, 105);
+
 	public bool AddToTop = true;
 
 	public void AddRow(DashPanel Table, string Title, string MoodName, string Url)
@@ -242,17 +245,17 @@ namespace HighPlayer
 	    {
 		Size Panel1Size = new Size(Table.Width, 22); // Ball
 		Point Panel1Loca = GetRowPosition();
-		Color Panel1BCol = RowBColor;
+		Color Panel1BCol = BackgroundColor;
 
 		Controls.Panel(Table, Row.PanelL1, Panel1Size, Panel1Loca, Panel1BCol);
 
-		Size Panel2Size = new Size(Panel1Size.Width - 22, 22);
+		Size Panel2Size = new Size(Panel1Size.Width - 26, 22);
 		Point Panel2Loca = new Point(0, 0);
-		Color Panel2BCol = RowBColor;
+		Color Panel2BCol = BackgroundColor;
 		
 		Size Panel3Size = new Size(22, 22);
-		Point Panel3Loca = new Point(Panel1Size.Width - 22, 0);
-		Color Panel3BCol = RowBColor;
+		Point Panel3Loca = new Point(Panel1Size.Width - 23, 0);
+		Color Panel3BCol = CheckBoxColor;
 
 		Controls.Panel(Row.PanelL1, Row.PanelL2, Panel2Size, Panel2Loca, Panel2BCol);
 		Controls.Panel(Row.PanelL1, Row.PanelL3, Panel3Size, Panel3Loca, Panel3BCol);
@@ -260,13 +263,13 @@ namespace HighPlayer
 
 	    Tools.SortCode(("Add Column Entries"), () =>
 	    {
-		void AddColumn(TextBox TxtBox, Size size, Point loca, string text)
+		void AddColumn(TextBox TxtBox, Size size, Point loca, string text, bool isMiddle = false)
 		{
-		    Color TxtBoxFCol = Color.Black;//Color.White;
-		    Color TxtBoxBCol = Color.White;//RowBColor;
+		    Color TxtBoxFCol = Color.LightGray;//Color.White;
+		    Color TxtBoxBCol = (isMiddle ? Color.FromArgb(10, 45, 59) : ColumnColor);
 
 		    Controls.TextBox(Row.PanelL2, TxtBox, size, loca,
-			TxtBoxBCol, TxtBoxFCol, 1, 10);
+			TxtBoxBCol, TxtBoxFCol, 1, 12);
 
 		    TxtBox.TextAlign = HorizontalAlignment.Center;
 		    TxtBox.Text = text;
@@ -278,12 +281,12 @@ namespace HighPlayer
 		Size TxtBox2Size = new Size(95, 22);
 		Point TxtBox2Loca = new Point(TxtBox1Size.Width + 4, 0);
 
-		Size TxtBox3Size = new Size(Row.PanelL2.Width - 245, 22);
+		Size TxtBox3Size = new Size(Row.PanelL2.Width - 253, 22);
 		Point TxtBox3Loca = new Point(TxtBox2Loca.X + TxtBox2Size.Width + 4, 0);
 	
+		AddColumn(Row.TxtBox1, TxtBox1Size, TxtBox1Loca, (Title), true); 
+		AddColumn(Row.TxtBox3, TxtBox3Size, TxtBox3Loca, (Url), true);;
 		AddColumn(Row.TxtBox2, TxtBox2Size, TxtBox2Loca, (MoodName));
-		AddColumn(Row.TxtBox1, TxtBox1Size, TxtBox1Loca, (Title));
-		AddColumn(Row.TxtBox3, TxtBox3Size, TxtBox3Loca, (Url));;
 	    });
 
 	    Tools.SortCode(("Add CheckBox Control"), () => 
@@ -333,22 +336,17 @@ namespace HighPlayer
 	    }
 	}
 
-	public void AddTable(Control Parent, Color MainBackColor, Color ScrollerBackColor)
+	public void AddTable(Control Parent, Color MainBackColor)
 	{
 	    try
 	    {
 		Tools.SortCode(("Core Table"), () =>
 		{
-		    Size Panel1Size = new Size(Parent.Width - 20, Parent.Height);
-		    Point Panel1Loca = new Point(0, 0);
+		    Size Panel1Size = new Size(Parent.Width - 3, Parent.Height);
+		    Point Panel1Loca = new Point(1, 0);
 		    Color Panel1BCol = MainBackColor;
-
-		    Point Panel2Loca = new Point(Panel1Size.Width, 0);
-		    Size Panel2Size = new Size(20, Parent.Height);
-		    Color Panel2BCol = ScrollerBackColor;
-
+		    
 		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
-		    Controls.Panel(Parent, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 		});
 
 		Tools.SortCode(("Scroller Addon"), () =>
