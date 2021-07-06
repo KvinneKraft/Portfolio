@@ -2769,11 +2769,38 @@ namespace DashFramework
 	    public int ItemWidth = 100;
 	    public int ItemFontId = 1;
 
-	    public int GetItemTop(int Id = -1)
+	    public int GetItemTop(int Id = -19)
 	    {
-		if (ItemStack.Count < 1) return 0;
-		Label item = ItemStack[ItemStack.Count-1].Item;
-		return (item.Height + item.Top);
+		try
+		{
+		    if (Id == -19)
+		    {
+			if (ItemStack.Count < 1)
+			{
+			    return 0;
+			}
+
+			Id = ItemStack.Count - 1;
+		    }
+
+		    else
+		    {
+			if (ItemStack.Count <= Id)
+			{
+			    return 0;
+			}
+		    }
+		
+		    Label item = ItemStack[Id].Item;
+
+		    return (item.Height + item.Top);
+		}
+
+		catch (Exception E)
+		{
+		    MessageBox.Show($"{E.Message} !!|\r\n {E.StackTrace}");
+		    return -1;
+		}
 	    }
 
 	    public void InsertItem(DropItem item, string name)
@@ -2788,7 +2815,10 @@ namespace DashFramework
 			Controls.Label(LowerContainer, item.Item, ItemSize, ItemLoca,
 			    ItemBackColor, ItemForeColor, (name), ItemFontId, ItemFontSize);
 
-			if (ItemCenterText) item.Item.TextAlign = ContentAlignment.MiddleCenter;
+			if (ItemCenterText)
+			{
+			    item.Item.TextAlign = ContentAlignment.MiddleCenter;
+			}
 
 			ItemStack.Add(item);
 		    }
@@ -2804,6 +2834,27 @@ namespace DashFramework
 		    try
 		    {
 			UpdateContainerSizes();
+		    }
+
+		    catch
+		    {
+			return;
+		    }
+		});
+	    }
+
+	    public void AddItem(params string[] names)
+	    {
+		Tools.SortCode(("Add items to Container"), () =>
+		{
+		    try
+		    {
+			DropItem GetItem() => new DropItem();
+
+			for (int k = 0; k < names.Length; k += 1)
+			{
+			    InsertItem(GetItem(), names[k]);
+			}
 		    }
 
 		    catch
@@ -2900,8 +2951,8 @@ namespace DashFramework
 	    }
 
 
-	    public DashPanel UpperContainer = new DashPanel();
-	    public DashPanel LowerContainer = new DashPanel();
+	    public DashPanel UpperContainer = new DashPanel() { Visible = false };
+	    public DashPanel LowerContainer = new DashPanel() { Visible = true };
 
 	    public bool UpdateContainerSizes()
 	    {
@@ -2910,26 +2961,33 @@ namespace DashFramework
 		    Size UpperSize = Size.Empty;
 		    Size LowerSize = Size.Empty;
 
-		    if (ItemStack.Count < 1)
+		    if (ItemStack.Count > 0)
 		    {
-			UpperSize = new Size(ItemWidth + 4, ItemHeight + 4);
-			LowerSize = new Size(ItemWidth, ItemHeight);
+			LowerSize = new Size(ItemWidth - 4, ItemHeight);
+			UpperSize = new Size(ItemWidth, ItemHeight);
 		    }
+
+		    else
+			goto skip;
 
 		    Label Item = ItemStack[ItemStack.Count - 1].Item;
 
 		    if (Item.Height + Item.Top > LowerContainer.Height)
 		    {
-			UpperSize = new Size(UpperContainer.Height, Item.Height + Item.Top + 4);
-			LowerSize = new Size(LowerContainer.Height, Item.Height + Item.Top);
+			LowerSize = new Size(LowerContainer.Width, Item.Height + Item.Top);
+			UpperSize = new Size(UpperContainer.Width, Item.Height + Item.Top);
 		    }
 
+		skip:
 		    if (UpperSize != Size.Empty && LowerSize != Size.Empty)
 		    {
+			LowerSize.Height -= 2;
+			UpperSize.Height += 2;
+
 			Tools.Resize(UpperContainer, UpperSize);
 			Tools.Resize(LowerContainer, LowerSize);
 		    }
-
+		
 		    return true;
 		}
 
@@ -2955,6 +3013,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public Control ContainerParent = new Control();
 
 	    public void AddTo(Control ContainerParent, Point ContainerLoca, Color UpperBCol, Color LowerBCol, bool DrawBorder = false)
@@ -2963,14 +3022,15 @@ namespace DashFramework
 		{
 		    try
 		    {
-			Size UpperContainerSize = new Size(ItemWidth + 4, ItemHeight + 4);
-			Size LowerContainerSize = new Size(ItemWidth, ItemHeight);
+			Size UpperContainerSize = new Size(ItemWidth, ItemHeight);
+			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 4);
 			Point LowerContainerLoca = new Point(2, 2);
 			
 			Controls.Panel(UpperContainer, LowerContainer, LowerContainerSize, LowerContainerLoca, LowerBCol);
 			Controls.Panel(ContainerParent, UpperContainer, UpperContainerSize, ContainerLoca, UpperBCol);
-			
+
 			if (DrawBorder) BorderColor = Color.FromArgb(8, 8, 8);
+			this.ContainerParent = ContainerParent;
 		    }
 
 		    catch
@@ -2983,13 +3043,14 @@ namespace DashFramework
 
 	    public void AddTrigger(Control Trigger, bool Hider = true)
 	    {
-		if (Trigger != UpperContainer)
+		if (Hider && (Trigger == UpperContainer || Trigger == LowerContainer 
+		    || LowerContainer.Controls.Contains(Trigger))) return;
+
+		Trigger.MouseEnter += (s, e) =>
 		{
-		    Trigger.MouseEnter += (s, e) =>
-		    {
-			UpperContainer.Visible = Hider;
-		    };
-		}
+		    UpperContainer.Visible = !Hider;
+		    if (!Hider) UpperContainer.BringToFront();
+		};
 	    }
 
 	    public void RegisterVisibilityTrigger(Control ShowTrigger, params Control[] HideTrigger)
@@ -3002,13 +3063,18 @@ namespace DashFramework
 			{
 			    AddTrigger(ParentA);
 
-			    foreach (Control ParentB in HideTrigger)
+			    foreach (Control ParentB in ParentA.Controls)
 			    {
 				AddTrigger(ParentB);
 
-				foreach (Control ParentC in HideTrigger)
+				foreach (Control ParentC in ParentB.Controls)
 				{
 				    AddTrigger(ParentC);
+
+				    foreach (Control ParentD in ParentC.Controls)
+				    {
+					AddTrigger(ParentD);
+				    }
 				}
 			    }
 			}
