@@ -24,7 +24,6 @@ namespace HighPlayer
     public partial class MainGUI
     {
 	public readonly static DashControls Controls = new DashControls();
-	public readonly static URLDatabase DataRow = new URLDatabase();
 	public readonly static DashTools Tools = new DashTools();
 
 
@@ -211,6 +210,8 @@ namespace HighPlayer
 	}
 
 
+	public readonly static URLDatabase DataRow = new URLDatabase();
+
 	class Init3
 	{
 	    public readonly DashPanel Panel = new DashPanel();
@@ -237,6 +238,8 @@ namespace HighPlayer
 	readonly static Init2 Initialize2 = new Init2();
 	readonly static Init3 Initialize3 = new Init3();
 
+	readonly MoodMenu MoodMenu = new MoodMenu();
+
 	public void Initiator(DashWindow inst)
 	{
 	    try
@@ -244,6 +247,8 @@ namespace HighPlayer
 		Initialize1.Initiate(inst);
 		Initialize2.Initiate(inst);
 		Initialize3.Initiate(inst);
+
+		MoodMenu.Initiate(inst, this);
 	    }
 
 	    catch (Exception E)
