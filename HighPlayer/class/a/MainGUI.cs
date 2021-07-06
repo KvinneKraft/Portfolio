@@ -69,9 +69,9 @@ namespace HighPlayer
 	    {
 		Tools.SortCode(("Main Panels"), () =>
 		{
-		    Point Panel1Loca = new Point(0, Inst.Height - 35);
+		    Point Panel1Loca = new Point(3, Inst.Height - 35);
 		    Color Panel1BCol = Inst.values.getBarColor();
-		    Size Panel1Size = new Size(Inst.Width, 34);
+		    Size Panel1Size = new Size(Inst.Width - 6, 34);
 
 		    Point Panel2Loca = new Point(-2, -2);
 		    Color Panel2BCol = Panel1BCol;
@@ -86,9 +86,9 @@ namespace HighPlayer
 		    Quickify Quicky = new Quickify()
 		    {
 			BttnSize = new Size(120, 24),
-			BttnBCol = Panel2.BackColor,
+			BttnBCol = Inst.values.getBarColor(),
 			BttnParent = Panel2,
-			BttnBorder = true,
+			BttnBorder = false,
 			BttnFpts = 12,
 		    };
 
@@ -113,25 +113,118 @@ namespace HighPlayer
 
 	class Init2
 	{
+	    readonly DashControls Controls = new DashControls();
+	    readonly DashTools Tools = new DashTools();
+	    
+	    public readonly DashPanel Panel1 = new DashPanel();
+	    readonly DashPanel Panel2 = new DashPanel();
+
+	    readonly DropMenu DropMenu = new DropMenu(); 
+	    readonly TextBox TextBox = new TextBox();
+
+	    readonly Label Label1 = new Label();
+	    readonly Label Label2 = new Label();
+
+	    public void Initiate(DashWindow Inst)
+	    {
+		Size LabelSize() => Tools.GetFontSize("Search", 16);
+
+		Tools.SortCode(("Main Container"), () =>
+		{
+		    Size Panel1Size = new Size(Inst.values.getBar().Width - 6, 34);
+		    Point Panel1Loca = new Point(3, Inst.values.getBar().Height);
+		    Color Panel1BCol = Color.FromArgb(5, 23, 31);
+
+		    Size Panel2Size = new Size(Panel1Size.Width - 40 - LabelSize().Width, 24);
+		    Point Panel2Loca = new Point(-2, -2);
+		    Color Panel2BCol = Panel1BCol;
+
+		    Controls.Panel(Inst, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+		    Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+		});
+
+		Tools.SortCode(("Search Label"), () =>
+		{
+		    Point LabelLoca = new Point(0, -2);
+		    Color LabelBCol = Panel1.BackColor;
+		    Color LabelFCol = Color.White;
+
+		    Controls.Label(Panel2, Label1, LabelSize(), LabelLoca, LabelBCol, 
+			LabelFCol, "Search:", FontSize: 16);
+
+		    Label1.Click += (s, e) => 
+			TextBox.Select();
+		});
+
+		Tools.SortCode(("Search Bar"), () =>
+		{ 
+		    Size TextBoxSize = new Size(Panel2.Size.Width - 105 - LabelSize().Width, 24);
+		    Point TextBoxLoca = new Point(LabelSize().Width, 0);
+		    Color TextBoxBCol = Color.FromArgb(7, 35, 46);
+		    Color TextBoxFCol = Color.White;
+
+		    Controls.TextBox(Panel2, TextBox, TextBoxSize, TextBoxLoca, 
+			TextBoxBCol, Label1.ForeColor, 1, 12);
+
+		    TextBox.Font = new Font(TextBox.Font, FontStyle.Bold);
+		    TextBox.TextAlign = HorizontalAlignment.Center;
+
+		    Tools.Round(TextBox.Parent, 4);
+		});
+
+		Tools.SortCode(("Mood Filter"), () =>
+		{
+		    Size DropTriggerSize = new Size(100, 20);
+		    Point DropTriggerLoca = new Point(Panel2.Width - 100, -2);
+		    Color DropTriggerBCol = Color.FromArgb(10, 45, 59);
+		    Color DropTriggerFCol = Color.White;
+
+		    Controls.Label(Panel2, Label2, DropTriggerSize, DropTriggerLoca, 
+			DropTriggerBCol, DropTriggerFCol, ("Mood Filter"), FontSize: 13);
+
+		    Label2.Font = new Font(Label2.Font, FontStyle.Bold);
+		    Label2.TextAlign = ContentAlignment.MiddleCenter;
+
+		    Point DropMenuLoca = new Point(Panel1.Left + Panel2.Left + DropTriggerLoca.X, Panel1.Top + Panel2.Top + DropTriggerLoca.Y + 24);
+		    Color DropMenuBackColor = DropTriggerBCol;
+		    
+		    //DropMenu.SetupMenu(Inst, DropMenuLoca, DropMenuBackColor, 
+			//DropMenuBackColor, true, Label2);
+
+		    // Create methods for simplicity!
+
+		    //Tools.Resize(DropMenu.ContentContainer, new Size(96, 0)); 
+		    //Tools.Resize(DropMenu.Container, new Size(100, 0));
+
+		    //DropMenu.AddItem(new Label(), "higdadadd dadh", DropMenuBackColor, Color.White);
+		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
+		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
+		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
+
+		    //Tools.Resize(DropMenu.ContentContainer, new Size(96, DropMenu.ContentContainer.Height));
+		    //Tools.Resize(DropMenu.Container, new Size(96, DropMenu.Container.Height));
+		});
+	    }
+	}
+
+
+	class Init3
+	{
 	    readonly DashPanel Panel = new DashPanel();
 
 	    public void Initiate(DashWindow Inst)
 	    {
 		Tools.SortCode(("Datatable Container"), () => 
 		{
-		    Size PanelSize = new Size(Inst.Width - 6, Inst.Height - Inst.values.getBar().Height - Initialize1.Panel1.Height);
-		    Point PanelLoca = new Point(3, Inst.values.getBar().Height);
-		    Color PanelBCol = Color.FromArgb(16, 16, 16);
+		    Size PanelSize = new Size(Inst.Width - 6, Inst.Height - Initialize2.Panel1.Top - Initialize2.Panel1.Height - Initialize1.Panel1.Height - 2);
+		    Point PanelLoca = new Point(3, Initialize2.Panel1.Top + Initialize2.Panel1.Height + 2);
+		    Color PanelBCol = Inst.values.getBarColor();
 
 		    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
-		});
 
-		Tools.SortCode(("Datatable Insertion"), () => 
-		{
-		    Color ScrollerBCol = Inst.values.getBarColor();
-		    Color PanelBCol = Panel.BackColor;
+		    Color ScrollerBBCol = Color.FromArgb(7, 35, 46);
 
-		    DataRow.AddTable(Panel, PanelBCol, ScrollerBCol);
+		    DataRow.AddTable(Panel, ScrollerBBCol);
 		    DataRow.LoadRowsFromConfig();
 		});
 	    }
@@ -140,6 +233,7 @@ namespace HighPlayer
 
 	readonly static Init1 Initialize1 = new Init1();
 	readonly static Init2 Initialize2 = new Init2();
+	readonly static Init3 Initialize3 = new Init3();
 
 	public void Initiator(DashWindow inst)
 	{
@@ -147,6 +241,7 @@ namespace HighPlayer
 	    {
 		Initialize1.Initiate(inst);
 		Initialize2.Initiate(inst);
+		Initialize3.Initiate(inst);
 	    }
 
 	    catch (Exception E)
