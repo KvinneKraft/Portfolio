@@ -119,7 +119,7 @@ namespace HighPlayer
 	    public readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
 
-	    readonly DropMenu DropMenu = new DropMenu(); 
+	    readonly ClickDropMenu DropMenu = new ClickDropMenu(); 
 	    readonly TextBox TextBox = new TextBox();
 
 	    readonly Label Label1 = new Label();
@@ -179,30 +179,26 @@ namespace HighPlayer
 		    Color DropTriggerBCol = Color.FromArgb(10, 45, 59);
 		    Color DropTriggerFCol = Color.White;
 
-		    Controls.Label(Panel2, Label2, DropTriggerSize, DropTriggerLoca, 
+		    Controls.Label(Panel2, Label2, DropTriggerSize, DropTriggerLoca,
 			DropTriggerBCol, DropTriggerFCol, ("Mood Filter"), FontSize: 13);
 
 		    Label2.Font = new Font(Label2.Font, FontStyle.Bold);
 		    Label2.TextAlign = ContentAlignment.MiddleCenter;
 
-		    Point DropMenuLoca = new Point(Panel1.Left + Panel2.Left + DropTriggerLoca.X, Panel1.Top + Panel2.Top + DropTriggerLoca.Y + 24);
-		    Color DropMenuBackColor = DropTriggerBCol;
+		    Point UpperContainerLoca = new Point(Panel1.Left + Panel2.Left 
+			+ DropTriggerLoca.X, Panel1.Top + Panel2.Top + Label2.Top + Label2.Height);
+
+		    Color LowerContainerBCol = Tools.PositiveRGB(4, DropTriggerBCol);
+		    Color UpperContainerBCol = DropTriggerBCol;
+
+		    DropMenu.AddTo(Inst, UpperContainerLoca, UpperContainerBCol, LowerContainerBCol, true);
+
+		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] 
+		    {
+			Initialize1.Panel1, Initialize2.Panel1, Initialize3.Panel, Inst, DataRow.Panel1
+		    });
 		    
-		    //DropMenu.SetupMenu(Inst, DropMenuLoca, DropMenuBackColor, 
-			//DropMenuBackColor, true, Label2);
-
-		    // Create methods for simplicity!
-
-		    //Tools.Resize(DropMenu.ContentContainer, new Size(96, 0)); 
-		    //Tools.Resize(DropMenu.Container, new Size(100, 0));
-
-		    //DropMenu.AddItem(new Label(), "higdadadd dadh", DropMenuBackColor, Color.White);
-		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
-		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
-		    //DropMenu.AddItem(new Label(), "high", DropMenuBackColor, Color.White);
-
-		    //Tools.Resize(DropMenu.ContentContainer, new Size(96, DropMenu.ContentContainer.Height));
-		    //Tools.Resize(DropMenu.Container, new Size(96, DropMenu.Container.Height));
+		    DropMenu.AddItem("high", "dashie", "is", "me");
 		});
 	    }
 	}
@@ -210,7 +206,7 @@ namespace HighPlayer
 
 	class Init3
 	{
-	    readonly DashPanel Panel = new DashPanel();
+	    public readonly DashPanel Panel = new DashPanel();
 
 	    public void Initiate(DashWindow Inst)
 	    {
