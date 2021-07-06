@@ -24,7 +24,7 @@ namespace HighPlayer
     public partial class MainGUI
     {
 	public readonly static DashControls Controls = new DashControls();
-	public readonly static KushyRows DataRow = new KushyRows();
+	public readonly static URLDatabase DataRow = new URLDatabase();
 	public readonly static DashTools Tools = new DashTools();
 
 
