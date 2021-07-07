@@ -1307,6 +1307,20 @@ namespace DashFramework
 
 	    public class DashTools
 	    {
+		public bool IsAnyNull(params object[] targets)
+		{
+		    foreach (object target in targets)
+		    {
+			if (target == null)
+			{
+			    return true;
+			}
+		    }
+
+		    return false;
+		}
+
+
 		public string RGBString(Color cc)
 		{
 		    return ($"{cc.R}, {cc.G}, {cc.B}");
