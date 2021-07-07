@@ -30,10 +30,17 @@ namespace HighPlayer
 
         public class Init1 
         {
-            
 	    public void Initiate(DashWindow Inst)
 	    {
-		// Remove Title
+		Tools.SortCode(("Main Window Creation"), () =>
+		{
+		    Parent.InitializeWindow(new Size(300, 250), ("Fluffy Mood Menu"), Inst.BackColor, 
+			Color.FromArgb(5, 23, 31), FormStartPosition.Manual);
+
+		    Parent.values.ResizeTitle(15);
+		    Parent.values.CenterTitle();
+		    Parent.values.HideIcons();
+		});
 	    }
         }
 
