@@ -23,8 +23,8 @@ namespace HighPlayer
 {
     public class URLDatabase
     {
-	readonly DashControls Controls = new DashControls();
-	readonly DashTools Tools = new DashTools();
+	readonly static DashControls Controls = new DashControls();
+	readonly static DashTools Tools = new DashTools();
 
 
 	public class RowItem
@@ -32,11 +32,12 @@ namespace HighPlayer
 	    public DashPanel PanelL1 = new DashPanel();//Title, Mood, Url
 	    public DashPanel PanelL2 = new DashPanel();//CheckBox
 	    public DashPanel PanelL3 = new DashPanel();
-
-
+	    
 	    public TextBox TxtBox1 = new TextBox();// new TextBox();
 	    public TextBox TxtBox2 = new TextBox();
 	    public TextBox TxtBox3 = new TextBox();
+
+	    public Label Label = new Label();
 
 
 	    public string Title
@@ -60,6 +61,38 @@ namespace HighPlayer
 
 	    public bool AllowVisibility() => ICanHasVisibility;
 	    public bool ICanHasVisibility = true;
+
+
+	    public delegate void Executor();
+
+	    public Color UncheckedColor = Color.LightGray;
+	    public Color CheckedColor = Color.Gray;
+
+	    public Executor WhenUnchecked = null;
+	    public Executor WhenChecked = null;
+
+	    public void RegisterCheckBox()
+	    {
+		try
+		{
+		    Label.Click += (s, e) =>
+		    {
+			if (!Tools.IsAnyNull(WhenUnchecked, WhenChecked))
+			{
+			    if (Label.BackColor.Equals(CheckedColor)) WhenChecked();
+			    else WhenUnchecked();
+			}
+
+			Label.BackColor = (Label.BackColor.Equals(CheckedColor) ? 
+			    UncheckedColor : CheckedColor);
+		    };
+		}
+
+		catch (Exception E)
+		{
+		    throw E;
+		}
+	    }
 	}
 
 
@@ -120,8 +153,7 @@ namespace HighPlayer
 		{
 		    return
 		    (
-			int.Parse(me).
-			ToString() == me
+			int.Parse(me).ToString() == me
 		    );
 		}
 
@@ -287,16 +319,32 @@ namespace HighPlayer
 		AddColumn(Row.TxtBox2, TxtBox2Size, TxtBox2Loca, (MoodName));
 	    });
 
-	    Tools.SortCode(("Add CheckBox Control"), () => 
+	    Tools.SortCode(("Add CheckBox Control"), () =>
 	    {
-		// Rewrite Class
-		// Row.PanelL3 is parent
+	    // Row.PanelL3 is parent
 
-		Rows.Add(Row);
+		Size LabelSize = Tools.SubstractSize(4, Row.PanelL3.Size);
+		Point LabelLoca = new Point(-2, -2);
+		Color LabelBCol = Color.FromArgb(7, 35, 46);
+		Color LabelFCol = Color.White;
+
+		Controls.Label(Row.PanelL3, Row.Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, (""));
+		Tools.Round(Row.Label, 6);
+
+		Row.UncheckedColor = LabelBCol;
+		Row.CheckedColor = Color.Green;
+
+		Row.RegisterCheckBox();
 	    });
 
-	    ReorganizeRows();
-	    UpdateTableSize();
+
+	    Tools.SortCode(("Last Touches"), () => 
+	    {
+		Rows.Add(Row);
+
+		ReorganizeRows();
+		UpdateTableSize();
+	    }); 
 	}
 
 
@@ -309,14 +357,14 @@ namespace HighPlayer
 	    try
 	    {
 		if (Rows.Count < 1)
+		{
 		    return;
-		
+		}
+
 		DashPanel Panel = Rows[Rows.Count - 1].PanelL1;
 
-		if (Panel.Height + Panel.Top > Panel1.Height)
-		{
-		    Tools.Resize(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
-		}
+		if (Panel.Height + Panel.Top > Panel1.Height) Tools.Resize
+			(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
 
 		CustomScroller.properties.ContentContainer = Panel1;
 	    }
