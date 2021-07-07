@@ -70,7 +70,8 @@
     <Compile Include="class\b\DashFramework.cs" />
     <Compile Include="class\a\MainGUI.cs" />
     <Compile Include="class\a\Program.cs" />
-    <Compile Include="class\b\KushyRows.cs" />
+    <Compile Include="class\c\MoodMenu.cs" />
+    <Compile Include="class\c\URLDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
