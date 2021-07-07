@@ -23,10 +23,9 @@ namespace HighPlayer
 {
     public class MoodMenu 
     {
-        static readonly DashControls Controls = new DashControls();
-        static readonly DashWindow Parent = new DashWindow();
-
-
+	public static readonly DashWindow Parent = new DashWindow();
+	
+	static readonly DashControls Controls = new DashControls();
         static readonly DashTools Tools = new DashTools();
 
         public class Init1 
