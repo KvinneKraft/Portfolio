@@ -27,7 +27,10 @@ namespace HighPlayer
 		    Color AppBCol = AppMCol;
 
 		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, barClose: false);
+
 		    dashWindow.values.setTitleSize(10);
+		    dashWindow.values.ResizeTitle(12);
+		    dashWindow.values.CenterTitle();
 
 		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
 		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
