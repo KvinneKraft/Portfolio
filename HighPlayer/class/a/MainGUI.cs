@@ -189,8 +189,8 @@ namespace HighPlayer
 		    DropMenu.AddTo(Inst, UpperContainerLoca, UpperContainerBCol, LowerContainerBCol);
 		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] 
 		    {
+			Initialize3.Panel, Inst, UrlDatabase.Panel1,
 			Initialize1.Panel1, Initialize2.Panel1,
-			Initialize3.Panel, Inst, DataRow.Panel1
 		    });
 
 		    DropMenu.AddItem("high", "dashie", "is", "me");
@@ -210,7 +210,7 @@ namespace HighPlayer
 	}
 
 
-	public readonly static URLDatabase DataRow = new URLDatabase();
+	public readonly static URLDatabase UrlDatabase = new URLDatabase();
 
 	class Init3
 	{
@@ -226,9 +226,22 @@ namespace HighPlayer
 		    Color PanelBCol = Inst.values.getBarColor();
 
 		    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
-		    DataRow.AddTable(Panel, ScrollerBBCol);
+		    
+		    UrlDatabase.AddTable(Panel, ScrollerBBCol);
+		    UrlDatabase.LoadRowsFromConfig();
 
-		    DataRow.LoadRowsFromConfig();
+		    foreach (URLDatabase.RowItem Item in UrlDatabase.Rows)
+		    {
+			Item.WhenUnchecked = () =>
+			{
+			    // If none are checked anymore, hide checkbox tool window.
+			};
+
+			Item.WhenChecked = () => 
+			{
+			    // Show checkbox tool window if not already visible.
+			};
+		    }
 		});
 	    }
 	}
@@ -249,10 +262,10 @@ namespace HighPlayer
 		Initialize2.Initiate(inst);
 		Initialize3.Initiate(inst);
 
-		MoodMenu.Initiate(inst, this);	
-		MoodMenu.Show();
+		//MoodMenu.Initiate(inst, this);	
+		//MoodMenu.Show();
 
-		Linker.CenterDialog(MoodMenu.Parent, inst);
+		//Linker.CenterDialog(MoodMenu.Parent, inst);
 	    }
 
 	    catch (Exception E)
