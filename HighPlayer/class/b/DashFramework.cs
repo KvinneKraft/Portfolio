@@ -2274,8 +2274,8 @@ namespace DashFramework
 
 		    values.Button1.TextAlign = ContentAlignment.BottomCenter;
 
-		    var RectangleSize = new Size(values.Width() - 3, values.parentHeight() - values.Height());
-		    var RectangleLocation = new Point(1, values.Height() + values.Bar.Top - 2);
+		    var RectangleSize = new Size(values.Width() - 4, values.parentHeight() - values.Height());
+		    var RectangleLocation = new Point(2, values.Height() + values.Bar.Top - 2);
 
 		    Tool.PaintRectangle(parent, 3, RectangleSize, RectangleLocation, borderBCol);
 		}
@@ -2418,6 +2418,15 @@ namespace DashFramework
 		{
 		    MenuBar.values.Title.Location = Tools.CalculateCenter(MenuBar.values.Bar,
 			MenuBar.values.Title, new Point(-2, -2));
+		}
+
+		public void ResizeTitle(int FontSize, int Id = 1)
+		{
+		    MenuBar.values.Title.Font = new Font(MenuBar.values.Title
+			.Font.FontFamily, FontSize, FontStyle.Regular);
+
+		    Tools.Resize(MenuBar.values.Title, Tools.GetFontSize(MenuBar
+			.values.Title.Text, FontSize, Id));
 		}
 	    }
 
