@@ -239,6 +239,7 @@ namespace HighPlayer
 	readonly static Init3 Initialize3 = new Init3();
 
 	readonly MoodMenu MoodMenu = new MoodMenu();
+	readonly DashLink Linker = new DashLink();
 
 	public void Initiator(DashWindow inst)
 	{
@@ -248,7 +249,10 @@ namespace HighPlayer
 		Initialize2.Initiate(inst);
 		Initialize3.Initiate(inst);
 
-		MoodMenu.Initiate(inst, this);
+		MoodMenu.Initiate(inst, this);	
+		MoodMenu.Show();
+
+		Linker.CenterDialog(MoodMenu.Parent, inst);
 	    }
 
 	    catch (Exception E)
