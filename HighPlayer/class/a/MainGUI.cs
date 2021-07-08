@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Linq;
 using System.Drawing;
 using System.Threading;
 using System.Diagnostics;
@@ -228,7 +229,7 @@ namespace HighPlayer
 		    Tools.SortCode(("Register Containers"), () =>
 		    {
 			Size Panel1Size = new Size(UrlDatabase.Panel1.Width, 28);
-			Point Panel1Loca = new Point(0, UrlDatabase.Panel1.Height - 28);
+			Point Panel1Loca = new Point(-2, Inst.Height - 63);
 			Color Panel1BCol = Initialize2.Panel1.BackColor;
 
 			Size Panel2Size = new Size(345, 20);
@@ -248,40 +249,41 @@ namespace HighPlayer
 		    });
 		}
 
-		public bool IsVisible() => Panel1.Visible;
+
+		public bool Visible() => Panel1.Visible;
 		public void Hide() => Panel1.Hide();
 		public void Show() => Panel1.Show();
+
+
+		public void RegisterEvents()
+		{
+		    Tools.SortCode(("Event Register"), () => 
+		    {
+			foreach (URLDatabase.RowItem Item in UrlDatabase.Rows)
+			{
+			    Item.WhenUnchecked = () =>
+			    {
+				if (!UrlDatabase.AreAnyChecked())
+				{
+				    Hide();
+				}
+			    };
+
+			    Item.WhenChecked = () =>
+			    {
+				if (!Visible())
+				{
+				    Show();
+				}
+			    };
+			}
+		    });
+		}
 	    }
 
 
 	    public readonly DashPanel Panel = new DashPanel();
 	    public readonly ToolBar Toolbar = new ToolBar();
-
-	    public bool AreAnyCheckBoxesChecked()
-	    {
-		foreach (URLDatabase.RowItem item in UrlDatabase.Rows)
-		{
-		    if (item.PanelL4.BackColor.Equals(item.CheckedColor))
-		    {
-			return true;
-		    }
-		}
-
-		return false;
-	    }
-
-	    public IEnumerable<URLDatabase.RowItem> GetCheckedRows()
-	    {
-		foreach (URLDatabase.RowItem item in UrlDatabase.Rows)
-		{
-		    if (item.PanelL4.BackColor.Equals(item.CheckedColor))
-		    {
-			yield return item;
-		    }
-		}
-
-		yield return null;
-	    }
 
 	    public void Initiate(DashWindow Inst)
 	    {
@@ -297,29 +299,8 @@ namespace HighPlayer
 		    UrlDatabase.AddTable(Panel, ScrollerBBCol);
 		    UrlDatabase.LoadRowsFromConfig();
 
-		    foreach (URLDatabase.RowItem Item in UrlDatabase.Rows)
-		    {
-			Item.WhenUnchecked = () =>
-			{
-			    if (!AreAnyCheckBoxesChecked())
-			    {
-				Toolbar.Hide();
-			    }
-			};
-
-			Item.WhenChecked = () => 
-			{
-			    //- if no items are checked yet show window.
-			    //- if items have been checked, do not show window, since already shown.
-			    
-			    //- move used methods to URLDatabase class.
-
-			    if (!Toolbar.IsVisible())
-			    {
-				Toolbar.Show();
-			    }
-			};
-		    }
+		    Toolbar.Initialize(Inst);
+		    Toolbar.RegisterEvents();
 		});
 	    }
 	}
