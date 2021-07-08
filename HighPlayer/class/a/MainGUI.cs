@@ -232,12 +232,12 @@ namespace HighPlayer
 			Point Panel1Loca = new Point(-2, Inst.Height - 63);
 			Color Panel1BCol = Initialize2.Panel1.BackColor;
 
-			Size Panel2Size = new Size(345, 20);
+			Size Panel2Size = new Size(345, 22);
 			Point Panel2Loca = new Point(-2, -2);
 			Color Panel2BCol = Panel1BCol;
 
 			Controls.Panel(Inst, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
-			Controls.Panel(Inst, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+			Controls.Panel(Panel1, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
 
 			Panel1.BringToFront();
 			Panel1.Hide();
@@ -245,7 +245,24 @@ namespace HighPlayer
 
 		    Tools.SortCode(("Register Buttons"), () => 
 		    {
+			Quickify quicky = new Quickify()
+			{
+			    BttnSize = new Size(100, 22),
+			    BttnBCol = Panel2.BackColor,
+			    BttnFCol = Color.White,
+			    BttnParent = Panel2,
+			    BttnBorder = true,
+			    BttnFpts = 8,
+			    BttnFid = 0,
+			};
 
+			Point Button3Loca = new Point(230, 0);
+			Point Button2Loca = new Point(115, 0);
+			Point Button1Loca = new Point(0, 0);
+
+			quicky.QuickButton(Button3, ("Select All"), Button3Loca);
+			quicky.QuickButton(Button1, ("Delete"), Button1Loca);
+			quicky.QuickButton(Button2, ("Open"), Button2Loca);
 		    });
 		}
 
