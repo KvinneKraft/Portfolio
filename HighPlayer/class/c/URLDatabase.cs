@@ -32,12 +32,11 @@ namespace HighPlayer
 	    public DashPanel PanelL1 = new DashPanel();//Title, Mood, Url
 	    public DashPanel PanelL2 = new DashPanel();//CheckBox
 	    public DashPanel PanelL3 = new DashPanel();
-	    
+	    public DashPanel PanelL4 = new DashPanel();
+
 	    public TextBox TxtBox1 = new TextBox();// new TextBox();
 	    public TextBox TxtBox2 = new TextBox();
 	    public TextBox TxtBox3 = new TextBox();
-
-	    public Label Label = new Label();
 
 
 	    public string Title
@@ -62,11 +61,11 @@ namespace HighPlayer
 	    public bool AllowVisibility() => ICanHasVisibility;
 	    public bool ICanHasVisibility = true;
 
-
-	    public delegate void Executor();
-
 	    public Color UncheckedColor = Color.LightGray;
 	    public Color CheckedColor = Color.Gray;
+	    
+
+	    public delegate void Executor();
 
 	    public Executor WhenUnchecked = null;
 	    public Executor WhenChecked = null;
@@ -75,15 +74,15 @@ namespace HighPlayer
 	    {
 		try
 		{
-		    Label.Click += (s, e) =>
+		    PanelL4.Click += (s, e) =>
 		    {
 			if (!Tools.IsAnyNull(WhenUnchecked, WhenChecked))
 			{
-			    if (Label.BackColor.Equals(CheckedColor)) WhenChecked();
+			    if (PanelL4.BackColor.Equals(CheckedColor)) WhenChecked();
 			    else WhenUnchecked();
 			}
 
-			Label.BackColor = (Label.BackColor.Equals(CheckedColor) ? 
+			PanelL4.BackColor = (PanelL4.BackColor.Equals(CheckedColor) ? 
 			    UncheckedColor : CheckedColor);
 		    };
 		}
@@ -96,10 +95,11 @@ namespace HighPlayer
 	}
 
 
+	public readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
+	public readonly List<(string, int)> Moods = new List <(string, int)>();
 	public readonly List<RowItem> Rows = new List<RowItem>();
 
-	readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
-	readonly List<(string, int)> Moods = new List <(string, int)>();
+	public void AddToRows(RowItem Row) => Rows.Add(Row);
 
 	public void LoadRowsFromConfig(bool AddYes = true)
 	{
@@ -297,11 +297,10 @@ namespace HighPlayer
 		    Color TxtBoxBCol = (isMiddle ? Color.FromArgb(10, 45, 59) : ColumnColor);
 		    Color TxtBoxFCol = Color.LightGray;
 
-		    Controls.TextBox(Row.PanelL2, TxtBox, size, loca,
-			TxtBoxBCol, TxtBoxFCol, 1, 12);
+		    Controls.TextBox(Row.PanelL2, TxtBox, size, loca, TxtBoxBCol, TxtBoxFCol, 1, 12);
 
 		    TxtBox.TextAlign = HorizontalAlignment.Center;
-		    TxtBox.ReadOnly = text == MoodName;
+		    TxtBox.ReadOnly = (text == MoodName);
 		    TxtBox.Text = text;
 		}
 
@@ -321,29 +320,24 @@ namespace HighPlayer
 
 	    Tools.SortCode(("Add CheckBox Control"), () =>
 	    {
-	    // Row.PanelL3 is parent
+		Size PanelSize = Tools.SubstractSize(4, Row.PanelL3.Size);
+		Point PanelLoca = new Point(-2, -2);
+		Color PanelBCol = Color.FromArgb(7, 35, 46);
 
-		Size LabelSize = Tools.SubstractSize(4, Row.PanelL3.Size);
-		Point LabelLoca = new Point(-2, -2);
-		Color LabelBCol = Color.FromArgb(7, 35, 46);
-		Color LabelFCol = Color.White;
-
-		Controls.Label(Row.PanelL3, Row.Label, LabelSize, LabelLoca, LabelBCol, LabelFCol, (""));
-		Tools.Round(Row.Label, 6);
-
-		Row.UncheckedColor = LabelBCol;
+		Row.UncheckedColor = PanelBCol;
 		Row.CheckedColor = Color.Green;
 
+		Controls.Panel(Row.PanelL3, Row.PanelL4, PanelSize, PanelLoca, PanelBCol);
+		Tools.Round(Row.PanelL4, 6);
+
 		Row.RegisterCheckBox();
+		AddToRows(Row);
 	    });
-
-
+	    
 	    Tools.SortCode(("Last Touches"), () => 
 	    {
-		Rows.Add(Row);
-
-		ReorganizeRows();
 		UpdateTableSize();
+		ReorganizeRows();
 	    }); 
 	}
 
