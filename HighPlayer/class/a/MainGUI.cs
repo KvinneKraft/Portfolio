@@ -214,7 +214,74 @@ namespace HighPlayer
 
 	class Init3
 	{
+	    public class ToolBar
+	    {
+		readonly DashPanel Panel1 = new DashPanel();
+		readonly DashPanel Panel2 = new DashPanel();
+		
+		readonly Button Button1 = new Button();
+		readonly Button Button2 = new Button();
+		readonly Button Button3 = new Button();
+
+		public void Initialize(DashWindow Inst)
+		{//BackColor = Searchbar Backcolor
+		    Tools.SortCode(("Register Containers"), () =>
+		    {
+			Size Panel1Size = new Size(UrlDatabase.Panel1.Width, 28);
+			Point Panel1Loca = new Point(0, UrlDatabase.Panel1.Height - 28);
+			Color Panel1BCol = Initialize2.Panel1.BackColor;
+
+			Size Panel2Size = new Size(345, 20);
+			Point Panel2Loca = new Point(-2, -2);
+			Color Panel2BCol = Panel1BCol;
+
+			Controls.Panel(Inst, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
+			Controls.Panel(Inst, Panel2, Panel2Size, Panel2Loca, Panel2BCol);
+
+			Panel1.BringToFront();
+			Panel1.Hide();
+		    });
+
+		    Tools.SortCode(("Register Buttons"), () => 
+		    {
+
+		    });
+		}
+
+		public bool IsVisible() => Panel1.Visible;
+		public void Hide() => Panel1.Hide();
+		public void Show() => Panel1.Show();
+	    }
+
+
 	    public readonly DashPanel Panel = new DashPanel();
+	    public readonly ToolBar Toolbar = new ToolBar();
+
+	    public bool AreAnyCheckBoxesChecked()
+	    {
+		foreach (URLDatabase.RowItem item in UrlDatabase.Rows)
+		{
+		    if (item.PanelL4.BackColor.Equals(item.CheckedColor))
+		    {
+			return true;
+		    }
+		}
+
+		return false;
+	    }
+
+	    public IEnumerable<URLDatabase.RowItem> GetCheckedRows()
+	    {
+		foreach (URLDatabase.RowItem item in UrlDatabase.Rows)
+		{
+		    if (item.PanelL4.BackColor.Equals(item.CheckedColor))
+		    {
+			yield return item;
+		    }
+		}
+
+		yield return null;
+	    }
 
 	    public void Initiate(DashWindow Inst)
 	    {
@@ -234,12 +301,23 @@ namespace HighPlayer
 		    {
 			Item.WhenUnchecked = () =>
 			{
-			    // If none are checked anymore, hide checkbox tool window.
+			    if (!AreAnyCheckBoxesChecked())
+			    {
+				Toolbar.Hide();
+			    }
 			};
 
 			Item.WhenChecked = () => 
 			{
-			    // Show checkbox tool window if not already visible.
+			    //- if no items are checked yet show window.
+			    //- if items have been checked, do not show window, since already shown.
+			    
+			    //- move used methods to URLDatabase class.
+
+			    if (!Toolbar.IsVisible())
+			    {
+				Toolbar.Show();
+			    }
 			};
 		    }
 		});
