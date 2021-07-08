@@ -76,14 +76,14 @@ namespace HighPlayer
 		{
 		    PanelL4.Click += (s, e) =>
 		    {
+			PanelL4.BackColor = (PanelL4.BackColor.Equals(CheckedColor) ?
+			    UncheckedColor : CheckedColor);
+
 			if (!Tools.IsAnyNull(WhenUnchecked, WhenChecked))
 			{
 			    if (PanelL4.BackColor.Equals(CheckedColor)) WhenChecked();
 			    else WhenUnchecked();
 			}
-
-			PanelL4.BackColor = (PanelL4.BackColor.Equals(CheckedColor) ? 
-			    UncheckedColor : CheckedColor);
 		    };
 		}
 
@@ -261,8 +261,8 @@ namespace HighPlayer
 
 
 	public Color BackgroundColor = Color.FromArgb(7, 35, 46);
-	public Color CheckBoxColor = Color.FromArgb(16, 68, 89);//Color.FromArgb(26, 0, 38);
-	public Color ColumnColor = Color.FromArgb(16, 68, 89);//Color.FromArgb(104, 47, 105);
+	public Color CheckBoxColor = Color.FromArgb(16, 68, 89);
+	public Color ColumnColor = Color.FromArgb(16, 68, 89);
 
 	public bool AddToTop = true;
 
@@ -369,6 +369,7 @@ namespace HighPlayer
 	    }
 	}
 
+
 	public void AddTable(Control Parent, Color MainBackColor)
 	{
 	    try
@@ -394,5 +395,33 @@ namespace HighPlayer
 		throw (ErrorHandler.GetException(E));
 	    }
 	}
+
+
+	public bool AreAnyChecked()
+	{
+	    foreach (RowItem item in Rows)
+	    {
+		if (item.PanelL4.BackColor.Equals(item.CheckedColor))
+		{
+		    return true;
+		}
+	    }
+
+	    return false;
+	}
+
+
+	/*public IEnumerable<RowItem> GetCheckedRows()
+	{
+	    foreach (RowItem Row in Rows)
+	    {
+		if (Row.PanelL4.BackColor.Equals(Row.CheckedColor))
+		{
+		    yield return Row;
+		}
+	    }
+
+	    yield return null;
+	}*/
     }
 }
