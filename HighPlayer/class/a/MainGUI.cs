@@ -224,8 +224,81 @@ namespace HighPlayer
 		readonly Button Button2 = new Button();
 		readonly Button Button3 = new Button();
 
+		void ButtonHandler1()
+		{
+		    try
+		    {
+			List<URLDatabase.RowItem> KeepThese = new List<URLDatabase.RowItem>();
+
+			foreach (URLDatabase.RowItem Row in UrlDatabase.Rows)
+			    if (!UrlDatabase.IsChecked(Row))
+				KeepThese.Add(Row);
+
+			UrlDatabase.Panel1.Controls.Clear();
+			UrlDatabase.Panel1.Update();
+
+			UrlDatabase.Rows.Clear();
+
+			// only scroll if content container size > table : scroll
+
+			foreach (URLDatabase.RowItem Row in KeepThese)
+			    UrlDatabase.AddRow(UrlDatabase.Panel1, Row.Title, Row.Mood, Row.Url);
+
+			UrlDatabase.UpdateTableSize();
+			UrlDatabase.ReorganizeRows();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw ErrorHandler.GetException(E);
+		    }
+		}
+
+		void ButtonHandler2()
+		{
+		    try
+		    {
+			foreach (URLDatabase.RowItem Row in UrlDatabase.Rows)
+			{
+			    if (UrlDatabase.IsChecked(Row))
+			    {
+				Tools.StartProcess(Row.TxtBox3.Text);
+			    }
+			}
+
+			Hide();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw ErrorHandler.GetException(E);
+		    }
+		}
+
+		void ButtonHandler3()
+		{
+		    try
+		    {
+			foreach (URLDatabase.RowItem Row in UrlDatabase.Rows)
+			{
+			    UrlDatabase.SetRowStatus(Row, Button3.Text.Equals("Select All"));
+			}
+
+			bool SelectAll = Button3.Text.Equals("Select All");
+
+			Button3.Text = (SelectAll ? "Deselect All" : "Select All");
+
+			if (!SelectAll) Hide(); 
+		    }
+
+		    catch (Exception E)
+		    {
+			throw ErrorHandler.GetException(E);
+		    }
+		}
+
 		public void Initialize(DashWindow Inst)
-		{//BackColor = Searchbar Backcolor
+		{
 		    Tools.SortCode(("Register Containers"), () =>
 		    {
 			Size Panel1Size = new Size(UrlDatabase.Panel1.Width, 28);
@@ -263,13 +336,19 @@ namespace HighPlayer
 			quicky.QuickButton(Button3, ("Select All"), Button3Loca);
 			quicky.QuickButton(Button1, ("Delete"), Button1Loca);
 			quicky.QuickButton(Button2, ("Open"), Button2Loca);
+
+			Button1.Click += (s, e) => ButtonHandler1();
+			Button2.Click += (s, e) => ButtonHandler2();
+			Button3.Click += (s, e) => ButtonHandler3();
+
+			// functionality
 		    });
 		}
 
 
 		public bool Visible() => Panel1.Visible;
-		public void Hide() => Panel1.Hide();
-		public void Show() => Panel1.Show();
+		public void Hide() => Panel1.Visible = false;
+		public void Show() => Panel1.Visible = true;
 
 
 		public void RegisterEvents()
