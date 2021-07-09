@@ -63,40 +63,17 @@ namespace HighPlayer
 
 	    public Color UncheckedColor = Color.LightGray;
 	    public Color CheckedColor = Color.Gray;
-	    
+
 
 	    public delegate void Executor();
 
 	    public Executor WhenUnchecked = null;
 	    public Executor WhenChecked = null;
-
-	    public void RegisterCheckBox()
-	    {
-		try
-		{
-		    PanelL4.Click += (s, e) =>
-		    {
-			PanelL4.BackColor = (PanelL4.BackColor.Equals(CheckedColor) ?
-			    UncheckedColor : CheckedColor);
-
-			if (!Tools.IsAnyNull(WhenUnchecked, WhenChecked))
-			{
-			    if (PanelL4.BackColor.Equals(CheckedColor)) WhenChecked();
-			    else WhenUnchecked();
-			}
-		    };
-		}
-
-		catch (Exception E)
-		{
-		    throw E;
-		}
-	    }
 	}
 
 
 	public readonly List<(string, int, string)> Urls = new List<(string, int, string)>();
-	public readonly List<(string, int)> Moods = new List <(string, int)>();
+	public readonly List<(string, int)> Moods = new List<(string, int)>();
 	public readonly List<RowItem> Rows = new List<RowItem>();
 
 	public void AddToRows(RowItem Row) => Rows.Add(Row);
@@ -178,7 +155,7 @@ namespace HighPlayer
 		    {
 			if (arr.Length < k + 1 || arr[k].Length < 0 || !isInteger(arr[k + 1]))
 			    throw new Exception("!");
-			
+
 			else if (arr[k] == " " || arr[k + 1] == " ")
 			    continue;
 
@@ -213,7 +190,7 @@ namespace HighPlayer
 		}
 	    });
 
-	    Tools.SortCode(("Optional Row Injector"), () => 
+	    Tools.SortCode(("Optional Row Injector"), () =>
 	    {
 		if (AddYes)
 		    for (int k = 0; k < Urls.Count; k += 1) AddRow(Panel1,
@@ -225,7 +202,7 @@ namespace HighPlayer
 	Point GetRowPosition()
 	{
 	    try
-	    { 
+	    {
 		if (Rows.Count > 0)
 		{
 		    if (AddToTop)
@@ -233,8 +210,8 @@ namespace HighPlayer
 			return new Point
 			(
 			    0,
-			    Rows[Rows.Count].PanelL1.Top +
-			    Rows[Rows.Count].PanelL1.Height
+			    Rows[Rows.Count - 1].PanelL1.Top +
+			    Rows[Rows.Count - 1].PanelL1.Height
 			);
 		    }
 
@@ -242,22 +219,53 @@ namespace HighPlayer
 		}
 	    }
 
-	    catch{}
+	    catch { }
 
 	    return Point.Empty;
 	}
 
 
-	void ReorganizeRows()
+	public void ReorganizeRows()
 	{
-	    Tools.SortCode(("Row Reorganization"), () => 
+	    Tools.SortCode(("Row Reorganization"), () =>
 	    {
-		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 22 + 4)
-		{
-		    Rows[k].PanelL1.Location = new Point(x, y);
-		}
+		void SetRowLocation(int i, int x, int y) => 
+		    Rows[i].PanelL1.Location = new Point(x, y);
+
+		for (int k = 0, x = 0, y = 0; k < Rows.Count; k += 1, y += 26)
+		    SetRowLocation(k, x, y);
 	    });
 	}
+
+
+	public void RegisterCheckBox(RowItem Row)
+	{
+	    try
+	    {
+		Row.PanelL4.Click += (s, e) =>
+		{
+		    Row.PanelL4.BackColor = (IsChecked(Row) ? Row.UncheckedColor : Row.CheckedColor);
+
+		    if (!Tools.IsAnyNull(Row.WhenUnchecked, Row.WhenChecked))
+		    {
+			if (IsChecked(Row)) Row.WhenChecked();
+			else Row.WhenUnchecked();
+		    }
+		};
+	    }
+
+	    catch (Exception E)
+	    {
+		throw E;
+	    }
+	}
+
+
+	public void SetRowStatus(RowItem Item, bool Checked = true) =>
+	    Item.PanelL4.BackColor = (Checked ? Item.CheckedColor : Item.UncheckedColor);
+
+	public bool IsChecked(RowItem Item) =>
+	    (Item.PanelL4.BackColor.Equals(Item.CheckedColor));
 
 
 	public Color BackgroundColor = Color.FromArgb(7, 35, 46);
@@ -272,7 +280,7 @@ namespace HighPlayer
 
 	    Tools.SortCode(("Add Row Container"), () =>
 	    {
-		Size Panel1Size = new Size(Table.Width, 22); // Ball
+		Size Panel1Size = new Size(Table.Width, 22);
 		Point Panel1Loca = GetRowPosition();
 		Color Panel1BCol = BackgroundColor;
 
@@ -281,7 +289,7 @@ namespace HighPlayer
 		Size Panel2Size = new Size(Panel1Size.Width - 26, 22);
 		Point Panel2Loca = new Point(0, 0);
 		Color Panel2BCol = BackgroundColor;
-		
+
 		Size Panel3Size = new Size(22, 22);
 		Point Panel3Loca = new Point(Panel1Size.Width - 23, 0);
 		Color Panel3BCol = CheckBoxColor;
@@ -312,9 +320,9 @@ namespace HighPlayer
 
 		Size TxtBox3Size = new Size(Row.PanelL2.Width - 253, 22);
 		Point TxtBox3Loca = new Point(TxtBox2Loca.X + TxtBox2Size.Width + 4, 0);
-	
-		AddColumn(Row.TxtBox1, TxtBox1Size, TxtBox1Loca, (Title), true); 
-		AddColumn(Row.TxtBox3, TxtBox3Size, TxtBox3Loca, (Url), true);;
+
+		AddColumn(Row.TxtBox1, TxtBox1Size, TxtBox1Loca, (Title), true);
+		AddColumn(Row.TxtBox3, TxtBox3Size, TxtBox3Loca, (Url), true); ;
 		AddColumn(Row.TxtBox2, TxtBox2Size, TxtBox2Loca, (MoodName));
 	    });
 
@@ -330,22 +338,22 @@ namespace HighPlayer
 		Controls.Panel(Row.PanelL3, Row.PanelL4, PanelSize, PanelLoca, PanelBCol);
 		Tools.Round(Row.PanelL4, 6);
 
-		Row.RegisterCheckBox();
 		AddToRows(Row);
+		RegisterCheckBox(Row);
 	    });
-	    
-	    Tools.SortCode(("Last Touches"), () => 
-	    {
-		UpdateTableSize();
+
+	    Tools.SortCode(("Last Touches"), () =>
+	    { 
 		ReorganizeRows();
-	    }); 
+		UpdateTableSize();
+	    });
 	}
 
 
 	public readonly CustomScroller CustomScroller = new CustomScroller();
 	public readonly DashPanel Panel1 = new DashPanel();
 	public readonly DashPanel Panel2 = new DashPanel();
-	
+
 	public void UpdateTableSize()
 	{
 	    try
@@ -357,8 +365,7 @@ namespace HighPlayer
 
 		DashPanel Panel = Rows[Rows.Count - 1].PanelL1;
 
-		if (Panel.Height + Panel.Top > Panel1.Height) Tools.Resize
-			(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
+		Tools.Resize(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
 
 		CustomScroller.properties.ContentContainer = Panel1;
 	    }
@@ -379,7 +386,7 @@ namespace HighPlayer
 		    Size Panel1Size = new Size(Parent.Width - 3, Parent.Height);
 		    Point Panel1Loca = new Point(1, 0);
 		    Color Panel1BCol = MainBackColor;
-		    
+
 		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 		});
 
@@ -399,9 +406,9 @@ namespace HighPlayer
 
 	public bool AreAnyChecked()
 	{
-	    foreach (RowItem item in Rows)
+	    foreach (RowItem Row in Rows)
 	    {
-		if (item.PanelL4.BackColor.Equals(item.CheckedColor))
+		if (IsChecked(Row))
 		{
 		    return true;
 		}
