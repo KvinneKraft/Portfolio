@@ -30,9 +30,68 @@ namespace HighPlayer
 
 	class Init1
 	{
+	    class NewRowBar
+	    {
+		readonly URLDatabase URLDatabase = new URLDatabase();
+		readonly DashPanel Panel = new DashPanel();
+
+		public void Initialize(DashWindow Parent)
+		{
+		    try
+		    {
+			Tools.SortCode((""), () =>
+			{
+			    URLDatabase.AddTable(Parent, Initialize2.Panel1.BackColor);
+			    URLDatabase.AddRow(Panel, ("Entry Name"), ("Mood"), ("Entry Url"));
+			});
+
+			Tools.SortCode(("On Click"), () =>
+			{
+			    void SetTextBoxEvent(URLDatabase.RowItem Item)
+			    {
+				Item.TxtBox1.Click += (s, e) =>
+				{
+				    if (Item.TxtBox1.Text.Equals("Entry Name"))
+				    {
+					Item.TxtBox1.Clear();
+				    }
+				};
+
+				Item.TxtBox3.Click += (s, e) =>
+				{
+				    if (Item.TxtBox3.Text.Equals("Entry Url"))
+				    {
+					Item.TxtBox3.Clear();
+				    }
+				};
+			    }
+
+			    SetTextBoxEvent(URLDatabase.Rows[0]);
+			});
+
+			Tools.SortCode(("Dropdown Menu"), () =>
+			{
+
+			});
+			// -- on click of any of the textboxes, clear it.
+			//
+			// -- if (URLDatabase.TxtBox1.Text.Equals("Entry Name")) 
+			// --	URLDatabase.TxtBox1.Clear();
+
+			// Add Dropdown Menu
+		    }
+
+		    catch (Exception E)
+		    {
+			ErrorHandler.GetException(E);
+		    }
+		}
+	    }
+
+
 	    public readonly DashPanel Panel1 = new DashPanel();
 	    readonly DashPanel Panel2 = new DashPanel();
-
+	    
 	    readonly Button Button1 = new Button();
 	    readonly Button Button2 = new Button();
 	    readonly Button Button3 = new Button();
@@ -228,21 +287,20 @@ namespace HighPlayer
 		{
 		    try
 		    {
-			List<URLDatabase.RowItem> KeepThese = new List<URLDatabase.RowItem>();
+			MessageBox.Show(UrlDatabase.Panel1.Controls.Count.ToString());
 
-			foreach (URLDatabase.RowItem Row in UrlDatabase.Rows)
-			    if (!UrlDatabase.IsChecked(Row))
-				KeepThese.Add(Row);
+			foreach (URLDatabase.RowItem Row in UrlDatabase.Rows.ToList())
+			{
+			    if (UrlDatabase.IsChecked(Row))
+			    {
+				UrlDatabase.Rows.Remove(Row);
+				UrlDatabase.Panel1.Controls.Remove(Row.PanelL1);
 
-			UrlDatabase.Panel1.Controls.Clear();
-			UrlDatabase.Panel1.Update();
+				Row.PanelL1.Dispose();
+			    }
+			}
 
-			UrlDatabase.Rows.Clear();
-
-			// only scroll if content container size > table : scroll
-
-			foreach (URLDatabase.RowItem Row in KeepThese)
-			    UrlDatabase.AddRow(UrlDatabase.Panel1, Row.Title, Row.Mood, Row.Url);
+			MessageBox.Show(UrlDatabase.Panel1.Controls.Count.ToString());
 
 			UrlDatabase.UpdateTableSize();
 			UrlDatabase.ReorganizeRows();
@@ -340,8 +398,6 @@ namespace HighPlayer
 			Button1.Click += (s, e) => ButtonHandler1();
 			Button2.Click += (s, e) => ButtonHandler2();
 			Button3.Click += (s, e) => ButtonHandler3();
-
-			// functionality
 		    });
 		}
 
@@ -417,10 +473,15 @@ namespace HighPlayer
 		Initialize2.Initiate(inst);
 		Initialize3.Initiate(inst);
 
-		//MoodMenu.Initiate(inst, this);	
-		//MoodMenu.Show();
-
-		//Linker.CenterDialog(MoodMenu.Parent, inst);
+		// (Task List) A - E
+		// - Setup Add Row.
+		// - Work on error container.
+		// - Only show row insert container if none are selected.
+		// - Allow newrow and toolbar to show above each other.
+		// - Integrate error container for everything.
+		// - Make sure containers do not hide the songs behind them.
+		//	+ Temporarily add extra height to the movement of the main container.
+		//
 	    }
 
 	    catch (Exception E)
