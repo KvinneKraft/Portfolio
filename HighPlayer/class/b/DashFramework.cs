@@ -533,6 +533,8 @@ namespace DashFramework
 		}
 
 
+		public int MinimumHeight = 100; 
+
 		public void RegMouseEventHandler()
 		{
 		    try
@@ -546,7 +548,7 @@ namespace DashFramework
 			{
 			    Control.MouseWheel += (s, e) =>
 			    {
-				if (properties.ContentContainer.Height <= properties.Parent.Height)
+				if (properties.ContentContainer.Height <= MinimumHeight)
 				{
 				    return;
 				}
