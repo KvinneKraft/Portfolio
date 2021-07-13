@@ -360,12 +360,15 @@ namespace HighPlayer
 	    {
 		if (Rows.Count < 1)
 		{
+		    Tools.Resize(Panel1, new Size(Panel1.Width, 0));
 		    return;
 		}
 
 		DashPanel Panel = Rows[Rows.Count - 1].PanelL1;
 
-		Tools.Resize(Panel1, new Size(Panel.Width, Panel.Height + Panel.Top));
+		// inproper sizing occurs here.
+
+		Tools.Resize(Panel1, new Size(Panel1.Width, Panel.Height + Panel.Top));
 
 		CustomScroller.properties.ContentContainer = Panel1;
 	    }
@@ -385,13 +388,14 @@ namespace HighPlayer
 		{
 		    Size Panel1Size = new Size(Parent.Width - 3, Parent.Height);
 		    Point Panel1Loca = new Point(1, 0);
-		    Color Panel1BCol = MainBackColor;
+		    Color Panel1BCol = Color.White;//MainBackColor;
 
 		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 		});
 
 		Tools.SortCode(("Scroller Addon"), () =>
 		{
+		    CustomScroller.MinimumHeight = Parent.Height;
 		    CustomScroller.ScrollbarSet(Panel2, Panel1);
 		    CustomScroller.SetCollection(Parent);
 		});
