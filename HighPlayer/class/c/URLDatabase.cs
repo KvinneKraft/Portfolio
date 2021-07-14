@@ -388,7 +388,7 @@ namespace HighPlayer
 		{
 		    Size Panel1Size = new Size(Parent.Width - 3, Parent.Height);
 		    Point Panel1Loca = new Point(1, 0);
-		    Color Panel1BCol = Color.White;//MainBackColor;
+		    Color Panel1BCol = MainBackColor;
 
 		    Controls.Panel(Parent, Panel1, Panel1Size, Panel1Loca, Panel1BCol);
 		});
@@ -420,6 +420,12 @@ namespace HighPlayer
 
 	    return false;
 	}
+
+
+	public void RemoveExtraHeight() => Tools.Resize(Panel1, new Size(Panel1.Width, Panel1.Height - 8));
+
+	public void CenterTable() => Panel1.Location = new Point((Panel1.Parent.Width 
+	    - Panel1.Width) / 2, (Panel1.Parent.Height - Panel1.Height) / 2);
 
 
 	/*public IEnumerable<RowItem> GetCheckedRows()
