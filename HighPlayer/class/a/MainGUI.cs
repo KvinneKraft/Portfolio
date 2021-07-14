@@ -28,22 +28,52 @@ namespace HighPlayer
 	public readonly static DashTools Tools = new DashTools();
 
 
+	public static void UpdateDropMenu(ClickDropMenu DropMenu)
+	{
+	    DropMenu.AddItem("high", "dashie", "is", "me");
+	}
+
+
 	class Init1
 	{
 	    class NewRowBar
 	    {
+		readonly ClickDropMenu DropMenu = new ClickDropMenu();
 		readonly URLDatabase URLDatabase = new URLDatabase();
-		readonly DashPanel Panel = new DashPanel();
 
-		public void Initialize(DashWindow Parent)
+		readonly DashPanel Panel = new DashPanel() { Visible = false };
+
+		readonly string[] Defaults = { ("Entry Name"), ("Mood"), ("Entry Url") };
+
+		public void Initialize(DashWindow Inst)
 		{
 		    try
 		    {
-			Tools.SortCode((""), () =>
+			Tools.SortCode(("Add Container"), () =>
 			{
-			    URLDatabase.AddTable(Parent, Initialize2.Panel1.BackColor);
-			    URLDatabase.AddRow(Panel, ("Entry Name"), ("Mood"), ("Entry Url"));
+			    Size PanelSize = new Size(Inst.Width - 8, 32);
+			    Point PanelLoca = new Point(4, 60);
+			    Color PanelBCol = Color.FromArgb(5, 23, 31);
+
+			    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
 			});
+
+			DashPanel CurrentTable() => URLDatabase.Panel1;
+
+			Tools.SortCode(("Table and Columns"), () =>
+			{
+			    URLDatabase.BackgroundColor = Color.FromArgb(5, 23, 31);
+			    URLDatabase.CheckBoxColor = Color.FromArgb(7, 35, 46);
+			    URLDatabase.ColumnColor = Color.FromArgb(7, 35, 45);
+
+			    URLDatabase.AddTable(Panel, URLDatabase.BackgroundColor);
+			    URLDatabase.AddRow(CurrentTable(), Defaults[0], Defaults[1], Defaults[2]);
+
+			    URLDatabase.RemoveExtraHeight();
+			    URLDatabase.CenterTable();
+			});
+
+			URLDatabase.RowItem CurrentRow() => URLDatabase.Rows[0];
 
 			Tools.SortCode(("On Click"), () =>
 			{
@@ -51,7 +81,7 @@ namespace HighPlayer
 			    {
 				Item.TxtBox1.Click += (s, e) =>
 				{
-				    if (Item.TxtBox1.Text.Equals("Entry Name"))
+				    if (Item.TxtBox1.Text.Equals(Defaults[0]))
 				    {
 					Item.TxtBox1.Clear();
 				    }
@@ -59,26 +89,81 @@ namespace HighPlayer
 
 				Item.TxtBox3.Click += (s, e) =>
 				{
-				    if (Item.TxtBox3.Text.Equals("Entry Url"))
+				    if (Item.TxtBox3.Text.Equals(Defaults[2]))
 				    {
 					Item.TxtBox3.Clear();
 				    }
 				};
 			    }
 
-			    SetTextBoxEvent(URLDatabase.Rows[0]);
+			    SetTextBoxEvent(CurrentRow());
 			});
 
 			Tools.SortCode(("Dropdown Menu"), () =>
 			{
+			    Point MenuLoca = new Point(Panel.Left + CurrentTable().Left + CurrentRow().TxtBox2.Parent.Left - 2, Panel.Top + CurrentTable().Top + CurrentRow().TxtBox2.Parent.Top + CurrentRow().TxtBox2.Parent.Height);
 
+			    Color MenuUpperBCol = Color.FromArgb(5, 23, 31);
+			    Color MenuLowerBCol = Color.FromArgb(5, 23, 31);
+
+			    DropMenu.AddTo(Inst, MenuLoca, MenuUpperBCol, MenuLowerBCol);
+			    
+			    DropMenu.RegisterVisibilityTrigger
+			    (
+				CurrentRow().TxtBox2, 
+				
+				new Control[] 
+				{
+				    Initialize3.Panel, Inst, UrlDatabase.Panel1,
+				    Initialize1.Panel1, Initialize2.Panel1,
+				}
+			    );
+
+			    UpdateDropMenu(DropMenu);
+
+			    DropMenu.RegisterUpdateColor
+			    (
+				Color.FromArgb(9, 40, 54),
+				Color.FromArgb(13, 57, 77),
+				Color.FromArgb(16, 70, 94)
+			    );
 			});
-			// -- on click of any of the textboxes, clear it.
-			//
-			// -- if (URLDatabase.TxtBox1.Text.Equals("Entry Name")) 
-			// --	URLDatabase.TxtBox1.Clear();
 
-			// Add Dropdown Menu
+			Tools.SortCode(("Other Event Handlers"), () =>
+			{
+			    void RegisterKeyCodes(Control control)
+			    {
+				control.KeyDown += (s, e) =>
+				{
+				    switch (e.KeyCode)
+				    {
+					case Keys.Escape:
+					case Keys.Back:
+					    Hide();
+					    break;
+
+					case Keys.Enter:
+					    // When user presses enter, add row.
+					    break;
+				    }
+				};
+			    }
+
+			    foreach (Control a in URLDatabase.Rows[0].PanelL1.Controls)
+			    {
+				foreach (Control b in a.Controls)
+				{
+				    foreach (Control c in b.Controls)
+				    {
+					RegisterKeyCodes(c);
+				    }
+
+				    RegisterKeyCodes(b);
+				}
+
+				RegisterKeyCodes(a);
+			    }
+			});
 		    }
 
 		    catch (Exception E)
@@ -86,12 +171,38 @@ namespace HighPlayer
 			ErrorHandler.GetException(E);
 		    }
 		}
+
+
+		bool IsDefaultWorthy() => (!URLDatabase
+		    .Rows[0].TxtBox1.Text.Equals(Defaults[0]));
+
+		public bool IsVisible() => Panel.Visible;
+
+
+		public void Show()
+		{
+		    if (IsDefaultWorthy())
+		    {
+			URLDatabase.Rows[0].TxtBox1.Text = Defaults[0];
+			URLDatabase.Rows[1].TxtBox2.Text = Defaults[1];
+			URLDatabase.Rows[2].TxtBox3.Text = Defaults[2];
+		    }
+
+		    Panel.Show();
+		}
+
+		public void Hide()
+		{
+		    Panel.Hide();
+		}
 	    }
 
 
 	    public readonly DashPanel Panel1 = new DashPanel();
+
 	    readonly DashPanel Panel2 = new DashPanel();
-	    
+	    readonly NewRowBar RowBar = new NewRowBar();
+
 	    readonly Button Button1 = new Button();
 	    readonly Button Button2 = new Button();
 	    readonly Button Button3 = new Button();
@@ -100,7 +211,8 @@ namespace HighPlayer
 	    {
 		try
 		{
-		    // Add New Row
+		    if (!RowBar.IsVisible()) RowBar.Show();
+		    else RowBar.Hide();
 		}
 
 		catch (Exception E)
@@ -165,6 +277,11 @@ namespace HighPlayer
 		    Button1.Click += (s, q) => Hook1();
 		    Button2.Click += (s, q) => Hook2();
 		    Button3.Click += (s, q) => Hook3();
+		});
+
+		Tools.SortCode(("Initialize Row Bar"), () =>
+		{
+		    RowBar.Initialize(Inst);
 		});
 	    }
 	}
@@ -252,11 +369,12 @@ namespace HighPlayer
 			Initialize3.Panel, Inst, UrlDatabase.Panel1,
 			Initialize1.Panel1, Initialize2.Panel1,
 		    });
+		    
+		    UpdateDropMenu(DropMenu);
 
-		    DropMenu.AddItem("high", "dashie", "is", "me");
 		    DropMenu.RegisterUpdateColor
 		    (
-			Color.FromArgb(9, 40, 54), 
+			Color.FromArgb(9, 40, 54),
 			Color.FromArgb(13, 57, 77),
 			Color.FromArgb(16, 70, 94)
 		    );
