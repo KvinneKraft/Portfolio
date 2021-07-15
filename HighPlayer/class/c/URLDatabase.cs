@@ -58,6 +58,11 @@ namespace HighPlayer
 	    }
 
 
+	    public void SetName(string Title) => this.Title = Title;
+	    public void SetMood(string Mood) => this.Mood = Mood;
+	    public void SetUrl(string Url) => this.Url = Url;
+
+
 	    public bool AllowVisibility() => ICanHasVisibility;
 	    public bool ICanHasVisibility = true;
 
@@ -426,7 +431,6 @@ namespace HighPlayer
 
 	public void CenterTable() => Panel1.Location = new Point((Panel1.Parent.Width 
 	    - Panel1.Width) / 2, (Panel1.Parent.Height - Panel1.Height) / 2);
-
 
 	/*public IEnumerable<RowItem> GetCheckedRows()
 	{
