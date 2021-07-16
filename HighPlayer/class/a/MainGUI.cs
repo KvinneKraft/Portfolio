@@ -26,22 +26,76 @@ namespace HighPlayer
     {
 	public readonly static DashControls Controls = new DashControls();
 	public readonly static DashTools Tools = new DashTools();
-
-
-	public static void UpdateDropMenu(ClickDropMenu DropMenu)
-	{
+	
+	public static void UpdateDropMenu(ClickDropMenu DropMenu) =>
 	    DropMenu.AddItem("high", "dashie", "is", "me");
-	}
 
+	public static int GetErrorBoxY()
+	{
+	    if (Initialize1.RowBar.IsVisible())
+	    {
+		return Initialize1.RowBar.Panel.Height + Initialize1.RowBar.Panel.Top;
+	    }
+
+	    return Initialize1.RowBar.Panel.Top;
+	}
 
 	class Init1
 	{
-	    class NewRowBar
+	    public class NewRowBar
 	    {
-		readonly ClickDropMenu DropMenu = new ClickDropMenu();
-		readonly URLDatabase URLDatabase = new URLDatabase();
+		readonly ErrorContainer ErrorContainer = new ErrorContainer();
 
-		readonly DashPanel Panel = new DashPanel() { Visible = false };
+		void Hook1(Control Parent)
+		{
+		    try
+		    {
+			var CurrentRow = URLDatabase.Rows[0];
+
+			if (CurrentRow.TxtBox1.Text.Length > 1 && 
+			    CurrentRow.TxtBox3.Text.Length > 1) {
+
+			    UrlDatabase.AddRow(UrlDatabase.Panel1, CurrentRow.TxtBox1.Text,
+				CurrentRow.TxtBox2.Text, CurrentRow.TxtBox3.Text);
+
+			    return;
+			}
+			
+			else if (ErrorContainer.ContainerParent == null)
+			{
+			    ErrorContainer.ContainerWidth = Parent.Width - 7;
+			    ErrorContainer.ContainerParent = Parent;
+			}
+			
+			// Not Setting Text
+
+			ErrorContainer.Show("You must enter a Title and Url.  Please try again.", 
+			    new Point(4, GetErrorBoxY()), 2000);
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+		void Hook2()
+		{
+		    try
+		    {
+			Hide();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
+		}
+
+
+		readonly URLDatabase URLDatabase = new URLDatabase();
+		readonly ClickDropMenu DropMenu = new ClickDropMenu();
+		public readonly DashPanel Panel = new DashPanel();
 
 		readonly string[] Defaults = { ("Entry Name"), ("Mood"), ("Entry Url") };
 
@@ -56,6 +110,7 @@ namespace HighPlayer
 			    Color PanelBCol = Color.FromArgb(5, 23, 31);
 
 			    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
+			    Panel.Hide();
 			});
 
 			DashPanel CurrentTable() => URLDatabase.Panel1;
@@ -73,7 +128,7 @@ namespace HighPlayer
 			    URLDatabase.CenterTable();
 			});
 
-			URLDatabase.RowItem CurrentRow() => URLDatabase.Rows[0];
+			var CurrentRow = URLDatabase.Rows[0];
 
 			Tools.SortCode(("On Click"), () =>
 			{
@@ -96,13 +151,12 @@ namespace HighPlayer
 				};
 			    }
 
-			    SetTextBoxEvent(CurrentRow());
+			    SetTextBoxEvent(CurrentRow);
 			});
 
 			Tools.SortCode(("Dropdown Menu"), () =>
 			{
-			    Point MenuLoca = new Point(Panel.Left + CurrentTable().Left + CurrentRow().TxtBox2.Parent.Left - 2, Panel.Top + CurrentTable().Top + CurrentRow().TxtBox2.Parent.Top + CurrentRow().TxtBox2.Parent.Height);
-
+			    Point MenuLoca = new Point(Panel.Left + CurrentTable().Left + CurrentRow.TxtBox2.Parent.Left - 2, Panel.Top + CurrentTable().Top + CurrentRow.TxtBox2.Parent.Top + CurrentRow.TxtBox2.Parent.Height);
 			    Color MenuUpperBCol = Color.FromArgb(5, 23, 31);
 			    Color MenuLowerBCol = Color.FromArgb(5, 23, 31);
 
@@ -110,7 +164,7 @@ namespace HighPlayer
 			    
 			    DropMenu.RegisterVisibilityTrigger
 			    (
-				CurrentRow().TxtBox2, 
+				CurrentRow.TxtBox2, 
 				
 				new Control[] 
 				{
@@ -127,6 +181,14 @@ namespace HighPlayer
 				Color.FromArgb(13, 57, 77),
 				Color.FromArgb(16, 70, 94)
 			    );
+
+			    foreach (var Item in DropMenu.ItemStack)
+			    {
+				int Id = DropMenu.ItemStack.IndexOf(Item);
+
+				DropMenu.SetMouseClickHook(Id, () => 
+				    CurrentRow.SetMood(DropMenu.ItemStack[Id].Item.Text));
+			    }
 			});
 
 			Tools.SortCode(("Other Event Handlers"), () =>
@@ -137,14 +199,8 @@ namespace HighPlayer
 				{
 				    switch (e.KeyCode)
 				    {
-					case Keys.Escape:
-					case Keys.Back:
-					    Hide();
-					    break;
-
-					case Keys.Enter:
-					    // When user presses enter, add row.
-					    break;
+					case Keys.Enter: Hook1(Inst); break;
+					case Keys.Escape: case Keys.Back: Hook2(); break;
 				    }
 				};
 			    }
@@ -199,9 +255,9 @@ namespace HighPlayer
 
 
 	    public readonly DashPanel Panel1 = new DashPanel();
+	    public readonly DashPanel Panel2 = new DashPanel();
 
-	    readonly DashPanel Panel2 = new DashPanel();
-	    readonly NewRowBar RowBar = new NewRowBar();
+	    public readonly NewRowBar RowBar = new NewRowBar();
 
 	    readonly Button Button1 = new Button();
 	    readonly Button Button2 = new Button();
@@ -592,7 +648,6 @@ namespace HighPlayer
 		Initialize3.Initiate(inst);
 
 		// (Task List) A - E
-		// - Setup Add Row.
 		// - Work on error container.
 		// - Only show row insert container if none are selected.
 		// - Allow newrow and toolbar to show above each other.
