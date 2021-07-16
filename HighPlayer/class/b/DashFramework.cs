@@ -132,6 +132,31 @@ namespace DashFramework
 	    }
 
 
+	    public void RunTaskSynchronously(Control parent, RunnableHolder execute)
+	    {
+		try
+		{
+		    parent.Invoke(new MethodInvoker(() =>
+		    {
+			try
+			{
+			    execute();
+			}
+
+			catch (Exception E)
+			{
+			    throw (ErrorHandler.GetException(E));
+			}
+		    }));
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
 	    public void RunTaskLater(Control parent, RunnableHolder execute, int startWhen, bool autoReset = false)
 	    {
 		try
@@ -788,7 +813,7 @@ namespace DashFramework
 
 		public void QuickButton(Button button, string text, Point loca, Control parent = null)
 		{
-		    parent = (parent == null ? BttnParent : parent);
+		    parent = parent == null ? BttnParent : parent;
 
 		    try
 		    {
@@ -852,7 +877,7 @@ namespace DashFramework
 
 		public void QuickTxtBox(TextBox txtbox, string text, Point loca, Control parent = null)
 		{
-		    parent = (parent == null ? TxtboxParent : parent);
+		    parent = parent == null ? TxtboxParent : parent;
 
 		    try
 		    {
@@ -901,7 +926,7 @@ namespace DashFramework
 
 		public void QuickLabel(Label label, string text, Point loca, Control parent = null)
 		{
-		    parent = (parent == null ? LblParent : parent);
+		    parent = parent == null ? LblParent : parent;
 
 		    try
 		    {
@@ -993,7 +1018,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLocation);
 			Object.Font = Tool.GetFont(FontTypeID, FontSize);
 			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = ObjectBCol;
@@ -1026,7 +1051,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLocation);
 			Object.BorderStyle = BorderStyle.None;
 			Object.Multiline = Multiline;
 			Object.BackColor = ObjectBCol;
@@ -1091,7 +1116,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLoca);
 			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = ObjectBCol;
 			Object.ForeColor = ObjectFCol;
@@ -1112,7 +1137,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLoca);
 			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = ObjectBCol;
 			Object.ForeColor = ObjectFCol;
@@ -1133,7 +1158,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLocation);
 			Object.Font = Tool.GetFont(FontTypeID, FontSize);
 			Object.FlatAppearance.BorderColor = ObjectBCol;
 			Object.FlatAppearance.BorderSize = 0;
@@ -1164,7 +1189,7 @@ namespace DashFramework
 
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLocation);
 			Object.Font = Tool.GetFont(FontTypeID, FontSize);
 			Object.BorderStyle = BorderStyle.None;
 			Object.FlatStyle = FlatStyle.Flat;
@@ -1183,7 +1208,7 @@ namespace DashFramework
 		}
 
 
-		public void Image(Control Top, PictureBox Object, Size ObjectSize, Point ObjectLocation, Color BackColor, Image ObjectImage = null, bool TabStop = false)
+		public void Image(Control Top, PictureBox Object, Size ObjectSize, Point ObjectLoca, Color BackColor, Image ObjectImage = null, bool TabStop = false)
 		{
 		    try
 		    {
@@ -1199,7 +1224,7 @@ namespace DashFramework
 
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLocation);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLoca);
 			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = BackColor;
 			Object.Image = ObjectImage;
@@ -1221,7 +1246,7 @@ namespace DashFramework
 		    {
 			Tool.Resize(Object, ObjectSize);
 
-			Object.Location = Tool.CalculateCenter(Top, Object, ObjectLoca);
+			Object.Location = Tool.OGetCenter(Top, Object, ObjectLoca);
 			Object.BorderStyle = BorderStyle.None;
 			Object.BackColor = ObjectBCol;
 			Object.Name = ObjectId;
@@ -1306,27 +1331,30 @@ namespace DashFramework
 		// - If changed value is higher than old +
 		// - If changed value is lower than old -
 	    }
+	    
 
 	    public class DashTools
 	    {
+		public bool ArrayContains(object obj, object[] arr)
+		{
+		    for (int k = 0; k < arr.Length; k += 1)
+			if (arr[k] != obj && !arr[k].Equals(obj))
+			    return false;
+		    return true;
+		}
+
+
 		public bool IsAnyNull(params object[] targets)
 		{
 		    foreach (object target in targets)
-		    {
 			if (target == null)
-			{
 			    return true;
-			}
-		    }
-
 		    return false;
 		}
 
 
-		public string RGBString(Color cc)
-		{
-		    return ($"{cc.R}, {cc.G}, {cc.B}");
-		}
+		public string RGBString(Color cc) 
+		    => ($"{cc.R}, {cc.G}, {cc.B}");
 
 		public Color NegativeRGB(int minus, Color origin)
 		{
@@ -1577,19 +1605,36 @@ namespace DashFramework
 		}
 
 
-		public Point CalculateCenter(Control Top, Control Object, Point ObjectLocation)
+		public Point GetCenterFor(Control This, Control BasedOn, bool FromLeft = true, bool FromTop = true, int X = -1, int Y = -1)
 		{
-		    if (ObjectLocation.X == -2)
+		    try
 		    {
-			ObjectLocation.X = (Top.Width - Object.Width) / 2;
+			int x = FromLeft ? (This.Width - BasedOn.Width) / 2 : (X != -1 ? X : 0);
+			int y = FromTop ? (This.Height - BasedOn.Height) / 2 : (Y != -1 ? Y : 0);
+
+			return new Point(x, y);
 		    }
 
-		    if (ObjectLocation.Y == -2)
+		    catch
 		    {
-			ObjectLocation.Y = (Top.Height - Object.Height) / 2;
+			return Point.Empty;
+		    }
+		}
+		
+		public Point OGetCenter(Control BasedOn, Control This, Point Coords)
+		{
+		    try
+		    {
+			int x = (Coords.X < 0 ? (BasedOn.Width - This.Width) / 2 : Coords.X);
+			int y = (Coords.Y < 0 ? (BasedOn.Height - This.Height) / 2 : Coords.Y);
+
+			return new Point(x, y);
 		    }
 
-		    return ObjectLocation;
+		    catch
+		    {
+			return Point.Empty;
+		    }
 		}
 
 
@@ -1837,6 +1882,146 @@ namespace DashFramework
 
     namespace Erroring
     {
+	public class ErrorContainer
+	{
+	    readonly DashControls Controls = new DashControls();
+	    readonly DashTools Tools = new DashTools();
+	    
+	    public Control ContainerParent = null;
+
+	    public Color BackColor = Color.DarkRed;
+	    public Color ForeColor = Color.White;
+
+	    public int ContainerHeight = 50;
+	    public int ContainerWidth = -1;
+	    public int ContentFontSize = 14;
+	    public int ContentFontId = 1;
+
+	    public void ChangeSettings(Control ContainerParent, int ContainerWidth, int ContainerHeight, int ContentFontSize, int ContentFontId, Color ForeColor, Color BackColor)
+	    {
+		try
+		{
+		    this.ContainerParent = ContainerParent;
+		    this.ContentFontSize = ContentFontSize;
+		    this.ContainerHeight = ContainerHeight;
+		    this.ContainerWidth = ContainerWidth;
+		    this.ContentFontId = ContentFontId;
+		    this.ForeColor = ForeColor;
+		    this.BackColor = BackColor;
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+
+
+	    readonly DashPanel Container = new DashPanel();
+	    readonly Runnable Runnable = new Runnable();
+	    readonly Label Content = new Label();
+
+	    bool HasBeenInitialized = false;
+
+	    public void Show(string Message, Point ContainerLoca, int VisibilityTimeout = -1)
+	    {
+		try
+		{
+		    Tools.SortCode(("Validation Process"), () =>
+		    {
+			if (HasBeenInitialized && Container.Visible)
+			{
+			    return;
+			}
+			else if (ContainerParent == null)
+			    return;
+		    });
+
+		    Tools.SortCode(("Visibility Handler"), () =>
+		    {
+			Point GetCenter() => Tools.GetCenterFor(Content, Container);
+
+			ContainerWidth = ContainerWidth == -1 ? ContainerParent.Width : ContainerWidth;
+			Content.Size = Tools.GetFontSize(Message, ContentFontSize, ContentFontId);
+			ContainerLoca = ContainerLoca.Equals(Point.Empty) ? GetCenter() : ContainerLoca;
+
+			if (!HasBeenInitialized)
+			{
+			    Tools.SortCode(("Container Initialization"), () =>
+			    {
+				Controls.Panel(ContainerParent, Container, new Size
+				    (ContainerWidth, ContainerHeight), ContainerLoca, BackColor);
+
+				Controls.Label(Container, Content, Content.Size, new Point(-2, -2),
+				    BackColor, ForeColor, (Message), ContentFontId, ContentFontSize);
+
+				HasBeenInitialized = true;
+			    });
+			}
+
+			else if (!Content.Text.Equals(Message))
+			{
+			    Content.Location = GetCenter();
+			    Content.Text = Message;
+			}
+
+			Container.BringToFront();
+			Container.Show();
+		    });
+
+		    Tools.SortCode(("Visibility Timeout"), () =>
+		    {
+			if (VisibilityTimeout > 50)
+			{
+			    Runnable.RunTaskLaterAsynchronously(null, () => 
+			    {
+				Color GetBackAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha, 
+				    Control.BackColor.R, Control.BackColor.G, Control.BackColor.B);
+
+				Color GetForeAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha,
+				    Control.ForeColor.R, Control.ForeColor.G, Control.ForeColor.B);
+
+				Color ContainerBCol = Container.BackColor;
+				Color ContentBCol = Content.BackColor;
+				Color ContentFCol = Content.ForeColor;
+
+				void UpdateColors(Color A, Color B, Color C)
+				{
+				    Container.BackColor = A;
+				    Content.ForeColor = B;
+				    Content.BackColor = C;
+				}
+
+				for (int k = 255; k > 0; k -= 15)
+				{
+				    UpdateColors
+				    (
+					GetBackAlpha(k, Container), 
+					GetForeAlpha(k, Content), 
+					GetBackAlpha(k, Content)
+				    );
+
+				    Thread.Sleep(10);
+				}
+
+				Container.Hide();
+
+				UpdateColors(ContainerBCol, ContentFCol, ContentBCol);
+			    }, 
+			    
+			    VisibilityTimeout);
+			}
+		    });
+		}
+
+		catch (Exception E)
+		{
+		    throw (ErrorHandler.GetException(E));
+		}
+	    }
+	}
+
+
 	public class ErrorHandler
 	{
 	    public static void JustDoIt(Exception E, string title = ("Error Handler")) => Utilize(GetRawFormat(E), title);
@@ -2430,11 +2615,8 @@ namespace DashFramework
 
 		readonly DashTools Tools = new DashTools();
 
-		public void CenterTitle()
-		{
-		    MenuBar.values.Title.Location = Tools.CalculateCenter(MenuBar.values.Bar,
-			MenuBar.values.Title, new Point(-2, -2));
-		}
+		public void CenterTitle() => MenuBar.values.Title.Location 
+		    = Tools.GetCenterFor(MenuBar.values.Title, MenuBar.values.Bar);
 
 		public void ResizeTitle(int FontSize, int Id = 1)
 		{
@@ -2777,13 +2959,13 @@ namespace DashFramework
 
 
 	public class ClickDropMenu
-	{   
+	{
 	    public class DropItem { public readonly Label Item = new Label(); } /*class for future multi-use*/
 
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
 
-	    
+
 	    public Color ItemBackColor = Color.FromArgb(5, 23, 31);
 	    public Color ItemForeColor = Color.White;
 
@@ -2815,7 +2997,7 @@ namespace DashFramework
 			    return 0;
 			}
 		    }
-		
+
 		    Label item = ItemStack[Id].Item;
 
 		    return (item.Height + item.Top);
@@ -2889,8 +3071,9 @@ namespace DashFramework
 	    }
 
 
-	    readonly List<DropItem> ItemStack = new List<DropItem>();
-	    
+	    public readonly List<DropItem> ItemStack = new List<DropItem>();
+	    public List<DropItem> GetItemStack() => ItemStack;
+
 	    public bool ItemExists(int Id = -1)
 	    {
 		try
@@ -2904,7 +3087,7 @@ namespace DashFramework
 		    {
 			return false;
 		    }
-		    
+
 		    return (ItemStack.Count - 1 > -1);
 		}
 
@@ -2913,7 +3096,7 @@ namespace DashFramework
 		    return false;
 		}
 	    }
-	    
+
 	    public void UpdateItemLocations()
 	    {
 		try
@@ -2929,7 +3112,7 @@ namespace DashFramework
 		    return;
 		}
 	    }
-	    
+
 	    public bool RemoveItem(int Id = -19)
 	    {
 		try
@@ -2953,7 +3136,7 @@ namespace DashFramework
 		    return false;
 		}
 	    }
-	    
+
 	    public bool RenameItem(string newName, int Id = -19)
 	    {
 		try
@@ -3011,7 +3194,7 @@ namespace DashFramework
 			Tools.Resize(UpperContainer, UpperSize);
 			Tools.Resize(LowerContainer, LowerSize);
 		    }
-		
+
 		    return true;
 		}
 
@@ -3033,7 +3216,7 @@ namespace DashFramework
 			Size UpperContainerSize = new Size(ItemWidth, ItemHeight);
 			Size LowerContainerSize = new Size(ItemWidth - 4, ItemHeight - 10);
 			Point LowerContainerLoca = new Point(2, 5);
-			
+
 			Controls.Panel(UpperContainer, LowerContainer, LowerContainerSize, LowerContainerLoca, LowerBCol);
 			Controls.Panel(ContainerParent, UpperContainer, UpperContainerSize, ContainerLoca, UpperBCol);
 
@@ -3050,7 +3233,7 @@ namespace DashFramework
 
 	    public void AddTrigger(Control Trigger, bool Hider = true)
 	    {
-		if (Hider && (Trigger == UpperContainer || Trigger == LowerContainer 
+		if (Hider && (Trigger == UpperContainer || Trigger == LowerContainer
 		    || LowerContainer.Controls.Contains(Trigger))) return;
 
 		Trigger.MouseEnter += (s, e) =>
@@ -3107,7 +3290,7 @@ namespace DashFramework
 		    foreach (Label item in LowerContainer.Controls)
 		    {
 			item.MouseLeave += (s, e) => item.BackColor = ItemBackColor;
-			item.MouseDown  += (s, e) => item.BackColor = onMouseDown;
+			item.MouseDown += (s, e) => item.BackColor = onMouseDown;
 			item.MouseEnter += (s, e) => item.BackColor = onHover;
 			item.MouseClick += (s, e) => item.BackColor = onClick;
 			item.MouseUp += (s, e) => item.BackColor = onHover;
@@ -3153,6 +3336,7 @@ namespace DashFramework
 		{
 		    if (!ItemExists(Id))
 		    {
+			MessageBox.Show("!");
 			return false;
 		    }
 
