@@ -322,7 +322,7 @@ namespace HighPlayer
 
 		Size TxtBox2Size = new Size(95, 22);
 		Point TxtBox2Loca = new Point(TxtBox1Size.Width + 4, 0);
-
+		 
 		Size TxtBox3Size = new Size(Row.PanelL2.Width - 253, 22);
 		Point TxtBox3Loca = new Point(TxtBox2Loca.X + TxtBox2Size.Width + 4, 0);
 
