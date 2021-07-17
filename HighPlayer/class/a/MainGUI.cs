@@ -24,53 +24,52 @@ namespace HighPlayer
 {
     public partial class MainGUI
     {
-	public readonly static DashControls Controls = new DashControls();
-	public readonly static DashTools Tools = new DashTools();
-	
-	public static void UpdateDropMenu(ClickDropMenu DropMenu) =>
-	    DropMenu.AddItem("high", "dashie", "is", "me");
+	readonly static MessageContainer MsgContainer = new MessageContainer();
+	readonly static DashControls Controls = new DashControls();
+	readonly static DashTools Tools = new DashTools();
 
-	public static int GetErrorBoxY()
+
+	public static void ShowMessageBox(string Message, int VisibilityTimeout = 2000) =>
+	    MsgContainer.Show(Message, new Point(4, GetMessageBoxY()), VisibilityTimeout);
+	
+	public static int GetMessageBoxY()
 	{
 	    if (Initialize1.RowBar.IsVisible())
 	    {
 		return Initialize1.RowBar.Panel.Height + Initialize1.RowBar.Panel.Top;
 	    }
 
-	    return Initialize1.RowBar.Panel.Top;
+	    return Initialize1.RowBar.Panel.Top; // Check this and see if it locates it nicely.  Does not show success dialog.
 	}
+
+	public static void UpdateDropMenu(ClickDropMenu DropMenu) =>
+	    DropMenu.AddItem("high", "dashie", "is", "me");
 
 	class Init1
 	{
 	    public class NewRowBar
 	    {
-		readonly ErrorContainer ErrorContainer = new ErrorContainer();
-
 		void Hook1(Control Parent)
 		{
 		    try
 		    {
 			var CurrentRow = URLDatabase.Rows[0];
 
-			if (CurrentRow.TxtBox1.Text.Length > 1 && 
-			    CurrentRow.TxtBox3.Text.Length > 1) {
-
+			if (CurrentRow.TxtBox1.Text.Length > 1 && CurrentRow.TxtBox3.Text.Length > 1)
+			{
 			    UrlDatabase.AddRow(UrlDatabase.Panel1, CurrentRow.TxtBox1.Text,
 				CurrentRow.TxtBox2.Text, CurrentRow.TxtBox3.Text);
+			    
+			    Panel.Hide();
+
+			    MsgContainer.SetColor(Color.DarkGreen, Color.White);
+			    ShowMessageBox("Successfully added new entry :D");
 
 			    return;
 			}
-			
-			else if (ErrorContainer.ContainerParent == null)
-			{
-			    ErrorContainer.ContainerWidth = Parent.Width - 7;
-			    ErrorContainer.ContainerParent = Parent;
-			}
-			
-			// Not Setting Text
 
-			ErrorContainer.Show("You must enter a Title and Url.  Please try again.", 
-			    new Point(4, GetErrorBoxY()), 2000);
+			MsgContainer.SetColor(Color.DarkRed, Color.White);
+			ShowMessageBox("You must enter a Title and Url.  Please try again.");
 		    }
 
 		    catch (Exception E)
@@ -200,7 +199,7 @@ namespace HighPlayer
 				    switch (e.KeyCode)
 				    {
 					case Keys.Enter: Hook1(Inst); break;
-					case Keys.Escape: case Keys.Back: Hook2(); break;
+					case Keys.Escape: Hook2(); break;
 				    }
 				};
 			    }
@@ -263,6 +262,7 @@ namespace HighPlayer
 	    readonly Button Button2 = new Button();
 	    readonly Button Button3 = new Button();
 
+
 	    void Hook1()
 	    {
 		try
@@ -281,7 +281,15 @@ namespace HighPlayer
 	    {
 		try
 		{
-		    // Show Categories Dialog
+		    if (!MoodMenu.IsVisible())
+		    {
+			MoodMenu.Show();
+		    }
+
+		    else
+		    {
+			MoodMenu.Hide();
+		    }
 		}
 
 		catch (Exception E)
@@ -291,6 +299,7 @@ namespace HighPlayer
 	    }
 
 	    void Hook3() => Environment.Exit(-1);
+
 
 	    public void Initiate(DashWindow Inst)
 	    {
@@ -335,7 +344,7 @@ namespace HighPlayer
 		    Button3.Click += (s, q) => Hook3();
 		});
 
-		Tools.SortCode(("Initialize Row Bar"), () =>
+		Tools.SortCode(("Initializers"), () =>
 		{
 		    RowBar.Initialize(Inst);
 		});
@@ -636,8 +645,19 @@ namespace HighPlayer
 	readonly static Init2 Initialize2 = new Init2();
 	readonly static Init3 Initialize3 = new Init3();
 
-	readonly MoodMenu MoodMenu = new MoodMenu();
+	readonly static MoodMenu MoodMenu = new MoodMenu();
 	readonly DashLink Linker = new DashLink();
+
+	static DashWindow Inst = new DashWindow();
+
+	public static void SetMessageBoxDefaults()
+	{
+	    if (MsgContainer.ContainerParent == null)
+	    {
+		MsgContainer.ContainerWidth = Inst.Width - 7;
+		MsgContainer.ContainerParent = Inst;
+	    }
+	}
 
 	public void Initiator(DashWindow inst)
 	{
@@ -647,8 +667,13 @@ namespace HighPlayer
 		Initialize2.Initiate(inst);
 		Initialize3.Initiate(inst);
 
+		Inst = inst;
+
+		SetMessageBoxDefaults();
+
+		//MoodMenu.Initiate(inst, this);
+
 		// (Task List) A - E
-		// - Work on error container.
 		// - Only show row insert container if none are selected.
 		// - Allow newrow and toolbar to show above each other.
 		// - Integrate error container for everything.
