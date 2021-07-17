@@ -1882,7 +1882,7 @@ namespace DashFramework
 
     namespace Erroring
     {
-	public class ErrorContainer
+	public class MessageContainer
 	{
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
@@ -1892,36 +1892,41 @@ namespace DashFramework
 	    public Color BackColor = Color.DarkRed;
 	    public Color ForeColor = Color.White;
 
+	    public int ContentConfigured = -1;
 	    public int ContainerHeight = 50;
 	    public int ContainerWidth = -1;
 	    public int ContentFontSize = 14;
 	    public int ContentFontId = 1;
 
 	    public void ChangeSettings(Control ContainerParent, int ContainerWidth, int ContainerHeight, int ContentFontSize, int ContentFontId, Color ForeColor, Color BackColor)
-	    {
-		try
-		{
-		    this.ContainerParent = ContainerParent;
-		    this.ContentFontSize = ContentFontSize;
-		    this.ContainerHeight = ContainerHeight;
-		    this.ContainerWidth = ContainerWidth;
-		    this.ContentFontId = ContentFontId;
-		    this.ForeColor = ForeColor;
-		    this.BackColor = BackColor;
-		}
+    	    {
+		this.ContainerParent = ContainerParent;
+		this.ContentFontSize = ContentFontSize;
+		this.ContainerHeight = ContainerHeight;
+		this.ContainerWidth = ContainerWidth;
+		this.ContentFontId = ContentFontId;
+		this.ForeColor = ForeColor;
+		this.BackColor = BackColor;
+	    }
 
-		catch (Exception E)
-		{
-		    throw (ErrorHandler.GetException(E));
-		}
+	    public void SetColor(Color BackColor, Color ForeColor)
+	    {
+		this.BackColor = BackColor;
+		this.ForeColor = ForeColor;
 	    }
 
 
-	    readonly DashPanel Container = new DashPanel();
 	    readonly Runnable Runnable = new Runnable();
+	    delegate void Synchronize();
+
+	    void Sync(Synchronize sync) => Runnable.
+		RunTaskSynchronously(ContainerParent, () => sync());
+
+
+	    readonly DashPanel Container = new DashPanel();
 	    readonly Label Content = new Label();
 
-	    bool HasBeenInitialized = false;
+	    public bool Initialized() => (ContentConfigured != -1);
 
 	    public void Show(string Message, Point ContainerLoca, int VisibilityTimeout = -1)
 	    {
@@ -1929,41 +1934,48 @@ namespace DashFramework
 		{
 		    Tools.SortCode(("Validation Process"), () =>
 		    {
-			if (HasBeenInitialized && Container.Visible)
+			if (Initialized() && Container.Visible)
 			{
 			    return;
 			}
+
 			else if (ContainerParent == null)
 			    return;
 		    });
-
+		    
 		    Tools.SortCode(("Visibility Handler"), () =>
 		    {
-			Point GetCenter() => Tools.GetCenterFor(Content, Container);
+			Point GetCenter() => new Point((Container.Width 
+			    - GetContentSize().Width) / 2, (Container.Height - GetContentSize().Height) / 2);
+
+			Size GetContentSize() => Tools.GetFontSize(Message,
+			    ContentFontSize, ContentFontId);
 
 			ContainerWidth = ContainerWidth == -1 ? ContainerParent.Width : ContainerWidth;
-			Content.Size = Tools.GetFontSize(Message, ContentFontSize, ContentFontId);
 			ContainerLoca = ContainerLoca.Equals(Point.Empty) ? GetCenter() : ContainerLoca;
-
-			if (!HasBeenInitialized)
+			
+			if (!Initialized())
 			{
 			    Tools.SortCode(("Container Initialization"), () =>
 			    {
 				Controls.Panel(ContainerParent, Container, new Size
 				    (ContainerWidth, ContainerHeight), ContainerLoca, BackColor);
 
-				Controls.Label(Container, Content, Content.Size, new Point(-2, -2),
+				Controls.Label(Container, Content, GetContentSize(), new Point(-2, -2),
 				    BackColor, ForeColor, (Message), ContentFontId, ContentFontSize);
 
-				HasBeenInitialized = true;
+				ContentConfigured += 1;
 			    });
 			}
 
 			else if (!Content.Text.Equals(Message))
 			{
+			    Content.Size = GetContentSize();
 			    Content.Location = GetCenter();
 			    Content.Text = Message;
 			}
+
+			SetColor(BackColor, ForeColor);
 
 			Container.BringToFront();
 			Container.Show();
@@ -1971,42 +1983,46 @@ namespace DashFramework
 
 		    Tools.SortCode(("Visibility Timeout"), () =>
 		    {
-			if (VisibilityTimeout > 50)
+			if (VisibilityTimeout > 50)// CROSS-THREADING SHIT
 			{
-			    Runnable.RunTaskLaterAsynchronously(null, () => 
+			    Runnable.RunTaskLater(null, () => 
 			    {
-				Color GetBackAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha, 
-				    Control.BackColor.R, Control.BackColor.G, Control.BackColor.B);
-
-				Color GetForeAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha,
-				    Control.ForeColor.R, Control.ForeColor.G, Control.ForeColor.B);
-
-				Color ContainerBCol = Container.BackColor;
-				Color ContentBCol = Content.BackColor;
-				Color ContentFCol = Content.ForeColor;
-
-				void UpdateColors(Color A, Color B, Color C)
+				new Thread(() =>
 				{
-				    Container.BackColor = A;
-				    Content.ForeColor = B;
-				    Content.BackColor = C;
-				}
+				    Color GetBackAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha,
+					Control.BackColor.R, Control.BackColor.G, Control.BackColor.B);
 
-				for (int k = 255; k > 0; k -= 15)
-				{
-				    UpdateColors
-				    (
-					GetBackAlpha(k, Container), 
-					GetForeAlpha(k, Content), 
-					GetBackAlpha(k, Content)
-				    );
+				    Color GetForeAlpha(int Alpha, Control Control) => Color.FromArgb(Alpha,
+					Control.ForeColor.R, Control.ForeColor.G, Control.ForeColor.B);
 
-				    Thread.Sleep(10);
-				}
+				    void UpdateColors(Color A, Color B, Color C)
+				    {
+					Sync(() => 
+					{ 
+					    Container.BackColor = A;
+					    Content.ForeColor = B;
+					    Content.BackColor = C;
+					});
+				    }
 
-				Container.Hide();
+				    for (int k = 255; k > 40; k -= 15)
+				    {
+					UpdateColors
+					(
+					    GetBackAlpha(k, Container),
+					    GetForeAlpha(k, Content),
+					    GetBackAlpha(k, Content)
+					);
 
-				UpdateColors(ContainerBCol, ContentFCol, ContentBCol);
+					Thread.Sleep(10);
+				    }
+
+				    Sync(() => Container.Hide());
+
+				    UpdateColors(BackColor, ForeColor, BackColor);
+				})
+
+				{ IsBackground = true }.Start();
 			    }, 
 			    
 			    VisibilityTimeout);
