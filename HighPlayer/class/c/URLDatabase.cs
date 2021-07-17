@@ -249,13 +249,20 @@ namespace HighPlayer
 	    {
 		Row.PanelL4.Click += (s, e) =>
 		{
-		    Row.PanelL4.BackColor = (IsChecked(Row) ? Row.UncheckedColor : Row.CheckedColor);
-
-		    if (!Tools.IsAnyNull(Row.WhenUnchecked, Row.WhenChecked))
+		    if (!MainGUI.Initialize1.RowBar.IsVisible())
 		    {
-			if (IsChecked(Row)) Row.WhenChecked();
-			else Row.WhenUnchecked();
+			Row.PanelL4.BackColor = (IsChecked(Row) ? Row.UncheckedColor : Row.CheckedColor);
+
+			if (!Tools.IsAnyNull(Row.WhenUnchecked, Row.WhenChecked))
+			{
+			    if (IsChecked(Row)) Row.WhenChecked();
+			    else Row.WhenUnchecked();
+			}
+
+			return;
 		    }
+
+		    MainGUI.SendMessage("You are already performing a selection.  Please finish first.");
 		};
 	    }
 
