@@ -28,10 +28,13 @@ namespace HighPlayer
 	readonly static DashControls Controls = new DashControls();
 	readonly static DashTools Tools = new DashTools();
 
-
-	public static void ShowMessageBox(string Message, int VisibilityTimeout = 2000) =>
-	    MsgContainer.Show(Message, new Point(4, GetMessageBoxY()), VisibilityTimeout);
 	
+	public static void SendMessage(string Msg, bool IsError = true, int VisibilityTimeout = 2000)
+	{
+	    MsgContainer.SetColor(IsError ? Color.DarkRed : Color.DarkGreen, Color.White);
+	    MsgContainer.Show(Msg, new Point(4, GetMessageBoxY()), VisibilityTimeout);
+	}
+
 	public static int GetMessageBoxY()
 	{
 	    if (Initialize1.RowBar.IsVisible())
@@ -39,24 +42,16 @@ namespace HighPlayer
 		return Initialize1.RowBar.Panel.Height + Initialize1.RowBar.Panel.Top;
 	    }
 	    
-	    return Initialize1.RowBar.Panel.Top; // Check this and see if it locates it nicely.  Does not show success dialog.
+	    return Initialize1.RowBar.Panel.Top;
 	}
 
 	public static void UpdateMenu(ClickDropMenu DropMenu) => 
 	    DropMenu.AddItem("high", "dashie", "is", "me");
 
-	class Init1
+	public class Init1
 	{
 	    public class NewRowBar
 	    {
-		void SendMessage(string Msg, bool IsError = true)
-		{
-		    MsgContainer.SetColor(IsError ? Color.DarkRed 
-			: Color.DarkGreen, Color.White);
-
-		    ShowMessageBox($"{Msg}");
-		}
-
 		void Hook1(Control Parent)
 		{
 		    try
@@ -252,7 +247,7 @@ namespace HighPlayer
 
 		public void Show()
 		{
-		    if (!Initialize2.Panel1.Visible)
+		    if (!Initialize3.Toolbar.Visible())
 		    {
 			if (IsDefaultWorthy())
 			{
@@ -264,10 +259,10 @@ namespace HighPlayer
 			}
 
 			Panel.Show();
+			return;
 		    }
 
 		    SendMessage("You are already performing a selection.  Please finish first.");
-		    return;
 		}
 
 		public void Hide()
@@ -376,7 +371,7 @@ namespace HighPlayer
 	}
 
 
-	class Init2
+	public class Init2
 	{
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
@@ -477,7 +472,7 @@ namespace HighPlayer
 
 	public readonly static URLDatabase UrlDatabase = new URLDatabase();
 
-	class Init3
+	public class Init3
 	{
 	    public class ToolBar
 	    {
@@ -652,7 +647,7 @@ namespace HighPlayer
 		    Color PanelBCol = Inst.values.getBarColor();
 
 		    Controls.Panel(Inst, Panel, PanelSize, PanelLoca, PanelBCol);
-		    
+		 
 		    UrlDatabase.AddTable(Panel, ScrollerBBCol);
 		    UrlDatabase.LoadRowsFromConfig();
 
@@ -663,9 +658,9 @@ namespace HighPlayer
 	}
 
 
-	readonly static Init1 Initialize1 = new Init1();
-	readonly static Init2 Initialize2 = new Init2();
-	readonly static Init3 Initialize3 = new Init3();
+	public readonly static Init1 Initialize1 = new Init1();
+	public readonly static Init2 Initialize2 = new Init2();
+	public readonly static Init3 Initialize3 = new Init3();
 
 	readonly static MoodMenu MoodMenu = new MoodMenu();
 	readonly DashLink Linker = new DashLink();
