@@ -1911,6 +1911,10 @@ namespace DashFramework
 
 	    public void SetColor(Color BackColor, Color ForeColor)
 	    {
+		Container.BackColor = BackColor;
+		Content.BackColor = BackColor;
+		Content.ForeColor = ForeColor;
+
 		this.BackColor = BackColor;
 		this.ForeColor = ForeColor;
 	    }
@@ -1970,6 +1974,7 @@ namespace DashFramework
 
 			else if (!Content.Text.Equals(Message))
 			{
+			    Container.Location = ContainerLoca;
 			    Content.Size = GetContentSize();
 			    Content.Location = GetCenter();
 			    Content.Text = Message;
@@ -1983,7 +1988,7 @@ namespace DashFramework
 
 		    Tools.SortCode(("Visibility Timeout"), () =>
 		    {
-			if (VisibilityTimeout > 50)// CROSS-THREADING SHIT
+			if (VisibilityTimeout > 50)
 			{
 			    Runnable.RunTaskLater(null, () => 
 			    {
