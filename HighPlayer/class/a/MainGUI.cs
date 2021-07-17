@@ -38,38 +38,55 @@ namespace HighPlayer
 	    {
 		return Initialize1.RowBar.Panel.Height + Initialize1.RowBar.Panel.Top;
 	    }
-
+	    
 	    return Initialize1.RowBar.Panel.Top; // Check this and see if it locates it nicely.  Does not show success dialog.
 	}
 
-	public static void UpdateDropMenu(ClickDropMenu DropMenu) =>
+	public static void UpdateMenu(ClickDropMenu DropMenu) => 
 	    DropMenu.AddItem("high", "dashie", "is", "me");
 
 	class Init1
 	{
 	    public class NewRowBar
 	    {
+		void SendMessage(string Msg, bool IsError = true)
+		{
+		    MsgContainer.SetColor(IsError ? Color.DarkRed 
+			: Color.DarkGreen, Color.White);
+
+		    ShowMessageBox($"{Msg}");
+		}
+
 		void Hook1(Control Parent)
 		{
 		    try
 		    {
 			var CurrentRow = URLDatabase.Rows[0];
 
-			if (CurrentRow.TxtBox1.Text.Length > 1 && CurrentRow.TxtBox3.Text.Length > 1)
+			if (CurrentRow.TxtBox1.Text.Length > 1)
 			{
-			    UrlDatabase.AddRow(UrlDatabase.Panel1, CurrentRow.TxtBox1.Text,
-				CurrentRow.TxtBox2.Text, CurrentRow.TxtBox3.Text);
-			    
-			    Panel.Hide();
+			    if (!CurrentRow.TxtBox2.Text.Equals("Mood"))
+			    {
+				if (CurrentRow.TxtBox3.Text.Length > 1)
+				{
+				    UrlDatabase.AddRow(UrlDatabase.Panel1, CurrentRow.TxtBox1.Text,
+					CurrentRow.TxtBox2.Text, CurrentRow.TxtBox3.Text);
 
-			    MsgContainer.SetColor(Color.DarkGreen, Color.White);
-			    ShowMessageBox("Successfully added new entry :D");
+				    Hide();
+				    
+				    SendMessage("Successfully added new song to list :D", false);
+				}
+			    }
+
+			    else
+			    {
+				SendMessage("You must select a mood.  Please try again.");
+			    }
 
 			    return;
 			}
-
-			MsgContainer.SetColor(Color.DarkRed, Color.White);
-			ShowMessageBox("You must enter a Title and Url.  Please try again.");
+			
+			SendMessage("You must enter a Title and Url.  Please try again.");
 		    }
 
 		    catch (Exception E)
@@ -91,12 +108,13 @@ namespace HighPlayer
 		    }
 		}
 
-
-		readonly URLDatabase URLDatabase = new URLDatabase();
-		readonly ClickDropMenu DropMenu = new ClickDropMenu();
-		public readonly DashPanel Panel = new DashPanel();
-
+		
 		readonly string[] Defaults = { ("Entry Name"), ("Mood"), ("Entry Url") };
+
+		readonly ClickDropMenu DropMenu = new ClickDropMenu();
+		readonly URLDatabase URLDatabase = new URLDatabase();
+
+		public readonly DashPanel Panel = new DashPanel();
 
 		public void Initialize(DashWindow Inst)
 		{
@@ -172,7 +190,7 @@ namespace HighPlayer
 				}
 			    );
 
-			    UpdateDropMenu(DropMenu);
+			    UpdateMenu(DropMenu);
 
 			    DropMenu.RegisterUpdateColor
 			    (
@@ -228,22 +246,28 @@ namespace HighPlayer
 		}
 
 
-		bool IsDefaultWorthy() => (!URLDatabase
-		    .Rows[0].TxtBox1.Text.Equals(Defaults[0]));
-
+		public bool IsDefaultWorthy() => (URLDatabase.Rows[0].TxtBox1.Text.Equals(Defaults[0]));
 		public bool IsVisible() => Panel.Visible;
 
 
 		public void Show()
 		{
-		    if (IsDefaultWorthy())
+		    if (!Initialize2.Panel1.Visible)
 		    {
-			URLDatabase.Rows[0].TxtBox1.Text = Defaults[0];
-			URLDatabase.Rows[1].TxtBox2.Text = Defaults[1];
-			URLDatabase.Rows[2].TxtBox3.Text = Defaults[2];
+			if (IsDefaultWorthy())
+			{
+			    var CurrentRow = URLDatabase.Rows[0];
+
+			    CurrentRow.TxtBox1.Text = Defaults[0];
+			    CurrentRow.TxtBox2.Text = Defaults[1];
+			    CurrentRow.TxtBox3.Text = Defaults[2];
+			}
+
+			Panel.Show();
 		    }
 
-		    Panel.Show();
+		    SendMessage("You are already performing a selection.  Please finish first.");
+		    return;
 		}
 
 		public void Hide()
@@ -429,13 +453,11 @@ namespace HighPlayer
 		    Color UpperContainerBCol = Panel1.BackColor;
 
 		    DropMenu.AddTo(Inst, UpperContainerLoca, UpperContainerBCol, LowerContainerBCol);
-		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] 
-		    {
-			Initialize3.Panel, Inst, UrlDatabase.Panel1,
-			Initialize1.Panel1, Initialize2.Panel1,
-		    });
+
+		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] {Initialize3
+			.Panel, Inst, UrlDatabase.Panel1, Initialize1.Panel1, Initialize2.Panel1});
 		    
-		    UpdateDropMenu(DropMenu);
+		    UpdateMenu(DropMenu);
 
 		    DropMenu.RegisterUpdateColor
 		    (
@@ -672,14 +694,6 @@ namespace HighPlayer
 		SetMessageBoxDefaults();
 
 		//MoodMenu.Initiate(inst, this);
-
-		// (Task List) A - E
-		// - Only show row insert container if none are selected.
-		// - Allow newrow and toolbar to show above each other.
-		// - Integrate error container for everything.
-		// - Make sure containers do not hide the songs behind them.
-		//	+ Temporarily add extra height to the movement of the main container.
-		//
 	    }
 
 	    catch (Exception E)
