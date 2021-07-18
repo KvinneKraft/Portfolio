@@ -35,22 +35,67 @@ namespace HighPlayer
 	    MsgContainer.Show(Msg, new Point(4, GetMessageBoxY()), VisibilityTimeout);
 	}
 
-	public static int GetMessageBoxY()
+
+	public static int GetMessageBoxY() => (Initialize1.RowBar.Visible() ? Initialize1.RowBar.Panel.Height + Initialize3.Toolbar.Panel1.Top 
+	    : (Initialize3.Toolbar.Visible() ? Initialize3.Toolbar.Panel1.Height + Initialize3.Toolbar.Panel1.Top : Initialize1.RowBar.Panel.Top));
+
+
+	public static void UpdateMenu()
 	{
-	    if (Initialize1.RowBar.IsVisible())
+	    Tools.SortCode(("Add Items"), () =>
 	    {
-		return Initialize1.RowBar.Panel.Height + Initialize1.RowBar.Panel.Top;
-	    }
-	    
-	    return Initialize1.RowBar.Panel.Top;
+		Initialize1.RowBar.DropMenu.GetItemStack().Clear();
+		Initialize2.DropMenu.GetItemStack().Clear();
+
+		foreach ((string, int) Mood in UrlDatabase.Moods)
+		{
+		    Initialize1.RowBar.DropMenu.AddItem(Mood.Item1);
+		    Initialize2.DropMenu.AddItem(Mood.Item1);
+		}
+	    });
+
+	    Tools.SortCode(("Set Colors"), () =>
+	    {
+		void RegisterColor(ClickDropMenu DropMenu)
+		{
+		    DropMenu.RegisterUpdateColor
+		    (
+			Color.FromArgb(9, 40, 54),
+			Color.FromArgb(13, 57, 77),
+			Color.FromArgb(16, 70, 94)
+		    );
+		}
+
+		RegisterColor(Initialize1.RowBar.DropMenu);
+		RegisterColor(Initialize2.DropMenu);
+	    });
+
+	    Tools.SortCode(("Set Executor"), () =>
+	    {
+		foreach (var Item in Initialize2.DropMenu.ItemStack)
+		{
+		    int Id = Initialize2.DropMenu.ItemStack.IndexOf(Item);
+
+		    Initialize2.DropMenu.SetMouseClickHook(Id, () =>
+		    {
+			// What to do when the search bar specifies a mood.
+		    });
+		}
+
+		foreach (var Item in Initialize1.RowBar.DropMenu.ItemStack)
+		{
+		    int Id = Initialize1.RowBar.DropMenu.ItemStack.IndexOf(Item);
+
+		    Initialize1.RowBar.DropMenu.SetMouseClickHook(Id, () => Initialize1.RowBar
+			.URLDatabase.Rows[0].SetMood(Initialize1.RowBar.DropMenu.ItemStack[Id].Item.Text));
+		}
+	    });
 	}
 
-	public static void UpdateMenu(ClickDropMenu DropMenu) => 
-	    DropMenu.AddItem("high", "dashie", "is", "me");
 
 	public class Init1
 	{
-	    public class NewRowBar
+	    public class InjectBar
 	    {
 		void Hook1(Control Parent)
 		{
@@ -104,10 +149,10 @@ namespace HighPlayer
 		}
 
 		
-		readonly string[] Defaults = { ("Entry Name"), ("Mood"), ("Entry Url") };
+		public readonly string[] Defaults = { ("Entry Name"), ("Mood"), ("Entry Url") };
 
-		readonly ClickDropMenu DropMenu = new ClickDropMenu();
-		readonly URLDatabase URLDatabase = new URLDatabase();
+		public readonly ClickDropMenu DropMenu = new ClickDropMenu();
+		public readonly URLDatabase URLDatabase = new URLDatabase();
 
 		public readonly DashPanel Panel = new DashPanel();
 
@@ -184,23 +229,6 @@ namespace HighPlayer
 				    Initialize1.Panel1, Initialize2.Panel1,
 				}
 			    );
-
-			    UpdateMenu(DropMenu);
-
-			    DropMenu.RegisterUpdateColor
-			    (
-				Color.FromArgb(9, 40, 54),
-				Color.FromArgb(13, 57, 77),
-				Color.FromArgb(16, 70, 94)
-			    );
-
-			    foreach (var Item in DropMenu.ItemStack)
-			    {
-				int Id = DropMenu.ItemStack.IndexOf(Item);
-
-				DropMenu.SetMouseClickHook(Id, () => 
-				    CurrentRow.SetMood(DropMenu.ItemStack[Id].Item.Text));
-			    }
 			});
 
 			Tools.SortCode(("Other Event Handlers"), () =>
@@ -242,7 +270,7 @@ namespace HighPlayer
 
 
 		public bool IsDefaultWorthy() => (URLDatabase.Rows[0].TxtBox1.Text.Equals(Defaults[0]));
-		public bool IsVisible() => Panel.Visible;
+		public bool Visible() => Panel.Visible;
 
 
 		public void Show()
@@ -262,7 +290,7 @@ namespace HighPlayer
 			return;
 		    }
 
-		    SendMessage("You are already performing a selection.  Please finish first.");
+		    SendMessage("You have are already doing something.  Finish first!");
 		}
 
 		public void Hide()
@@ -272,10 +300,10 @@ namespace HighPlayer
 	    }
 
 
+	    public readonly InjectBar RowBar = new InjectBar();
+
 	    public readonly DashPanel Panel1 = new DashPanel();
 	    public readonly DashPanel Panel2 = new DashPanel();
-
-	    public readonly NewRowBar RowBar = new NewRowBar();
 
 	    readonly Button Button1 = new Button();
 	    readonly Button Button2 = new Button();
@@ -286,7 +314,7 @@ namespace HighPlayer
 	    {
 		try
 		{
-		    if (!RowBar.IsVisible()) RowBar.Show();
+		    if (!RowBar.Visible()) RowBar.Show();
 		    else RowBar.Hide();
 		}
 
@@ -302,6 +330,7 @@ namespace HighPlayer
 		{
 		    if (!MoodMenu.IsVisible())
 		    {
+			Linker.CenterDialog(MoodMenu.Parent, Inst);
 			MoodMenu.Show();
 		    }
 
@@ -338,7 +367,7 @@ namespace HighPlayer
 
 		Tools.SortCode(("Button Addons"), () =>
 		{
-		    Quickify Quicky = new Quickify()
+		    Quicky = new Quickify()
 		    {
 			BttnSize = new Size(120, 24),
 			BttnBCol = Inst.values.getBarColor(),
@@ -375,11 +404,11 @@ namespace HighPlayer
 	{
 	    readonly DashControls Controls = new DashControls();
 	    readonly DashTools Tools = new DashTools();
-	    
-	    public readonly DashPanel Panel1 = new DashPanel();
-	    readonly DashPanel Panel2 = new DashPanel();
 
-	    readonly ClickDropMenu DropMenu = new ClickDropMenu(); 
+	    public readonly ClickDropMenu DropMenu = new ClickDropMenu();
+	    public readonly DashPanel Panel1 = new DashPanel();
+
+	    readonly DashPanel Panel2 = new DashPanel();
 	    readonly TextBox TextBox = new TextBox();
 
 	    readonly Label Label1 = new Label();
@@ -452,14 +481,7 @@ namespace HighPlayer
 		    DropMenu.RegisterVisibilityTrigger(Label2, new Control[] {Initialize3
 			.Panel, Inst, UrlDatabase.Panel1, Initialize1.Panel1, Initialize2.Panel1});
 		    
-		    UpdateMenu(DropMenu);
-
-		    DropMenu.RegisterUpdateColor
-		    (
-			Color.FromArgb(9, 40, 54),
-			Color.FromArgb(13, 57, 77),
-			Color.FromArgb(16, 70, 94)
-		    );
+		    UpdateMenu();
 		});
 
 		Tools.SortCode(("Last Touches"), () =>
@@ -476,8 +498,8 @@ namespace HighPlayer
 	{
 	    public class ToolBar
 	    {
-		readonly DashPanel Panel1 = new DashPanel();
-		readonly DashPanel Panel2 = new DashPanel();
+		public readonly DashPanel Panel1 = new DashPanel();
+		public readonly DashPanel Panel2 = new DashPanel();
 		
 		readonly Button Button1 = new Button();
 		readonly Button Button2 = new Button();
@@ -504,6 +526,8 @@ namespace HighPlayer
 
 			UrlDatabase.UpdateTableSize();
 			UrlDatabase.ReorganizeRows();
+
+			Hide();
 		    }
 
 		    catch (Exception E)
@@ -560,7 +584,7 @@ namespace HighPlayer
 		    Tools.SortCode(("Register Containers"), () =>
 		    {
 			Size Panel1Size = new Size(UrlDatabase.Panel1.Width, 28);
-			Point Panel1Loca = new Point(-2, Inst.Height - 63);
+			Point Panel1Loca = new Point(-2, 60);
 			Color Panel1BCol = Initialize2.Panel1.BackColor;
 
 			Size Panel2Size = new Size(345, 22);
@@ -576,7 +600,7 @@ namespace HighPlayer
 
 		    Tools.SortCode(("Register Buttons"), () => 
 		    {
-			Quickify quicky = new Quickify()
+			Quicky = new Quickify()
 			{
 			    BttnSize = new Size(100, 22),
 			    BttnBCol = Panel2.BackColor,
@@ -591,9 +615,9 @@ namespace HighPlayer
 			Point Button2Loca = new Point(115, 0);
 			Point Button1Loca = new Point(0, 0);
 
-			quicky.QuickButton(Button3, ("Select All"), Button3Loca);
-			quicky.QuickButton(Button1, ("Delete"), Button1Loca);
-			quicky.QuickButton(Button2, ("Open"), Button2Loca);
+			Quicky.QuickButton(Button3, ("Select All"), Button3Loca);
+			Quicky.QuickButton(Button1, ("Delete"), Button1Loca);
+			Quicky.QuickButton(Button2, ("Open"), Button2Loca);
 
 			Button1.Click += (s, e) => ButtonHandler1();
 			Button2.Click += (s, e) => ButtonHandler2();
@@ -603,9 +627,16 @@ namespace HighPlayer
 
 
 		public bool Visible() => Panel1.Visible;
-		public void Hide() => Panel1.Visible = false;
-		public void Show() => Panel1.Visible = true;
 
+		public void Hide()
+		{
+		    Panel1.Hide();
+		}
+
+		public void Show()
+		{
+		    Panel1.Show();
+		}
 
 		public void RegisterEvents()
 		{
@@ -651,6 +682,8 @@ namespace HighPlayer
 		    UrlDatabase.AddTable(Panel, ScrollerBBCol);
 		    UrlDatabase.LoadRowsFromConfig();
 
+		    UpdateMenu();
+
 		    Toolbar.Initialize(Inst);
 		    Toolbar.RegisterEvents();
 		});
@@ -662,10 +695,10 @@ namespace HighPlayer
 	public readonly static Init2 Initialize2 = new Init2();
 	public readonly static Init3 Initialize3 = new Init3();
 
-	readonly static MoodMenu MoodMenu = new MoodMenu();
-	readonly DashLink Linker = new DashLink();
-
+	static MoodMenu MoodMenu = new MoodMenu();
 	static DashWindow Inst = new DashWindow();
+	static DashLink Linker = new DashLink();
+	static Quickify Quicky = null;
 
 	public static void SetMessageBoxDefaults()
 	{
@@ -688,7 +721,8 @@ namespace HighPlayer
 
 		SetMessageBoxDefaults();
 
-		//MoodMenu.Initiate(inst, this);
+		MoodMenu.Initiate(inst, this);
+		Linker.CenterDialog(MoodMenu.Parent, Inst);
 	    }
 
 	    catch (Exception E)
