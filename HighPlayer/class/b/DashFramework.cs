@@ -822,8 +822,6 @@ namespace DashFramework
 
 			if (BttnBorder)
 			    Tools.Round(button, 6);
-
-			button.TextAlign = ContentAlignment.MiddleCenter;
 		    }
 
 		    catch (Exception E)
@@ -1609,8 +1607,8 @@ namespace DashFramework
 		{
 		    try
 		    {
-			int x = FromLeft ? (This.Width - BasedOn.Width) / 2 : (X != -1 ? X : 0);
-			int y = FromTop ? (This.Height - BasedOn.Height) / 2 : (Y != -1 ? Y : 0);
+			int x = FromLeft ? (BasedOn.Width - This.Width) / 2 : (X != -1 ? X : 0);
+			int y = FromTop ? (BasedOn.Height - This.Height) / 2 : (Y != -1 ? Y : 0);
 
 			return new Point(x, y);
 		    }
@@ -1972,9 +1970,10 @@ namespace DashFramework
 			    });
 			}
 
-			else if (!Content.Text.Equals(Message))
+			Container.Location = ContainerLoca;
+
+			if (!Content.Text.Equals(Message))
 			{
-			    Container.Location = ContainerLoca;
 			    Content.Size = GetContentSize();
 			    Content.Location = GetCenter();
 			    Content.Text = Message;
@@ -2449,10 +2448,10 @@ namespace DashFramework
 		    Tool.Interactive(values.LogoLayer1, parent);
 		    Tool.Interactive(values.LogoLayer2, parent);
 
-		    var TitleSize = Tool.GetFontSize(values.Title.Text, 8);
+		    var TitleSize = Tool.GetFontSize(values.Title.Text, 9);
 		    var TitleLoca = new Point(LogoSize.Width + LogoLoca.X + 5, (MenuBarSize.Height - TitleSize.Height) / 2);
 
-		    Control.Label(values.Bar, values.Title, TitleSize, TitleLoca, barBCol, Color.White, values.Title.Text, 1, 8);
+		    Control.Label(values.Bar, values.Title, TitleSize, TitleLoca, barBCol, Color.White, values.Title.Text, 1, 9);
 		    Tool.Interactive(values.Title, parent);
 
 		    var ButtonSize = new Size(65, barHeight);
@@ -2577,37 +2576,36 @@ namespace DashFramework
 		public void setBarBackColor(Color to) => MenuBar.values.setBarBackColor(to);
 		public void setTitle(string to) => MenuBar.values.setTitle(to);
 
-		public void setTitleLocation(Point to)
+
+		public void SetTitleLocation(Point to)
 		{
-		    if (to.Y == -2)
+		    try
 		    {
-			to.Y = (MenuBar.values.Bar.Height - MenuBar.values.Title.Height) / 2;
+			if (to.Y == -2)
+			{
+			    to.Y = (MenuBar.values.Bar.Height - MenuBar.values.Title.Height) / 2;
+			}
+
+			if (to.X == -2)
+			{
+			    to.X = (MenuBar.values.Bar.Width - MenuBar.values.Title.Width) / 2;
+			}
+
+			MenuBar.values.Title.Location = to;
 		    }
 
-		    if (to.X == -2)
+		    catch (Exception E)
 		    {
-			to.X = (MenuBar.values.Bar.Width - MenuBar.values.Title.Width) / 2;
+			throw (ErrorHandler.GetException(E));
 		    }
-
-		    MenuBar.values.Title.Location = to;
 		}
 
-		public void setTitleSize(int pts, int fid = 1, bool centertitle = true)
-		{
-		    Label Title = MenuBar.values.Title;
-
-		    Title.Size = Tools.GetFontSize(Title.Text, pts, fid);
-		    Title.Font = Tools.GetFont(fid, pts);
-
-		    if (centertitle) CenterTitle();
-
-		    Title.Update();
-		}
 
 		public int parentHeight() => MenuBar.values.parentHeight();
 		public int parentWidth() => MenuBar.values.parentWidth();
 		public int Height() => MenuBar.values.Height();
 		public int Width() => MenuBar.values.Width();
+
 
 		public delegate void holder();
 
@@ -2623,29 +2621,42 @@ namespace DashFramework
 		    };
 		}
 
+
 		public void HideIcons()
 		{
 		    MenuBar.values.LogoLayer1.Hide();
 		    MenuBar.values.LogoLayer2.Hide();
 		}
 
+
 		public void HideTitle()
 		{
 		    MenuBar.values.Title.Hide();
 		}
+
 
 		readonly DashTools Tools = new DashTools();
 
 		public void CenterTitle() => MenuBar.values.Title.Location 
 		    = Tools.GetCenterFor(MenuBar.values.Title, MenuBar.values.Bar);
 
-		public void ResizeTitle(int FontSize, int Id = 1)
+		public void ResizeTitle(int FontSize, int Id = 1, bool CenterTitle = true)
 		{
-		    MenuBar.values.Title.Font = new Font(MenuBar.values.Title
-			.Font.FontFamily, FontSize, FontStyle.Regular);
+		    try
+		    {
+			MenuBar.values.Title.Font = new Font(MenuBar.values.Title
+			    .Font.FontFamily, FontSize);
 
-		    Tools.Resize(MenuBar.values.Title, Tools.GetFontSize(MenuBar
-			.values.Title.Text, FontSize, Id));
+			Tools.Resize(MenuBar.values.Title, Tools.GetFontSize(MenuBar
+			    .values.Title.Text, FontSize, Id));
+
+			if (CenterTitle) this.CenterTitle();
+		    }
+
+		    catch (Exception E)
+		    {
+			throw (ErrorHandler.GetException(E));
+		    }
 		}
 	    }
 
@@ -3264,6 +3275,7 @@ namespace DashFramework
 		};
 	    }
 
+
 	    public void RegisterVisibilityTrigger(Control ShowTrigger, params Control[] HideTrigger)
 	    {
 		try
@@ -3324,6 +3336,7 @@ namespace DashFramework
 		}
 	    }
 
+
 	    public void LinkTriggerBackColorToMenu(Control Trigger, Color OriginalColor)
 	    {
 		try
@@ -3357,7 +3370,6 @@ namespace DashFramework
 		{
 		    if (!ItemExists(Id))
 		    {
-			MessageBox.Show("!");
 			return false;
 		    }
 
