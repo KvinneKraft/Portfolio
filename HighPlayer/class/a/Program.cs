@@ -9,6 +9,9 @@ namespace HighPlayer
 {
     static class Program
     {
+	static DashWindow Window;
+	static MainGUI MainGUI;
+
 	[STAThread]
 	static void Main()
 	{
@@ -17,30 +20,25 @@ namespace HighPlayer
 
 	    try
 	    {
-		using (DashWindow dashWindow = new DashWindow())
-		{
-		    Size AppSize = new Size(475, 400);
+		Window = new DashWindow();
 
-		    string AppTitle = ("Dashie's Lovely High Music Helper");
+		Size AppSize = new Size(475, 400);
 
-		    Color AppMCol = Color.FromArgb(8, 34, 46);
-		    Color AppBCol = AppMCol;
+		string AppTitle = ("Dashie's Lovely High Music Helper");
 
-		    dashWindow.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, barClose: false);
+		Color AppMCol = Color.FromArgb(8, 34, 46);
+		Color AppBCol = AppMCol;
 
-		    dashWindow.values.setTitleSize(10);
-		    dashWindow.values.ResizeTitle(12);
-		    dashWindow.values.CenterTitle();
+		Window.InitializeWindow(AppSize, AppTitle, AppBCol, AppMCol, barClose: false);
+		Window.values.ResizeTitle(10);
 
-		    dashWindow.values.onControlClick(1, () => Environment.Exit(-1));
-		    dashWindow.FormClosing += (s, e) => Environment.Exit(-1);
+		Window.values.onControlClick(1, () => Environment.Exit(-1));
+		Window.FormClosing += (s, e) => Environment.Exit(-1);
 
-		    MainGUI mainGUI = new MainGUI();
+		MainGUI = new MainGUI();
+		MainGUI.Initiator(Window);
 
-		    mainGUI.Initiator(dashWindow);
-
-		    Application.Run(dashWindow);
-		}
+		Window.ShowDialog();
 	    }
 
 	    catch (Exception E)
