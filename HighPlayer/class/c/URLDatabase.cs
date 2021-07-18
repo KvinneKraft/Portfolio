@@ -249,7 +249,7 @@ namespace HighPlayer
 	    {
 		Row.PanelL4.Click += (s, e) =>
 		{
-		    if (!MainGUI.Initialize1.RowBar.IsVisible())
+		    if (!MainGUI.Initialize1.RowBar.Visible())
 		    {
 			Row.PanelL4.BackColor = (IsChecked(Row) ? Row.UncheckedColor : Row.CheckedColor);
 
@@ -262,7 +262,7 @@ namespace HighPlayer
 			return;
 		    }
 
-		    MainGUI.SendMessage("You are already performing a selection.  Please finish first.");
+		    MainGUI.SendMessage("You have are already doing something.  Finish first!");
 		};
 	    }
 
