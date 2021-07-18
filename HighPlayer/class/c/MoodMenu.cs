@@ -37,9 +37,8 @@ namespace HighPlayer
 		    Parent.InitializeWindow(new Size(300, 250), ("Fluffy Mood Menu"), Inst.BackColor, 
 			Color.FromArgb(5, 23, 31), FormStartPosition.Manual);
 
-		    Parent.values.ResizeTitle(15);
-		    Parent.values.CenterTitle();
-		    Parent.values.HideIcons();
+		    Parent.values.ResizeTitle(11, CenterTitle: false);
+		    Parent.values.getTitle().Left = 50;
 		});
 	    }
         }
@@ -79,7 +78,7 @@ namespace HighPlayer
 		    Color LabelFCol = Color.White;
 
 		    Controls.Label(Panel1, Label, Size.Empty, LabelLoca, LabelBCol, 
-			LabelFCol, ("Loaded Moods"), FontSize: 13);
+			LabelFCol, ("Loaded Moods"), FontSize: 14);
 		});
 
 		Tools.SortCode(("Mod Container"), () =>
@@ -107,12 +106,14 @@ namespace HighPlayer
 	    readonly Button Button2 = new Button();//save current mood settings (also to config)
 	    readonly Button Button3 = new Button();//
 
+	    Quickify Quicky = null;
+
 	    public void Initiate(DashWindow Inst, MainGUI Origin)
 	    {
 		Tools.SortCode(("Containers"), () => 
 		{
 		    Size Panel1Size = new Size(Parent.Width, 34);
-		    Size Panel2Size = new Size(270, 22);
+		    Size Panel2Size = new Size(270, 24);
 		    Point Panel1Loca = new Point(0, Parent.Height - 34);
 		    Point Panel2Loca = new Point(-2, -2);
 		    Color Panel1BCol = Parent.values.getBarColor();
@@ -123,22 +124,29 @@ namespace HighPlayer
 
 		Tools.SortCode(("Buttons"), () =>
 		{
-		    Quickify quicky = new Quickify()
+		    Quicky = new Quickify()
 		    {
+			BttnSize = new Size(75, 24),
 			BttnBCol = Panel1.BackColor,
-			BttnSize = new Size(75, 22),
+			BttnFCol = Color.White,
 			BttnParent = Panel2,
 			BttnBorder = true,
-			BttnFpts = 12,
+			BttnFpts = 9,
+			BttnFid = 0,
 		    };
 
 		    Point Button3Loca = new Point(195, 0);
-		    Point Button2Loca = new Point(-2, 0);
+		    Point Button2Loca = new Point(90, 0);
 		    Point Button1Loca = new Point(0, 0);
 
-		    quicky.QuickButton(Button1, ("New"), Button1Loca);
-		    quicky.QuickButton(Button2, ("Save"), Button2Loca);
-		    quicky.QuickButton(Button3, ("Refresh"), Button3Loca);
+		    Quicky.QuickButton(Button1, ("New"), Button1Loca);
+		    Quicky.QuickButton(Button2, ("Save"), Button2Loca);
+		    Quicky.QuickButton(Button3, ("Refresh"), Button3Loca);
+
+		    foreach (Button Bttn in Panel2.Controls)
+		    {
+			//Bttn.FlatAppearance.MouseDownBackColor = ;
+		    }
 		});
 	    }
 	}
@@ -163,7 +171,10 @@ namespace HighPlayer
             }
         }
 
+
 	public void Show() { Parent.Show(); Parent.BringToFront(); }
 	public void Hide() { Parent.Hide(); Parent.SendToBack();  }
+
+	public bool IsVisible() => Parent.Visible;
     }
 }
